@@ -24,7 +24,7 @@ export default function App() {
         <section id="contact"><ContactForm /></section>
         <Footer />
         <Enroll />
-        <PaymentPage />
+        <paymentpage />
       </div>
     </EnrollProvider>
   )
