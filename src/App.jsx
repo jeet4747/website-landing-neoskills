@@ -9,7 +9,7 @@ import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
 import { EnrollProvider } from './context/EnrollContext'
 import Enroll from './components/enroll'
-import paymentpage from './components/paymentpage'
+import PaymentPage from './components/paymentpage'
 
 export default function App() {
   return (
@@ -24,7 +24,7 @@ export default function App() {
         <section id="contact"><ContactForm /></section>
         <Footer />
         <Enroll />
-        <paymentpage />
+        <PaymentPage />
       </div>
     </EnrollProvider>
   )
