@@ -7,6 +7,7 @@ import WhyChooseUs from './components/WhyChooseUs'
 import TestimonialsSection from './components/TestimonialsSection'
 import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
+import UpcomingBatches from './components/UpcomingBatches'
 import { EnrollProvider } from './context/EnrollContext'
 import Enroll from './components/enroll'
 import PaymentPage from './components/paymentpage'
@@ -18,6 +19,7 @@ export default function App() {
         <TopBar />
         <Navbar />
         <section id="home"><HeroSection /></section>
+        <section id="upcoming"><UpcomingBatches /></section>
         <section id="courses"><CoursesSection /></section>
         <section id="why-us"><WhyChooseUs /></section>
         <section id="testimonials"><TestimonialsSection /></section>

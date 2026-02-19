@@ -5,13 +5,13 @@ import { useEnroll } from '../context/EnrollContext'
 
 const ContactForm = () => {
   const { openEnroll } = useEnroll()
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(() => ({
     name: '',
     email: '',
     phone: '',
-    course: '',
+    course: (typeof window !== 'undefined' && localStorage.getItem('preferredCourse')) || '',
     message: ''
-  })
+  }))
 
   const [submitted, setSubmitted] = useState(false)
 
@@ -39,6 +39,7 @@ const ContactForm = () => {
     setSubmitted(true)
     setTimeout(() => setSubmitted(false), 3000)
     setFormData({ name: '', email: '', phone: '', course: '', message: '' })
+    try { localStorage.removeItem('preferredCourse') } catch (err) {}
   }
 
   return (
