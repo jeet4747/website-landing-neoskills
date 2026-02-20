@@ -18,11 +18,77 @@ export default function PaymentPage() {
   const gst = +(base * 0.18).toFixed(2)
   const total = +(base + gst).toFixed(2)
 
-  const handlePay = () => {
-    console.log('Payment initiated for', paymentData, 'Amount:', total)
-    alert(`Payment successful! Paid ${formatINR(total)} for ${paymentData.course || paymentData.plan || 'Course'}`)
-    setCustomAmount(null)
-    closePayment()
+  const loadRazorpay = () =>
+    new Promise((resolve, reject) => {
+      if (window.Razorpay) return resolve(true)
+      const script = document.createElement('script')
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+      script.onload = () => resolve(true)
+      script.onerror = () => reject(new Error('Razorpay SDK failed to load'))
+      document.body.appendChild(script)
+    })
+
+  const handlePay = async () => {
+    try {
+      await loadRazorpay()
+
+      // create order on backend (amount in rupees)
+      const res = await fetch('http://localhost:4000/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: total }),
+      })
+      if (!res.ok) throw new Error('Failed to create order')
+      const { order, key } = await res.json()
+
+      const options = {
+        key: key, // public key from server
+        amount: order.amount,
+        currency: order.currency,
+        name: 'Neoskills',
+        description: paymentData.course || paymentData.plan || 'Course Payment',
+        order_id: order.id,
+        prefill: {
+          name: paymentData.name || '',
+          email: paymentData.email || '',
+          contact: paymentData.phone || '',
+        },
+        handler: async (response) => {
+          // verify on server
+          try {
+            const verify = await fetch('http://localhost:4000/api/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(response),
+            })
+            const json = await verify.json()
+            if (verify.ok && json.ok) {
+              alert(`Payment successful! Paid ${formatINR(total)}`)
+              setCustomAmount(null)
+              closePayment()
+            } else {
+              console.error('Verification failed', json)
+              alert('Payment verification failed. Contact support.')
+            }
+          } catch (err) {
+            console.error('Verification error', err)
+            alert('Payment verification failed. Contact support.')
+          }
+        },
+        modal: { escape: true },
+        theme: { color: '#0056D2' },
+      }
+
+      const rzp = new window.Razorpay(options)
+      rzp.on('payment.failed', function (response) {
+        console.error('Payment failed', response)
+        alert('Payment failed. Please try again.')
+      })
+      rzp.open()
+    } catch (err) {
+      console.error('Payment initiation error', err)
+      alert('Could not start payment. Please try again later.')
+    }
   }
 
   const handleCustomAmountChange = (e) => {
@@ -164,7 +230,7 @@ export default function PaymentPage() {
 
         {/* Info Text */}
         <p className="text-xs text-gray-600 text-center mt-4">
-          💳 This is a secure mock payment. Your payment will be processed safely.
+          💳 You will be redirected to a secure Razorpay checkout to complete payment.
         </p>
       </motion.div>
     </motion.div>
