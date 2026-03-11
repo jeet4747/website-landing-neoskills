@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { useEnroll } from '../context/EnrollContext'
+import emailjs from '@emailjs/browser'
+
+
 
 const ContactForm = () => {
   const { openEnroll } = useEnroll()
@@ -35,12 +38,44 @@ const ContactForm = () => {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
-    setFormData({ name: '', email: '', phone: '', course: '', message: '' })
-    try { localStorage.removeItem('preferredCourse') } catch (err) {}
-  }
+  e.preventDefault()
+
+  emailjs
+    .send(
+      'service_ppvov3a',
+      'template_e15u3k6',
+      {
+        user_name: formData.name,
+        user_email: formData.email,
+        user_phone: formData.phone,
+        course: formData.course,
+        message: formData.message,
+        source: 'NeoSkills Landing Page',
+      },
+      'S3TiyuUzfI2FRb5RG'
+    )
+    .then(() => {
+      setSubmitted(true)
+      setTimeout(() => setSubmitted(false), 3000)
+
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        course: '',
+        message: '',
+      })
+
+      try {
+        localStorage.removeItem('preferredCourse')
+      } catch (err) {}
+    })
+    .catch((error) => {
+      console.error('EmailJS Error:', error)
+      alert('Something went wrong. Please try again.')
+    })
+}
+
 
   return (
     <section className="relative py-20 md:py-32 bg-white overflow-hidden">
