@@ -1,6 +1,6 @@
 import React from 'react'
 import TopBar from './components/TopBar.jsx'
-import Navbar from './components/navbar.jsx'
+import Navbar from './components/Navbar.jsx'
 import HeroSection from './components/herosection.jsx'
 import CoursesSection from './components/coursessection.jsx'
 import WhyChooseUs from './components/whyChooseUs.jsx'
