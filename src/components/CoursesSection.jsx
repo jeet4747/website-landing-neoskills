@@ -28,9 +28,9 @@ const formatINR = (amount) => {
 }
 
 const PricingBlock = ({ trainingFee, trainingExam }) => {
-  const hasPricing = trainingFee || trainingExam
+  const price = trainingExam ?? trainingFee
 
-  if (!hasPricing) {
+  if (!price) {
     return (
       <div className="mt-4 rounded-xl border border-dashed border-border-gray bg-gray-50 p-4">
         <p className="text-sm font-medium text-gray-600">Pricing: Contact us for details</p>
@@ -38,22 +38,14 @@ const PricingBlock = ({ trainingFee, trainingExam }) => {
     )
   }
 
+  const label = trainingExam ? 'Training + Exam' : 'Training Fee'
+
   return (
     <div className="mt-4 rounded-xl border border-border-gray bg-white p-4 shadow-sm">
       <h5 className="text-sm font-bold text-dark mb-3">Pricing</h5>
-      <div className="space-y-2 text-sm">
-        {trainingFee && (
-          <div className="flex items-center justify-between">
-            <span className="text-gray-600">Training Fee</span>
-            <span className="font-bold text-primary">{formatINR(trainingFee)}</span>
-          </div>
-        )}
-        {trainingExam && (
-          <div className="flex items-center justify-between">
-            <span className="text-gray-600">Training + Exam</span>
-            <span className="font-bold text-primary">{formatINR(trainingExam)}</span>
-          </div>
-        )}
+      <div className="flex items-center justify-between text-sm">
+        <span className="text-gray-600">{label}</span>
+        <span className="font-bold text-primary">{formatINR(price)}</span>
       </div>
     </div>
   )
@@ -855,12 +847,6 @@ const CoursesSection = () => {
                       </p>
 
                       <div className="space-y-2 mb-4 py-3 border-t border-border-gray text-xs">
-                        <div className="flex justify-between gap-3">
-                          <span className="text-gray-600">Level</span>
-                          <span className="font-semibold text-primary text-right">
-                            {course.level ?? 'Intermediate'}
-                          </span>
-                        </div>
                         <div className="flex justify-between gap-3">
                           <span className="text-gray-600">Duration</span>
                           <span className="font-semibold text-primary text-right">

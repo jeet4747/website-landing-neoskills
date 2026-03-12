@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useEnroll } from '../context/EnrollContext'
+import React, { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
 
@@ -8,10 +8,17 @@ function formatINR(amount) {
 }
 
 export default function PaymentPage() {
-  const { isPaymentOpen, paymentData, closePayment } = useEnroll()
+  const navigate = useNavigate()
+  const { state: paymentData } = useLocation()
   const [customAmount, setCustomAmount] = useState(null)
 
-  if (!isPaymentOpen || !paymentData) return null
+  useEffect(() => {
+    if (!paymentData) {
+      navigate('/', { replace: true })
+    }
+  }, [paymentData, navigate])
+
+  if (!paymentData) return null
 
   const defaultBase = Number(paymentData.amount || paymentData.baseAmount || 5999)
   const base = customAmount !== null ? Number(customAmount) : defaultBase
@@ -65,7 +72,7 @@ export default function PaymentPage() {
             if (verify.ok && json.ok) {
               alert(`Payment successful! Paid ${formatINR(total)}`)
               setCustomAmount(null)
-              closePayment()
+              navigate('/')
             } else {
               console.error('Verification failed', json)
               alert('Payment verification failed. Contact support.')
@@ -115,7 +122,7 @@ export default function PaymentPage() {
       >
         {/* Close Button */}
         <motion.button 
-          onClick={closePayment}
+          onClick={() => navigate('/')}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -218,7 +225,7 @@ export default function PaymentPage() {
           <motion.button
             onClick={() => {
               setCustomAmount(null)
-              closePayment()
+              navigate('/')
             }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}

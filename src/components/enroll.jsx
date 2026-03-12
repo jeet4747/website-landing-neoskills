@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useEnroll } from '../context/EnrollContext'
 import './enroll.css'
 
@@ -35,7 +36,9 @@ const priceMap = {
 }
 
 export default function Enroll() {
-  const { isEnrollOpen, closeEnroll, openPayment } = useEnroll()
+  const { openPayment } = useEnroll()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const [formData, setFormData] = useState({
     name: '',
@@ -47,18 +50,23 @@ export default function Enroll() {
   })
 
   useEffect(() => {
-    if (!isEnrollOpen) return
+    const preferredCourse =
+      location.state?.course ||
+      (() => {
+        try {
+          return localStorage.getItem('preferredCourse')
+        } catch {
+          return null
+        }
+      })()
 
-    try {
-      const preferredCourse = localStorage.getItem('preferredCourse')
-      if (preferredCourse) {
-        setFormData((prev) => ({
-          ...prev,
-          course: mapCourseToValue(preferredCourse),
-        }))
-      }
-    } catch (e) {}
-  }, [isEnrollOpen])
+    if (preferredCourse) {
+      setFormData((prev) => ({
+        ...prev,
+        course: mapCourseToValue(preferredCourse),
+      }))
+    }
+  }, [location.state])
 
   const mapCourseToValue = (courseName) => {
     const text = (courseName || '').toLowerCase()
@@ -114,16 +122,13 @@ export default function Enroll() {
       message: '',
     })
 
-    closeEnroll()
     openPayment(paymentPayload)
   }
 
-  if (!isEnrollOpen) return null
-
   return (
-    <div className="modal-overlay" onClick={closeEnroll}>
+    <div className="modal-overlay" onClick={() => navigate('/') }>
       <div className="modal-content enroll-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={closeEnroll} aria-label="Close">
+        <button className="close-btn" onClick={() => navigate('/')} aria-label="Close">
           &times;
         </button>
 
