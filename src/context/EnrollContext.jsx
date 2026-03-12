@@ -1,36 +1,30 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const EnrollContext = createContext();
+const EnrollContext = createContext()
 
 export const EnrollProvider = ({ children }) => {
-  const [isEnrollOpen, setIsEnrollOpen] = useState(false);
-  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const [paymentData, setPaymentData] = useState(null);
+  const navigate = useNavigate()
 
-  const openEnroll = () => setIsEnrollOpen(true);
-  const closeEnroll = () => setIsEnrollOpen(false);
+  const openEnroll = (options = {}) => {
+    navigate('/enroll', { state: options })
+  }
 
-  const openPayment = (data) => {
-    setPaymentData(data || null);
-    setIsPaymentOpen(true);
-  };
-
-  const closePayment = () => {
-    setPaymentData(null);
-    setIsPaymentOpen(false);
-  };
+  const openPayment = (paymentData = {}) => {
+    navigate('/payment', { state: paymentData })
+  }
 
   return (
-    <EnrollContext.Provider value={{ isEnrollOpen, openEnroll, closeEnroll, isPaymentOpen, openPayment, closePayment, paymentData }}>
+    <EnrollContext.Provider value={{ openEnroll, openPayment }}>
       {children}
     </EnrollContext.Provider>
-  );
-};
+  )
+}
 
 export const useEnroll = () => {
-  const context = useContext(EnrollContext);
+  const context = useContext(EnrollContext)
   if (!context) {
-    throw new Error('useEnroll must be used within EnrollProvider');
+    throw new Error('useEnroll must be used within EnrollProvider')
   }
-  return context;
-};
+  return context
+}

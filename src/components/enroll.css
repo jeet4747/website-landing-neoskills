@@ -1,139 +1,203 @@
-.enroll-container {
-  display: inline-block;
-}
-
-.enroll-btn {
-  background-color: #0066cc;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-.enroll-btn:hover {
-  background-color: #0052a3;
-  transform: scale(1.05);
-}
-
-.enroll-btn:active {
-  transform: scale(0.95);
-}
-
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(6px);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
 }
 
-.modal-content {
-  background-color: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
+.modal-content.enroll-modal {
   position: relative;
+  width: min(760px, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.22);
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .close-btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
+  top: 16px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
   border: none;
-  font-size: 28px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #0f172a;
+  font-size: 1.5rem;
   cursor: pointer;
-  color: #666;
-  transition: color 0.3s ease;
+  transition: 0.25s ease;
 }
 
 .close-btn:hover {
-  color: #000;
+  background: #e2e8f0;
+  transform: rotate(90deg);
 }
 
-.modal-content h2 {
-  margin-top: 0;
-  margin-bottom: 30px;
-  color: #0066cc;
-  font-size: 24px;
-  text-align: center;
+.enroll-header {
+  margin-bottom: 20px;
+  padding-right: 48px;
 }
 
-.modal-content form {
+.enroll-badge {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.08);
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.enroll-header h2 {
+  margin: 0 0 10px;
+  color: #0f172a;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+.enroll-header p {
+  margin: 0;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.enroll-info-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.info-chip {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.enroll-form {
+  margin-top: 8px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.form-group {
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
-.modal-content input,
-.modal-content select,
-.modal-content textarea {
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  font-family: inherit;
-  transition: border-color 0.3s ease;
+.form-group-full {
+  grid-column: 1 / -1;
 }
 
-.modal-content input:focus,
-.modal-content select:focus,
-.modal-content textarea:focus {
+.form-group label {
+  margin-bottom: 8px;
+  color: #0f172a;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  border: 1px solid #dbe2ea;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-size: 0.96rem;
+  color: #0f172a;
   outline: none;
-  border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+  transition: 0.25s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #94a3b8;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.enroll-footer {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.enroll-note {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.7;
 }
 
 .submit-btn {
-  background-color: #0066cc;
-  color: white;
-  padding: 12px 20px;
+  width: 100%;
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 16px;
+  padding: 15px 18px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 10px;
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.25);
+  transition: 0.3s ease;
 }
 
 .submit-btn:hover {
-  background-color: #0052a3;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+  box-shadow: 0 18px 34px rgba(37, 99, 235, 0.3);
 }
 
-.submit-btn:active {
-  transform: translateY(0);
-}
-
-/* Responsive styles */
 @media (max-width: 768px) {
-  .modal-content {
-    padding: 30px 20px;
-    max-width: 95%;
+  .modal-content.enroll-modal {
+    padding: 22px 18px;
+    border-radius: 22px;
   }
 
-  .modal-content h2 {
-    font-size: 20px;
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
-  .enroll-btn {
-    padding: 8px 16px;
-    font-size: 14px;
+  .enroll-header {
+    padding-right: 40px;
+  }
+
+  .submit-btn {
+    padding: 14px 16px;
   }
 }

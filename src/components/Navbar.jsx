@@ -43,9 +43,7 @@ const Navbar = () => {
           animate={{ x: 0, opacity: 1 }}
           className="flex items-center gap-2 cursor-pointer flex-shrink-0"
         >
-          <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-bold text-white">
-            NS
-          </div>
+          <img src="/images/nsl-logo.svg" alt="Neoskills logo" className="w-10 h-10" />
           <span className="font-bold text-lg text-primary hidden sm:inline">Neoskills</span>
         </motion.div>
 
