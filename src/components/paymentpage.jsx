@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
 
+const BACKEND_URL = 'https://website-landing-neoskills-production.up.railway.app'
+
 function formatINR(amount) {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount)
 }
@@ -20,7 +22,7 @@ export default function PaymentPage() {
 
   if (!paymentData) return null
 
-  const defaultBase = Number(paymentData.amount || paymentData.baseAmount || 12,999)
+  const defaultBase = Number(paymentData.amount || paymentData.baseAmount || 5999)
   const base = customAmount !== null ? Number(customAmount) : defaultBase
   const gst = +(base * 0.18).toFixed(2)
   const total = +(base + gst).toFixed(2)
@@ -39,8 +41,7 @@ export default function PaymentPage() {
     try {
       await loadRazorpay()
 
-      // create order on backend (amount in rupees)
-      const res = await fetch('http://localhost:4000/api/create-order', {
+      const res = await fetch(`${BACKEND_URL}/api/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: total }),
@@ -49,7 +50,7 @@ export default function PaymentPage() {
       const { order, key } = await res.json()
 
       const options = {
-        key: key, // public key from server
+        key: key,
         amount: order.amount,
         currency: order.currency,
         name: 'Neoskills',
@@ -61,9 +62,8 @@ export default function PaymentPage() {
           contact: paymentData.phone || '',
         },
         handler: async (response) => {
-          // verify on server
           try {
-            const verify = await fetch('http://localhost:4000/api/verify-payment', {
+            const verify = await fetch(`${BACKEND_URL}/api/verify-payment`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(response),
@@ -108,20 +108,20 @@ export default function PaymentPage() {
   }
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
     >
-      <motion.div 
+      <motion.div
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
         className="bg-white rounded-xl shadow-2xl w-11/12 max-w-md p-8 relative"
       >
         {/* Close Button */}
-        <motion.button 
+        <motion.button
           onClick={() => navigate('/')}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
@@ -141,13 +141,11 @@ export default function PaymentPage() {
         {/* Price Section */}
         <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg p-6 mb-6">
           <div className="space-y-4">
-            {/* Offered Price */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Our Offered Price</label>
               <div className="text-3xl font-bold text-primary">{formatINR(defaultBase)}</div>
             </div>
 
-            {/* Custom Price Input */}
             <div className="border-t-2 border-gray-200 pt-4">
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Or Enter Your Custom Price (₹)
@@ -171,13 +169,13 @@ export default function PaymentPage() {
         </div>
 
         {/* Price Breakdown */}
-        <motion.div 
+        <motion.div
           layout
           className="space-y-3 mb-6 bg-white rounded-lg border-2 border-gray-200 p-4"
         >
           <div className="flex justify-between items-center">
             <span className="text-gray-700 font-medium">Base Amount</span>
-            <motion.span 
+            <motion.span
               key={base}
               initial={{ scale: 1.2 }}
               animate={{ scale: 1 }}
@@ -186,10 +184,10 @@ export default function PaymentPage() {
               {formatINR(base)}
             </motion.span>
           </div>
-          
+
           <div className="flex justify-between items-center py-3 border-t-2 border-dashed border-gray-300">
             <span className="text-gray-700 font-medium">GST (18%)</span>
-            <motion.span 
+            <motion.span
               key={gst}
               initial={{ scale: 1.2 }}
               animate={{ scale: 1 }}
@@ -198,10 +196,10 @@ export default function PaymentPage() {
               {formatINR(gst)}
             </motion.span>
           </div>
-          
+
           <div className="flex justify-between items-center pt-2 border-t-2 border-primary bg-primary/10 px-3 py-2 rounded-lg">
             <span className="text-dark font-bold text-lg">Total Amount</span>
-            <motion.span 
+            <motion.span
               key={total}
               initial={{ scale: 1.2 }}
               animate={{ scale: 1 }}
