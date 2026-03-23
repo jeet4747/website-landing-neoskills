@@ -66,11 +66,18 @@ export default function PaymentPage() {
             const verify = await fetch(`${BACKEND_URL}/api/verify-payment`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(response),
+              body: JSON.stringify({
+                ...response,
+                // Pass user details for confirmation email
+                name: paymentData.name || 'Student',
+                email: paymentData.email || '',
+                course: paymentData.course || paymentData.plan || 'Professional Course',
+                amount: total,
+              }),
             })
             const json = await verify.json()
             if (verify.ok && json.ok) {
-              alert(`Payment successful! Paid ${formatINR(total)}`)
+              alert(`Payment successful! A confirmation email has been sent to ${paymentData.email}`)
               setCustomAmount(null)
               navigate('/')
             } else {
@@ -120,7 +127,6 @@ export default function PaymentPage() {
         exit={{ scale: 0.9, y: 20 }}
         className="bg-white rounded-xl shadow-2xl w-11/12 max-w-md p-8 relative"
       >
-        {/* Close Button */}
         <motion.button
           onClick={() => navigate('/')}
           whileHover={{ scale: 1.1 }}
@@ -130,7 +136,6 @@ export default function PaymentPage() {
           <X size={24} className="text-gray-600" />
         </motion.button>
 
-        {/* Header */}
         <div className="mb-6">
           <h2 className="text-3xl font-bold text-dark mb-2">Payment Details</h2>
           <p className="text-gray-600">
@@ -138,14 +143,12 @@ export default function PaymentPage() {
           </p>
         </div>
 
-        {/* Price Section */}
         <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg p-6 mb-6">
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Our Offered Price</label>
               <div className="text-3xl font-bold text-primary">{formatINR(defaultBase)}</div>
             </div>
-
             <div className="border-t-2 border-gray-200 pt-4">
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Or Enter Your Custom Price (₹)
@@ -168,49 +171,30 @@ export default function PaymentPage() {
           </div>
         </div>
 
-        {/* Price Breakdown */}
         <motion.div
           layout
           className="space-y-3 mb-6 bg-white rounded-lg border-2 border-gray-200 p-4"
         >
           <div className="flex justify-between items-center">
             <span className="text-gray-700 font-medium">Base Amount</span>
-            <motion.span
-              key={base}
-              initial={{ scale: 1.2 }}
-              animate={{ scale: 1 }}
-              className="font-bold text-lg text-dark"
-            >
+            <motion.span key={base} initial={{ scale: 1.2 }} animate={{ scale: 1 }} className="font-bold text-lg text-dark">
               {formatINR(base)}
             </motion.span>
           </div>
-
           <div className="flex justify-between items-center py-3 border-t-2 border-dashed border-gray-300">
             <span className="text-gray-700 font-medium">GST (18%)</span>
-            <motion.span
-              key={gst}
-              initial={{ scale: 1.2 }}
-              animate={{ scale: 1 }}
-              className="font-bold text-lg text-accent"
-            >
+            <motion.span key={gst} initial={{ scale: 1.2 }} animate={{ scale: 1 }} className="font-bold text-lg text-accent">
               {formatINR(gst)}
             </motion.span>
           </div>
-
           <div className="flex justify-between items-center pt-2 border-t-2 border-primary bg-primary/10 px-3 py-2 rounded-lg">
             <span className="text-dark font-bold text-lg">Total Amount</span>
-            <motion.span
-              key={total}
-              initial={{ scale: 1.2 }}
-              animate={{ scale: 1 }}
-              className="font-bold text-2xl text-primary"
-            >
+            <motion.span key={total} initial={{ scale: 1.2 }} animate={{ scale: 1 }} className="font-bold text-2xl text-primary">
               {formatINR(total)}
             </motion.span>
           </div>
         </motion.div>
 
-        {/* Action Buttons */}
         <div className="flex gap-3">
           <motion.button
             onClick={handlePay}
@@ -221,10 +205,7 @@ export default function PaymentPage() {
             Pay Now
           </motion.button>
           <motion.button
-            onClick={() => {
-              setCustomAmount(null)
-              navigate('/')
-            }}
+            onClick={() => { setCustomAmount(null); navigate('/') }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="btn-outline w-1/3 font-bold py-3 rounded-lg border-2"
@@ -233,7 +214,6 @@ export default function PaymentPage() {
           </motion.button>
         </div>
 
-        {/* Info Text */}
         <p className="text-xs text-gray-600 text-center mt-4">
           💳 You will be redirected to a secure Razorpay checkout to complete payment.
         </p>
