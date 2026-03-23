@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEnroll } from '../context/EnrollContext'
+import emailjs from '@emailjs/browser'
 import './enroll.css'
 
 const courseOptions = [
@@ -39,6 +40,7 @@ export default function Enroll() {
   const { openPayment } = useEnroll()
   const navigate = useNavigate()
   const location = useLocation()
+  const form = useRef()  // ✅ Change 2
 
   const [formData, setFormData] = useState({
     name: '',
@@ -70,7 +72,6 @@ export default function Enroll() {
 
   const mapCourseToValue = (courseName) => {
     const text = (courseName || '').toLowerCase()
-
     if (text.includes('pmp')) return 'pmp'
     if (text.includes('scrum') || text.includes('agile') || text.includes('psm') || text.includes('csm')) return 'scrum-master'
     if (text.includes('aws')) return 'aws'
@@ -83,7 +84,6 @@ export default function Enroll() {
     if (text.includes('togaf')) return 'togaf'
     if (text.includes('prince')) return 'prince2'
     if (text.includes('ai project') || text.includes('cpmai')) return 'ai-project-management'
-
     return 'other'
   }
 
@@ -97,6 +97,18 @@ export default function Enroll() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    // ✅ Change 3 - EmailJS send
+    emailjs.sendForm(
+      'service_62ub16q',
+      'template_e15u3k6',
+      form.current,
+      'S3TiyuUzfI2FRb5RG'
+    ).then(() => {
+      console.log('Email sent successfully!')
+    }).catch((error) => {
+      console.error('EmailJS error:', error)
+    })
 
     const selectedCourseLabel =
       courseOptions.find((item) => item.value === formData.course)?.label || 'Course Inquiry'
@@ -126,7 +138,7 @@ export default function Enroll() {
   }
 
   return (
-    <div className="modal-overlay" onClick={() => navigate('/') }>
+    <div className="modal-overlay" onClick={() => navigate('/')}>
       <div className="modal-content enroll-modal" onClick={(e) => e.stopPropagation()}>
         <button className="close-btn" onClick={() => navigate('/')} aria-label="Close">
           &times;
@@ -147,7 +159,8 @@ export default function Enroll() {
           <div className="info-chip">Quick Enrollment Support</div>
         </div>
 
-        <form className="enroll-form" onSubmit={handleSubmit}>
+        {/* ✅ Change 4 - ref={form} added */}
+        <form className="enroll-form" onSubmit={handleSubmit} ref={form}>
           <div className="form-grid">
             <div className="form-group">
               <label htmlFor="name">Full Name</label>

@@ -41,9 +41,9 @@ const ContactForm = () => {
   e.preventDefault()
 
   emailjs
-    .send(
-      'service_ppvov3a',
-      'template_e15u3k6',
+  .send(
+    'service_62ub16q',
+      'template_l3twvqg',
       {
         user_name: formData.name,
         user_email: formData.email,

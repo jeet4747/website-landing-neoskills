@@ -4,7 +4,7 @@ import { ArrowRight, Zap, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEnroll } from '../context/EnrollContext'
 
 const HeroSection = () => {
-  const { openPayment } = useEnroll()
+  const { openEnroll } = useEnroll()
   const [current, setCurrent] = useState(0)
   const [showUpcoming, setShowUpcoming] = useState(false)
 
@@ -88,7 +88,7 @@ const HeroSection = () => {
               </p>
 
               <div className="flex gap-4 pt-4">
-                <button onClick={() => openPayment({ course: slides[current].title, baseAmount: slides[current].amount })} className="btn-primary flex items-center gap-2">
+                <button onClick={() => openEnroll({ course: slides[current].title, baseAmount: slides[current].amount })} className="btn-primary flex items-center gap-2">
                   Enroll Now
                   <ArrowRight size={16} />
                 </button>
@@ -136,21 +136,21 @@ const HeroSection = () => {
                   <div className="font-semibold">ITIL 4 Foundation</div>
                   <div className="text-xs text-gray-500">Start: 20 Feb 2026 • 2 weeks</div>
                 </div>
-                <button onClick={() => { openPayment({ course: 'ITIL 4 Foundation', baseAmount: 5999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
+                <button onClick={() => { openEnroll({ course: 'ITIL 4 Foundation', baseAmount: 5999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
               </li>
               <li className="flex justify-between items-center border rounded p-3">
                 <div>
                   <div className="font-semibold">PRINCE2 Foundation</div>
                   <div className="text-xs text-gray-500">Start: 5 Mar 2026 • 3 weeks</div>
                 </div>
-                <button onClick={() => { openPayment({ course: 'PRINCE2 Foundation', baseAmount: 6999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
+                <button onClick={() => { openEnroll({ course: 'PRINCE2 Foundation', baseAmount: 6999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
               </li>
               <li className="flex justify-between items-center border rounded p-3">
                 <div>
                   <div className="font-semibold">PMP Bootcamp</div>
                   <div className="text-xs text-gray-500">Start: 12 Mar 2026 • 4 weeks</div>
                 </div>
-                <button onClick={() => { openPayment({ course: 'PMP Bootcamp', baseAmount: 9999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
+                <button onClick={() => { openEnroll({ course: 'PMP Bootcamp', baseAmount: 9999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
               </li>
             </ul>
             <div className="text-right">

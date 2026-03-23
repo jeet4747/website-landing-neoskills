@@ -20,7 +20,7 @@ export default function PaymentPage() {
 
   if (!paymentData) return null
 
-  const defaultBase = Number(paymentData.amount || paymentData.baseAmount || 5999)
+  const defaultBase = Number(paymentData.amount || paymentData.baseAmount || 12,999)
   const base = customAmount !== null ? Number(customAmount) : defaultBase
   const gst = +(base * 0.18).toFixed(2)
   const total = +(base + gst).toFixed(2)
