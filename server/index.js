@@ -16,9 +16,9 @@ const razorpay = new Razorpay({
 
 // Nodemailer Zoho transporter
 const transporter = nodemailer.createTransport({
-  host: 'smtp.zoho.in',
-  port: 465,
-  secure: true,
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.ZOHO_EMAIL,
     pass: process.env.ZOHO_PASSWORD,
