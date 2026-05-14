@@ -113,7 +113,11 @@ export default function Enroll() {
     const selectedCourseLabel =
       courseOptions.find((item) => item.value === formData.course)?.label || 'Course Inquiry'
 
-    const baseAmount = priceMap[formData.course] || 2999
+    const stateAmt = Number(location.state?.baseAmount)
+    const preferNavAmount =
+      location.state?.baseAmount != null && !Number.isNaN(stateAmt) && stateAmt > 0
+
+    const baseAmount = preferNavAmount ? stateAmt : priceMap[formData.course] || 2999
 
     const paymentPayload = {
       name: formData.name,

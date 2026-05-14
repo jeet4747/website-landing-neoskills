@@ -146,17 +146,23 @@ export default function PaymentPage() {
         <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg p-6 mb-6">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Our Offered Price</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Program price (default)
+              </label>
+              <p className="text-xs text-gray-500 mb-2">
+                This is the amount from your enrollment or course page. You can override it below if your invoice
+                uses a different agreed fee.
+              </p>
               <div className="text-3xl font-bold text-primary">{formatINR(defaultBase)}</div>
             </div>
             <div className="border-t-2 border-gray-200 pt-4">
               <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Or Enter Your Custom Price (₹)
+                Custom base amount (₹, optional)
               </label>
               <motion.input
                 type="number"
                 min="0"
-                placeholder="Enter custom amount"
+                placeholder="Leave blank to use program price"
                 value={customAmount !== null ? customAmount : ''}
                 onChange={handleCustomAmountChange}
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-colors text-lg font-semibold"
@@ -164,7 +170,7 @@ export default function PaymentPage() {
               />
               {customAmount !== null && customAmount !== '' && (
                 <p className="text-sm text-primary mt-2 font-medium">
-                  Custom amount: {formatINR(customAmount)}
+                  Paying with custom base: {formatINR(customAmount)}
                 </p>
               )}
             </div>

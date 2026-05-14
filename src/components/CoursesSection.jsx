@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Shield,
@@ -13,10 +14,11 @@ import {
   Code,
   TrendingUp,
   Lightbulb,
-  Globe,
   BarChart3,
 } from 'lucide-react'
-import { useEnroll } from '../context/EnrollContext' 
+import { useEnroll } from '../context/EnrollContext'
+import { courseStructure } from '../data/courseStructure'
+import { getDetailSlugForCatalogTitle, effectiveListedPrice } from './courseData'
 
 const formatINR = (amount) => {
   if (!amount) return null
@@ -27,8 +29,8 @@ const formatINR = (amount) => {
   }).format(amount)
 }
 
-const PricingBlock = ({ trainingFee, trainingExam }) => {
-  const price = trainingExam ?? trainingFee
+const PricingBlock = ({ trainingFee, trainingExam, supportCost }) => {
+  const price = trainingExam ?? trainingFee ?? supportCost
 
   if (!price) {
     return (
@@ -38,7 +40,8 @@ const PricingBlock = ({ trainingFee, trainingExam }) => {
     )
   }
 
-  const label = trainingExam ? 'Training + Exam' : 'Training Fee'
+  const label =
+    trainingExam != null ? 'Training + Exam' : trainingFee != null ? 'Training Fee' : 'Program fee'
 
   return (
     <div className="mt-4 rounded-xl border border-border-gray bg-white p-4 shadow-sm">
@@ -55,657 +58,9 @@ const CoursesSection = () => {
   const [activeTab, setActiveTab] = useState('certification')
   const [expandedCategory, setExpandedCategory] = useState('Project Management')
   const { openEnroll } = useEnroll()
+  const navigate = useNavigate()
 
-  const courseStructure = {
-    certification: {
-      label: 'Certification Courses',
-      categories: {
-        'Project Management': {
-          icon: Briefcase,
-          description: 'Master project delivery, planning, governance, and certification readiness.',
-          courses: [
-            {
-              title: 'PMP',
-              icon: Award,
-              description: 'Project Management Professional certification for experienced project managers.',
-              cohort: '21-Mar-2026',
-              level: 'Advanced',
-              duration: '6-8 weeks',
-              trainingFee: 50000,
-              trainingExam: 50000,
-              supportCost: 50000,
-            },
-            {
-              title: 'PMP Morning Batch',
-              icon: Award,
-              description: 'Morning batch for PMP preparation with guided mentorship.',
-              cohort: '14-Mar-2026',
-              level: 'Advanced',
-              duration: '6-8 weeks',
-              trainingFee: 50000,
-              trainingExam: 50000,
-              supportCost: 50000,
-            },
-            {
-              title: 'CAPM',
-              icon: Award,
-              description: 'Entry-level project management certification for aspiring professionals.',
-              cohort: 'Launching Soon',
-              level: 'Beginner',
-              duration: '4-6 weeks',
-              trainingFee: 25000,
-              trainingExam: 35000,
-              supportCost: 25000,
-            },
-          ],
-        },
 
-        PRINCE2: {
-          icon: BookOpen,
-          description: 'Structured project management framework with Foundation and Practitioner pathways.',
-          courses: [
-            {
-              title: 'PRINCE2 Foundation',
-              icon: BookOpen,
-              description: 'Foundational knowledge of the PRINCE2 methodology.',
-              level: 'Beginner',
-              duration: '3-4 weeks',
-              cohort: 'Launching Soon',
-              trainingExam: 33600,
-              supportCost: 30800,
-            },
-            {
-              title: 'PRINCE2 Practitioner',
-              icon: BookOpen,
-              description: 'Advanced PRINCE2 application for project practitioners.',
-              level: 'Advanced',
-              duration: '4-6 weeks',
-              cohort: 'Launching Soon',
-              trainingExam: 34800,
-              supportCost: 31900,
-            },
-            {
-              title: 'PRINCE2 Agile Foundation',
-              icon: Zap,
-              description: 'Blend PRINCE2 governance with Agile practices.',
-              level: 'Beginner',
-              duration: '3-4 weeks',
-              cohort: 'Launching Soon',
-              trainingExam: 26400,
-              supportCost: 24200,
-            },
-            {
-              title: 'PRINCE2 Agile Practitioner',
-              icon: Zap,
-              description: 'Apply hybrid PRINCE2 Agile methods in real project environments.',
-              level: 'Advanced',
-              duration: '5-6 weeks',
-              cohort: 'Launching Soon',
-              trainingExam: 27600,
-              supportCost: 25300,
-            },
-            {
-              title: 'PRINCE2 F & P',
-              icon: BookOpen,
-              description: 'Combined PRINCE2 Foundation and Practitioner fast-track batch.',
-              level: 'Intermediate',
-              duration: '5-7 weeks',
-              cohort: '28-Mar-2026',
-              trainingFee: 15000,
-              trainingExam: 29500,
-              supportCost: 25000,
-            },
-          ],
-        },
-
-        'Cloud Computing': {
-          icon: Cloud,
-          description: 'Cloud infrastructure, services, architecture, and certification programs.',
-          courses: [
-            {
-              title: 'AWS Cloud Practitioner',
-              icon: Cloud,
-              description: 'AWS cloud fundamentals and certification training.',
-              cohort: '14-Mar-2026',
-              level: 'Beginner',
-              duration: '3-4 weeks',
-              trainingFee: 10000,
-              trainingExam: 18500,
-              supportCost: 18500,
-            },
-            {
-              title: 'AWS Solutions Architect Associate',
-              icon: Cloud,
-              description: 'Architecture-focused AWS associate certification training.',
-              cohort: 'Launching Soon',
-              level: 'Intermediate',
-              duration: '5-6 weeks',
-              trainingFee: 15000,
-              trainingExam: 35000,
-              supportCost: 25000,
-            },
-            {
-              title: 'AWS SysOps Administrator',
-              icon: Cloud,
-              description: 'Operations, monitoring, and administration on AWS.',
-              cohort: 'Launching Soon',
-              level: 'Intermediate',
-              duration: '5-6 weeks',
-              trainingFee: 15000,
-              trainingExam: 35000,
-              supportCost: 25000,
-            },
-            {
-              title: 'AWS Certified Developer Associate',
-              icon: Cloud,
-              description: 'Application development and deployment on AWS cloud.',
-              cohort: 'Launching Soon',
-              level: 'Intermediate',
-              duration: '5-6 weeks',
-              trainingFee: 15000,
-              trainingExam: 35000,
-              supportCost: 25000,
-            },
-            {
-              title: 'Microsoft Azure AZ-900',
-              icon: Cloud,
-              description: 'Azure fundamentals and beginner cloud certification training.',
-              cohort: '4-Apr-2026',
-              level: 'Beginner',
-              duration: '3-4 weeks',
-              trainingFee: 5000,
-              trainingExam: 18000,
-              supportCost: 15000,
-            },
-            {
-              title: 'Azure Administrator AZ-104',
-              icon: Cloud,
-              description: 'Azure administration training for managing cloud infrastructure.',
-              cohort: '6-Apr-2026',
-              level: 'Intermediate',
-              duration: '5-6 weeks',
-              trainingFee: 12000,
-              trainingExam: 25000,
-              supportCost: 15000,
-            },
-            {
-              title: 'Azure Solutions Architect AZ-305',
-              icon: Cloud,
-              description: 'Design Microsoft Azure solutions with advanced architectural concepts.',
-              cohort: 'Launching Soon',
-              level: 'Advanced',
-              duration: '5-6 weeks',
-              trainingFee: 15000,
-              trainingExam: 25000,
-              supportCost: 15000,
-            },
-            {
-              title: 'Microsoft Azure DevOps (AZ-400)',
-              icon: Cloud,
-              description: 'DevOps practices, CI/CD pipelines, and Azure automation.',
-              cohort: 'Launching Soon',
-              level: 'Advanced',
-              duration: '5-7 weeks',
-              trainingExam: 25000,
-              supportCost: 15000,
-            },
-            {
-              title: 'Google Cloud',
-              icon: Cloud,
-              description: 'Google Cloud fundamentals and certification pathway.',
-              cohort: 'Launching Soon',
-              level: 'Intermediate',
-              duration: '5-6 weeks',
-              trainingExam: 35000,
-            },
-          ],
-        },
-
-        'Agile & Scrum': {
-          icon: Zap,
-          description: 'Agile methodologies, Scrum roles, scaled frameworks, and certification paths.',
-          courses: [
-            {
-              title: 'Certified Scrum Master (CSM)',
-              icon: Award,
-              description: 'Official Scrum training focused on Scrum practices and servant leadership.',
-              level: 'Intermediate',
-              duration: '3-4 weeks',
-              cohort: '14-Mar-2026',
-              trainingExam: 29500,
-              supportCost: 25000,
-            },
-            {
-              title: 'Professional Scrum Master I (PSM I)',
-              icon: Award,
-              description: 'Scrum.org certification to demonstrate strong understanding of Scrum.',
-              level: 'Intermediate',
-              duration: '4-5 weeks',
-              cohort: '14-Mar-2026',
-              trainingFee: 20000,
-              trainingExam: 35000,
-              supportCost: 15000,
-            },
-            {
-              title: 'Professional Scrum Master II (PSM II)',
-              icon: Award,
-              description: 'Advanced Scrum leadership and coaching capability.',
-              level: 'Advanced',
-              duration: '4-5 weeks',
-              cohort: '14-Mar-2026',
-              trainingFee: 20000,
-              trainingExam: 45000,
-              supportCost: 35000,
-            },
-            {
-              title: 'Professional Scrum Product Owner I (PSPO I)',
-              icon: Award,
-              description: 'Product ownership, value delivery, and backlog strategy.',
-              level: 'Intermediate',
-              duration: '4-5 weeks',
-              cohort: '14-Mar-2026',
-              trainingFee: 18000,
-              trainingExam: 35000,
-              supportCost: 30000,
-            },
-            {
-              title: 'Professional Scrum Product Owner II (PSPO II)',
-              icon: Award,
-              description: 'Advanced product ownership in complex product environments.',
-              level: 'Advanced',
-              duration: '4-6 weeks',
-              cohort: '14-Mar-2026',
-              trainingFee: 18000,
-              trainingExam: 35000,
-              supportCost: 30000,
-            },
-            {
-              title: 'Professional Scrum Master™ - AI Essentials Certification',
-              icon: Award,
-              description: 'AI-focused Scrum implementation and certification readiness.',
-              level: 'Intermediate',
-              duration: '6-8 weeks',
-              cohort: '25-Apr-2026',
-              trainingFee: 20000,
-              trainingExam: 35000,
-              supportCost: 15000,
-            },
-            {
-              title: 'Advanced Certified Scrum Product Owner (A-CSPO)',
-              icon: Award,
-              description: 'Advanced product ownership, roadmapping, and stakeholder management.',
-              level: 'Advanced',
-              duration: '4-6 weeks',
-              cohort: '14-Mar-2026',
-              trainingFee: 18000,
-              trainingExam: 35000,
-              supportCost: 30000,
-            },
-            {
-              title: 'Agile Advanced Certified ScrumMaster (A-CSM)',
-              icon: Award,
-              description: 'Advanced ScrumMaster practices, facilitation, and agile coaching.',
-              level: 'Advanced',
-              duration: '4-6 weeks',
-              cohort: '14-Mar-2026',
-              trainingFee: 20000,
-              trainingExam: 45000,
-              supportCost: 35000,
-            },
-            {
-              title: 'Agile Certified Scrum Product Owner (CSPO)',
-              icon: Award,
-              description: 'Certified Scrum Product Owner training and applied product thinking.',
-              level: 'Intermediate',
-              duration: '3-4 weeks',
-              cohort: '14-Mar-2026',
-              trainingFee: 35000,
-              trainingExam: 35000,
-              supportCost: 30000,
-            },
-            {
-              title: 'Agile SAFe Advanced Scrum Master (SASM)',
-              icon: Award,
-              description: 'Scaled Agile Framework training for Scrum Masters working in enterprise setups.',
-              level: 'Advanced',
-              duration: '4-6 weeks',
-              cohort: '14-Mar-2026',
-              trainingExam: 53000,
-              supportCost: 45000,
-            },
-          ],
-        },
-
-        'IT Service & Architecture': {
-          icon: Users,
-          description: 'IT service management, enterprise architecture, and platform-based training.',
-          courses: [
-            {
-              title: 'ITIL 4 Foundation',
-              icon: Users,
-              description: 'Foundation certification in IT service management practices.',
-              cohort: '14-Mar-2026',
-              level: 'Beginner',
-              duration: '3-4 weeks',
-              trainingExam: 29400,
-              supportCost: 26950,
-            },
-            {
-              title: 'TOGAF Level 1 & 2 Certification',
-              icon: Briefcase,
-              description: 'Enterprise architecture certification for strategic IT design.',
-              cohort: '21-Mar-2026',
-              level: 'Advanced',
-              duration: '5-6 weeks',
-              trainingFee: 25000,
-              trainingExam: 85000,
-              supportCost: 85000,
-            },
-            {
-              title: 'ServiceNow',
-              icon: Users,
-              description: 'Instructor-led ServiceNow training with practical learning support.',
-              cohort: 'Every Monday • 5:00 PM',
-              level: 'Intermediate',
-              duration: '4-6 weeks',
-            },
-            {
-              title: 'ServiceNow Demo',
-              icon: Users,
-              description: 'Demo batch to understand course structure and platform basics.',
-              cohort: 'Every Monday • 7 AM & 7 PM',
-              level: 'Beginner',
-              duration: 'Demo Session',
-            },
-          ],
-        },
-
-        'Quality Management': {
-          icon: BarChart3,
-          description: 'Quality assurance, reliability, and process improvement programs.',
-          courses: [
-            {
-              title: 'ISTQB Foundation',
-              icon: BookOpen,
-              description: 'Software testing fundamentals and ISTQB exam preparation.',
-              level: 'Beginner',
-              duration: '3-4 weeks',
-              cohort: 'Launching Soon',
-              supportCost: 15000,
-            },
-            {
-              title: 'Six Sigma Green Belt',
-              icon: TrendingUp,
-              description: 'Process improvement methodology and lean quality practices.',
-              level: 'Intermediate',
-              duration: '4-5 weeks',
-              cohort: 'Launching Soon',
-              trainingExam: 21600,
-              supportCost: 19800,
-            },
-            {
-              title: 'Six Sigma Black Belt',
-              icon: TrendingUp,
-              description: 'Advanced Six Sigma implementation and statistical quality leadership.',
-              level: 'Advanced',
-              duration: '5-6 weeks',
-              cohort: 'Launching Soon',
-              trainingExam: 26400,
-              supportCost: 24200,
-            },
-          ],
-        },
-
-        DevOps: {
-          icon: Code,
-          description: 'Development and operations integration with tools, practices, and automation.',
-          courses: [
-            {
-              title: 'DevOps Exin Master',
-              icon: Code,
-              description: 'Advanced DevOps certification with integrated support.',
-              cohort: 'Launching Soon',
-              level: 'Advanced',
-              duration: '5-6 weeks',
-              trainingFee: 15000,
-              trainingExam: 29500,
-              supportCost: 25000,
-            },
-            {
-              title: 'DevOps Tools & Training',
-              icon: Code,
-              description: 'Practical DevOps tools training with guided support.',
-              cohort: '28-Mar-2026',
-              level: 'Intermediate',
-              duration: '4-6 weeks',
-              trainingFee: 15000,
-              trainingExam: 29500,
-              supportCost: 25000,
-            },
-          ],
-        },
-
-        'Cyber Security': {
-          icon: Shield,
-          description: 'Information security, audits, governance, and defensive security certifications.',
-          courses: [
-            {
-              title: 'CompTIA Security+',
-              icon: Shield,
-              description: 'Security fundamentals and certification preparation.',
-              cohort: 'Launching Soon',
-              level: 'Beginner',
-              duration: '4-5 weeks',
-              trainingFee: 25000,
-              supportCost: 35000,
-            },
-            {
-              title: 'CISA',
-              icon: Shield,
-              description: 'Certified Information Systems Auditor training and support.',
-              cohort: '14-Mar-2026',
-              level: 'Advanced',
-              duration: '5-6 weeks',
-              trainingFee: 50000,
-              supportCost: 50000,
-            },
-            {
-              title: 'CISM',
-              icon: Shield,
-              description: 'Information security management certification training.',
-              cohort: 'Launching Soon',
-              level: 'Advanced',
-              duration: '5-6 weeks',
-              trainingFee: 50000,
-              supportCost: 50000,
-            },
-            {
-              title: 'CEH',
-              icon: Shield,
-              description: 'Certified Ethical Hacker training with practical security learning.',
-              cohort: 'Launching Soon',
-              level: 'Intermediate',
-              duration: '5-6 weeks',
-              trainingFee: 25000,
-              supportCost: 35000,
-            },
-          ],
-        },
-
-        'AI & Machine Learning': {
-          icon: Lightbulb,
-          description: 'Artificial intelligence, machine learning, and AI-driven project programs.',
-          courses: [
-            {
-              title: 'CPMAI & AI Project Management',
-              icon: Lightbulb,
-              description: 'AI project management concepts with practical business relevance.',
-              cohort: '14-Mar-2026',
-              level: 'Intermediate',
-              duration: '4-6 weeks',
-              trainingFee: 50000,
-              supportCost: 50000,
-            },
-          ],
-        },
-
-        'Business Analysis': {
-          icon: TrendingUp,
-          description: 'Business analysis frameworks, certifications, and requirement mastery.',
-          courses: [
-            {
-              title: 'CBAP',
-              icon: Award,
-              description: 'Advanced business analysis certification training and exam readiness.',
-              cohort: '14-Mar-2026',
-              level: 'Advanced',
-              duration: '5-6 weeks',
-              trainingFee: 50000,
-              supportCost: 50000,
-            },
-          ],
-        },
-
-        'Data Science & BI': {
-          icon: Cpu,
-          description: 'Data analytics, dashboards, reporting, and business intelligence training.',
-          courses: [
-            {
-              title: 'Power BI',
-              icon: BarChart3,
-              description: 'Power BI dashboarding, reporting, and business analytics training.',
-              cohort: '28-Mar-2026',
-              level: 'Intermediate',
-              duration: '4-5 weeks',
-              trainingFee: 15000,
-              trainingExam: 35000,
-              supportCost: 25000,
-            },
-          ],
-        },
-      },
-    },
-
-    masters: {
-      label: 'Masters Program',
-      categories: {
-        'Cyber Security Expert': {
-          icon: Shield,
-          description: 'Advanced cybersecurity expertise for long-term career growth.',
-          courses: [
-            {
-              title: 'Advanced Threat Analysis',
-              icon: Shield,
-              description: 'Master enterprise-grade threat analysis and monitoring.',
-              level: 'Advanced',
-              duration: '3-4 months',
-              cohort: 'Launching Soon',
-            },
-            {
-              title: 'Security Architecture Design',
-              icon: Shield,
-              description: 'Design secure enterprise systems and security frameworks.',
-              level: 'Advanced',
-              duration: '3-4 months',
-              cohort: 'Launching Soon',
-            },
-          ],
-        },
-
-        'Big Data Engineer': {
-          icon: Cpu,
-          description: 'Master-level learning in data engineering and processing systems.',
-          courses: [
-            {
-              title: 'Advanced Data Engineering',
-              icon: Cpu,
-              description: 'Build scalable data pipelines and processing workflows.',
-              level: 'Advanced',
-              duration: '3-4 months',
-              cohort: 'Launching Soon',
-            },
-            {
-              title: 'Real-time Data Processing',
-              icon: Cpu,
-              description: 'Work with streaming systems and real-time analytics pipelines.',
-              level: 'Advanced',
-              duration: '3-4 months',
-              cohort: 'Launching Soon',
-            },
-          ],
-        },
-
-        'IT Service Management (Master)': {
-          icon: Users,
-          description: 'Strategic IT service management and operational leadership.',
-          courses: [
-            {
-              title: 'ITIL 4 Expert',
-              icon: Users,
-              description: 'Advanced ITIL pathway for service management professionals.',
-              level: 'Advanced',
-              duration: '3-4 months',
-              cohort: 'Launching Soon',
-            },
-            {
-              title: 'ITIL 4 Master Strategy',
-              icon: Users,
-              description: 'Strategic planning and service transformation training.',
-              level: 'Advanced',
-              duration: '3-4 months',
-              cohort: 'Launching Soon',
-            },
-          ],
-        },
-
-        "Automation Testing Master's": {
-          icon: Code,
-          description: 'Automation testing with modern frameworks and AI-assisted QA.',
-          courses: [
-            {
-              title: 'Test Automation Framework Design',
-              icon: Code,
-              description: 'Build robust automation testing frameworks and practices.',
-              level: 'Advanced',
-              duration: '3-4 months',
-              cohort: 'Launching Soon',
-            },
-            {
-              title: 'AI in Testing',
-              icon: Lightbulb,
-              description: 'Use AI-assisted workflows and smart testing techniques.',
-              level: 'Advanced',
-              duration: '3-4 months',
-              cohort: 'Launching Soon',
-            },
-          ],
-        },
-
-        'Integrated Big Data & Data Science': {
-          icon: Cpu,
-          description: 'Combined big data and data science learning journey.',
-          courses: [
-            {
-              title: 'Advanced Analytics & ML',
-              icon: Cpu,
-              description: 'Applied analytics and machine learning for decision-making.',
-              level: 'Advanced',
-              duration: '3-4 months',
-              cohort: 'Launching Soon',
-            },
-            {
-              title: 'Big Data AI Integration',
-              icon: Lightbulb,
-              description: 'Integrate AI use cases into large-scale data systems.',
-              level: 'Advanced',
-              duration: '3-4 months',
-              cohort: 'Launching Soon',
-            },
-          ],
-        },
-      },
-    },
-  }
 
   const currentTab = courseStructure[activeTab]
   const categories = Object.keys(currentTab.categories)
@@ -869,11 +224,19 @@ const CoursesSection = () => {
 
                       <div className="flex gap-3 mt-5">
                         <motion.button
+                          type="button"
                           onClick={() => {
                             try {
                               localStorage.setItem('preferredCourse', course.title)
-                            } catch (e) {}
-                            openEnroll()
+                            } catch (e) {
+                              /* ignore */
+                            }
+                            const amt = effectiveListedPrice(course)
+                            if (amt != null && amt > 0) {
+                              openEnroll({ course: course.title, baseAmount: amt })
+                            } else {
+                              openEnroll({ course: course.title })
+                            }
                           }}
                           whileHover={{ scale: 1.03 }}
                           whileTap={{ scale: 0.97 }}
@@ -884,15 +247,26 @@ const CoursesSection = () => {
                         </motion.button>
 
                         <motion.button
+                          type="button"
                           onClick={() => {
-                            // Navigate to course detail page
-                            window.location.href = `/course/${encodeURIComponent(course.title.toLowerCase().replace(/\s+/g, '-'))}`
+                            const detailSlug = getDetailSlugForCatalogTitle(course.title)
+                            if (detailSlug) {
+                              navigate(`/course/${detailSlug}`)
+                              return
+                            }
+                            try {
+                              localStorage.setItem('preferredCourse', course.title)
+                            } catch (e) {
+                              /* ignore */
+                            }
+                            const el = document.getElementById('contact')
+                            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
                           }}
                           whileHover={{ scale: 1.03 }}
                           whileTap={{ scale: 0.97 }}
                           className="btn-secondary flex-1 flex items-center justify-center gap-2 text-sm py-3 rounded-xl border-2 border-primary text-primary hover:bg-primary hover:text-white"
                         >
-                          More Info
+                          {getDetailSlugForCatalogTitle(course.title) ? 'More info' : 'Request details'}
                           <BookOpen size={16} />
                         </motion.button>
                       </div>
