@@ -16,7 +16,7 @@ import {
   Globe,
   BarChart3,
 } from 'lucide-react'
-import { useEnroll } from '../context/EnrollContext'
+import { useEnroll } from '../context/EnrollContext' 
 
 const formatINR = (amount) => {
   if (!amount) return null
@@ -867,20 +867,35 @@ const CoursesSection = () => {
                         supportCost={course.supportCost}
                       />
 
-                      <motion.button
-                        onClick={() => {
-                          try {
-                            localStorage.setItem('preferredCourse', course.title)
-                          } catch (e) {}
-                          openEnroll()
-                        }}
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
-                        className="btn-primary w-full flex items-center justify-center gap-2 text-sm py-3 mt-5 rounded-xl"
-                      >
-                        Enroll Now
-                        <ArrowRight size={16} />
-                      </motion.button>
+                      <div className="flex gap-3 mt-5">
+                        <motion.button
+                          onClick={() => {
+                            try {
+                              localStorage.setItem('preferredCourse', course.title)
+                            } catch (e) {}
+                            openEnroll()
+                          }}
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          className="btn-primary flex-1 flex items-center justify-center gap-2 text-sm py-3 rounded-xl"
+                        >
+                          Enroll Now
+                          <ArrowRight size={16} />
+                        </motion.button>
+
+                        <motion.button
+                          onClick={() => {
+                            // Navigate to course detail page
+                            window.location.href = `/course/${encodeURIComponent(course.title.toLowerCase().replace(/\s+/g, '-'))}`
+                          }}
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          className="btn-secondary flex-1 flex items-center justify-center gap-2 text-sm py-3 rounded-xl border-2 border-primary text-primary hover:bg-primary hover:text-white"
+                        >
+                          More Info
+                          <BookOpen size={16} />
+                        </motion.button>
+                      </div>
                     </motion.div>
                   )
                 })}

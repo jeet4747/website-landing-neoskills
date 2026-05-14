@@ -14,6 +14,7 @@ import UpcomingBatches from './components/UpcomingBatches.jsx'
 import { EnrollProvider } from './context/EnrollContext.jsx'
 import Enroll from './components/enroll.jsx'
 import PaymentPage from './components/paymentpage.jsx'
+import CourseDetail from './components/CourseDetail.jsx'
 
 export default function App() {
   return (
@@ -59,6 +60,7 @@ export default function App() {
             />
             <Route path="/enroll" element={<Enroll />} />
             <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/course/:slug" element={<CourseDetail />} />
           </Routes>
 
           <Footer />
