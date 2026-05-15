@@ -122,3 +122,33 @@ app.post('/api/verify-payment', async (req, res) => {
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => console.log(`Razorpay backend listening on http://localhost:${PORT}`))
+
+// --- Admin API for Course Data ---
+const fs = require('fs')
+const path = require('path')
+const COURSES_FILE = path.join(__dirname, 'courses.json')
+
+// Get all courses
+app.get('/api/courses', (req, res) => {
+  fs.readFile(COURSES_FILE, 'utf8', (err, data) => {
+    if (err) return res.status(500).json({ error: 'Failed to read courses data' })
+    try {
+      const courses = JSON.parse(data)
+      res.json(courses)
+    } catch (parseErr) {
+      res.status(500).json({ error: 'Invalid courses data format' })
+    }
+  })
+})
+
+// Update all courses (admin only)
+app.post('/api/courses', (req, res) => {
+  const newCourses = req.body
+  if (!Array.isArray(newCourses)) {
+    return res.status(400).json({ error: 'Courses data must be an array' })
+  }
+  fs.writeFile(COURSES_FILE, JSON.stringify(newCourses, null, 2), err => {
+    if (err) return res.status(500).json({ error: 'Failed to save courses data' })
+    res.json({ success: true })
+  })
+})

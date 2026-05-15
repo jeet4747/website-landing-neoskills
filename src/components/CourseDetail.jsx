@@ -4,13 +4,10 @@ import { motion } from 'framer-motion'
 import * as LucideIcons from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { useEnroll } from '../context/EnrollContext'
-import { getCourseBySlug, getAllResolvedCourses, getMergedCourseCategories } from './courseData'
-
-const EMAILJS_SERVICE = 'service_62ub16q'
-const EMAILJS_TEMPLATE = 'template_l3twvqg'
-const EMAILJS_KEY = 'S3TiyuUzfI2FRb5RG'
+import { allCourses, courseCategories } from './courseData'
 
 const CourseDetail = () => {
+
   const { slug } = useParams()
   const navigate = useNavigate()
   const { openEnroll } = useEnroll()
@@ -21,11 +18,26 @@ const CourseDetail = () => {
     message: '',
   })
   const [formSubmitted, setFormSubmitted] = useState(false)
-  const [contactError, setContactError] = useState('')
 
-  const course = getCourseBySlug(slug)
 
-  if (!course) {
+  // Find course by slug
+  const course = allCourses.find(c => c.slug === slug) || allCourses[0]
+  const IconComponent = LucideIcons[course.icon] || LucideIcons.BookOpen
+  const otherCourses = allCourses.filter(c => c.slug !== course.slug)
+  const category = courseCategories.find(cat => cat.slug === course.categorySlug) || { name: course.category }
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault()
+    // Here you would typically send the form data to your backend
+    console.log('Contact form submitted:', contactForm)
+    setFormSubmitted(true)
+    setTimeout(() => setFormSubmitted(false), 3000)
+  }
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>
+  }
+  if (error || !course) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="text-center max-w-md">

@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Full Stack Web Development",
+    "price": 4999,
+    "nextBatchDate": "2026-06-01",
+    "curriculum": "HTML, CSS, JavaScript, React, Node.js, MongoDB"
+  },
+  {
+    "id": 2,
+    "name": "Data Science Bootcamp",
+    "price": 5999,
+    "nextBatchDate": "2026-06-10",
+    "curriculum": "Python, Pandas, Numpy, Machine Learning, Deep Learning"
+  }
+]
