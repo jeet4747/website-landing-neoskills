@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
@@ -19,6 +19,7 @@ import {
 import { useEnroll } from '../context/EnrollContext'
 import { courseStructure } from '../data/courseStructure'
 import { getDetailSlugForCatalogTitle, effectiveListedPrice } from './courseData'
+import { loadCoursesForDisplay } from '../data/courseService.js'
 
 const formatINR = (amount) => {
   if (!amount) return null
@@ -30,7 +31,8 @@ const formatINR = (amount) => {
 }
 
 const PricingBlock = ({ trainingFee, trainingExam, supportCost }) => {
-  const price = trainingExam ?? trainingFee ?? supportCost
+  const totalPrice = Number(trainingFee || 0) + Number(trainingExam || 0)
+  const price = totalPrice || supportCost
 
   if (!price) {
     return (
@@ -41,7 +43,7 @@ const PricingBlock = ({ trainingFee, trainingExam, supportCost }) => {
   }
 
   const label =
-    trainingExam != null ? 'Training + Exam' : trainingFee != null ? 'Training Fee' : 'Program fee'
+    totalPrice > 0 ? 'Training + Exam' : supportCost ? 'Program fee' : 'Pricing'
 
   return (
     <div className="mt-4 rounded-xl border border-border-gray bg-white p-4 shadow-sm">
@@ -57,13 +59,40 @@ const PricingBlock = ({ trainingFee, trainingExam, supportCost }) => {
 const CoursesSection = () => {
   const [activeTab, setActiveTab] = useState('certification')
   const [expandedCategory, setExpandedCategory] = useState('Project Management')
+  const [loadedStructure, setLoadedStructure] = useState(courseStructure)
+  const [isLoading, setIsLoading] = useState(true)
   const { openEnroll } = useEnroll()
   const navigate = useNavigate()
 
+  useEffect(() => {
+    loadCoursesForDisplay()
+      .then((merged) => {
+        setLoadedStructure(merged)
+        setIsLoading(false)
+      })
+      .catch(() => {
+        setLoadedStructure(courseStructure)
+        setIsLoading(false)
+      })
+  }, [])
 
-
-  const currentTab = courseStructure[activeTab]
+  const currentTab = loadedStructure[activeTab]
   const categories = Object.keys(currentTab.categories)
+
+  if (isLoading) {
+    return (
+      <section className="relative py-20 md:py-32 overflow-hidden bg-light-gray">
+        <div className="container mx-auto px-4">
+          <div className="text-center py-20">
+            <div className="inline-flex items-center justify-center rounded-full bg-white p-4 shadow-lg">
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            </div>
+            <p className="mt-6 text-xl text-gray-600">Loading course catalog...</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="relative py-20 md:py-32 overflow-hidden bg-light-gray">
@@ -89,7 +118,7 @@ const CoursesSection = () => {
           viewport={{ once: true }}
           className="flex justify-center gap-4 mb-12 flex-wrap"
         >
-          {Object.entries(courseStructure).map(([key, value]) => (
+          {Object.entries(loadedStructure).map(([key, value]) => (
             <motion.button
               key={key}
               whileHover={{ y: -2 }}

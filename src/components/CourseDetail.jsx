@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import * as LucideIcons from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { useEnroll } from '../context/EnrollContext'
-import { allCourses, courseCategories } from './courseData'
+import { allCourses, courseCategories, getAllResolvedCourses, getMergedCourseCategories } from './courseData'
+import { loadCourseBySlug } from '../data/courseService.js'
 
 const CourseDetail = () => {
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [contactError, setContactError] = useState('')
 
   const { slug } = useParams()
   const navigate = useNavigate()
   const { openEnroll } = useEnroll()
+  const [course, setCourse] = useState(null)
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -19,20 +24,23 @@ const CourseDetail = () => {
   })
   const [formSubmitted, setFormSubmitted] = useState(false)
 
-
-  // Find course by slug
-  const course = allCourses.find(c => c.slug === slug) || allCourses[0]
-  const IconComponent = LucideIcons[course.icon] || LucideIcons.BookOpen
-  const otherCourses = allCourses.filter(c => c.slug !== course.slug)
-  const category = courseCategories.find(cat => cat.slug === course.categorySlug) || { name: course.category }
-
-  const handleContactSubmit = (e) => {
-    e.preventDefault()
-    // Here you would typically send the form data to your backend
-    console.log('Contact form submitted:', contactForm)
-    setFormSubmitted(true)
-    setTimeout(() => setFormSubmitted(false), 3000)
-  }
+  useEffect(() => {
+    setLoading(true)
+    loadCourseBySlug(slug)
+      .then((loadedCourse) => {
+        if (loadedCourse) {
+          setCourse(loadedCourse)
+          setError(null)
+        } else {
+          setError('Course not found')
+        }
+      })
+      .catch((err) => {
+        console.error('Course load error', err)
+        setCourse(allCourses.find((c) => c.slug === slug) || allCourses[0])
+      })
+      .finally(() => setLoading(false))
+  }, [slug])
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>
@@ -65,6 +73,10 @@ const CourseDetail = () => {
       name: course.category,
     }
 
+  const catalogAmount =
+    (Number(course.feeDetails?.training || 0) + Number(course.feeDetails?.exam || 0)) ||
+    Number(course.feeDetails?.total || 0)
+
   const handleContactSubmit = (e) => {
     e.preventDefault()
     setContactError('')
@@ -72,8 +84,8 @@ const CourseDetail = () => {
 
     emailjs
       .send(
-        EMAILJS_SERVICE,
-        EMAILJS_TEMPLATE,
+        'service_62ub16q',
+        'template_l3twvqg',
         {
           user_name: contactForm.name,
           user_email: contactForm.email,
@@ -82,7 +94,7 @@ const CourseDetail = () => {
           message: `[Course page: /course/${course.slug}]\n\n${contactForm.message}`,
           source: 'NeoSkills Course Detail Page',
         },
-        EMAILJS_KEY
+        'S3TiyuUzfI2FRb5RG'
       )
       .then(() => {
         setFormSubmitted(true)
@@ -294,17 +306,9 @@ const CourseDetail = () => {
                 </div>
                 <div className="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
                   <p className="text-sm text-blue-600 font-medium">Amount due (catalog)</p>
-                  <p className="text-3xl font-bold text-blue-600">₹{course.feeDetails.total.toLocaleString('en-IN')}</p>
+                  <p className="text-3xl font-bold text-blue-600">₹{catalogAmount.toLocaleString('en-IN')}</p>
                 </div>
               </div>
-              {course.feeDetails.support > 0 && (
-                <p className="text-sm text-gray-600 text-center mb-4">
-                  Support / materials line (where applicable):{' '}
-                  <span className="font-semibold text-dark">
-                    ₹{course.feeDetails.support.toLocaleString('en-IN')}
-                  </span>
-                </p>
-              )}
               {course.feeDisclaimer && (
                 <p className="text-sm text-gray-600 mb-4 border-l-4 border-primary pl-3">{course.feeDisclaimer}</p>
               )}
@@ -457,7 +461,7 @@ const CourseDetail = () => {
               <p className="text-white/90 mb-4 text-sm leading-relaxed">
                 Continue to secure your seat. You will confirm details and complete payment on the next steps.
               </p>
-              {course.feeDetails.total > 0 ? (
+              {catalogAmount > 0 ? (
                 <motion.button
                   type="button"
                   onClick={() => {
@@ -468,14 +472,14 @@ const CourseDetail = () => {
                     }
                     openEnroll({
                       course: course.fullTitle || course.title,
-                      baseAmount: course.feeDetails.total,
+                      baseAmount: catalogAmount,
                     })
                   }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="w-full bg-white text-primary font-bold py-3 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  Enroll — ₹{course.feeDetails.total.toLocaleString('en-IN')} (+ GST at checkout)
+                  Enroll — ₹{catalogAmount.toLocaleString('en-IN')} (+ GST at checkout)
                 </motion.button>
               ) : (
                 <button

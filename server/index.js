@@ -7,7 +7,8 @@ require('dotenv').config()
 
 const app = express()
 app.use(cors({ origin: true }))
-app.use(express.json())
+app.use(express.json({ limit: '20mb' }))
+app.use(express.urlencoded({ extended: true, limit: '20mb' }))
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,

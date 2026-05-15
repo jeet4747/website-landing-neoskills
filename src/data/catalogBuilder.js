@@ -1,11 +1,11 @@
-import { courseStructure } from './courseStructure'
+import { courseStructure } from './courseStructure.js'
 import {
   pmpCourse,
   awsTrainingCourse,
   azureAiTrainingCourse,
   itil5FoundationCourse,
   courseCategories as baseCourseCategories,
-} from './courseDataRich'
+} from './courseDataRich.js'
 
 /** Same rule as PricingBlock in CoursesSection: primary list price. */
 export function effectiveListedPrice(c) {

@@ -31,3 +31,4 @@ export {
 }
 
 export const courseCategories = getMergedCourseCategories()
+export const allCourses = getAllResolvedCourses()
