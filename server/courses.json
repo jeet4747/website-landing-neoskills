@@ -3,21 +3,21 @@
     "slug": "pmp",
     "category": "Project Management",
     "title": "PMP",
-    "fullTitle": "Project Management Professional (PMP®) Certification",
+    "fullTitle": "Project Management Professional (PMP\u00ae) Certification",
     "icon": "Award",
-    "summary": "Globally recognized credential for project managers—leadership, predictive and agile delivery, and exam readiness aligned with PMI® standards.",
-    "description": "The PMP® certification validates your ability to lead projects in any industry. This program follows the latest PMI® exam outline—covering people, process, and business environment—with live instruction, case studies, and structured exam preparation so you can apply concepts on the job and with confidence at the exam.",
+    "summary": "Globally recognized credential for project managers\u2014leadership, predictive and agile delivery, and exam readiness aligned with PMI\u00ae standards.",
+    "description": "The PMP\u00ae certification validates your ability to lead projects in any industry. This program follows the latest PMI\u00ae exam outline\u2014covering people, process, and business environment\u2014with live instruction, case studies, and structured exam preparation so you can apply concepts on the job and with confidence at the exam.",
     "stats": {
       "duration": "6-8 weeks",
-      "nextBatch": "21-Mar-2026",
+      "nextBatch": "23-05-2026",
       "level": "Advanced",
       "mode": "Live online (instructor-led)",
       "hours": "35+ contact hours",
-      "certificate": "PMP® credential pathway (PMI®)",
+      "certificate": "PMP\u00ae credential pathway (PMI\u00ae)",
       "placement": "Career guidance & interview preparation support"
     },
     "highlights": [
-      "Live instructor-led sessions aligned with the current PMI® exam outline",
+      "Live instructor-led sessions aligned with the current PMI\u00ae exam outline",
       "Agile, hybrid, and predictive approaches with integrated practice",
       "Exam application guidance, mock tests, and question-bank style review",
       "Real-world case studies, templates, and group exercises",
@@ -33,15 +33,15 @@
     ],
     "syllabus": [
       {
-        "week": "Week 1 — Framework & environment",
+        "week": "Week 1 \u2014 Framework & environment",
         "topics": [
-          "PMI® code of conduct and exam blueprint",
+          "PMI\u00ae code of conduct and exam blueprint",
           "Project vs operations; organizational influences",
           "Tailoring, value delivery, and governance"
         ]
       },
       {
-        "week": "Week 2 — Scope, schedule, resources",
+        "week": "Week 2 \u2014 Scope, schedule, resources",
         "topics": [
           "Scope definition, WBS, and change control",
           "Scheduling techniques and critical path thinking",
@@ -49,7 +49,7 @@
         ]
       },
       {
-        "week": "Week 3 — Cost, quality, procurement",
+        "week": "Week 3 \u2014 Cost, quality, procurement",
         "topics": [
           "Cost estimating, budgeting, and earned value basics",
           "Quality planning, assurance, and continuous improvement",
@@ -57,7 +57,7 @@
         ]
       },
       {
-        "week": "Week 4 — Risk, stakeholders, communications",
+        "week": "Week 4 \u2014 Risk, stakeholders, communications",
         "topics": [
           "Risk identification, qualitative/quantitative analysis, responses",
           "Stakeholder engagement strategies",
@@ -65,7 +65,7 @@
         ]
       },
       {
-        "week": "Week 5 — Agile & hybrid delivery",
+        "week": "Week 5 \u2014 Agile & hybrid delivery",
         "topics": [
           "Agile mindsets, iterations, and backlog refinement",
           "Hybrid lifecycles and tailoring for context",
@@ -73,7 +73,7 @@
         ]
       },
       {
-        "week": "Week 6 — Exam readiness",
+        "week": "Week 6 \u2014 Exam readiness",
         "topics": [
           "180-question style drills and time management",
           "Gap analysis and personalized revision plan",
@@ -82,8 +82,8 @@
       }
     ],
     "certificate": {
-      "title": "PMP® certification pathway",
-      "description": "PMI® issues the PMP® credential after you meet eligibility criteria and pass the certification exam. Training focuses on exam readiness and practical application.",
+      "title": "PMP\u00ae certification pathway",
+      "description": "PMI\u00ae issues the PMP\u00ae credential after you meet eligibility criteria and pass the certification exam. Training focuses on exam readiness and practical application.",
       "image": "/certificates/PMI-Certification-page-0001.webp"
     },
     "feeDetails": {
@@ -91,7 +91,7 @@
       "exam": "45000",
       "support": 50000,
       "total": 50000,
-      "emi": "EMI options may be available—ask our admissions team",
+      "emi": "EMI options may be available\u2014ask our admissions team",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training & labs",
@@ -100,13 +100,13 @@
         "Exam application guidance"
       ]
     },
-    "feeDisclaimer": "Vendor (PMI®) exam fees and membership are set by PMI® and may change; training fee covers NeoSkills program components listed above.",
+    "feeDisclaimer": "Vendor (PMI\u00ae) exam fees and membership are set by PMI\u00ae and may change; training fee covers NeoSkills program components listed above.",
     "trainers": [
       {
-        "name": "NeoSkills PMP® Faculty",
+        "name": "NeoSkills PMP\u00ae Faculty",
         "role": "Lead Instructor | Program delivery",
         "experience": "15+ years",
-        "certifications": "PMP®, PMI-ACP®, agile/hybrid delivery",
+        "certifications": "PMP\u00ae, PMI-ACP\u00ae, agile/hybrid delivery",
         "image": "/images/nsl_logo__Logo_.svg",
         "bio": "Senior practitioners with large-scale IT and enterprise project experience, focused on exam-ready outcomes and workplace application."
       }
@@ -132,11 +132,11 @@
       "level": "Advanced",
       "mode": "Live online (instructor-led)",
       "hours": "35+ contact hours",
-      "certificate": "PMP® credential pathway (PMI®)",
+      "certificate": "PMP\u00ae credential pathway (PMI\u00ae)",
       "placement": "Career guidance & interview preparation support"
     },
     "highlights": [
-      "Live instructor-led sessions aligned with the current PMI® exam outline",
+      "Live instructor-led sessions aligned with the current PMI\u00ae exam outline",
       "Agile, hybrid, and predictive approaches with integrated practice",
       "Exam application guidance, mock tests, and question-bank style review",
       "Real-world case studies, templates, and group exercises",
@@ -152,15 +152,15 @@
     ],
     "syllabus": [
       {
-        "week": "Week 1 — Framework & environment",
+        "week": "Week 1 \u2014 Framework & environment",
         "topics": [
-          "PMI® code of conduct and exam blueprint",
+          "PMI\u00ae code of conduct and exam blueprint",
           "Project vs operations; organizational influences",
           "Tailoring, value delivery, and governance"
         ]
       },
       {
-        "week": "Week 2 — Scope, schedule, resources",
+        "week": "Week 2 \u2014 Scope, schedule, resources",
         "topics": [
           "Scope definition, WBS, and change control",
           "Scheduling techniques and critical path thinking",
@@ -168,7 +168,7 @@
         ]
       },
       {
-        "week": "Week 3 — Cost, quality, procurement",
+        "week": "Week 3 \u2014 Cost, quality, procurement",
         "topics": [
           "Cost estimating, budgeting, and earned value basics",
           "Quality planning, assurance, and continuous improvement",
@@ -176,7 +176,7 @@
         ]
       },
       {
-        "week": "Week 4 — Risk, stakeholders, communications",
+        "week": "Week 4 \u2014 Risk, stakeholders, communications",
         "topics": [
           "Risk identification, qualitative/quantitative analysis, responses",
           "Stakeholder engagement strategies",
@@ -184,7 +184,7 @@
         ]
       },
       {
-        "week": "Week 5 — Agile & hybrid delivery",
+        "week": "Week 5 \u2014 Agile & hybrid delivery",
         "topics": [
           "Agile mindsets, iterations, and backlog refinement",
           "Hybrid lifecycles and tailoring for context",
@@ -192,7 +192,7 @@
         ]
       },
       {
-        "week": "Week 6 — Exam readiness",
+        "week": "Week 6 \u2014 Exam readiness",
         "topics": [
           "180-question style drills and time management",
           "Gap analysis and personalized revision plan",
@@ -201,8 +201,8 @@
       }
     ],
     "certificate": {
-      "title": "PMP® certification pathway",
-      "description": "PMI® issues the PMP® credential after you meet eligibility criteria and pass the certification exam. Training focuses on exam readiness and practical application.",
+      "title": "PMP\u00ae certification pathway",
+      "description": "PMI\u00ae issues the PMP\u00ae credential after you meet eligibility criteria and pass the certification exam. Training focuses on exam readiness and practical application.",
       "image": "/certificates/PMI-Certification-page-0001.webp"
     },
     "feeDetails": {
@@ -210,7 +210,7 @@
       "exam": 50000,
       "support": 50000,
       "total": 50000,
-      "emi": "EMI options may be available—ask our admissions team",
+      "emi": "EMI options may be available\u2014ask our admissions team",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training & labs",
@@ -219,13 +219,13 @@
         "Exam application guidance"
       ]
     },
-    "feeDisclaimer": "Vendor (PMI®) exam fees and membership are set by PMI® and may change; training fee covers NeoSkills program components listed above.",
+    "feeDisclaimer": "Vendor (PMI\u00ae) exam fees and membership are set by PMI\u00ae and may change; training fee covers NeoSkills program components listed above.",
     "trainers": [
       {
-        "name": "NeoSkills PMP® Faculty",
+        "name": "NeoSkills PMP\u00ae Faculty",
         "role": "Lead Instructor | Program delivery",
         "experience": "15+ years",
-        "certifications": "PMP®, PMI-ACP®, agile/hybrid delivery",
+        "certifications": "PMP\u00ae, PMI-ACP\u00ae, agile/hybrid delivery",
         "image": "/images/nsl_logo__Logo_.svg",
         "bio": "Senior practitioners with large-scale IT and enterprise project experience, focused on exam-ready outcomes and workplace application."
       }
@@ -249,7 +249,7 @@
       "duration": "4-6 weeks",
       "nextBatch": "Launching Soon",
       "level": "Beginner",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -300,16 +300,16 @@
       }
     ],
     "certificate": {
-      "title": "CAPM — credential pathway",
+      "title": "CAPM \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
     "feeDetails": {
-      "training": 25000,
+      "training": "25005",
       "exam": 35000,
       "support": 25000,
       "total": 35000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -317,7 +317,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -343,7 +343,7 @@
       "duration": "3-4 weeks",
       "nextBatch": "Launching Soon",
       "level": "Beginner",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -394,7 +394,7 @@
       }
     ],
     "certificate": {
-      "title": "PRINCE2 Foundation — credential pathway",
+      "title": "PRINCE2 Foundation \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -403,7 +403,7 @@
       "exam": 33600,
       "support": 30800,
       "total": 33600,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -411,7 +411,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -437,7 +437,7 @@
       "duration": "4-6 weeks",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -488,7 +488,7 @@
       }
     ],
     "certificate": {
-      "title": "PRINCE2 Practitioner — credential pathway",
+      "title": "PRINCE2 Practitioner \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -497,7 +497,7 @@
       "exam": 34800,
       "support": 31900,
       "total": 34800,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -505,7 +505,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -531,7 +531,7 @@
       "duration": "3-4 weeks",
       "nextBatch": "Launching Soon",
       "level": "Beginner",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -582,16 +582,16 @@
       }
     ],
     "certificate": {
-      "title": "PRINCE2 Agile Foundation — credential pathway",
+      "title": "PRINCE2 Agile Foundation \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
     "feeDetails": {
-      "training": 0,
+      "training": "0",
       "exam": 26400,
       "support": 24200,
       "total": 26400,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -599,7 +599,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -625,7 +625,7 @@
       "duration": "5-6 weeks",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -684,7 +684,7 @@
       }
     ],
     "certificate": {
-      "title": "PRINCE2 Agile Practitioner — credential pathway",
+      "title": "PRINCE2 Agile Practitioner \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -693,7 +693,7 @@
       "exam": 27600,
       "support": 25300,
       "total": 27600,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -701,7 +701,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -727,7 +727,7 @@
       "duration": "5-7 weeks",
       "nextBatch": "28-Mar-2026",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -786,7 +786,7 @@
       }
     ],
     "certificate": {
-      "title": "PRINCE2 F & P — credential pathway",
+      "title": "PRINCE2 F & P \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -795,7 +795,7 @@
       "exam": 29500,
       "support": 25000,
       "total": 29500,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -803,7 +803,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -823,11 +823,11 @@
     "title": "AWS Cloud Practitioner",
     "fullTitle": "AWS Cloud Practitioner",
     "icon": "Cloud",
-    "summary": "Become AWS certified with hands-on console practice—core services, security, networking, and real-world deployment patterns aligned to certification paths.",
-    "description": "NeoSkills AWS Certification Training prepares you to design, deploy, and manage scalable cloud infrastructure on Amazon Web Services. The program covers core services, architecture fundamentals, security best practices, networking, and real deployment strategies—with hands-on labs so concepts stick. Content is aligned with the public NeoSkills AWS program narrative: live projects, mock tests, and interview readiness.",
+    "summary": "Become AWS certified with hands-on console practice\u2014core services, security, networking, and real-world deployment patterns aligned to certification paths.",
+    "description": "NeoSkills AWS Certification Training prepares you to design, deploy, and manage scalable cloud infrastructure on Amazon Web Services. The program covers core services, architecture fundamentals, security best practices, networking, and real deployment strategies\u2014with hands-on labs so concepts stick. Content is aligned with the public NeoSkills AWS program narrative: live projects, mock tests, and interview readiness.",
     "stats": {
       "duration": "3-4 weeks",
-      "nextBatch": "14-Mar-2026",
+      "nextBatch": "17-05-2026 \u2022 4:00 PM - 7:00 PM",
       "level": "Beginner",
       "mode": "Live online (instructor-led)",
       "hours": "40+ live hours (program design)",
@@ -850,7 +850,7 @@
     ],
     "syllabus": [
       {
-        "week": "Module 1 — Cloud fundamentals & AWS overview",
+        "week": "Module 1 \u2014 Cloud fundamentals & AWS overview",
         "topics": [
           "Cloud models (IaaS, PaaS, SaaS) and economics",
           "AWS global infrastructure: regions & AZs",
@@ -859,7 +859,7 @@
         ]
       },
       {
-        "week": "Module 2 — Compute (EC2 & scaling)",
+        "week": "Module 2 \u2014 Compute (EC2 & scaling)",
         "topics": [
           "Launching EC2 instances, AMIs, and instance families",
           "Security groups, key pairs, and access patterns",
@@ -868,7 +868,7 @@
         ]
       },
       {
-        "week": "Module 3 — Storage & databases",
+        "week": "Module 3 \u2014 Storage & databases",
         "topics": [
           "Amazon S3 buckets, static hosting, security & versioning",
           "EBS & EFS overview",
@@ -877,7 +877,7 @@
         ]
       },
       {
-        "week": "Module 4 — Networking & security",
+        "week": "Module 4 \u2014 Networking & security",
         "topics": [
           "VPC architecture, subnets, route tables, IGW",
           "NAT gateway patterns",
@@ -886,7 +886,7 @@
         ]
       },
       {
-        "week": "Module 5 — Monitoring & automation",
+        "week": "Module 5 \u2014 Monitoring & automation",
         "topics": [
           "CloudWatch monitoring, logs, and alerts",
           "AWS CLI fundamentals",
@@ -895,7 +895,7 @@
         ]
       },
       {
-        "week": "Module 6 — Projects & certification prep",
+        "week": "Module 6 \u2014 Projects & certification prep",
         "topics": [
           "Capstone-style deployment exercise",
           "Exam strategy, question pacing, and mock tests",
@@ -913,7 +913,7 @@
       "exam": "10000",
       "support": 18500,
       "total": 18500,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training & guided labs",
@@ -950,8 +950,8 @@
     "title": "AWS Solutions Architect Associate",
     "fullTitle": "AWS Solutions Architect Associate",
     "icon": "Cloud",
-    "summary": "Become AWS certified with hands-on console practice—core services, security, networking, and real-world deployment patterns aligned to certification paths.",
-    "description": "NeoSkills AWS Certification Training prepares you to design, deploy, and manage scalable cloud infrastructure on Amazon Web Services. The program covers core services, architecture fundamentals, security best practices, networking, and real deployment strategies—with hands-on labs so concepts stick. Content is aligned with the public NeoSkills AWS program narrative: live projects, mock tests, and interview readiness.",
+    "summary": "Become AWS certified with hands-on console practice\u2014core services, security, networking, and real-world deployment patterns aligned to certification paths.",
+    "description": "NeoSkills AWS Certification Training prepares you to design, deploy, and manage scalable cloud infrastructure on Amazon Web Services. The program covers core services, architecture fundamentals, security best practices, networking, and real deployment strategies\u2014with hands-on labs so concepts stick. Content is aligned with the public NeoSkills AWS program narrative: live projects, mock tests, and interview readiness.",
     "stats": {
       "duration": "5-6 weeks",
       "nextBatch": "Launching Soon",
@@ -977,7 +977,7 @@
     ],
     "syllabus": [
       {
-        "week": "Module 1 — Cloud fundamentals & AWS overview",
+        "week": "Module 1 \u2014 Cloud fundamentals & AWS overview",
         "topics": [
           "Cloud models (IaaS, PaaS, SaaS) and economics",
           "AWS global infrastructure: regions & AZs",
@@ -986,7 +986,7 @@
         ]
       },
       {
-        "week": "Module 2 — Compute (EC2 & scaling)",
+        "week": "Module 2 \u2014 Compute (EC2 & scaling)",
         "topics": [
           "Launching EC2 instances, AMIs, and instance families",
           "Security groups, key pairs, and access patterns",
@@ -995,7 +995,7 @@
         ]
       },
       {
-        "week": "Module 3 — Storage & databases",
+        "week": "Module 3 \u2014 Storage & databases",
         "topics": [
           "Amazon S3 buckets, static hosting, security & versioning",
           "EBS & EFS overview",
@@ -1004,7 +1004,7 @@
         ]
       },
       {
-        "week": "Module 4 — Networking & security",
+        "week": "Module 4 \u2014 Networking & security",
         "topics": [
           "VPC architecture, subnets, route tables, IGW",
           "NAT gateway patterns",
@@ -1013,7 +1013,7 @@
         ]
       },
       {
-        "week": "Module 5 — Monitoring & automation",
+        "week": "Module 5 \u2014 Monitoring & automation",
         "topics": [
           "CloudWatch monitoring, logs, and alerts",
           "AWS CLI fundamentals",
@@ -1022,7 +1022,7 @@
         ]
       },
       {
-        "week": "Module 6 — Projects & certification prep",
+        "week": "Module 6 \u2014 Projects & certification prep",
         "topics": [
           "Capstone-style deployment exercise",
           "Exam strategy, question pacing, and mock tests",
@@ -1040,7 +1040,7 @@
       "exam": 35000,
       "support": 25000,
       "total": 35000,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training & guided labs",
@@ -1077,8 +1077,8 @@
     "title": "AWS SysOps Administrator",
     "fullTitle": "AWS SysOps Administrator",
     "icon": "Cloud",
-    "summary": "Become AWS certified with hands-on console practice—core services, security, networking, and real-world deployment patterns aligned to certification paths.",
-    "description": "NeoSkills AWS Certification Training prepares you to design, deploy, and manage scalable cloud infrastructure on Amazon Web Services. The program covers core services, architecture fundamentals, security best practices, networking, and real deployment strategies—with hands-on labs so concepts stick. Content is aligned with the public NeoSkills AWS program narrative: live projects, mock tests, and interview readiness.",
+    "summary": "Become AWS certified with hands-on console practice\u2014core services, security, networking, and real-world deployment patterns aligned to certification paths.",
+    "description": "NeoSkills AWS Certification Training prepares you to design, deploy, and manage scalable cloud infrastructure on Amazon Web Services. The program covers core services, architecture fundamentals, security best practices, networking, and real deployment strategies\u2014with hands-on labs so concepts stick. Content is aligned with the public NeoSkills AWS program narrative: live projects, mock tests, and interview readiness.",
     "stats": {
       "duration": "5-6 weeks",
       "nextBatch": "Launching Soon",
@@ -1104,7 +1104,7 @@
     ],
     "syllabus": [
       {
-        "week": "Module 1 — Cloud fundamentals & AWS overview",
+        "week": "Module 1 \u2014 Cloud fundamentals & AWS overview",
         "topics": [
           "Cloud models (IaaS, PaaS, SaaS) and economics",
           "AWS global infrastructure: regions & AZs",
@@ -1113,7 +1113,7 @@
         ]
       },
       {
-        "week": "Module 2 — Compute (EC2 & scaling)",
+        "week": "Module 2 \u2014 Compute (EC2 & scaling)",
         "topics": [
           "Launching EC2 instances, AMIs, and instance families",
           "Security groups, key pairs, and access patterns",
@@ -1122,7 +1122,7 @@
         ]
       },
       {
-        "week": "Module 3 — Storage & databases",
+        "week": "Module 3 \u2014 Storage & databases",
         "topics": [
           "Amazon S3 buckets, static hosting, security & versioning",
           "EBS & EFS overview",
@@ -1131,7 +1131,7 @@
         ]
       },
       {
-        "week": "Module 4 — Networking & security",
+        "week": "Module 4 \u2014 Networking & security",
         "topics": [
           "VPC architecture, subnets, route tables, IGW",
           "NAT gateway patterns",
@@ -1140,7 +1140,7 @@
         ]
       },
       {
-        "week": "Module 5 — Monitoring & automation",
+        "week": "Module 5 \u2014 Monitoring & automation",
         "topics": [
           "CloudWatch monitoring, logs, and alerts",
           "AWS CLI fundamentals",
@@ -1149,7 +1149,7 @@
         ]
       },
       {
-        "week": "Module 6 — Projects & certification prep",
+        "week": "Module 6 \u2014 Projects & certification prep",
         "topics": [
           "Capstone-style deployment exercise",
           "Exam strategy, question pacing, and mock tests",
@@ -1167,7 +1167,7 @@
       "exam": 35000,
       "support": 25000,
       "total": 35000,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training & guided labs",
@@ -1204,8 +1204,8 @@
     "title": "AWS Certified Developer Associate",
     "fullTitle": "AWS Certified Developer Associate",
     "icon": "Cloud",
-    "summary": "Become AWS certified with hands-on console practice—core services, security, networking, and real-world deployment patterns aligned to certification paths.",
-    "description": "NeoSkills AWS Certification Training prepares you to design, deploy, and manage scalable cloud infrastructure on Amazon Web Services. The program covers core services, architecture fundamentals, security best practices, networking, and real deployment strategies—with hands-on labs so concepts stick. Content is aligned with the public NeoSkills AWS program narrative: live projects, mock tests, and interview readiness.",
+    "summary": "Become AWS certified with hands-on console practice\u2014core services, security, networking, and real-world deployment patterns aligned to certification paths.",
+    "description": "NeoSkills AWS Certification Training prepares you to design, deploy, and manage scalable cloud infrastructure on Amazon Web Services. The program covers core services, architecture fundamentals, security best practices, networking, and real deployment strategies\u2014with hands-on labs so concepts stick. Content is aligned with the public NeoSkills AWS program narrative: live projects, mock tests, and interview readiness.",
     "stats": {
       "duration": "5-6 weeks",
       "nextBatch": "Launching Soon",
@@ -1231,7 +1231,7 @@
     ],
     "syllabus": [
       {
-        "week": "Module 1 — Cloud fundamentals & AWS overview",
+        "week": "Module 1 \u2014 Cloud fundamentals & AWS overview",
         "topics": [
           "Cloud models (IaaS, PaaS, SaaS) and economics",
           "AWS global infrastructure: regions & AZs",
@@ -1240,7 +1240,7 @@
         ]
       },
       {
-        "week": "Module 2 — Compute (EC2 & scaling)",
+        "week": "Module 2 \u2014 Compute (EC2 & scaling)",
         "topics": [
           "Launching EC2 instances, AMIs, and instance families",
           "Security groups, key pairs, and access patterns",
@@ -1249,7 +1249,7 @@
         ]
       },
       {
-        "week": "Module 3 — Storage & databases",
+        "week": "Module 3 \u2014 Storage & databases",
         "topics": [
           "Amazon S3 buckets, static hosting, security & versioning",
           "EBS & EFS overview",
@@ -1258,7 +1258,7 @@
         ]
       },
       {
-        "week": "Module 4 — Networking & security",
+        "week": "Module 4 \u2014 Networking & security",
         "topics": [
           "VPC architecture, subnets, route tables, IGW",
           "NAT gateway patterns",
@@ -1267,7 +1267,7 @@
         ]
       },
       {
-        "week": "Module 5 — Monitoring & automation",
+        "week": "Module 5 \u2014 Monitoring & automation",
         "topics": [
           "CloudWatch monitoring, logs, and alerts",
           "AWS CLI fundamentals",
@@ -1276,7 +1276,7 @@
         ]
       },
       {
-        "week": "Module 6 — Projects & certification prep",
+        "week": "Module 6 \u2014 Projects & certification prep",
         "topics": [
           "Capstone-style deployment exercise",
           "Exam strategy, question pacing, and mock tests",
@@ -1294,7 +1294,7 @@
       "exam": 35000,
       "support": 25000,
       "total": 35000,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training & guided labs",
@@ -1331,8 +1331,8 @@
     "title": "Microsoft Azure AZ-900",
     "fullTitle": "Microsoft Azure AZ-900",
     "icon": "Cloud",
-    "summary": "Build job-ready Azure skills from fundamentals to architecture and AI engineering—with live projects, labs, and certification-aligned preparation.",
-    "description": "This program is structured like NeoSkills’ public Azure & AI offering: master Azure from foundation to advanced topics while integrating intelligent AI solutions. Expect industry-aligned curriculum, hands-on Azure console practice, and preparation across AZ-900, AZ-104, AZ-305, AZ-204, AI-900, and AI-102 style outcomes—with resume and interview preparation support.",
+    "summary": "Build job-ready Azure skills from fundamentals to architecture and AI engineering\u2014with live projects, labs, and certification-aligned preparation.",
+    "description": "This program is structured like NeoSkills\u2019 public Azure & AI offering: master Azure from foundation to advanced topics while integrating intelligent AI solutions. Expect industry-aligned curriculum, hands-on Azure console practice, and preparation across AZ-900, AZ-104, AZ-305, AZ-204, AI-900, and AI-102 style outcomes\u2014with resume and interview preparation support.",
     "stats": {
       "duration": "3-4 weeks",
       "nextBatch": "4-Apr-2026",
@@ -1357,7 +1357,7 @@
     ],
     "syllabus": [
       {
-        "week": "Module 1 — Azure foundation (AZ-900 style)",
+        "week": "Module 1 \u2014 Azure foundation (AZ-900 style)",
         "topics": [
           "Cloud concepts and shared responsibility on Azure",
           "Regions, geographies, and core services map",
@@ -1366,7 +1366,7 @@
         ]
       },
       {
-        "week": "Module 2 — Azure Administrator (AZ-104 style)",
+        "week": "Module 2 \u2014 Azure Administrator (AZ-104 style)",
         "topics": [
           "Identity and access: Azure AD, RBAC",
           "Virtual machines, disks, and images",
@@ -1375,7 +1375,7 @@
         ]
       },
       {
-        "week": "Module 3 — Azure architecture (AZ-305 style)",
+        "week": "Module 3 \u2014 Azure architecture (AZ-305 style)",
         "topics": [
           "Designing scalable, secure, and cost-optimized solutions",
           "High availability, DR, and hybrid patterns",
@@ -1383,7 +1383,7 @@
         ]
       },
       {
-        "week": "Module 4 — Developer solutions (AZ-204 style)",
+        "week": "Module 4 \u2014 Developer solutions (AZ-204 style)",
         "topics": [
           "App hosting models on Azure",
           "ARM / Bicep basics and deployment automation",
@@ -1392,7 +1392,7 @@
         ]
       },
       {
-        "week": "Module 5 — AI fundamentals (AI-900 style)",
+        "week": "Module 5 \u2014 AI fundamentals (AI-900 style)",
         "topics": [
           "AI workloads on Azure and responsible AI",
           "Machine learning basics on Azure",
@@ -1400,9 +1400,9 @@
         ]
       },
       {
-        "week": "Module 6 — Azure AI engineering (AI-102 style)",
+        "week": "Module 6 \u2014 Azure AI engineering (AI-102 style)",
         "topics": [
-          "Azure OpenAI and AI Studio–style workflows",
+          "Azure OpenAI and AI Studio\u2013style workflows",
           "Integrating models safely in enterprise patterns",
           "Evaluation, monitoring, and iteration",
           "Capstone review and certification prep"
@@ -1415,11 +1415,11 @@
       "image": "/certificates/azure-certificate-1.webp"
     },
     "feeDetails": {
-      "training": 5000,
-      "exam": 18000,
+      "training": "10000",
+      "exam": "10000",
       "support": 15000,
       "total": 18000,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training & labs",
@@ -1456,8 +1456,8 @@
     "title": "Azure Administrator AZ-104",
     "fullTitle": "Azure Administrator AZ-104",
     "icon": "Cloud",
-    "summary": "Build job-ready Azure skills from fundamentals to architecture and AI engineering—with live projects, labs, and certification-aligned preparation.",
-    "description": "This program is structured like NeoSkills’ public Azure & AI offering: master Azure from foundation to advanced topics while integrating intelligent AI solutions. Expect industry-aligned curriculum, hands-on Azure console practice, and preparation across AZ-900, AZ-104, AZ-305, AZ-204, AI-900, and AI-102 style outcomes—with resume and interview preparation support.",
+    "summary": "Build job-ready Azure skills from fundamentals to architecture and AI engineering\u2014with live projects, labs, and certification-aligned preparation.",
+    "description": "This program is structured like NeoSkills\u2019 public Azure & AI offering: master Azure from foundation to advanced topics while integrating intelligent AI solutions. Expect industry-aligned curriculum, hands-on Azure console practice, and preparation across AZ-900, AZ-104, AZ-305, AZ-204, AI-900, and AI-102 style outcomes\u2014with resume and interview preparation support.",
     "stats": {
       "duration": "5-6 weeks",
       "nextBatch": "6-Apr-2026",
@@ -1482,7 +1482,7 @@
     ],
     "syllabus": [
       {
-        "week": "Module 1 — Azure foundation (AZ-900 style)",
+        "week": "Module 1 \u2014 Azure foundation (AZ-900 style)",
         "topics": [
           "Cloud concepts and shared responsibility on Azure",
           "Regions, geographies, and core services map",
@@ -1491,7 +1491,7 @@
         ]
       },
       {
-        "week": "Module 2 — Azure Administrator (AZ-104 style)",
+        "week": "Module 2 \u2014 Azure Administrator (AZ-104 style)",
         "topics": [
           "Identity and access: Azure AD, RBAC",
           "Virtual machines, disks, and images",
@@ -1500,7 +1500,7 @@
         ]
       },
       {
-        "week": "Module 3 — Azure architecture (AZ-305 style)",
+        "week": "Module 3 \u2014 Azure architecture (AZ-305 style)",
         "topics": [
           "Designing scalable, secure, and cost-optimized solutions",
           "High availability, DR, and hybrid patterns",
@@ -1508,7 +1508,7 @@
         ]
       },
       {
-        "week": "Module 4 — Developer solutions (AZ-204 style)",
+        "week": "Module 4 \u2014 Developer solutions (AZ-204 style)",
         "topics": [
           "App hosting models on Azure",
           "ARM / Bicep basics and deployment automation",
@@ -1517,7 +1517,7 @@
         ]
       },
       {
-        "week": "Module 5 — AI fundamentals (AI-900 style)",
+        "week": "Module 5 \u2014 AI fundamentals (AI-900 style)",
         "topics": [
           "AI workloads on Azure and responsible AI",
           "Machine learning basics on Azure",
@@ -1525,9 +1525,9 @@
         ]
       },
       {
-        "week": "Module 6 — Azure AI engineering (AI-102 style)",
+        "week": "Module 6 \u2014 Azure AI engineering (AI-102 style)",
         "topics": [
-          "Azure OpenAI and AI Studio–style workflows",
+          "Azure OpenAI and AI Studio\u2013style workflows",
           "Integrating models safely in enterprise patterns",
           "Evaluation, monitoring, and iteration",
           "Capstone review and certification prep"
@@ -1544,7 +1544,7 @@
       "exam": 25000,
       "support": 15000,
       "total": 25000,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training & labs",
@@ -1581,8 +1581,8 @@
     "title": "Azure Solutions Architect AZ-305",
     "fullTitle": "Azure Solutions Architect AZ-305",
     "icon": "Cloud",
-    "summary": "Build job-ready Azure skills from fundamentals to architecture and AI engineering—with live projects, labs, and certification-aligned preparation.",
-    "description": "This program is structured like NeoSkills’ public Azure & AI offering: master Azure from foundation to advanced topics while integrating intelligent AI solutions. Expect industry-aligned curriculum, hands-on Azure console practice, and preparation across AZ-900, AZ-104, AZ-305, AZ-204, AI-900, and AI-102 style outcomes—with resume and interview preparation support.",
+    "summary": "Build job-ready Azure skills from fundamentals to architecture and AI engineering\u2014with live projects, labs, and certification-aligned preparation.",
+    "description": "This program is structured like NeoSkills\u2019 public Azure & AI offering: master Azure from foundation to advanced topics while integrating intelligent AI solutions. Expect industry-aligned curriculum, hands-on Azure console practice, and preparation across AZ-900, AZ-104, AZ-305, AZ-204, AI-900, and AI-102 style outcomes\u2014with resume and interview preparation support.",
     "stats": {
       "duration": "5-6 weeks",
       "nextBatch": "Launching Soon",
@@ -1607,7 +1607,7 @@
     ],
     "syllabus": [
       {
-        "week": "Module 1 — Azure foundation (AZ-900 style)",
+        "week": "Module 1 \u2014 Azure foundation (AZ-900 style)",
         "topics": [
           "Cloud concepts and shared responsibility on Azure",
           "Regions, geographies, and core services map",
@@ -1616,7 +1616,7 @@
         ]
       },
       {
-        "week": "Module 2 — Azure Administrator (AZ-104 style)",
+        "week": "Module 2 \u2014 Azure Administrator (AZ-104 style)",
         "topics": [
           "Identity and access: Azure AD, RBAC",
           "Virtual machines, disks, and images",
@@ -1625,7 +1625,7 @@
         ]
       },
       {
-        "week": "Module 3 — Azure architecture (AZ-305 style)",
+        "week": "Module 3 \u2014 Azure architecture (AZ-305 style)",
         "topics": [
           "Designing scalable, secure, and cost-optimized solutions",
           "High availability, DR, and hybrid patterns",
@@ -1633,7 +1633,7 @@
         ]
       },
       {
-        "week": "Module 4 — Developer solutions (AZ-204 style)",
+        "week": "Module 4 \u2014 Developer solutions (AZ-204 style)",
         "topics": [
           "App hosting models on Azure",
           "ARM / Bicep basics and deployment automation",
@@ -1642,7 +1642,7 @@
         ]
       },
       {
-        "week": "Module 5 — AI fundamentals (AI-900 style)",
+        "week": "Module 5 \u2014 AI fundamentals (AI-900 style)",
         "topics": [
           "AI workloads on Azure and responsible AI",
           "Machine learning basics on Azure",
@@ -1650,9 +1650,9 @@
         ]
       },
       {
-        "week": "Module 6 — Azure AI engineering (AI-102 style)",
+        "week": "Module 6 \u2014 Azure AI engineering (AI-102 style)",
         "topics": [
-          "Azure OpenAI and AI Studio–style workflows",
+          "Azure OpenAI and AI Studio\u2013style workflows",
           "Integrating models safely in enterprise patterns",
           "Evaluation, monitoring, and iteration",
           "Capstone review and certification prep"
@@ -1669,7 +1669,7 @@
       "exam": 25000,
       "support": 15000,
       "total": 25000,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training & labs",
@@ -1706,8 +1706,8 @@
     "title": "Microsoft Azure DevOps (AZ-400)",
     "fullTitle": "Microsoft Azure DevOps (AZ-400)",
     "icon": "Cloud",
-    "summary": "Build job-ready Azure skills from fundamentals to architecture and AI engineering—with live projects, labs, and certification-aligned preparation.",
-    "description": "This program is structured like NeoSkills’ public Azure & AI offering: master Azure from foundation to advanced topics while integrating intelligent AI solutions. Expect industry-aligned curriculum, hands-on Azure console practice, and preparation across AZ-900, AZ-104, AZ-305, AZ-204, AI-900, and AI-102 style outcomes—with resume and interview preparation support.",
+    "summary": "Build job-ready Azure skills from fundamentals to architecture and AI engineering\u2014with live projects, labs, and certification-aligned preparation.",
+    "description": "This program is structured like NeoSkills\u2019 public Azure & AI offering: master Azure from foundation to advanced topics while integrating intelligent AI solutions. Expect industry-aligned curriculum, hands-on Azure console practice, and preparation across AZ-900, AZ-104, AZ-305, AZ-204, AI-900, and AI-102 style outcomes\u2014with resume and interview preparation support.",
     "stats": {
       "duration": "5-7 weeks",
       "nextBatch": "Launching Soon",
@@ -1732,7 +1732,7 @@
     ],
     "syllabus": [
       {
-        "week": "Module 1 — Azure foundation (AZ-900 style)",
+        "week": "Module 1 \u2014 Azure foundation (AZ-900 style)",
         "topics": [
           "Cloud concepts and shared responsibility on Azure",
           "Regions, geographies, and core services map",
@@ -1741,7 +1741,7 @@
         ]
       },
       {
-        "week": "Module 2 — Azure Administrator (AZ-104 style)",
+        "week": "Module 2 \u2014 Azure Administrator (AZ-104 style)",
         "topics": [
           "Identity and access: Azure AD, RBAC",
           "Virtual machines, disks, and images",
@@ -1750,7 +1750,7 @@
         ]
       },
       {
-        "week": "Module 3 — Azure architecture (AZ-305 style)",
+        "week": "Module 3 \u2014 Azure architecture (AZ-305 style)",
         "topics": [
           "Designing scalable, secure, and cost-optimized solutions",
           "High availability, DR, and hybrid patterns",
@@ -1758,7 +1758,7 @@
         ]
       },
       {
-        "week": "Module 4 — Developer solutions (AZ-204 style)",
+        "week": "Module 4 \u2014 Developer solutions (AZ-204 style)",
         "topics": [
           "App hosting models on Azure",
           "ARM / Bicep basics and deployment automation",
@@ -1767,7 +1767,7 @@
         ]
       },
       {
-        "week": "Module 5 — AI fundamentals (AI-900 style)",
+        "week": "Module 5 \u2014 AI fundamentals (AI-900 style)",
         "topics": [
           "AI workloads on Azure and responsible AI",
           "Machine learning basics on Azure",
@@ -1775,9 +1775,9 @@
         ]
       },
       {
-        "week": "Module 6 — Azure AI engineering (AI-102 style)",
+        "week": "Module 6 \u2014 Azure AI engineering (AI-102 style)",
         "topics": [
-          "Azure OpenAI and AI Studio–style workflows",
+          "Azure OpenAI and AI Studio\u2013style workflows",
           "Integrating models safely in enterprise patterns",
           "Evaluation, monitoring, and iteration",
           "Capstone review and certification prep"
@@ -1794,7 +1794,7 @@
       "exam": 25000,
       "support": 15000,
       "total": 25000,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training & labs",
@@ -1837,7 +1837,7 @@
       "duration": "5-6 weeks",
       "nextBatch": "Launching Soon",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -1896,7 +1896,7 @@
       }
     ],
     "certificate": {
-      "title": "Google Cloud — credential pathway",
+      "title": "Google Cloud \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -1905,7 +1905,7 @@
       "exam": 35000,
       "support": 0,
       "total": 35000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -1913,7 +1913,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -1937,9 +1937,9 @@
     "description": "Official Scrum training focused on Scrum practices and servant leadership.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
     "stats": {
       "duration": "3-4 weeks",
-      "nextBatch": "14-Mar-2026",
+      "nextBatch": "16-05-2026",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -1990,7 +1990,7 @@
       }
     ],
     "certificate": {
-      "title": "Certified Scrum Master (CSM) — credential pathway",
+      "title": "Certified Scrum Master (CSM) \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -1999,7 +1999,7 @@
       "exam": 29500,
       "support": 25000,
       "total": 29500,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -2007,7 +2007,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -2031,9 +2031,9 @@
     "description": "Scrum.org certification to demonstrate strong understanding of Scrum.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
     "stats": {
       "duration": "4-5 weeks",
-      "nextBatch": "14-Mar-2026",
+      "nextBatch": "16-05-2026",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -2092,7 +2092,7 @@
       }
     ],
     "certificate": {
-      "title": "Professional Scrum Master I (PSM I) — credential pathway",
+      "title": "Professional Scrum Master I (PSM I) \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -2101,7 +2101,7 @@
       "exam": 35000,
       "support": 15000,
       "total": 35000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -2109,7 +2109,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -2135,7 +2135,7 @@
       "duration": "4-5 weeks",
       "nextBatch": "14-Mar-2026",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -2194,7 +2194,7 @@
       }
     ],
     "certificate": {
-      "title": "Professional Scrum Master II (PSM II) — credential pathway",
+      "title": "Professional Scrum Master II (PSM II) \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -2203,7 +2203,7 @@
       "exam": 45000,
       "support": 35000,
       "total": 45000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -2211,7 +2211,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -2235,9 +2235,9 @@
     "description": "Product ownership, value delivery, and backlog strategy.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
     "stats": {
       "duration": "4-5 weeks",
-      "nextBatch": "14-Mar-2026",
+      "nextBatch": "16-05-2026",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -2296,7 +2296,7 @@
       }
     ],
     "certificate": {
-      "title": "Professional Scrum Product Owner I (PSPO I) — credential pathway",
+      "title": "Professional Scrum Product Owner I (PSPO I) \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -2305,7 +2305,7 @@
       "exam": 35000,
       "support": 30000,
       "total": 35000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -2313,7 +2313,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -2339,7 +2339,7 @@
       "duration": "4-6 weeks",
       "nextBatch": "14-Mar-2026",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -2390,7 +2390,7 @@
       }
     ],
     "certificate": {
-      "title": "Professional Scrum Product Owner II (PSPO II) — credential pathway",
+      "title": "Professional Scrum Product Owner II (PSPO II) \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -2399,7 +2399,7 @@
       "exam": 35000,
       "support": 30000,
       "total": 35000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -2407,7 +2407,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -2424,22 +2424,22 @@
   {
     "slug": "professional-scrum-master-ai-essentials-certification",
     "category": "Agile & Scrum",
-    "title": "Professional Scrum Master™ - AI Essentials Certification",
-    "fullTitle": "Professional Scrum Master™ - AI Essentials Certification",
+    "title": "Professional Scrum Master\u2122 - AI Essentials Certification",
+    "fullTitle": "Professional Scrum Master\u2122 - AI Essentials Certification",
     "icon": "Award",
     "summary": "AI-focused Scrum implementation and certification readiness.",
     "description": "AI-focused Scrum implementation and certification readiness.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
     "stats": {
       "duration": "6-8 weeks",
-      "nextBatch": "25-Apr-2026",
+      "nextBatch": "30-05-2026",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
     },
     "highlights": [
-      "Structured, instructor-led coverage for Professional Scrum Master™ - AI Essentials Certification",
+      "Structured, instructor-led coverage for Professional Scrum Master\u2122 - AI Essentials Certification",
       "Materials, assignments, and cohort coordination through NeoSkills",
       "Exam or certification guidance where applicable",
       "Access to recordings and updates per batch policy"
@@ -2453,7 +2453,7 @@
       {
         "week": "Module 1",
         "topics": [
-          "Foundations and key concepts for Professional Scrum Master™ - AI Essentials Certification",
+          "Foundations and key concepts for Professional Scrum Master\u2122 - AI Essentials Certification",
           "Instructor-led sessions, guided practice, and Q&A",
           "Hands-on exercises aligned to certification or job outcomes"
         ]
@@ -2461,7 +2461,7 @@
       {
         "week": "Module 2",
         "topics": [
-          "Foundations and key concepts for Professional Scrum Master™ - AI Essentials Certification",
+          "Foundations and key concepts for Professional Scrum Master\u2122 - AI Essentials Certification",
           "Instructor-led sessions, guided practice, and Q&A",
           "Hands-on exercises aligned to certification or job outcomes"
         ]
@@ -2469,7 +2469,7 @@
       {
         "week": "Module 3",
         "topics": [
-          "Foundations and key concepts for Professional Scrum Master™ - AI Essentials Certification",
+          "Foundations and key concepts for Professional Scrum Master\u2122 - AI Essentials Certification",
           "Instructor-led sessions, guided practice, and Q&A",
           "Hands-on exercises aligned to certification or job outcomes"
         ]
@@ -2477,7 +2477,7 @@
       {
         "week": "Module 4",
         "topics": [
-          "Foundations and key concepts for Professional Scrum Master™ - AI Essentials Certification",
+          "Foundations and key concepts for Professional Scrum Master\u2122 - AI Essentials Certification",
           "Instructor-led sessions, guided practice, and Q&A",
           "Hands-on exercises aligned to certification or job outcomes"
         ]
@@ -2485,7 +2485,7 @@
       {
         "week": "Module 5",
         "topics": [
-          "Foundations and key concepts for Professional Scrum Master™ - AI Essentials Certification",
+          "Foundations and key concepts for Professional Scrum Master\u2122 - AI Essentials Certification",
           "Instructor-led sessions, guided practice, and Q&A",
           "Hands-on exercises aligned to certification or job outcomes"
         ]
@@ -2493,14 +2493,14 @@
       {
         "week": "Module 6",
         "topics": [
-          "Foundations and key concepts for Professional Scrum Master™ - AI Essentials Certification",
+          "Foundations and key concepts for Professional Scrum Master\u2122 - AI Essentials Certification",
           "Instructor-led sessions, guided practice, and Q&A",
           "Hands-on exercises aligned to certification or job outcomes"
         ]
       }
     ],
     "certificate": {
-      "title": "Professional Scrum Master™ - AI Essentials Certification — credential pathway",
+      "title": "Professional Scrum Master\u2122 - AI Essentials Certification \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -2509,7 +2509,7 @@
       "exam": 35000,
       "support": 15000,
       "total": 35000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -2517,7 +2517,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -2543,7 +2543,7 @@
       "duration": "4-6 weeks",
       "nextBatch": "14-Mar-2026",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -2594,7 +2594,7 @@
       }
     ],
     "certificate": {
-      "title": "Advanced Certified Scrum Product Owner (A-CSPO) — credential pathway",
+      "title": "Advanced Certified Scrum Product Owner (A-CSPO) \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -2603,7 +2603,7 @@
       "exam": 35000,
       "support": 30000,
       "total": 35000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -2611,7 +2611,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -2637,7 +2637,7 @@
       "duration": "4-6 weeks",
       "nextBatch": "14-Mar-2026",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -2688,7 +2688,7 @@
       }
     ],
     "certificate": {
-      "title": "Agile Advanced Certified ScrumMaster (A-CSM) — credential pathway",
+      "title": "Agile Advanced Certified ScrumMaster (A-CSM) \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -2697,7 +2697,7 @@
       "exam": 45000,
       "support": 35000,
       "total": 45000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -2705,7 +2705,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -2731,7 +2731,7 @@
       "duration": "3-4 weeks",
       "nextBatch": "14-Mar-2026",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -2782,7 +2782,7 @@
       }
     ],
     "certificate": {
-      "title": "Agile Certified Scrum Product Owner (CSPO) — credential pathway",
+      "title": "Agile Certified Scrum Product Owner (CSPO) \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -2791,7 +2791,7 @@
       "exam": 35000,
       "support": 30000,
       "total": 35000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -2799,7 +2799,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -2823,9 +2823,9 @@
     "description": "Scaled Agile Framework training for Scrum Masters working in enterprise setups.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
     "stats": {
       "duration": "4-6 weeks",
-      "nextBatch": "14-Mar-2026",
+      "nextBatch": "14-05-2026",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -2876,7 +2876,7 @@
       }
     ],
     "certificate": {
-      "title": "Agile SAFe Advanced Scrum Master (SASM) — credential pathway",
+      "title": "Agile SAFe Advanced Scrum Master (SASM) \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -2885,7 +2885,7 @@
       "exam": 53000,
       "support": 45000,
       "total": 53000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -2893,7 +2893,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -2913,19 +2913,19 @@
     "title": "ITIL 4 Foundation",
     "fullTitle": "ITIL 4 Foundation",
     "icon": "Users",
-    "summary": "Next-generation digital service management—PeopleCert-aligned preparation with intensive practice, weekend-friendly scheduling, and mentor support.",
-    "description": "NeoSkills ITIL® 5 Foundation training focuses on digital product and service management, the Service Value System (SVS), and the four dimensions model—structured for clarity and exam readiness. The public program emphasizes weekend live delivery, scenario-based learning, and extensive practice materials to help you approach the PeopleCert exam confidently.",
+    "summary": "Next-generation digital service management\u2014PeopleCert-aligned preparation with intensive practice, weekend-friendly scheduling, and mentor support.",
+    "description": "NeoSkills ITIL\u00ae 5 Foundation training focuses on digital product and service management, the Service Value System (SVS), and the four dimensions model\u2014structured for clarity and exam readiness. The public program emphasizes weekend live delivery, scenario-based learning, and extensive practice materials to help you approach the PeopleCert exam confidently.",
     "stats": {
       "duration": "3-4 weeks",
-      "nextBatch": "14-Mar-2026",
+      "nextBatch": "16-05-2026",
       "level": "Beginner",
       "mode": "Live online (weekend cohorts)",
-      "hours": "35 contact hours (Sat & Sun, 9 AM – 2 PM style schedule)",
-      "certificate": "ITIL® 5 Foundation (PeopleCert)",
+      "hours": "35 contact hours (Sat & Sun, 9 AM \u2013 2 PM style schedule)",
+      "certificate": "ITIL\u00ae 5 Foundation (PeopleCert)",
       "placement": "Career guidance aligned to service management roles"
     },
     "highlights": [
-      "Exam-focused approach aligned to PeopleCert ITIL® 5 syllabus",
+      "Exam-focused approach aligned to PeopleCert ITIL\u00ae 5 syllabus",
       "Scenario-based learning with practice question banks",
       "Cheat sheets, study plans, and application guidance",
       "Mentor-supported doubt clearing",
@@ -2940,16 +2940,16 @@
     ],
     "syllabus": [
       {
-        "week": "Introduction — ITIL® 5 & digital service management",
+        "week": "Introduction \u2014 ITIL\u00ae 5 & digital service management",
         "topics": [
-          "What is ITIL® 5 and how it evolves service management thinking",
+          "What is ITIL\u00ae 5 and how it evolves service management thinking",
           "Services, products, value, outcomes, costs, and risks",
           "Stakeholders: customers, users, sponsors",
           "Digital transformation context and framework overview"
         ]
       },
       {
-        "week": "The ITIL® Service Value System (SVS)",
+        "week": "The ITIL\u00ae Service Value System (SVS)",
         "topics": [
           "SVS components and the service value chain",
           "Plan, improve, engage, design & transition, obtain/build, deliver & support",
@@ -2993,8 +2993,8 @@
       }
     ],
     "certificate": {
-      "title": "ITIL® 5 Foundation",
-      "description": "PeopleCert administers ITIL® exams and issues credentials. Training prepares you for the foundation exam; eligibility and exam booking follow PeopleCert rules.",
+      "title": "ITIL\u00ae 5 Foundation",
+      "description": "PeopleCert administers ITIL\u00ae exams and issues credentials. Training prepares you for the foundation exam; eligibility and exam booking follow PeopleCert rules.",
       "image": "/certificates/itil-v5-certi.png"
     },
     "feeDetails": {
@@ -3002,7 +3002,7 @@
       "exam": 29400,
       "support": 26950,
       "total": 29400,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training",
@@ -3011,15 +3011,15 @@
         "Exam application guidance"
       ]
     },
-    "feeDisclaimer": "Exam fees and PeopleCert pricing are subject to change; totals shown are representative planning figures—confirm with admissions for your cohort.",
+    "feeDisclaimer": "Exam fees and PeopleCert pricing are subject to change; totals shown are representative planning figures\u2014confirm with admissions for your cohort.",
     "trainers": [
       {
         "name": "Kunal Paliwal",
-        "role": "Project Delivery Director | ITIL® Trainer & Mentor",
+        "role": "Project Delivery Director | ITIL\u00ae Trainer & Mentor",
         "experience": "18+ years",
-        "certifications": "ITIL® / ITSM delivery leadership",
+        "certifications": "ITIL\u00ae / ITSM delivery leadership",
         "image": "/images/nsl_logo__Logo_.svg",
-        "bio": "Seasoned IT service management expert delivering complex digital transformation programs—focused on practical ITIL® outcomes and exam readiness."
+        "bio": "Seasoned IT service management expert delivering complex digital transformation programs\u2014focused on practical ITIL\u00ae outcomes and exam readiness."
       },
       {
         "name": "Sanjay M Joshi",
@@ -3050,7 +3050,7 @@
       "duration": "5-6 weeks",
       "nextBatch": "21-Mar-2026",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -3109,7 +3109,7 @@
       }
     ],
     "certificate": {
-      "title": "TOGAF Level 1 & 2 Certification — credential pathway",
+      "title": "TOGAF Level 1 & 2 Certification \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -3118,7 +3118,7 @@
       "exam": 85000,
       "support": 85000,
       "total": 85000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -3126,7 +3126,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -3150,9 +3150,9 @@
     "description": "Instructor-led ServiceNow training with practical learning support.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
     "stats": {
       "duration": "4-6 weeks",
-      "nextBatch": "Every Monday • 5:00 PM",
+      "nextBatch": "23-05-2026 \u2022 5:00 PM",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -3203,7 +3203,7 @@
       }
     ],
     "certificate": {
-      "title": "ServiceNow — credential pathway",
+      "title": "ServiceNow \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -3212,7 +3212,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -3220,7 +3220,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.",
+    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \u201cEnquire\u201d if pricing shows as on request.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -3244,9 +3244,9 @@
     "description": "Demo batch to understand course structure and platform basics.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
     "stats": {
       "duration": "Demo Session",
-      "nextBatch": "Every Monday • 7 AM & 7 PM",
+      "nextBatch": "Every Monday \u2022 7 AM & 7 PM",
       "level": "Beginner",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -3273,7 +3273,7 @@
       }
     ],
     "certificate": {
-      "title": "ServiceNow Demo — credential pathway",
+      "title": "ServiceNow Demo \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -3282,7 +3282,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -3290,7 +3290,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.",
+    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \u201cEnquire\u201d if pricing shows as on request.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -3316,7 +3316,7 @@
       "duration": "3-4 weeks",
       "nextBatch": "Launching Soon",
       "level": "Beginner",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -3367,7 +3367,7 @@
       }
     ],
     "certificate": {
-      "title": "ISTQB Foundation — credential pathway",
+      "title": "ISTQB Foundation \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -3376,7 +3376,7 @@
       "exam": 0,
       "support": 15000,
       "total": 15000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -3384,7 +3384,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -3410,7 +3410,7 @@
       "duration": "4-5 weeks",
       "nextBatch": "Launching Soon",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -3469,7 +3469,7 @@
       }
     ],
     "certificate": {
-      "title": "Six Sigma Green Belt — credential pathway",
+      "title": "Six Sigma Green Belt \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -3478,7 +3478,7 @@
       "exam": 21600,
       "support": 19800,
       "total": 21600,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -3486,7 +3486,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -3512,7 +3512,7 @@
       "duration": "5-6 weeks",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -3571,7 +3571,7 @@
       }
     ],
     "certificate": {
-      "title": "Six Sigma Black Belt — credential pathway",
+      "title": "Six Sigma Black Belt \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -3580,7 +3580,7 @@
       "exam": 26400,
       "support": 24200,
       "total": 26400,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -3588,7 +3588,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -3614,7 +3614,7 @@
       "duration": "5-6 weeks",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -3673,7 +3673,7 @@
       }
     ],
     "certificate": {
-      "title": "DevOps Exin Master — credential pathway",
+      "title": "DevOps Exin Master \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -3682,7 +3682,7 @@
       "exam": 29500,
       "support": 25000,
       "total": 29500,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -3690,7 +3690,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -3714,9 +3714,9 @@
     "description": "Practical DevOps tools training with guided support.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
     "stats": {
       "duration": "4-6 weeks",
-      "nextBatch": "28-Mar-2026",
+      "nextBatch": "06-06-2026",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -3767,7 +3767,7 @@
       }
     ],
     "certificate": {
-      "title": "DevOps Tools & Training — credential pathway",
+      "title": "DevOps Tools & Training \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -3776,7 +3776,7 @@
       "exam": 29500,
       "support": 25000,
       "total": 29500,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -3784,7 +3784,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -3810,7 +3810,7 @@
       "duration": "4-5 weeks",
       "nextBatch": "Launching Soon",
       "level": "Beginner",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -3869,7 +3869,7 @@
       }
     ],
     "certificate": {
-      "title": "CompTIA Security+ — credential pathway",
+      "title": "CompTIA Security+ \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -3878,7 +3878,7 @@
       "exam": 0,
       "support": 35000,
       "total": 25000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -3886,7 +3886,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -3912,7 +3912,7 @@
       "duration": "5-6 weeks",
       "nextBatch": "14-Mar-2026",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -3971,7 +3971,7 @@
       }
     ],
     "certificate": {
-      "title": "CISA — credential pathway",
+      "title": "CISA \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -3980,7 +3980,7 @@
       "exam": 0,
       "support": 50000,
       "total": 50000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -3988,7 +3988,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -4014,7 +4014,7 @@
       "duration": "5-6 weeks",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -4073,7 +4073,7 @@
       }
     ],
     "certificate": {
-      "title": "CISM — credential pathway",
+      "title": "CISM \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -4082,7 +4082,7 @@
       "exam": 0,
       "support": 50000,
       "total": 50000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -4090,7 +4090,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -4116,7 +4116,7 @@
       "duration": "5-6 weeks",
       "nextBatch": "Launching Soon",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -4175,7 +4175,7 @@
       }
     ],
     "certificate": {
-      "title": "CEH — credential pathway",
+      "title": "CEH \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -4184,7 +4184,7 @@
       "exam": 0,
       "support": 35000,
       "total": 25000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -4192,7 +4192,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -4218,7 +4218,7 @@
       "duration": "4-6 weeks",
       "nextBatch": "14-Mar-2026",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -4269,7 +4269,7 @@
       }
     ],
     "certificate": {
-      "title": "CPMAI & AI Project Management — credential pathway",
+      "title": "CPMAI & AI Project Management \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -4278,7 +4278,7 @@
       "exam": 0,
       "support": 50000,
       "total": 50000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -4286,7 +4286,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -4312,7 +4312,7 @@
       "duration": "5-6 weeks",
       "nextBatch": "14-Mar-2026",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -4371,7 +4371,7 @@
       }
     ],
     "certificate": {
-      "title": "CBAP — credential pathway",
+      "title": "CBAP \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -4380,7 +4380,7 @@
       "exam": 0,
       "support": 50000,
       "total": 50000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -4388,7 +4388,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -4412,9 +4412,9 @@
     "description": "Power BI dashboarding, reporting, and business analytics training.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
     "stats": {
       "duration": "4-5 weeks",
-      "nextBatch": "28-Mar-2026",
+      "nextBatch": "23-05-2026",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -4473,7 +4473,7 @@
       }
     ],
     "certificate": {
-      "title": "Power BI — credential pathway",
+      "title": "Power BI \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -4482,7 +4482,7 @@
       "exam": 35000,
       "support": 25000,
       "total": 35000,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -4490,7 +4490,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program \u2014 confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -4516,7 +4516,7 @@
       "duration": "3-4 months",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -4567,7 +4567,7 @@
       }
     ],
     "certificate": {
-      "title": "Advanced Threat Analysis — credential pathway",
+      "title": "Advanced Threat Analysis \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -4576,7 +4576,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -4584,7 +4584,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.",
+    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \u201cEnquire\u201d if pricing shows as on request.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -4610,7 +4610,7 @@
       "duration": "3-4 months",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -4661,7 +4661,7 @@
       }
     ],
     "certificate": {
-      "title": "Security Architecture Design — credential pathway",
+      "title": "Security Architecture Design \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -4670,7 +4670,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -4678,7 +4678,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.",
+    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \u201cEnquire\u201d if pricing shows as on request.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -4704,7 +4704,7 @@
       "duration": "3-4 months",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -4755,7 +4755,7 @@
       }
     ],
     "certificate": {
-      "title": "Advanced Data Engineering — credential pathway",
+      "title": "Advanced Data Engineering \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -4764,7 +4764,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -4772,7 +4772,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.",
+    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \u201cEnquire\u201d if pricing shows as on request.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -4798,7 +4798,7 @@
       "duration": "3-4 months",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -4849,7 +4849,7 @@
       }
     ],
     "certificate": {
-      "title": "Real-time Data Processing — credential pathway",
+      "title": "Real-time Data Processing \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -4858,7 +4858,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -4866,7 +4866,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.",
+    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \u201cEnquire\u201d if pricing shows as on request.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -4886,19 +4886,19 @@
     "title": "ITIL 4 Expert",
     "fullTitle": "ITIL 4 Expert",
     "icon": "Users",
-    "summary": "Next-generation digital service management—PeopleCert-aligned preparation with intensive practice, weekend-friendly scheduling, and mentor support.",
-    "description": "NeoSkills ITIL® 5 Foundation training focuses on digital product and service management, the Service Value System (SVS), and the four dimensions model—structured for clarity and exam readiness. The public program emphasizes weekend live delivery, scenario-based learning, and extensive practice materials to help you approach the PeopleCert exam confidently.",
+    "summary": "Next-generation digital service management\u2014PeopleCert-aligned preparation with intensive practice, weekend-friendly scheduling, and mentor support.",
+    "description": "NeoSkills ITIL\u00ae 5 Foundation training focuses on digital product and service management, the Service Value System (SVS), and the four dimensions model\u2014structured for clarity and exam readiness. The public program emphasizes weekend live delivery, scenario-based learning, and extensive practice materials to help you approach the PeopleCert exam confidently.",
     "stats": {
       "duration": "3-4 months",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
       "mode": "Live online (weekend cohorts)",
-      "hours": "35 contact hours (Sat & Sun, 9 AM – 2 PM style schedule)",
-      "certificate": "ITIL® 5 Foundation (PeopleCert)",
+      "hours": "35 contact hours (Sat & Sun, 9 AM \u2013 2 PM style schedule)",
+      "certificate": "ITIL\u00ae 5 Foundation (PeopleCert)",
       "placement": "Career guidance aligned to service management roles"
     },
     "highlights": [
-      "Exam-focused approach aligned to PeopleCert ITIL® 5 syllabus",
+      "Exam-focused approach aligned to PeopleCert ITIL\u00ae 5 syllabus",
       "Scenario-based learning with practice question banks",
       "Cheat sheets, study plans, and application guidance",
       "Mentor-supported doubt clearing",
@@ -4913,16 +4913,16 @@
     ],
     "syllabus": [
       {
-        "week": "Introduction — ITIL® 5 & digital service management",
+        "week": "Introduction \u2014 ITIL\u00ae 5 & digital service management",
         "topics": [
-          "What is ITIL® 5 and how it evolves service management thinking",
+          "What is ITIL\u00ae 5 and how it evolves service management thinking",
           "Services, products, value, outcomes, costs, and risks",
           "Stakeholders: customers, users, sponsors",
           "Digital transformation context and framework overview"
         ]
       },
       {
-        "week": "The ITIL® Service Value System (SVS)",
+        "week": "The ITIL\u00ae Service Value System (SVS)",
         "topics": [
           "SVS components and the service value chain",
           "Plan, improve, engage, design & transition, obtain/build, deliver & support",
@@ -4966,8 +4966,8 @@
       }
     ],
     "certificate": {
-      "title": "ITIL® 5 Foundation",
-      "description": "PeopleCert administers ITIL® exams and issues credentials. Training prepares you for the foundation exam; eligibility and exam booking follow PeopleCert rules.",
+      "title": "ITIL\u00ae 5 Foundation",
+      "description": "PeopleCert administers ITIL\u00ae exams and issues credentials. Training prepares you for the foundation exam; eligibility and exam booking follow PeopleCert rules.",
       "image": "/certificates/itil-v5-certi.png"
     },
     "feeDetails": {
@@ -4975,7 +4975,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training",
@@ -4984,15 +4984,15 @@
         "Exam application guidance"
       ]
     },
-    "feeDisclaimer": "Exam fees and PeopleCert pricing are subject to change; totals shown are representative planning figures—confirm with admissions for your cohort.",
+    "feeDisclaimer": "Exam fees and PeopleCert pricing are subject to change; totals shown are representative planning figures\u2014confirm with admissions for your cohort.",
     "trainers": [
       {
         "name": "Kunal Paliwal",
-        "role": "Project Delivery Director | ITIL® Trainer & Mentor",
+        "role": "Project Delivery Director | ITIL\u00ae Trainer & Mentor",
         "experience": "18+ years",
-        "certifications": "ITIL® / ITSM delivery leadership",
+        "certifications": "ITIL\u00ae / ITSM delivery leadership",
         "image": "/images/nsl_logo__Logo_.svg",
-        "bio": "Seasoned IT service management expert delivering complex digital transformation programs—focused on practical ITIL® outcomes and exam readiness."
+        "bio": "Seasoned IT service management expert delivering complex digital transformation programs\u2014focused on practical ITIL\u00ae outcomes and exam readiness."
       },
       {
         "name": "Sanjay M Joshi",
@@ -5017,19 +5017,19 @@
     "title": "ITIL 4 Master Strategy",
     "fullTitle": "ITIL 4 Master Strategy",
     "icon": "Users",
-    "summary": "Next-generation digital service management—PeopleCert-aligned preparation with intensive practice, weekend-friendly scheduling, and mentor support.",
-    "description": "NeoSkills ITIL® 5 Foundation training focuses on digital product and service management, the Service Value System (SVS), and the four dimensions model—structured for clarity and exam readiness. The public program emphasizes weekend live delivery, scenario-based learning, and extensive practice materials to help you approach the PeopleCert exam confidently.",
+    "summary": "Next-generation digital service management\u2014PeopleCert-aligned preparation with intensive practice, weekend-friendly scheduling, and mentor support.",
+    "description": "NeoSkills ITIL\u00ae 5 Foundation training focuses on digital product and service management, the Service Value System (SVS), and the four dimensions model\u2014structured for clarity and exam readiness. The public program emphasizes weekend live delivery, scenario-based learning, and extensive practice materials to help you approach the PeopleCert exam confidently.",
     "stats": {
       "duration": "3-4 months",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
       "mode": "Live online (weekend cohorts)",
-      "hours": "35 contact hours (Sat & Sun, 9 AM – 2 PM style schedule)",
-      "certificate": "ITIL® 5 Foundation (PeopleCert)",
+      "hours": "35 contact hours (Sat & Sun, 9 AM \u2013 2 PM style schedule)",
+      "certificate": "ITIL\u00ae 5 Foundation (PeopleCert)",
       "placement": "Career guidance aligned to service management roles"
     },
     "highlights": [
-      "Exam-focused approach aligned to PeopleCert ITIL® 5 syllabus",
+      "Exam-focused approach aligned to PeopleCert ITIL\u00ae 5 syllabus",
       "Scenario-based learning with practice question banks",
       "Cheat sheets, study plans, and application guidance",
       "Mentor-supported doubt clearing",
@@ -5044,16 +5044,16 @@
     ],
     "syllabus": [
       {
-        "week": "Introduction — ITIL® 5 & digital service management",
+        "week": "Introduction \u2014 ITIL\u00ae 5 & digital service management",
         "topics": [
-          "What is ITIL® 5 and how it evolves service management thinking",
+          "What is ITIL\u00ae 5 and how it evolves service management thinking",
           "Services, products, value, outcomes, costs, and risks",
           "Stakeholders: customers, users, sponsors",
           "Digital transformation context and framework overview"
         ]
       },
       {
-        "week": "The ITIL® Service Value System (SVS)",
+        "week": "The ITIL\u00ae Service Value System (SVS)",
         "topics": [
           "SVS components and the service value chain",
           "Plan, improve, engage, design & transition, obtain/build, deliver & support",
@@ -5097,8 +5097,8 @@
       }
     ],
     "certificate": {
-      "title": "ITIL® 5 Foundation",
-      "description": "PeopleCert administers ITIL® exams and issues credentials. Training prepares you for the foundation exam; eligibility and exam booking follow PeopleCert rules.",
+      "title": "ITIL\u00ae 5 Foundation",
+      "description": "PeopleCert administers ITIL\u00ae exams and issues credentials. Training prepares you for the foundation exam; eligibility and exam booking follow PeopleCert rules.",
       "image": "/certificates/itil-v5-certi.png"
     },
     "feeDetails": {
@@ -5106,7 +5106,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI options may be available—ask admissions",
+      "emi": "EMI options may be available\u2014ask admissions",
       "refund": "Refund policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training",
@@ -5115,15 +5115,15 @@
         "Exam application guidance"
       ]
     },
-    "feeDisclaimer": "Exam fees and PeopleCert pricing are subject to change; totals shown are representative planning figures—confirm with admissions for your cohort.",
+    "feeDisclaimer": "Exam fees and PeopleCert pricing are subject to change; totals shown are representative planning figures\u2014confirm with admissions for your cohort.",
     "trainers": [
       {
         "name": "Kunal Paliwal",
-        "role": "Project Delivery Director | ITIL® Trainer & Mentor",
+        "role": "Project Delivery Director | ITIL\u00ae Trainer & Mentor",
         "experience": "18+ years",
-        "certifications": "ITIL® / ITSM delivery leadership",
+        "certifications": "ITIL\u00ae / ITSM delivery leadership",
         "image": "/images/nsl_logo__Logo_.svg",
-        "bio": "Seasoned IT service management expert delivering complex digital transformation programs—focused on practical ITIL® outcomes and exam readiness."
+        "bio": "Seasoned IT service management expert delivering complex digital transformation programs\u2014focused on practical ITIL\u00ae outcomes and exam readiness."
       },
       {
         "name": "Sanjay M Joshi",
@@ -5154,7 +5154,7 @@
       "duration": "3-4 months",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -5205,7 +5205,7 @@
       }
     ],
     "certificate": {
-      "title": "Test Automation Framework Design — credential pathway",
+      "title": "Test Automation Framework Design \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -5214,7 +5214,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -5222,7 +5222,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.",
+    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \u201cEnquire\u201d if pricing shows as on request.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -5248,7 +5248,7 @@
       "duration": "3-4 months",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -5299,7 +5299,7 @@
       }
     ],
     "certificate": {
-      "title": "AI in Testing — credential pathway",
+      "title": "AI in Testing \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -5308,7 +5308,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -5316,7 +5316,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.",
+    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \u201cEnquire\u201d if pricing shows as on request.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -5342,7 +5342,7 @@
       "duration": "3-4 months",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -5393,7 +5393,7 @@
       }
     ],
     "certificate": {
-      "title": "Advanced Analytics & ML — credential pathway",
+      "title": "Advanced Analytics & ML \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -5402,7 +5402,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -5410,7 +5410,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.",
+    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \u201cEnquire\u201d if pricing shows as on request.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
@@ -5436,7 +5436,7 @@
       "duration": "3-4 months",
       "nextBatch": "Launching Soon",
       "level": "Advanced",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "mode": "Live online (instructor-led) or hybrid \u2014 confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
@@ -5487,7 +5487,7 @@
       }
     ],
     "certificate": {
-      "title": "Big Data AI Integration — credential pathway",
+      "title": "Big Data AI Integration \u2014 credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
@@ -5496,7 +5496,7 @@
       "exam": 0,
       "support": 0,
       "total": 0,
-      "emi": "EMI or installment options may be available — ask admissions",
+      "emi": "EMI or installment options may be available \u2014 ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
         "Live training and mentor support",
@@ -5504,7 +5504,7 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.",
+    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \u201cEnquire\u201d if pricing shows as on request.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",

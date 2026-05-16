@@ -1,35 +1,97 @@
 import React, { useRef, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import './upcoming.css'
 import { useEnroll } from '../context/EnrollContext'
 
 const batches = [
-  { id: 1, title: 'Service Now', subtitle: '5:00 PM', date: 'Every Monday', urgent: true },
-  { id: 2, title: 'Professional Scrum Master™ - AI Essentials Certification', subtitle: '', date: '25-Apr-2026', urgent: true },
-  { id: 3, title: 'Devops Tools & Training', subtitle: '', date: '28-Mar-2026', urgent: true },
-  { id: 4, title: 'Power BI', subtitle: '', date: '28-Mar-2026', urgent: true },
-  { id: 5, title: 'Prince 2 F & P', subtitle: '9:30 AM - 1:30 PM', date: '28-Mar-2026', urgent: true },
-  { id: 6, title: 'PMP', subtitle: '6:00 PM - 10:00 PM Batch', date: '21-Mar-2026', urgent: true },
-  { id: 7, title: 'TOGAF Level 1 and Level 2 Certification', subtitle: '', date: '21-Mar-2026', urgent: true },
-  { id: 8, title: 'Professional Scrum Master™ - AI Essentials Certification', subtitle: '', date: '18-Mar-2026', urgent: true },
-  { id: 9, title: 'Advanced Certified Scrum Product Owner (A-CSPO)', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 10, title: 'Agile Advanced Certified ScrumMaster (A-CSM)', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 11, title: 'Agile Certified Scrum Product Owner (CSPO)', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 12, title: 'Agile Certified ScrumMaster (CSM)', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 13, title: 'Agile Professional Scrum Master I (PSM I)', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 14, title: 'Agile Professional Scrum Master II (PSM II)', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 15, title: 'Agile Professional Scrum Product Owner I (PSPO I)', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 16, title: 'Agile Professional Scrum Product Owner II (PSPO II)', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 17, title: 'Agile SAFe Advanced Scrum Master (SASM)', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 18, title: 'AWS Training', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 19, title: 'Azure Cloud', subtitle: '', date: '4-Apr-2026', urgent: true },
-  { id: 20, title: 'Azure Cloud', subtitle: 'Weekday Batch • 8:00 AM - 10:00 AM', date: '6-Apr-2026', urgent: true },
-  { id: 21, title: 'CBAP Training and Certification', subtitle: '12:30 PM - 6:30 PM', date: '14-Mar-2026', urgent: true },
-  { id: 22, title: 'ITIL FND', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 23, title: 'CISA', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 24, title: 'CPMAI & AI Project Management', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 25, title: 'PMP', subtitle: 'Morning Batch', date: '14-Mar-2026', urgent: true },
-  { id: 26, title: 'Professional Scrum Master™ - AI Essentials Certification', subtitle: '', date: '14-Mar-2026', urgent: true },
-  { id: 27, title: 'Professional Scrum Master™ - AI Essentials Certification', subtitle: '', date: '11-Mar-2026', urgent: true },
+  {
+    id: 1,
+    slug: 'aws-cloud-practitioner',
+    title: 'AWS Cloud Practitioner',
+    subtitle: '4:00 PM - 7:00 PM',
+    date: '17-05-2026',
+    urgent: true,
+  },
+  {
+    id: 2,
+    slug: 'certified-scrum-master-csm',
+    title: 'Certified Scrum Master (CSM)',
+    subtitle: 'Live online training',
+    date: '16-05-2026',
+    urgent: true,
+  },
+  {
+    id: 3,
+    slug: 'devops-tools-and-training',
+    title: 'DevOps Tools & Training',
+    subtitle: 'Live online training',
+    date: '06-06-2026',
+    urgent: true,
+  },
+  {
+    id: 4,
+    slug: 'itil-4-foundation',
+    title: 'ITIL v5 Foundation',
+    subtitle: 'Weekend cohort',
+    date: '16-05-2026',
+    urgent: true,
+  },
+  {
+    id: 5,
+    slug: 'agile-safe-advanced-scrum-master-sasm',
+    title: 'Leading SAFe Agile in AI Empowered',
+    subtitle: 'Advanced SAFe cohort',
+    date: '14-05-2026',
+    urgent: true,
+  },
+  {
+    id: 6,
+    slug: 'pmp',
+    title: 'PMP',
+    subtitle: 'Live certification bootcamp',
+    date: '23-05-2026',
+    urgent: true,
+  },
+  {
+    id: 7,
+    slug: 'power-bi',
+    title: 'Power BI',
+    subtitle: 'Data analytics certification',
+    date: '23-05-2026',
+    urgent: true,
+  },
+  {
+    id: 8,
+    slug: 'professional-scrum-master-i-psm-i',
+    title: 'Professional Scrum Master (PSM)',
+    subtitle: 'Live online training',
+    date: '16-05-2026',
+    urgent: true,
+  },
+  {
+    id: 9,
+    slug: 'professional-scrum-master-ai-essentials-certification',
+    title: 'PSM AI Essentials',
+    subtitle: 'AI-enabled Scrum essentials',
+    date: '30-05-2026',
+    urgent: true,
+  },
+  {
+    id: 10,
+    slug: 'professional-scrum-product-owner-i-pspo-i',
+    title: 'Professional Scrum Product Owner (PSPO)',
+    subtitle: 'Live online training',
+    date: '16-05-2026',
+    urgent: true,
+  },
+  {
+    id: 11,
+    slug: 'servicenow',
+    title: 'Service Now',
+    subtitle: '5:00 PM cohort',
+    date: '23-05-2026',
+    urgent: true,
+  },
 ]
 const accentColor = (title) => {
   if (/PMP/i.test(title)) return '#FF7A59'
@@ -75,15 +137,6 @@ export default function UpcomingBatches() {
       if (animationRef.current) cancelAnimationFrame(animationRef.current)
     }
   }, [])
-
-  const handleContact = (course) => {
-    try {
-      localStorage.setItem('preferredCourse', course)
-    } catch (e) {}
-
-    const el = document.getElementById('contact')
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
 
   return (
     <section id="upcoming" className="upcoming-section">
@@ -155,9 +208,9 @@ export default function UpcomingBatches() {
                       <button className="btn-enroll" onClick={() => openEnroll()}>
                         Enroll Now
                       </button>
-                      <button className="btn-contact" onClick={() => handleContact(b.title)}>
-                        Contact Us
-                      </button>
+                      <Link className="btn-contact" to={`/course/${b.slug}`}>
+                        More Info
+                      </Link>
                     </div>
                   </div>
                 </article>
