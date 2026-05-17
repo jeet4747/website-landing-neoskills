@@ -242,10 +242,10 @@ const HeroSection = () => {
             <ul className="space-y-3 mb-4">
               <li className="flex justify-between items-center border rounded p-3">
                 <div>
-                  <div className="font-semibold">ITIL 4 Foundation</div>
+                  <div className="font-semibold">ITIL v5 Foundation</div>
                   <div className="text-xs text-gray-500">Start: 20 Feb 2026 • 2 weeks</div>
                 </div>
-                <button onClick={() => { openEnroll({ course: 'ITIL 4 Foundation', baseAmount: 5999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
+                <button onClick={() => { openEnroll({ course: 'ITIL v5 Foundation', baseAmount: 5999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
               </li>
               <li className="flex justify-between items-center border rounded p-3">
                 <div>

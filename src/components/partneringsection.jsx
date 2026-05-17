@@ -1,7 +1,22 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import './partnering.css';
 
-// Example logos (replace with actual logo images in public/images/)
+const PartnerLogo = ({ src, name }) => {
+  const [failed, setFailed] = useState(false)
+  if (failed) {
+    return (
+      <div style={{
+        width: 80, height: 80, borderRadius: '50%', background: '#0056D2',
+        color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 28, fontWeight: 700, flexShrink: 0,
+      }}>
+        {name.charAt(0)}
+      </div>
+    )
+  }
+  return <img src={src} alt={`${name} logo`} className="partner-logo" onError={() => setFailed(true)} />
+}
+
 const partners = [
   {
     name: "AWS",
@@ -69,7 +84,7 @@ const PartneringSection = () => {
         <div className="partner-logos partner-slider" ref={sliderRef}>
           {[...partners, ...partners].map((partner, idx) => (
             <div className="partner-card" key={partner.name + idx}>
-              <img src={partner.logo} alt={partner.name + ' logo'} className="partner-logo" />
+              <PartnerLogo src={partner.logo} name={partner.name} />
               <div className="partner-info">
                 <h3>{partner.name}</h3>
                 <p>{partner.description}</p>

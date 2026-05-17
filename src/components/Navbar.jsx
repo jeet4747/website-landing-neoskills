@@ -1,11 +1,49 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X, Search } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { useEnroll } from '../context/EnrollContext'
+import { getAllResolvedCourses } from '../data/catalogBuilder'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState([])
+  const [showSearch, setShowSearch] = useState(false)
   const { openEnroll } = useEnroll()
+  const navigate = useNavigate()
+
+  const handleSearch = (e) => {
+    const q = e.target.value
+    setSearchQuery(q)
+    if (q.trim().length < 2) {
+      setSearchResults([])
+      setShowSearch(false)
+      return
+    }
+    const all = getAllResolvedCourses()
+    const results = all.filter((c) =>
+      c.title.toLowerCase().includes(q.toLowerCase())
+    )
+    setSearchResults(results.slice(0, 6))
+    setShowSearch(true)
+  }
+
+  const handleSearchSelect = (slug) => {
+    setSearchQuery('')
+    setSearchResults([])
+    setShowSearch(false)
+    navigate(`/course/${slug}`)
+  }
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter' && searchResults.length > 0) {
+      handleSearchSelect(searchResults[0].slug)
+    }
+    if (e.key === 'Escape') {
+      setShowSearch(false)
+    }
+  }
 
   const menuItems = [
     { label: 'Home', href: '#home' },
@@ -71,19 +109,33 @@ const Navbar = () => {
         </motion.div>
 
         {/* Search Bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="hidden md:flex items-center bg-light-gray rounded-lg px-3 py-2 ml-4 flex-1 max-w-xs border border-transparent focus-within:border-primary transition-all"
-        >
-          <Search size={16} className="text-primary" />
-          <input
-            type="text"
-            placeholder="What do you want to learn?"
-            className="bg-transparent ml-2 w-full text-sm outline-none text-dark placeholder-gray-500"
-          />
-        </motion.div>
+        <div className="hidden md:block relative ml-4 flex-1 max-w-xs">
+          <div className="flex items-center bg-light-gray rounded-lg px-3 py-2 border border-transparent focus-within:border-primary transition-all">
+            <Search size={16} className="text-primary" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearch}
+              onKeyDown={handleSearchKeyDown}
+              onFocus={() => searchResults.length > 0 && setShowSearch(true)}
+              placeholder="What do you want to learn?"
+              className="bg-transparent ml-2 w-full text-sm outline-none text-dark placeholder-gray-500"
+            />
+          </div>
+          {showSearch && searchResults.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-72 overflow-y-auto">
+              {searchResults.map((r) => (
+                <button
+                  key={r.slug}
+                  onClick={() => handleSearchSelect(r.slug)}
+                  className="w-full text-left px-4 py-2.5 text-sm text-dark hover:bg-primary/5 transition-colors border-b border-gray-100 last:border-0"
+                >
+                  {r.title}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* CTA Button */}
         <motion.button
@@ -134,13 +186,32 @@ const Navbar = () => {
               </a>
             ))}
 
-            <div className="flex items-center bg-white rounded-lg px-3 py-2 my-2 border border-transparent focus-within:border-primary transition-all">
-              <Search size={16} className="text-primary" />
-              <input
-                type="text"
-                placeholder="What do you want to learn?"
-                className="bg-transparent ml-2 w-full text-sm outline-none text-dark placeholder-gray-500"
-              />
+            <div className="relative">
+              <div className="flex items-center bg-white rounded-lg px-3 py-2 my-2 border border-transparent focus-within:border-primary transition-all">
+                <Search size={16} className="text-primary" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearch}
+                  onKeyDown={handleSearchKeyDown}
+                  onFocus={() => searchResults.length > 0 && setShowSearch(true)}
+                  placeholder="What do you want to learn?"
+                  className="bg-transparent ml-2 w-full text-sm outline-none text-dark placeholder-gray-500"
+                />
+              </div>
+              {showSearch && searchResults.length > 0 && (
+                <div className="bg-white border border-gray-200 rounded-lg shadow-lg max-h-72 overflow-y-auto mb-2">
+                  {searchResults.map((r) => (
+                    <button
+                      key={r.slug}
+                      onClick={() => { handleSearchSelect(r.slug); setIsOpen(false) }}
+                      className="w-full text-left px-4 py-2.5 text-sm text-dark hover:bg-primary/5 transition-colors border-b border-gray-100 last:border-0"
+                    >
+                      {r.title}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <button onClick={openEnroll} className="btn-primary w-full">

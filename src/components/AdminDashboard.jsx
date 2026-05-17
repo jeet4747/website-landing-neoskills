@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getAllResolvedCourses } from '../data/catalogBuilder'
 
-const API_URL = 'http://localhost:4000/api/courses'
+const API_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'}/api/courses`
 
 export default function AdminDashboard() {
   const [courses, setCourses] = useState([])
@@ -13,7 +13,7 @@ export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState('')
 
-  const ADMIN_PASSWORD = 'neoskills2026' // Change this to your desired password
+  const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'neoskills2026'
 
   const loadCourses = () => {
     setLoading(true)

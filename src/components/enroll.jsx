@@ -21,19 +21,19 @@ const courseOptions = [
 ]
 
 const priceMap = {
-  pmp: 4999,
-  'scrum-master': 3999,
-  aws: 4499,
-  azure: 4499,
-  devops: 4999,
-  'power-bi': 3499,
-  itil: 2999,
-  cisa: 5499,
-  cbap: 4999,
-  togaf: 3999,
-  prince2: 4499,
-  'ai-project-management': 4999,
-  other: 2999,
+  pmp: 50000,
+  'scrum-master': 35000,
+  aws: 18500,
+  azure: 18000,
+  devops: 29500,
+  'power-bi': 35000,
+  itil: 29400,
+  cisa: 50000,
+  cbap: 50000,
+  togaf: 85000,
+  prince2: 29500,
+  'ai-project-management': 50000,
+  other: 0,
 }
 
 export default function Enroll() {
@@ -129,6 +129,8 @@ export default function Enroll() {
       baseAmount,
     }
 
+    openPayment(paymentPayload)
+
     setFormData({
       name: '',
       email: '',
@@ -137,8 +139,6 @@ export default function Enroll() {
       experience: '',
       message: '',
     })
-
-    openPayment(paymentPayload)
   }
 
   return (

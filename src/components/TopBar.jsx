@@ -22,7 +22,7 @@ const TopBar = () => {
             </div>
             <div className="hidden md:flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Phone size={16} />
-              <a href="tel:+13073875278">+91 9975214585</a>
+              <a href="tel:+919975214585">+91 9975214585</a>
             </div>
           </div>
 

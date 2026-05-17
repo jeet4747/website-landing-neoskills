@@ -19,14 +19,31 @@ const ContactForm = () => {
   const [submitted, setSubmitted] = useState(false)
 
   const courses = [
-    'CompTIA Security+',
+    'PMP',
+    'CAPM',
+    'PRINCE2 Foundation',
+    'PRINCE2 Practitioner',
+    'PRINCE2 F & P',
+    'AWS Cloud Practitioner',
+    'AWS Solutions Architect',
+    'Microsoft Azure AZ-900',
+    'Azure Administrator AZ-104',
+    'Azure Solutions Architect AZ-305',
+    'Certified Scrum Master (CSM)',
+    'Professional Scrum Master (PSM)',
+    'ITIL Foundation',
+    'TOGAF',
     'CISA',
     'CISM',
-    'CompTIA Core',
-    'AI in Cybersecurity',
-    'Agile Scrum Master',
-    'PMP Certification',
-    'ITIL Foundation'
+    'CompTIA Security+',
+    'CEH',
+    'DevOps Tools & Training',
+    'Power BI',
+    'CBAP',
+    'Six Sigma',
+    'ServiceNow',
+    'ISTQB Foundation',
+    'CPMAI & AI Project Management',
   ]
 
   const handleChange = (e) => {
@@ -225,9 +242,9 @@ const ContactForm = () => {
                 <Phone className="text-primary mt-1 flex-shrink-0" size={24} />
                 <div>
                   <h3 className="font-bold text-dark mb-2">Phone</h3>
-                  <p className="text-gray-600 text-sm">India</p>
-                  <a href="tel:+918087020031" className="text-primary font-semibold hover:underline">
-                    +91 8087020031
+                  <p className="text-gray-600 text-sm">USA</p>
+                  <a href="tel:+13073875278" className="text-primary font-semibold hover:underline">
+                    +1 307-387-5278
                   </a>
                   <p className="text-gray-600 text-sm mt-2">India</p>
                   <a href="tel:+13073875278" className="text-primary font-semibold hover:underline">
@@ -263,10 +280,10 @@ const ContactForm = () => {
                 <Clock className="text-primary mt-1 flex-shrink-0" size={24} />
                 <div>
                   <h3 className="font-bold text-dark mb-2">Support Hours</h3>
-                  <p className="text-gray-600 text-sm">Monday - Saturday</p>
+                  <p className="text-gray-600 text-sm">Monday - Friday</p>
                   <p className="text-primary font-semibold">9:00 AM - 7:00 PM IST</p>
                   <p className="text-gray-600 text-sm mt-2">Saturday - Sunday</p>
-                  <p className="text-primary font-semibold">10:00 AM - 3s:00 PM IST</p>
+                  <p className="text-primary font-semibold">10:00 AM - 3:00 PM IST</p>
                 </div>
               </div>
             </motion.div>

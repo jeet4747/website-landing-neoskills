@@ -48,6 +48,7 @@ export default function PaymentPage() {
       })
       if (!res.ok) throw new Error('Failed to create order')
       const { order, key } = await res.json()
+      if (!key) throw new Error('Razorpay key not configured on server')
 
       const options = {
         key: key,
@@ -221,7 +222,7 @@ export default function PaymentPage() {
         </div>
 
         <p className="text-xs text-gray-600 text-center mt-4">
-          💳 You will be redirected to a secure Razorpay checkout to complete payment.
+          You will be redirected to a secure Razorpay checkout to complete payment.
         </p>
       </motion.div>
     </motion.div>

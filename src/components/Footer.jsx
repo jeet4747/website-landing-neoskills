@@ -6,17 +6,36 @@ const Footer = () => {
   const currentYear = new Date().getFullYear()
 
   const footerLinks = {
-    'Courses': ['All Courses', 'CompTIA Certifications', 'CISA & CISM', 'Agile & Scrum', 'IT Service Management'],
-    'Company': ['About Us', 'Blog', 'Careers', 'Press', 'Contact'],
-    'Support': ['Help Center', 'FAQ', 'Documentation', 'Community', 'Status'],
-    'Legal': ['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'Disclaimer']
+    'Courses': [
+      { label: 'All Courses', href: '#courses' },
+      { label: 'PMP Certification', href: '/course/pmp' },
+      { label: 'AWS Training', href: '/course/aws-cloud-practitioner' },
+      { label: 'ITIL Foundation', href: '/course/itil-5-foundation' },
+      { label: 'Azure Cloud', href: '/course/azure-ai-training' },
+    ],
+    'Company': [
+      { label: 'About Us', href: '#why-us' },
+      { label: 'Upcoming Batches', href: '#upcoming' },
+      { label: 'Testimonials', href: '#testimonials' },
+      { label: 'Contact', href: '#contact' },
+    ],
+    'Support': [
+      { label: 'FAQ', href: '#contact' },
+      { label: 'Enrollment Guide', href: '/enroll' },
+      { label: 'Contact Support', href: '#contact' },
+    ],
+    'Legal': [
+      { label: 'Privacy Policy', href: '#' },
+      { label: 'Terms of Service', href: '#' },
+      { label: 'Cookie Policy', href: '#' },
+    ]
   }
 
   const socialLinks = [
-    { icon: Facebook, label: 'Facebook', href: '#' },
-    { icon: Twitter, label: 'Twitter', href: '#' },
-    { icon: Linkedin, label: 'LinkedIn', href: '#' },
-    { icon: Instagram, label: 'Instagram', href: '#' }
+    { icon: Facebook, label: 'Facebook', href: 'https://facebook.com/neoskills' },
+    { icon: Twitter, label: 'Twitter', href: 'https://twitter.com/neoskills' },
+    { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/company/neoskills' },
+    { icon: Instagram, label: 'Instagram', href: 'https://instagram.com/neoskills' }
   ]
 
   return (
@@ -126,10 +145,10 @@ const Footer = () => {
                 {section[1].map((link, i) => (
                   <li key={i}>
                     <a
-                      href="#"
+                      href={link.href}
                       className="text-gray-400 hover:text-primary transition-colors text-sm"
                     >
-                      {link}
+                      {link.label}
                     </a>
                   </li>
                 ))}
