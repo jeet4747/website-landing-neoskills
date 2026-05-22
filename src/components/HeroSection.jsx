@@ -1,274 +1,266 @@
-import React, { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import { ArrowRight, Zap, ChevronLeft, ChevronRight } from 'lucide-react'
+import React, { useEffect, useState, useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowRight, ChevronLeft, ChevronRight, Star, Award, TrendingUp, AlertCircle } from 'lucide-react'
 import { useEnroll } from '../context/EnrollContext'
+import { getCourseBySlug, effectiveListedPrice } from '../data/catalogBuilder'
 
-// Professional SVG illustrations for each course
-const ITILIllustration = () => (
-  <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-40 h-40">
-    <circle cx="80" cy="80" r="60" fill="#EEF4FF" />
-    {/* Gear 1 */}
-    <circle cx="60" cy="70" r="18" fill="#0056D2" opacity="0.15" />
-    <circle cx="60" cy="70" r="12" fill="#0056D2" opacity="0.3" />
-    <circle cx="60" cy="70" r="6" fill="#0056D2" />
-    {/* Gear teeth */}
-    {[0,45,90,135,180,225,270,315].map((angle, i) => (
-      <rect key={i} x="57" y="48" width="6" height="8" rx="2" fill="#0056D2"
-        transform={`rotate(${angle} 60 70)`} />
-    ))}
-    {/* Gear 2 */}
-    <circle cx="95" cy="90" r="14" fill="#F59E0B" opacity="0.2" />
-    <circle cx="95" cy="90" r="9" fill="#F59E0B" opacity="0.4" />
-    <circle cx="95" cy="90" r="4.5" fill="#F59E0B" />
-    {[0,60,120,180,240,300].map((angle, i) => (
-      <rect key={i} x="92.5" y="73" width="5" height="7" rx="1.5" fill="#F59E0B"
-        transform={`rotate(${angle} 95 90)`} />
-    ))}
-    {/* Service flow arrows */}
-    <path d="M 45 100 Q 80 115 115 100" stroke="#0056D2" strokeWidth="2.5" fill="none" strokeDasharray="4 2" strokeLinecap="round" />
-    <polygon points="115,97 120,100 115,103" fill="#0056D2" />
-    {/* IT text */}
-    <text x="80" y="135" textAnchor="middle" fontSize="11" fontWeight="700" fill="#0056D2" fontFamily="Arial">IT SERVICE</text>
-  </svg>
-)
+const SLUGS = ['pmp', 'itil-4-foundation', 'prince2-f-and-p']
 
-const PRINCE2Illustration = () => (
-  <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28">
-    <circle cx="80" cy="80" r="60" fill="#EEF4FF" />
-    {/* Project board */}
-    <rect x="30" y="45" width="100" height="75" rx="8" fill="white" stroke="#0056D2" strokeWidth="2" />
-    {/* Columns */}
-    <rect x="38" y="55" width="25" height="55" rx="4" fill="#EEF4FF" />
-    <rect x="68" y="55" width="25" height="55" rx="4" fill="#EEF4FF" />
-    <rect x="98" y="55" width="25" height="55" rx="4" fill="#EEF4FF" />
-    {/* Column headers */}
-    <rect x="38" y="55" width="25" height="10" rx="4" fill="#0056D2" />
-    <rect x="68" y="55" width="25" height="10" rx="4" fill="#F59E0B" />
-    <rect x="98" y="55" width="25" height="10" rx="4" fill="#10B981" />
-    {/* Cards */}
-    <rect x="41" y="70" width="19" height="10" rx="3" fill="#0056D2" opacity="0.3" />
-    <rect x="41" y="83" width="19" height="10" rx="3" fill="#0056D2" opacity="0.3" />
-    <rect x="71" y="70" width="19" height="10" rx="3" fill="#F59E0B" opacity="0.4" />
-    <rect x="101" y="70" width="19" height="10" rx="3" fill="#10B981" opacity="0.4" />
-    <rect x="101" y="83" width="19" height="10" rx="3" fill="#10B981" opacity="0.4" />
-    {/* Crown on top */}
-    <path d="M65 42 L72 30 L80 38 L88 30 L95 42 Z" fill="#F59E0B" stroke="#F59E0B" strokeWidth="1" />
-  </svg>
-)
+const TAG_MAP = {
+  'pmp': 'GOLD STANDARD',
+  'itil-4-foundation': 'FEATURED PROGRAM',
+  'prince2-f-and-p': 'MOST POPULAR',
+}
 
-const PMPIllustration = () => (
-  <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28">
-    <circle cx="80" cy="80" r="60" fill="#EEF4FF" />
-    {/* Certificate shape */}
-    <rect x="35" y="40" width="90" height="70" rx="8" fill="white" stroke="#0056D2" strokeWidth="2" />
-    {/* Certificate lines */}
-    <rect x="45" y="55" width="70" height="4" rx="2" fill="#0056D2" opacity="0.3" />
-    <rect x="45" y="64" width="50" height="3" rx="2" fill="#0056D2" opacity="0.2" />
-    <rect x="45" y="72" width="60" height="3" rx="2" fill="#0056D2" opacity="0.2" />
-    {/* PMP badge */}
-    <circle cx="80" cy="90" r="14" fill="#0056D2" />
-    <text x="80" y="95" textAnchor="middle" fontSize="10" fontWeight="800" fill="white" fontFamily="Arial">PMP</text>
-    {/* Star burst */}
-    {[0,30,60,90,120,150,180,210,240,270,300,330].map((angle, i) => (
-      <line key={i}
-        x1={80 + 16 * Math.cos(angle * Math.PI/180)}
-        y1={90 + 16 * Math.sin(angle * Math.PI/180)}
-        x2={80 + 20 * Math.cos(angle * Math.PI/180)}
-        y2={90 + 20 * Math.sin(angle * Math.PI/180)}
-        stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
-    ))}
-    {/* Ribbon */}
-    <path d="M70 110 L75 120 L80 115 L85 120 L90 110" stroke="#F59E0B" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
+const GRADIENT_MAP = {
+  'pmp': 'from-amber-600 to-amber-800',
+  'itil-4-foundation': 'from-blue-600 to-blue-800',
+  'prince2-f-and-p': 'from-purple-600 to-purple-800',
+}
 
-const illustrations = {
-  itil: <ITILIllustration />,
-  prince2: <PRINCE2Illustration />,
-  pmp: <PMPIllustration />,
+function buildSlides() {
+  return SLUGS.map((slug) => {
+    const c = getCourseBySlug(slug)
+    if (!c) {
+      return {
+        id: slug,
+        tag: TAG_MAP[slug] || 'COURSE',
+        title: slug,
+        subtitle: '',
+        description: '',
+        amount: 0,
+        gradient: GRADIENT_MAP[slug] || 'from-gray-600 to-gray-800',
+        stats: [],
+      }
+    }
+    const price = effectiveListedPrice(c) || c.feeDetails?.total || 0
+    return {
+      id: slug,
+      tag: TAG_MAP[slug] || 'COURSE',
+      title: c.fullTitle || c.title,
+      subtitle: c.stats?.mode?.split(',')[0] || 'Professional Certification',
+      description: c.summary || c.description,
+      amount: price,
+      gradient: GRADIENT_MAP[slug] || 'from-gray-600 to-gray-800',
+      stats: [
+        { label: 'Duration', value: c.stats?.duration || '' },
+        { label: 'Next Batch', value: c.stats?.nextBatch || '' },
+      ],
+    }
+  }).filter(Boolean)
 }
 
 const HeroSection = () => {
   const { openEnroll } = useEnroll()
   const [current, setCurrent] = useState(0)
-  const [showUpcoming, setShowUpcoming] = useState(false)
 
-  const slides = [
-    {
-      id: 'itil',
-      title: 'ITIL 4 Foundation',
-      subtitle: 'Master IT Service Management & best practices',
-      description: 'Practical ITIL training for delivering superior IT services and improving processes.',
-      amount: 5999
-    },
-    {
-      id: 'prince2',
-      title: 'PRINCE2 Certification',
-      subtitle: 'Structured project management for any environment',
-      description: 'Learn PRINCE2 principles, tailor them to your projects and pass Foundation & Practitioner.',
-      amount: 7999,
-    },
-    {
-      id: 'pmp',
-      title: 'PMP Certification',
-      subtitle: 'Project Management Professional (PMP)',
-      description: 'Industry-recognized PMP training to advance your project management career.',
-      amount: 9999
-    }
-  ]
+  const slides = useMemo(() => buildSlides(), [])
 
   useEffect(() => {
-    const t = setInterval(() => setCurrent((p) => (p + 1) % slides.length), 5000)
+    if (slides.length < 2) return
+    const t = setInterval(() => setCurrent((p) => (p + 1) % slides.length), 6000)
     return () => clearInterval(t)
-  }, [])
+  }, [slides.length])
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2, delayChildren: 0.3 },
-    },
+  if (slides.length === 0) {
+    return (
+      <section className="min-h-[70vh] flex items-center justify-center bg-white">
+        <div className="text-center text-gray-400 flex items-center gap-2">
+          <AlertCircle size={20} /> No courses loaded
+        </div>
+      </section>
+    )
   }
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: 'easeOut' },
-    },
-  }
+  const slide = slides[current]
 
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={containerVariants}
-      className="relative bg-white py-12 md:py-20 overflow-hidden"
-    >
-      {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full -mr-48 -mt-48 blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full -ml-48 -mb-48 blur-3xl"></div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="relative flex items-center">
-          {/* Left / Slide content */}
-          <div className="w-full lg:w-2/3">
-            <motion.div
-              key={slides[current].id}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-4 md:space-y-6"
-            >
-              <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 text-dark rounded-full px-4 py-2 w-fit">
-                <Zap size={16} className="text-accent" />
-                <span className="text-sm font-semibold">FEATURED TRAINING</span>
-              </div>
-
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-dark">
-                {slides[current].title}
-              </h1>
-
-              <p className="text-lg text-gray-600 max-w-2xl">
-                {slides[current].subtitle} — {slides[current].description}
-              </p>
-
-              <div className="flex gap-4 pt-4">
-                <button
-                  onClick={() => openEnroll({ course: slides[current].title, baseAmount: slides[current].amount })}
-                  className="btn-primary flex items-center gap-2"
-                >
-                  Enroll Now
-                  <ArrowRight size={16} />
-                </button>
-                <button onClick={() => setShowUpcoming(true)} className="btn-outline">
-                  Upcoming Trainings
-                </button>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right - SVG Illustration */}
-          <div className="hidden lg:flex lg:w-1/3 items-center justify-center">
-            <motion.div
-              key={slides[current].id + '-illustration'}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="w-56 h-56 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center"
-            >
-              <div className="w-48 h-48 bg-white rounded-full flex items-center justify-center shadow-lg">
-                {illustrations[slides[current].id]}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="mt-8 flex items-center justify-center gap-4">
-          <button
-            onClick={() => setCurrent((p) => (p - 1 + slides.length) % slides.length)}
-            className="p-3 rounded-full bg-white border hover:shadow"
-          >
-            <ChevronLeft size={18} />
-          </button>
-          <div className="flex gap-2">
-            {slides.map((s, i) => (
-              <button
-                key={s.id}
-                onClick={() => setCurrent(i)}
-                className={`w-3 h-3 rounded-full ${i === current ? 'bg-primary' : 'bg-gray-300'}`}
-              ></button>
-            ))}
-          </div>
-          <button
-            onClick={() => setCurrent((p) => (p + 1) % slides.length)}
-            className="p-3 rounded-full bg-white border hover:shadow"
-          >
-            <ChevronRight size={18} />
-          </button>
-        </div>
+    <section className="relative min-h-[85vh] flex items-center bg-white overflow-hidden">
+      <div className="absolute inset-0">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-primary/5 via-accent/5 to-transparent rounded-full -mr-72 -mt-72 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-primary/8 via-accent/5 to-transparent rounded-full -ml-64 -mb-64 blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-primary/20 rounded-full"></div>
+        <div className="absolute top-1/4 right-1/4 w-3 h-3 bg-accent/30 rounded-full"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-1.5 h-1.5 bg-primary/20 rounded-full"></div>
       </div>
 
-      {/* Upcoming Trainings Modal */}
-      {showUpcoming && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-white rounded-xl shadow-2xl w-11/12 max-w-lg p-6 relative">
-            <button onClick={() => setShowUpcoming(false)} className="absolute top-3 right-3 text-gray-600">&times;</button>
-            <h3 className="text-2xl font-bold mb-3">Upcoming Trainings</h3>
-            <p className="text-sm text-gray-600 mb-4">Join our upcoming instructor-led sessions — limited seats available.</p>
-            <ul className="space-y-3 mb-4">
-              <li className="flex justify-between items-center border rounded p-3">
-                <div>
-                  <div className="font-semibold">ITIL v5 Foundation</div>
-                  <div className="text-xs text-gray-500">Start: 20 Feb 2026 • 2 weeks</div>
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[70vh]">
+
+          {/* Left Content */}
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-800 rounded-full px-4 py-1.5 text-xs font-semibold mb-6"
+            >
+              <div className="flex -space-x-1">
+                {[1,2,3,4].map((i) => (
+                  <div key={i} className="w-5 h-5 rounded-full bg-gradient-to-br from-primary to-accent border-2 border-white text-[8px] text-white flex items-center justify-center font-bold">
+                    {String.fromCharCode(64 + i)}
+                  </div>
+                ))}
+              </div>
+              <span>Trusted by 50,000+ professionals</span>
+            </motion.div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={slide.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary rounded-full px-4 py-1.5 text-xs font-bold tracking-wider mb-4">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+                  {slide.tag}
                 </div>
-                <button onClick={() => { openEnroll({ course: 'ITIL v5 Foundation', baseAmount: 5999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
-              </li>
-              <li className="flex justify-between items-center border rounded p-3">
-                <div>
-                  <div className="font-semibold">PRINCE2 Foundation</div>
-                  <div className="text-xs text-gray-500">Start: 5 Mar 2026 • 3 weeks</div>
+
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-dark mb-3">
+                  {slide.title}
+                </h1>
+
+                {slide.subtitle && (
+                  <p className="text-xl sm:text-2xl font-semibold text-primary mb-4">
+                    {slide.subtitle}
+                  </p>
+                )}
+
+                <p className="text-base sm:text-lg text-gray-600 max-w-xl leading-relaxed mb-6">
+                  {slide.description}
+                </p>
+
+                <div className="flex flex-wrap gap-6 mb-8">
+                  {slide.stats.filter(s => s.value).map((stat, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                      <span className="text-sm text-gray-600">
+                        <span className="font-semibold text-dark">{stat.value}</span>
+                        <span className="text-gray-400 ml-1">{stat.label}</span>
+                      </span>
+                    </div>
+                  ))}
                 </div>
-                <button onClick={() => { openEnroll({ course: 'PRINCE2 Foundation', baseAmount: 6999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
-              </li>
-              <li className="flex justify-between items-center border rounded p-3">
-                <div>
-                  <div className="font-semibold">PMP Bootcamp</div>
-                  <div className="text-xs text-gray-500">Start: 12 Mar 2026 • 4 weeks</div>
+
+                <div className="flex flex-wrap gap-4">
+                  <motion.button
+                    onClick={() => openEnroll({ course: slide.title, baseAmount: slide.amount })}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="inline-flex items-center gap-2 bg-primary text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-800 transition-all shadow-xl shadow-primary/25 text-base"
+                  >
+                    Enroll Now{slide.amount > 0 ? ` — ₹${slide.amount.toLocaleString('en-IN')}` : ''}
+                    <ArrowRight size={18} />
+                  </motion.button>
+                  <motion.a
+                    href="#courses"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="inline-flex items-center gap-2 border-2 border-gray-200 text-dark font-semibold px-8 py-4 rounded-xl hover:border-primary hover:text-primary transition-all text-base"
+                  >
+                    View All Courses
+                  </motion.a>
                 </div>
-                <button onClick={() => { openEnroll({ course: 'PMP Bootcamp', baseAmount: 9999 }); setShowUpcoming(false) }} className="btn-primary text-sm">Enroll</button>
-              </li>
-            </ul>
-            <div className="text-right">
-              <button onClick={() => setShowUpcoming(false)} className="btn-outline">Close</button>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Right - Visual */}
+          <div className="hidden lg:flex flex-col items-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={slide.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.4 }}
+                className="relative"
+              >
+                <div className="relative w-80 h-96 rounded-3xl bg-gradient-to-br from-primary to-accent/80 p-[2px] shadow-2xl">
+                  <div className="w-full h-full rounded-3xl bg-white p-8 flex flex-col items-center justify-center">
+                    <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${slide.gradient} flex items-center justify-center text-white text-4xl font-bold mb-4 shadow-lg`}>
+                      {slide.title.charAt(0)}
+                    </div>
+                    <h3 className="text-2xl font-bold text-dark text-center mb-2">{slide.title}</h3>
+                    <p className="text-gray-500 text-sm text-center mb-4">{slide.subtitle}</p>
+                    <div className="flex items-center gap-1 mb-4">
+                      {[1,2,3,4,5].map(i => (
+                        <Star key={i} size={14} className="fill-accent text-accent" />
+                      ))}
+                    </div>
+                    <div className="text-3xl font-bold text-primary">
+                      {slide.amount > 0 ? `₹${slide.amount.toLocaleString('en-IN')}` : 'On Request'}
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1">+ GST</p>
+                  </div>
+                </div>
+
+                <motion.div
+                  animate={{ y: [-8, 8, -8] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                  className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-lg border border-gray-100 px-5 py-3"
+                >
+                  <div className="flex items-center gap-2">
+                    <Award size={20} className="text-accent" />
+                    <div>
+                      <p className="text-xs text-gray-500">Certification</p>
+                      <p className="text-sm font-bold text-dark">Guaranteed</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: [8, -8, 8] }}
+                  transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+                  className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-lg border border-gray-100 px-5 py-3"
+                >
+                  <div className="flex items-center gap-2">
+                    <TrendingUp size={20} className="text-green-500" />
+                    <div>
+                      <p className="text-xs text-gray-500">Placement</p>
+                      <p className="text-sm font-bold text-dark">95% Rate</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
+
+            <div className="flex items-center gap-4 mt-8">
+              <motion.button
+                onClick={() => setCurrent(p => (p - 1 + slides.length) % slides.length)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="p-2.5 rounded-full bg-white border border-gray-200 hover:border-primary hover:shadow-md transition-all"
+              >
+                <ChevronLeft size={18} className="text-gray-600" />
+              </motion.button>
+              <div className="flex gap-2">
+                {slides.map((s, i) => (
+                  <button
+                    key={s.id}
+                    onClick={() => setCurrent(i)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      i === current ? 'w-8 bg-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
+              </div>
+              <motion.button
+                onClick={() => setCurrent(p => (p + 1) % slides.length)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="p-2.5 rounded-full bg-white border border-gray-200 hover:border-primary hover:shadow-md transition-all"
+              >
+                <ChevronRight size={18} className="text-gray-600" />
+              </motion.button>
             </div>
           </div>
+
         </div>
-      )}
-    </motion.section>
+      </div>
+    </section>
   )
 }
 

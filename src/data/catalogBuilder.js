@@ -146,8 +146,9 @@ function buildGeneratedBase(row) {
     return Number.isNaN(n) ? 0 : n
   }
   const training = num(row.trainingFee)
-  const exam = num(row.trainingExam)
+  const examTotal = num(row.trainingExam)
   const support = num(row.supportCost)
+  const examComponent = Math.max(0, examTotal - training)
 
   return {
     slug: row.slug,
@@ -188,7 +189,7 @@ function buildGeneratedBase(row) {
     },
     feeDetails: {
       training,
-      exam,
+      exam: examComponent,
       support,
       total: listed != null && !Number.isNaN(listed) ? listed : 0,
       emi: 'EMI or installment options may be available — ask admissions',
@@ -201,7 +202,7 @@ function buildGeneratedBase(row) {
     },
     feeDisclaimer:
       listed == null
-        ? 'Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use “Enquire” if pricing shows as on request.'
+        ? 'Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use "Enquire" if pricing shows as on request.'
         : 'Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.',
     trainers: genericTrainers(),
     categorySlug: row.categorySlug,
@@ -225,8 +226,9 @@ function mergeRich(row, gen, rich) {
   }
   const listed = effectiveListedPrice(row)
   const training = num(row.trainingFee)
-  const exam = num(row.trainingExam)
+  const examTotal = num(row.trainingExam)
   const support = num(row.supportCost)
+  const examComponent = Math.max(0, examTotal - training)
 
   return {
     ...gen,
@@ -255,7 +257,7 @@ function mergeRich(row, gen, rich) {
     },
     feeDetails: {
       training,
-      exam,
+      exam: examComponent,
       support,
       total: listed != null && !Number.isNaN(listed) ? listed : 0,
       emi: rich.feeDetails?.emi || gen.feeDetails.emi,

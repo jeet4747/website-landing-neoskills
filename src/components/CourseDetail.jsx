@@ -74,8 +74,7 @@ const CourseDetail = () => {
     }
 
   const catalogAmount =
-    (Number(course.feeDetails?.training || 0) + Number(course.feeDetails?.exam || 0)) ||
-    Number(course.feeDetails?.total || 0)
+    Number(course.feeDetails?.total || course.feeDetails?.exam || course.feeDetails?.training || 0)
 
   const handleContactSubmit = (e) => {
     e.preventDefault()

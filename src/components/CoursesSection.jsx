@@ -31,8 +31,7 @@ const formatINR = (amount) => {
 }
 
 const PricingBlock = ({ trainingFee, trainingExam, supportCost }) => {
-  const totalPrice = Number(trainingFee || 0) + Number(trainingExam || 0)
-  const price = totalPrice || supportCost
+  const price = Number(trainingExam || trainingFee || supportCost || 0)
 
   if (!price) {
     return (
@@ -42,8 +41,8 @@ const PricingBlock = ({ trainingFee, trainingExam, supportCost }) => {
     )
   }
 
-  const label =
-    totalPrice > 0 ? 'Training + Exam' : supportCost ? 'Program fee' : 'Pricing'
+  const showExam = trainingExam && trainingFee && Number(trainingFee) !== Number(trainingExam)
+  const label = showExam ? 'Training + Exam' : supportCost ? 'Program fee' : 'Pricing'
 
   return (
     <div className="mt-4 rounded-xl border border-border-gray bg-white p-4 shadow-sm">

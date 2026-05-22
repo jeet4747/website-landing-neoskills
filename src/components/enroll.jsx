@@ -1,46 +1,31 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEnroll } from '../context/EnrollContext'
+import { getAllResolvedCourses, effectiveListedPrice } from '../data/catalogBuilder'
 import emailjs from '@emailjs/browser'
 import './enroll.css'
 
-const courseOptions = [
-  { value: 'pmp', label: 'PMP' },
-  { value: 'scrum-master', label: 'Scrum Master / Agile Certifications' },
-  { value: 'aws', label: 'AWS Training' },
-  { value: 'azure', label: 'Azure Cloud' },
-  { value: 'devops', label: 'DevOps Tools & Training' },
-  { value: 'power-bi', label: 'Power BI' },
-  { value: 'itil', label: 'ITIL FND' },
-  { value: 'cisa', label: 'CISA' },
-  { value: 'cbap', label: 'CBAP Training & Certification' },
-  { value: 'togaf', label: 'TOGAF Level 1 & Level 2' },
-  { value: 'prince2', label: 'Prince 2 F & P' },
-  { value: 'ai-project-management', label: 'CPMAI & AI Project Management' },
-  { value: 'other', label: 'Other / Need Guidance' },
-]
-
-const priceMap = {
-  pmp: 50000,
-  'scrum-master': 35000,
-  aws: 18500,
-  azure: 18000,
-  devops: 29500,
-  'power-bi': 35000,
-  itil: 29400,
-  cisa: 50000,
-  cbap: 50000,
-  togaf: 85000,
-  prince2: 29500,
-  'ai-project-management': 50000,
-  other: 0,
+function buildOptionsAndPrices() {
+  const courses = getAllResolvedCourses()
+  const options = []
+  const prices = {}
+  for (const c of courses) {
+    if (!c.title) continue
+    const price = effectiveListedPrice(c) || c.feeDetails?.total || 0
+    options.push({ value: c.slug, label: c.fullTitle || c.title })
+    if (price > 0) prices[c.slug] = price
+  }
+  options.sort((a, b) => a.label.localeCompare(b.label))
+  return { options, prices }
 }
 
 export default function Enroll() {
   const { openPayment } = useEnroll()
   const navigate = useNavigate()
   const location = useLocation()
-  const form = useRef()  // ✅ Change 2
+  const form = useRef()
+
+  const { options: courseOptions, prices: priceMap } = useMemo(() => buildOptionsAndPrices(), [])
 
   const [formData, setFormData] = useState({
     name: '',
@@ -55,50 +40,50 @@ export default function Enroll() {
     const preferredCourse =
       location.state?.course ||
       (() => {
-        try {
-          return localStorage.getItem('preferredCourse')
-        } catch {
-          return null
-        }
+        try { return localStorage.getItem('preferredCourse') } catch { return null }
       })()
 
     if (preferredCourse) {
-      setFormData((prev) => ({
-        ...prev,
-        course: mapCourseToValue(preferredCourse),
-      }))
+      const matched = mapCourseToValue(preferredCourse, courseOptions)
+      if (matched) {
+        setFormData((prev) => ({ ...prev, course: matched }))
+      }
     }
-  }, [location.state])
+  }, [location.state, courseOptions])
 
-  const mapCourseToValue = (courseName) => {
-    const text = (courseName || '').toLowerCase()
+  const mapCourseToValue = (courseName, options) => {
+    const text = (courseName || '').toLowerCase().trim()
+    // Try direct slug match first
+    const bySlug = options.find(o => o.value === text)
+    if (bySlug) return bySlug.value
+
+    // Try keyword matching against course labels
+    const byLabel = options.find(o => o.label.toLowerCase().includes(text))
+    if (byLabel) return byLabel.value
+
+    // Legacy keyword matching
     if (text.includes('pmp')) return 'pmp'
-    if (text.includes('scrum') || text.includes('agile') || text.includes('psm') || text.includes('csm')) return 'scrum-master'
-    if (text.includes('aws')) return 'aws'
-    if (text.includes('azure')) return 'azure'
-    if (text.includes('devops')) return 'devops'
+    if (text.includes('scrum') || text.includes('agile') || text.includes('psm') || text.includes('csm')) return 'certified-scrum-master-csm'
+    if (text.includes('aws')) return 'aws-cloud-practitioner'
+    if (text.includes('azure')) return 'microsoft-azure-az-900'
+    if (text.includes('devops')) return 'devops-tools-and-training'
     if (text.includes('power bi')) return 'power-bi'
-    if (text.includes('itil')) return 'itil'
+    if (text.includes('itil')) return 'itil-4-foundation'
+    if (text.includes('prince')) return 'prince2-f-and-p'
     if (text.includes('cisa')) return 'cisa'
     if (text.includes('cbap')) return 'cbap'
     if (text.includes('togaf')) return 'togaf'
-    if (text.includes('prince')) return 'prince2'
-    if (text.includes('ai project') || text.includes('cpmai')) return 'ai-project-management'
-    return 'other'
+    return options.length > 0 ? options[0].value : ''
   }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    // ✅ Change 3 - EmailJS send
     emailjs.sendForm(
       'service_62ub16q',
       'template_e15u3k6',
@@ -117,7 +102,8 @@ export default function Enroll() {
     const preferNavAmount =
       location.state?.baseAmount != null && !Number.isNaN(stateAmt) && stateAmt > 0
 
-    const baseAmount = preferNavAmount ? stateAmt : priceMap[formData.course] || 2999
+    const catalogPrice = priceMap[formData.course] || 0
+    const baseAmount = preferNavAmount ? stateAmt : (catalogPrice || 2999)
 
     const paymentPayload = {
       name: formData.name,
@@ -163,7 +149,6 @@ export default function Enroll() {
           <div className="info-chip">Quick Enrollment Support</div>
         </div>
 
-        {/* ✅ Change 4 - ref={form} added */}
         <form className="enroll-form" onSubmit={handleSubmit} ref={form}>
           <div className="form-grid">
             <div className="form-group">

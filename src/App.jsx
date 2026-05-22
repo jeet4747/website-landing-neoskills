@@ -11,6 +11,12 @@ import TestimonialsSection from './components/TestimonialsSection.jsx'
 import ContactForm from './components/ContactForm.jsx'
 import Footer from './components/Footer.jsx'
 import UpcomingBatches from './components/UpcomingBatches.jsx'
+import CorporateTraining from './components/CorporateTraining.jsx'
+import FreeResources from './components/FreeResources.jsx'
+import CareerPathQuiz from './components/CareerPathQuiz.jsx'
+import FAQAccordion from './components/FAQAccordion.jsx'
+import CourseFinderAI from './components/CourseFinderAI.jsx'
+import LeadPopup from './components/LeadPopup.jsx'
 import { EnrollProvider } from './context/EnrollContext.jsx'
 
 const Enroll = lazy(() => import('./components/enroll.jsx'))
@@ -59,11 +65,25 @@ export default function App() {
                       <WhyChooseUs />
                     </section>
 
+                    <section id="corporate">
+                      <CorporateTraining />
+                    </section>
+
                     <PartneringSection />
                     <VideoShowcase />
 
+                    <FreeResources />
+
+                    <section id="quiz">
+                      <CareerPathQuiz />
+                    </section>
+
                     <section id="testimonials">
                       <TestimonialsSection />
+                    </section>
+
+                    <section id="faq">
+                      <FAQAccordion />
                     </section>
 
                     <section id="contact">
@@ -89,6 +109,8 @@ export default function App() {
             </Routes>
           </Suspense>
 
+          <CourseFinderAI />
+          <LeadPopup />
           <Footer />
         </div>
       </EnrollProvider>

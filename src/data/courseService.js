@@ -31,7 +31,7 @@ const mergeCourseData = (staticCourse, backendCourse) => {
     duration: backendCourse.stats?.duration ?? backendCourse.duration,
     level: backendCourse.stats?.level ?? backendCourse.level,
     trainingFee: backendCourse.feeDetails?.training ?? backendCourse.trainingFee ?? staticCourse.trainingFee,
-    trainingExam: backendCourse.feeDetails?.exam ?? backendCourse.trainingExam ?? staticCourse.trainingExam,
+    trainingExam: (backendCourse.feeDetails?.total ?? backendCourse.feeDetails?.exam) ?? backendCourse.trainingExam ?? staticCourse.trainingExam,
     supportCost: backendCourse.feeDetails?.support ?? staticCourse.supportCost,
     learnMoreUrl: backendCourse.learnMoreUrl ?? staticCourse.learnMoreUrl,
     feeDisclaimer: backendCourse.feeDisclaimer ?? staticCourse.feeDisclaimer,
