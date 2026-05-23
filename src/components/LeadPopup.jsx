@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Clock, Users } from 'lucide-react'
+import emailjs from '@emailjs/browser'
 
 const SHOW_DELAY = 5000
 const REAPPEAR_INTERVAL = 150000
@@ -45,21 +46,14 @@ export default function LeadPopup() {
     setError('')
     setSending(true)
     try {
-      const payload = {
-        access_key: 'f88c2829-56bf-4567-9a6e-c8083f624f64',
-        subject: 'New Lead from Popup - Neoskills',
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        course: form.course,
-      }
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-      const data = await res.json()
-      if (!data.success) throw new Error(data.message || 'Submit failed')
+      await emailjs.send('service_62ub16q', 'template_l3twvqg', {
+        user_name: form.name,
+        user_email: form.email,
+        user_phone: form.phone,
+        course: form.course || 'Popup inquiry',
+        message: '[Source: Popup Lead Form]',
+        domain: window.location.origin,
+      }, 'S3TiyuUzfI2FRb5RG')
       setSubmitted(true)
       if (intervalRef.current) clearInterval(intervalRef.current)
     } catch (err) {
