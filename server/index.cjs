@@ -110,9 +110,14 @@ function requireAdmin(req, res, next) {
 app.get('/api/health', async (req, res) => {
   try {
     await query('SELECT 1')
-    res.json({ status: 'ok', db: true })
-  } catch {
-    res.json({ status: 'ok', db: false })
+    res.json({ status: 'ok', db: true, dbConfigured: !!process.env.DATABASE_URL })
+  } catch (err) {
+    res.json({
+      status: 'ok',
+      db: false,
+      dbConfigured: !!process.env.DATABASE_URL,
+      dbError: process.env.DATABASE_URL ? err.message : 'DATABASE_URL not set',
+    })
   }
 })
 
