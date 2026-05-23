@@ -1,33 +1,35 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEnroll } from '../context/EnrollContext'
 import {
-  MessageCircle, Send, Bot, User, X, Zap,
+  MessageCircle, Send, Bot, User, X,
   Award, Cloud, Shield, BookOpen, Users, Briefcase,
-  ArrowRight, BarChart3, Cpu
+  ArrowRight, BarChart3, Cpu, CheckCircle, Loader2
 } from 'lucide-react'
+import emailjs from '@emailjs/browser'
 
 const allCourses = [
-  { keywords: ['pmp', 'project management', 'project manager'], title: 'PMP Certification', color: '#0056D2', icon: 'Award' },
-  { keywords: ['capm', 'entry level project'], title: 'CAPM', color: '#0056D2', icon: 'Award' },
-  { keywords: ['prince2', 'prince 2'], title: 'PRINCE2 Foundation & Practitioner', color: '#7B61FF', icon: 'BookOpen' },
-  { keywords: ['aws', 'amazon web services', 'cloud practitioner'], title: 'AWS Cloud Practitioner', color: '#FF9900', icon: 'Cloud' },
-  { keywords: ['azure', 'microsoft azure', 'az-900'], title: 'Microsoft Azure AZ-900', color: '#0078D4', icon: 'Cloud' },
-  { keywords: ['scrum', 'scrum master', 'csm', 'psm'], title: 'Certified Scrum Master (CSM)', color: '#10B981', icon: 'Zap' },
-  { keywords: ['itil', 'service management', 'it service'], title: 'ITIL v5 Foundation', color: '#7B61FF', icon: 'Users' },
-  { keywords: ['security', 'security+', 'comptia'], title: 'CompTIA Security+', color: '#DC2626', icon: 'Shield' },
-  { keywords: ['cisa', 'auditor', 'information system audit'], title: 'CISA', color: '#DC2626', icon: 'Shield' },
-  { keywords: ['cism', 'security manager'], title: 'CISM', color: '#DC2626', icon: 'Shield' },
-  { keywords: ['ceh', 'ethical hacking', 'hacker'], title: 'CEH (Certified Ethical Hacker)', color: '#DC2626', icon: 'Shield' },
-  { keywords: ['devops', 'dev ops', 'ci/cd'], title: 'DevOps Tools & Training', color: '#0F172A', icon: 'Zap' },
-  { keywords: ['togaf', 'enterprise architecture'], title: 'TOGAF Level 1 & 2', color: '#7B61FF', icon: 'Briefcase' },
-  { keywords: ['power bi', 'powerbi', 'data analytics'], title: 'Power BI', color: '#F2C811', icon: 'BarChart3' },
-  { keywords: ['cbap', 'business analysis', 'business analyst'], title: 'CBAP', color: '#0056D2', icon: 'Award' },
-  { keywords: ['six sigma', 'green belt', 'black belt'], title: 'Six Sigma Green / Black Belt', color: '#059669', icon: 'BarChart3' },
-  { keywords: ['servicenow', 'service now'], title: 'ServiceNow', color: '#00A3E0', icon: 'Users' },
-  { keywords: ['istqb', 'testing', 'software testing'], title: 'ISTQB Foundation', color: '#059669', icon: 'BookOpen' },
-  { keywords: ['ai', 'artificial intelligence', 'machine learning', 'cpmai'], title: 'CPMAI & AI Project Management', color: '#8B5CF6', icon: 'Cpu' },
-  { keywords: ['data science', 'data', 'analytics'], title: 'Data Science & BI', color: '#F59E0B', icon: 'Cpu' },
+  { keywords: ['pmp', 'project management', 'project manager'], title: 'PMP Certification', cat: 'Project Management' },
+  { keywords: ['capm', 'entry level project'], title: 'CAPM', cat: 'Project Management' },
+  { keywords: ['prince2', 'prince 2'], title: 'PRINCE2 Foundation & Practitioner', cat: 'Project Management' },
+  { keywords: ['aws', 'amazon web services', 'cloud practitioner'], title: 'AWS Cloud Practitioner', cat: 'Cloud' },
+  { keywords: ['azure', 'microsoft azure', 'az-900'], title: 'Microsoft Azure AZ-900', cat: 'Cloud' },
+  { keywords: ['scrum', 'scrum master', 'csm', 'psm'], title: 'Certified Scrum Master (CSM)', cat: 'Agile' },
+  { keywords: ['pspo', 'product owner'], title: 'Professional Scrum Product Owner (PSPO)', cat: 'Agile' },
+  { keywords: ['itil', 'service management', 'it service'], title: 'ITIL 4 Foundation', cat: 'IT Service' },
+  { keywords: ['security', 'security+', 'comptia'], title: 'CompTIA Security+', cat: 'Cybersecurity' },
+  { keywords: ['cisa', 'auditor', 'information system audit'], title: 'CISA', cat: 'Cybersecurity' },
+  { keywords: ['cism', 'security manager'], title: 'CISM', cat: 'Cybersecurity' },
+  { keywords: ['ceh', 'ethical hacking', 'hacker'], title: 'CEH (Certified Ethical Hacker)', cat: 'Cybersecurity' },
+  { keywords: ['devops', 'dev ops', 'ci/cd'], title: 'DevOps Tools & Training', cat: 'DevOps' },
+  { keywords: ['togaf', 'enterprise architecture'], title: 'TOGAF Level 1 & 2', cat: 'Architecture' },
+  { keywords: ['power bi', 'powerbi', 'data analytics'], title: 'Power BI', cat: 'Data & Analytics' },
+  { keywords: ['cbap', 'business analysis', 'business analyst'], title: 'CBAP', cat: 'Business Analysis' },
+  { keywords: ['six sigma', 'green belt', 'black belt'], title: 'Six Sigma Green / Black Belt', cat: 'Quality' },
+  { keywords: ['servicenow', 'service now'], title: 'ServiceNow', cat: 'IT Service' },
+  { keywords: ['istqb', 'testing', 'software testing'], title: 'ISTQB Foundation', cat: 'Quality' },
+  { keywords: ['ai', 'artificial intelligence', 'machine learning', 'cpmai'], title: 'CPMAI & AI Project Management', cat: 'AI' },
+  { keywords: ['data science', 'data', 'analytics', 'big data'], title: 'Data Science & Big Data', cat: 'Data & Analytics' },
 ]
 
 const quickReplies = [
@@ -38,30 +40,44 @@ const quickReplies = [
   'Show me all courses',
 ]
 
-const greetings = [
-  'Hello! I am Neo, your learning assistant.',
-  'Tell me what you are looking for, and I will find the right course for you.',
-]
+const EMAILJS_SERVICE = 'service_62ub16q'
+const EMAILJS_TEMPLATE = 'template_l3twvqg'
+const EMAILJS_KEY = 'S3TiyuUzfI2FRb5RG'
+
+function ThinkingDots() {
+  return (
+    <div className="flex items-center gap-1.5 px-4 py-3">
+      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+    </div>
+  )
+}
 
 const CourseFinderAI = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
-  const [showQuickReplies, setShowQuickReplies] = useState(true)
+  const [showQuickReplies, setShowQuickReplies] = useState(false)
+  const [thinking, setThinking] = useState(false)
+  const [lead, setLead] = useState({ name: '', email: '', phone: '', course: '' })
+  const [collecting, setCollecting] = useState(null)
+  const [selectedCourse, setSelectedCourse] = useState('')
   const messagesEndRef = useRef(null)
+  const inputRef = useRef(null)
   const { openEnroll } = useEnroll()
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       let i = 0
       const timer = setInterval(() => {
-        setMessages((prev) => [...prev, { text: greetings[i], sender: 'bot' }])
+        setMessages((prev) => [...prev, { text: ['Hi! I am Neo, your learning assistant.', 'Tell me what you are looking for, and I will match you with the right course.'][i], sender: 'bot' }])
         i++
-        if (i >= greetings.length) {
+        if (i >= 2) {
           clearInterval(timer)
           setShowQuickReplies(true)
         }
-      }, 600)
+      }, 500)
       return () => clearInterval(timer)
     }
   }, [isOpen])
@@ -70,182 +86,275 @@ const CourseFinderAI = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  useEffect(() => {
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 300)
+  }, [isOpen, collecting])
+
   const findCourses = (query) => {
-    const q = query.toLowerCase()
-    const results = allCourses.filter((c) =>
-      c.keywords.some((k) => q.includes(k))
-    )
-    return results
+    const q = query.toLowerCase().trim()
+    if (q === 'show me all courses' || q === 'all courses') return allCourses
+    return allCourses.filter((c) => c.keywords.some((k) => q.includes(k)))
   }
 
+  const addBotMessage = useCallback((text) => {
+    setMessages((prev) => [...prev, { text, sender: 'bot' }])
+  }, [])
+
+  const sendLeadEmail = useCallback(async () => {
+    try {
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+        user_name: lead.name,
+        user_email: lead.email,
+        user_phone: lead.phone || 'N/A',
+        course: lead.course || 'Chatbot inquiry',
+        message: `[Source: Course Finder Chatbot]\n\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || 'N/A'}\nCourse interested: ${lead.course || 'Not specified'}`,
+        source: 'NeoSkills Course Finder Chatbot',
+      }, EMAILJS_KEY)
+    } catch (err) {
+      console.error('EmailJS chatbot error:', err)
+    }
+  }, [lead])
+
+  const startLeadCollection = useCallback((courseTitle) => {
+    setSelectedCourse(courseTitle)
+    setCollecting('name')
+    setShowQuickReplies(false)
+    setThinking(true)
+    setTimeout(() => {
+      setThinking(false)
+      addBotMessage(`Great choice! To get started with **${courseTitle}**, I just need a few quick details.`)
+      setTimeout(() => {
+        addBotMessage('What is your full name?')
+        setCollecting('name')
+      }, 600)
+    }, 800)
+  }, [addBotMessage])
+
+  const handleLeadInput = useCallback((value) => {
+    if (collecting === 'name') {
+      setLead((prev) => ({ ...prev, name: value, course: selectedCourse }))
+      setThinking(true)
+      setTimeout(() => {
+        setThinking(false)
+        addBotMessage(`Nice to meet you, ${value}! What is your email address?`)
+        setCollecting('email')
+      }, 500)
+    } else if (collecting === 'email') {
+      if (!value.includes('@') || !value.includes('.')) {
+        addBotMessage('That does not look like a valid email. Please enter a correct email address (e.g. name@example.com).')
+        return
+      }
+      setLead((prev) => ({ ...prev, email: value }))
+      setThinking(true)
+      setTimeout(() => {
+        setThinking(false)
+        addBotMessage('Thanks! And your phone number with country code (e.g. +91 9876543210)?')
+        setCollecting('phone')
+      }, 500)
+    } else if (collecting === 'phone') {
+      setLead((prev) => ({ ...prev, phone: value }))
+      setCollecting(null)
+      setThinking(true)
+    }
+  }, [collecting, selectedCourse, addBotMessage])
+
+  useEffect(() => {
+    if (collecting === null && lead.name && lead.email) {
+      sendLeadEmail()
+      setTimeout(() => {
+        setThinking(false)
+        addBotMessage('Thank you! Your details are confirmed. Our team will reach out within 24 hours with batch details and next steps.')
+        setTimeout(() => {
+          addBotMessage('Is there anything else I can help you with? 🙂')
+          setShowQuickReplies(true)
+          setLead({ name: '', email: '', phone: '', course: '' })
+        }, 1200)
+      }, 800)
+    }
+  }, [collecting, lead, addBotMessage, sendLeadEmail])
+
   const handleSend = (text) => {
-    const message = text || input
-    if (!message.trim()) return
+    const message = (text || input).trim()
+    if (!message || thinking) return
+
+    if (collecting) {
+      setMessages((prev) => [...prev, { text: message, sender: 'user' }])
+      setInput('')
+      handleLeadInput(message)
+      return
+    }
+
     setMessages((prev) => [...prev, { text: message, sender: 'user' }])
     setInput('')
     setShowQuickReplies(false)
+    setThinking(true)
 
     setTimeout(() => {
       const results = findCourses(message)
 
       if (results.length === 0) {
+        setThinking(false)
         setMessages((prev) => [
           ...prev,
-          {
-            text: `I could not find a match for "${message}". Try describing your role or goal (e.g., "cloud", "project management", "security").`,
-            sender: 'bot',
-          },
+          { text: `I could not find a match for "${message}". Try describing your role or goal (e.g. "cloud", "project management", "security").`, sender: 'bot' },
         ])
         setTimeout(() => setShowQuickReplies(true), 500)
         return
       }
 
+      setThinking(false)
       setMessages((prev) => [
         ...prev,
-        {
-          text: `I found ${results.length} course${results.length > 1 ? 's' : ''} that match your interest:`,
-          sender: 'bot',
-          courses: results.slice(0, 5),
-        },
+        { text: `I found ${results.length} course${results.length > 1 ? 's' : ''} that match your interest:`, sender: 'bot', courses: results.slice(0, 5) },
       ])
-    }, 800)
-  }
-
-  const handleQuickReply = (text) => {
-    handleSend(text)
-  }
-
-  const handleEnroll = (title) => {
-    try { localStorage.setItem('preferredCourse', title) } catch (e) { /* ignore */ }
-    openEnroll({ course: title })
-    setIsOpen(false)
+    }, 1000)
   }
 
   return (
     <>
-      {/* Chat Button */}
       <motion.button
         onClick={() => setIsOpen(true)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/30 flex items-center justify-center hover:bg-blue-800 transition-colors"
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.92 }}
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-br from-primary to-blue-700 text-white rounded-full shadow-xl shadow-primary/30 flex items-center justify-center hover:shadow-primary/40 transition-shadow"
         aria-label="Open course finder"
       >
         <MessageCircle size={24} />
       </motion.button>
 
-      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 30, scale: 0.93 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 z-50 w-[360px] md:w-[400px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-border-gray overflow-hidden"
+            exit={{ opacity: 0, y: 30, scale: 0.93 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed bottom-24 right-6 z-50 w-[380px] md:w-[420px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
           >
-            {/* Header */}
-            <div className="bg-gradient-to-r from-primary to-primary/80 p-4 text-white flex items-center justify-between">
+            <div className="bg-gradient-to-r from-primary to-blue-800 p-4 text-white flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                  <Bot size={20} />
+                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                  <Bot size={22} />
                 </div>
                 <div>
                   <p className="font-bold text-sm">Neo Course Finder</p>
-                  <p className="text-xs text-white/80">AI-powered • Instant results</p>
+                  <p className="text-[11px] text-white/70">Online • Typically replies instantly</p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-white/20 rounded-lg transition-colors">
+              <button onClick={() => setIsOpen(false)} className="p-1.5 hover:bg-white/20 rounded-xl transition-colors">
                 <X size={18} />
               </button>
             </div>
 
-            {/* Messages */}
-            <div className="h-[420px] overflow-y-auto p-4 bg-gray-50/50 space-y-3">
+            <div className="h-[440px] overflow-y-auto p-4 bg-[#f5f6f8] space-y-3" style={{ background: '#f5f6f8' }}>
               {messages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] ${msg.sender === 'user' ? 'order-1' : ''}`}>
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div className={`max-w-[88%]`}>
                     <div className={`flex items-start gap-2 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}>
-                      <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-xs ${
-                        msg.sender === 'user' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-600'
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm text-xs ${
+                        msg.sender === 'user' ? 'bg-primary text-white' : 'bg-white text-gray-500 border border-gray-200'
                       }`}>
-                        {msg.sender === 'user' ? <User size={14} /> : <Bot size={14} />}
+                        {msg.sender === 'user' ? <User size={13} /> : <Bot size={13} />}
                       </div>
                       <div>
-                        <div className={`rounded-2xl px-4 py-2.5 text-sm ${
+                        <div className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                           msg.sender === 'user'
-                            ? 'bg-primary text-white rounded-tr-md'
-                            : 'bg-white text-dark border border-border-gray rounded-tl-md shadow-sm'
+                            ? 'bg-primary text-white rounded-br-sm'
+                            : 'bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-sm'
                         }`}>
                           {msg.text}
                         </div>
                         {msg.courses && (
                           <div className="mt-2 space-y-1.5">
                             {msg.courses.map((c, ci) => (
-                              <button
+                              <motion.button
                                 key={ci}
-                                onClick={() => handleEnroll(c.title)}
-                                className="w-full flex items-center gap-2 bg-white border border-border-gray rounded-xl px-3 py-2.5 text-left hover:border-primary transition-colors text-sm"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: ci * 0.08 }}
+                                onClick={() => startLeadCollection(c.title)}
+                                className="w-full flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-3.5 py-3 text-left hover:border-primary hover:shadow-sm transition-all"
                               >
-                                <span
-                                  className="w-2 h-2 rounded-full flex-shrink-0"
-                                  style={{ backgroundColor: c.color }}
-                                />
-                                <span className="font-medium text-dark flex-1">{c.title}</span>
-                                <ArrowRight size={14} className="text-primary flex-shrink-0" />
-                              </button>
+                                <span className="w-2 h-2 rounded-full flex-shrink-0 bg-primary" />
+                                <div className="flex-1 min-w-0">
+                                  <span className="font-semibold text-gray-800 text-sm block truncate">{c.title}</span>
+                                  <span className="text-[11px] text-gray-400">{c.cat}</span>
+                                </div>
+                                <ArrowRight size={15} className="text-primary flex-shrink-0" />
+                              </motion.button>
                             ))}
                           </div>
                         )}
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
+
+              {thinking && (
+                <div className="flex justify-start">
+                  <div className="flex items-start gap-2">
+                    <div className="w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center flex-shrink-0 shadow-sm">
+                      <Bot size={13} className="text-gray-500" />
+                    </div>
+                    <div className="bg-white rounded-2xl rounded-bl-sm shadow-sm border border-gray-100">
+                      <ThinkingDots />
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Quick Replies */}
-            <AnimatePresence>
-              {showQuickReplies && messages.length > 0 && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="px-4 pb-2 overflow-hidden"
-                >
-                  <div className="flex flex-wrap gap-1.5">
-                    {quickReplies.map((qr, i) => (
-                      <button
-                        key={i}
-                        onClick={() => handleQuickReply(qr)}
-                        className="text-xs bg-gray-100 hover:bg-primary/10 hover:text-primary text-gray-600 rounded-full px-3 py-1.5 transition-colors font-medium"
-                      >
-                        {qr}
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <div className="px-4 pb-3 bg-[#f5f6f8]">
+              <AnimatePresence>
+                {showQuickReplies && messages.length > 0 && !collecting && !thinking && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden mb-2"
+                  >
+                    <div className="flex flex-wrap gap-1.5">
+                      {quickReplies.map((qr, i) => (
+                        <button
+                          key={i}
+                          onClick={() => handleSend(qr)}
+                          className="text-xs bg-white hover:bg-primary/10 hover:text-primary text-gray-600 rounded-full px-3.5 py-2 transition-colors font-medium border border-gray-200 shadow-sm"
+                        >
+                          {qr}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-            {/* Input */}
-            <div className="border-t border-border-gray p-3 bg-white">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 bg-white rounded-xl border border-gray-200 p-1.5 shadow-sm">
                 <input
-                  type="text"
+                  ref={inputRef}
+                  type={collecting === 'email' ? 'email' : collecting === 'phone' ? 'tel' : 'text'}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Type your career interest..."
-                  className="flex-1 px-4 py-2.5 bg-gray-50 border border-border-gray rounded-xl text-sm outline-none focus:border-primary transition-colors"
+                  placeholder={collecting === 'name' ? 'Enter your full name...' : collecting === 'email' ? 'Enter your email...' : collecting === 'phone' ? 'Enter your phone...' : 'Type your career interest...'}
+                  disabled={thinking}
+                  className="flex-1 px-3 py-2 text-sm outline-none bg-transparent placeholder:text-gray-400 disabled:opacity-50"
                 />
                 <motion.button
                   onClick={() => handleSend()}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 bg-primary text-white rounded-xl flex items-center justify-center hover:bg-blue-800 transition-colors flex-shrink-0"
+                  whileTap={{ scale: 0.9 }}
+                  className="w-9 h-9 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-blue-800 transition-colors flex-shrink-0 disabled:opacity-50"
+                  disabled={thinking || !input.trim()}
                 >
-                  <Send size={16} />
+                  <Send size={15} />
                 </motion.button>
               </div>
             </div>
@@ -255,4 +364,5 @@ const CourseFinderAI = () => {
     </>
   )
 }
+
 export default CourseFinderAI

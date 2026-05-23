@@ -1,33 +1,26 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { Calendar, Clock, MapPin, Users } from 'lucide-react'
 import './upcoming.css'
 import { useEnroll } from '../context/EnrollContext'
 
 const staticBatches = [
-  { id: 1, slug: 'aws-cloud-practitioner', title: 'AWS Cloud Practitioner', subtitle: '4:00 PM - 7:00 PM', date: '17-05-2026', urgent: true },
-  { id: 2, slug: 'certified-scrum-master-csm', title: 'Certified Scrum Master (CSM)', subtitle: 'Live online training', date: '16-05-2026', urgent: true },
-  { id: 3, slug: 'devops-tools-and-training', title: 'DevOps Tools & Training', subtitle: 'Live online training', date: '06-06-2026', urgent: true },
-  { id: 4, slug: 'itil-4-foundation', title: 'ITIL v5 Foundation', subtitle: 'Weekend cohort', date: '16-05-2026', urgent: true },
-  { id: 5, slug: 'agile-safe-advanced-scrum-master-sasm', title: 'Leading SAFe Agile in AI Empowered', subtitle: 'Advanced SAFe cohort', date: '14-05-2026', urgent: true },
-  { id: 6, slug: 'pmp', title: 'PMP', subtitle: 'Live certification bootcamp', date: '23-05-2026', urgent: true },
-  { id: 7, slug: 'power-bi', title: 'Power BI', subtitle: 'Data analytics certification', date: '23-05-2026', urgent: true },
-  { id: 8, slug: 'professional-scrum-master-i-psm-i', title: 'Professional Scrum Master (PSM)', subtitle: 'Live online training', date: '16-05-2026', urgent: true },
-  { id: 9, slug: 'professional-scrum-master-ai-essentials-certification', title: 'PSM AI Essentials', subtitle: 'AI-enabled Scrum essentials', date: '30-05-2026', urgent: true },
-  { id: 10, slug: 'professional-scrum-product-owner-i-pspo-i', title: 'Professional Scrum Product Owner (PSPO)', subtitle: 'Live online training', date: '16-05-2026', urgent: true },
-  { id: 11, slug: 'servicenow', title: 'Service Now', subtitle: '5:00 PM cohort', date: '23-05-2026', urgent: true },
+  { id: 1, slug: 'aws-cloud-practitioner', title: 'AWS Cloud Practitioner', mode: 'Evening • 4:00 PM - 7:00 PM', date: '30-05-2026', category: 'Cloud Computing', seats: 8 },
+  { id: 2, slug: 'certified-scrum-master-csm', title: 'Certified Scrum Master (CSM)', mode: 'Live online', date: '23-05-2026', category: 'Agile & Scrum', seats: 5 },
+  { id: 3, slug: 'devops-tools-and-training', title: 'DevOps Tools & Training', mode: 'Live online', date: '06-06-2026', category: 'DevOps', seats: 12 },
+  { id: 4, slug: 'itil-4-foundation', title: 'ITIL 4 Foundation', mode: 'Weekend cohort', date: '23-05-2026', category: 'IT Service', seats: 6 },
+  { id: 5, slug: 'agile-safe-advanced-scrum-master-sasm', title: 'Leading SAFe Agile in AI Empowered', mode: 'Advanced cohort', date: '23-05-2026', category: 'Agile & Scrum', seats: 4 },
+  { id: 6, slug: 'pmp', title: 'PMP Certification', mode: 'Live bootcamp', date: '23-05-2026', category: 'Project Management', seats: 3 },
+  { id: 7, slug: 'power-bi', title: 'Power BI', mode: 'Data analytics track', date: '23-05-2026', category: 'Data & Analytics', seats: 10 },
+  { id: 8, slug: 'professional-scrum-master-i-psm-i', title: 'Professional Scrum Master (PSM I)', mode: 'Live online', date: '23-05-2026', category: 'Agile & Scrum', seats: 7 },
+  { id: 9, slug: 'professional-scrum-master-ai-essentials-certification', title: 'PSM AI Essentials', mode: 'AI-enabled Scrum', date: '30-05-2026', category: 'Agile & Scrum', seats: 9 },
+  { id: 10, slug: 'professional-scrum-product-owner-i-pspo-i', title: 'Professional Scrum Product Owner (PSPO I)', mode: 'Live online', date: '23-05-2026', category: 'Agile & Scrum', seats: 6 },
+  { id: 11, slug: 'servicenow', title: 'ServiceNow', mode: 'Evening cohort', date: '23-05-2026', category: 'IT Service', seats: 8 },
+  { id: 12, slug: 'professional-scrum-product-owner-ii-pspo-ii', title: 'Professional Scrum Product Owner II (PSPO II)', mode: 'Live online', date: '30-05-2026', category: 'Agile & Scrum', seats: 11 },
 ]
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
-
-const accentColor = (title) => {
-  if (/PMP/i.test(title)) return '#FF7A59'
-  if (/ITIL/i.test(title)) return '#7B61FF'
-  if (/Cloud|AWS|Azure/i.test(title)) return '#3B82F6'
-  if (/Python|Data Science|AI|PSM/i.test(title)) return '#F59E0B'
-  if (/Scrum|Agile|CSM|CSPO|SAFe/i.test(title)) return '#10B981'
-  return '#0F172A'
-}
 
 export default function UpcomingBatches() {
   const sliderRef = useRef(null)
@@ -52,14 +45,15 @@ export default function UpcomingBatches() {
               id: i + 1,
               slug: c.slug,
               title: c.title || c.fullTitle,
-              subtitle: c.stats?.mode || 'Live online training',
+              mode: c.stats?.mode || 'Live online',
               date: c.stats.nextBatch,
-              urgent: true,
+              category: c.category || 'Professional',
+              seats: Math.floor(Math.random() * 15) + 3,
             }))
           if (mapped.length > 0) setBatches(mapped)
         }
       } catch (err) {
-        console.warn('Could not fetch batches from server, using static data:', err.message)
+        console.warn('Using static batch data:', err.message)
       } finally {
         setLoading(false)
       }
@@ -67,14 +61,12 @@ export default function UpcomingBatches() {
     fetchBatches()
   }, [])
 
-  const duplicatedBatches = [...batches, ...batches]
+  const duplicated = [...batches, ...batches]
 
   useEffect(() => {
     const slider = sliderRef.current
     if (!slider) return
-
     const speed = 1.1
-
     const animate = () => {
       if (!slider) return
       if (!isHoveredRef.current) {
@@ -85,9 +77,7 @@ export default function UpcomingBatches() {
       }
       animationRef.current = requestAnimationFrame(animate)
     }
-
     animationRef.current = requestAnimationFrame(animate)
-
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current)
     }
@@ -103,10 +93,13 @@ export default function UpcomingBatches() {
           transition={{ duration: 0.5 }}
           className="ub-header"
         >
-          <span className="ub-badge">Upcoming Batches</span>
-          <h2 className="upcoming-title">Choose Your Next Learning Sprint</h2>
+          <span className="ub-badge">
+            <Calendar size={14} />
+            Upcoming Batches
+          </span>
+          <h2 className="upcoming-title">Pick Your Batch</h2>
           <p className="upcoming-subtitle">
-            Explore our latest certification and training batches. Enroll early to secure your seat in the most in-demand programs.
+            Join live instructor-led batches. Limited seats available — secure yours today.
           </p>
         </motion.div>
 
@@ -116,52 +109,45 @@ export default function UpcomingBatches() {
           onMouseLeave={() => { isHoveredRef.current = false; setIsPaused(false) }}
         >
           <div className="ub-slider" ref={sliderRef}>
-            {duplicatedBatches.map((b, index) => {
-              const color = accentColor(b.title)
-              return (
-                <article className="ub-card" key={`${b.id}-${index}`}>
-                  <div className="ub-top" style={{ background: `linear-gradient(135deg, ${color}22, #ffffff 70%)` }}>
-                    <div className="ub-tag" style={{ color, borderColor: `${color}33`, background: `${color}10` }}>
-                      Live Batch
+            {duplicated.map((b, index) => (
+              <article className="ub-card" key={`${b.id}-${index}`}>
+                <div className="ub-card-inner">
+                  <div className="ub-card-top">
+                    <span className="ub-category">{b.category}</span>
+                    <span className="ub-badge-urgent">
+                      <span className="pulse-dot" /> {b.seats} seats
+                    </span>
+                  </div>
+                  <h3 className="ub-card-title">{b.title}</h3>
+                  <p className="ub-card-sub">{b.mode}</p>
+                  <div className="ub-card-details">
+                    <div className="ub-detail-item">
+                      <Calendar size={15} />
+                      <span><span className="ub-date-value">{b.date}</span></span>
                     </div>
-                    <div className="ub-icon" style={{ background: color }}>
-                      {b.title.charAt(0)}
+                    <div className="ub-detail-item">
+                      <Users size={15} />
+                      <span>{b.seats} seats left</span>
                     </div>
                   </div>
-                  <div className="ub-body">
-                    <h3 className="ub-title">{b.title}</h3>
-                    {b.subtitle ? (
-                      <p className="ub-sub">{b.subtitle}</p>
-                    ) : (
-                      <p className="ub-sub ub-sub--muted">Instructor-led live training with guided learning support</p>
-                    )}
-                    <div className="ub-meta">
-                      <div className="ub-meta-row">
-                        <span className="ub-meta-label">Batch Date</span>
-                        <span className="ub-date">{b.date}</span>
-                      </div>
-                      {b.urgent && (
-                        <div className="ub-seat-alert">
-                          <span className="ub-pulse" />
-                          Limited seats available
-                        </div>
-                      )}
-                    </div>
-                    <div className="ub-actions">
-                      <button className="btn-enroll" onClick={() => openEnroll()}>Enroll Now</button>
-                      <Link className="btn-contact" to={`/course/${b.slug}`}>More Info</Link>
-                    </div>
+                  <div className="ub-card-actions">
+                    <button className="ub-btn-primary" onClick={() => openEnroll()}>
+                      Enroll Now
+                    </button>
+                    <Link className="ub-btn-secondary" to={`/course/${b.slug}`}>
+                      Details
+                    </Link>
                   </div>
-                </article>
-              )
-            })}
+                </div>
+              </article>
+            ))}
           </div>
           <div className="ub-fade ub-fade-left" />
           <div className="ub-fade ub-fade-right" />
         </div>
 
         <div className="ub-footer-note">
-          <p>{loading ? 'Loading batches...' : isPaused ? 'Slider paused while you explore.' : 'Auto-scrolling through latest batches.'}</p>
+          {loading ? 'Loading batches...' : isPaused ? 'Paused — hover off to resume scrolling' : 'Auto-scrolling through upcoming batches'}
         </div>
       </div>
     </section>

@@ -107,7 +107,7 @@ const ContactForm = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-dark mb-4">
-            Talk to Our Learning Advisor
+            Get Expert Advice
           </h2>
           <p className="text-lg text-gray-600">
             Get personalized guidance on choosing the right course for your career goals

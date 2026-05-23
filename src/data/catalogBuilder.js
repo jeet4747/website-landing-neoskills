@@ -7,6 +7,16 @@ import {
   courseCategories as baseCourseCategories,
 } from './courseDataRich.js'
 
+/** Always compute total as training + exam — never trust stored total. */
+export function getTotal(c) {
+  const training = Number(c.feeDetails?.training ?? c.trainingFee ?? 0)
+  const exam = Number(c.feeDetails?.exam ?? 0)
+  if (training > 0 || exam > 0) return training + exam
+  if (c.trainingExam != null && c.trainingExam !== '') return Number(c.trainingExam)
+  if (c.supportCost != null && c.supportCost !== '') return Number(c.supportCost)
+  return 0
+}
+
 /** Same rule as PricingBlock in CoursesSection: primary list price. */
 export function effectiveListedPrice(c) {
   if (c.trainingExam != null && c.trainingExam !== '') return Number(c.trainingExam)

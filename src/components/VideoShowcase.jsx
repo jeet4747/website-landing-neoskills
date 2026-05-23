@@ -9,7 +9,7 @@ const VideoShowcase = () => {
             Student Success Stories
           </p>
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mt-3">
-            See How NeoSkills Learners Transform Their Careers
+            Real Results, Real Careers
           </h2>
           <p className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto mt-4">
             Real stories from learners who upgraded their skills, gained confidence,

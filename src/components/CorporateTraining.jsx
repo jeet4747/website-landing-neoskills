@@ -42,8 +42,8 @@ const CorporateTraining = () => {
               For Organizations
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              Empower Your Team with
-              <span className="text-accent"> World-Class Training</span>
+              Upskill Your
+              <span className="text-accent"> Entire Team</span>
             </h2>
             <p className="text-gray-300 text-lg mb-8 leading-relaxed">
               Equip your workforce with industry-recognized certifications and future-ready skills.

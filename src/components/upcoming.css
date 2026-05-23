@@ -11,35 +11,39 @@
 
 .ub-header {
   text-align: center;
-  margin-bottom: 42px;
+  margin-bottom: 48px;
 }
 
 .ub-badge {
-  display: inline-block;
-  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
   border-radius: 999px;
-  background: rgba(37, 99, 235, 0.08);
+  background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(37,99,235,0.05));
   color: #2563eb;
   font-weight: 700;
   font-size: 13px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  border: 1px solid rgba(37,99,235,0.12);
 }
 
 .upcoming-title {
-  margin: 18px 0 12px;
-  font-size: clamp(1rem, 2vw, 2rem);
-  line-height: 1.1;
+  margin: 20px 0 12px;
+  font-size: clamp(28px, 3.5vw, 42px);
+  line-height: 1.15;
   font-weight: 800;
   color: #0f172a;
+  letter-spacing: -0.02em;
 }
 
 .upcoming-subtitle {
-  max-width: 760px;
+  max-width: 620px;
   margin: 0 auto;
-  color: #475569;
-  font-size: 1.05rem;
-  line-height: 1.8;
+  color: #64748b;
+  font-size: 16px;
+  line-height: 1.7;
 }
 
 .ub-slider-wrap {
@@ -48,12 +52,12 @@
 
 .ub-slider {
   display: flex;
-  gap: 24px;
+  gap: 20px;
   overflow-x: auto;
   scroll-behavior: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 12px 4px 18px;
+  padding: 8px 4px 20px;
 }
 
 .ub-slider::-webkit-scrollbar {
@@ -61,225 +65,234 @@
 }
 
 .ub-card {
-  min-width: 320px;
-  max-width: 320px;
-  flex: 0 0 320px;
-  border-radius: 28px;
+  min-width: 340px;
+  max-width: 340px;
+  flex: 0 0 340px;
+  border-radius: 20px;
   background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+  border: 1px solid #eef2f6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   overflow: hidden;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.ub-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .ub-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.14);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(15,23,42,0.1);
+  border-color: rgba(37,99,235,0.15);
 }
 
-.ub-top {
-  padding: 18px 18px 22px;
-  min-height: 108px;
+.ub-card:hover::before {
+  opacity: 1;
+}
+
+.ub-card-inner {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ub-card-top {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  margin-bottom: 16px;
 }
 
-.ub-tag {
-  font-size: 12px;
+.ub-category {
+  font-size: 11px;
   font-weight: 700;
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 1px solid transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: rgba(37,99,235,0.08);
+  color: #2563eb;
 }
 
-.ub-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  display: grid;
-  place-items: center;
-  color: #fff;
-  font-size: 1.25rem;
-  font-weight: 800;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+.ub-badge-urgent {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: #fef2f2;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.ub-body {
-  padding: 22px 20px 22px;
+.ub-badge-urgent .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #dc2626;
+  animation: pulse-dot 1.5s ease-in-out infinite;
 }
 
-.ub-title {
-  margin: 0 0 10px;
-  font-size: 1.18rem;
-  line-height: 1.45;
-  font-weight: 800;
-  color: #111827;
-  min-height: 68px;
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
-.ub-sub {
-  margin: 0 0 18px;
+.ub-card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.35;
+  margin: 0 0 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ub-card-sub {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.ub-card-details {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 18px;
+}
+
+.ub-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
   color: #475569;
-  font-size: 0.95rem;
-  line-height: 1.7;
-  min-height: 54px;
+  font-weight: 500;
 }
 
-.ub-sub--muted {
-  color: #64748b;
+.ub-detail-item svg {
+  color: #2563eb;
+  flex-shrink: 0;
 }
 
-.ub-meta {
-  border-top: 1px solid #eef2f7;
-  padding-top: 16px;
-  margin-top: 8px;
-}
-
-.ub-meta-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.ub-meta-label {
-  color: #64748b;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.ub-date {
-  color: #e11d48;
+.ub-date-value {
   font-weight: 700;
-  font-size: 0.94rem;
+  color: #0f172a;
 }
 
-.ub-seat-alert {
-  margin-top: 14px;
-  display: inline-flex;
-  align-items: center;
+.ub-card-actions {
+  display: flex;
   gap: 10px;
-  background: #fff1f2;
-  color: #be123c;
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-size: 0.86rem;
-  font-weight: 700;
+  margin-top: auto;
 }
 
-.ub-pulse {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: #e11d48;
-  box-shadow: 0 0 0 rgba(225, 29, 72, 0.5);
-  animation: ubPulse 1.8s infinite;
-}
-
-@keyframes ubPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.45);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(225, 29, 72, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(225, 29, 72, 0);
-  }
-}
-
-.ub-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 22px;
-}
-
-.btn-enroll,
-.btn-contact {
+.ub-btn-primary {
   flex: 1;
   border: none;
-  border-radius: 14px;
-  padding: 12px 14px;
-  font-size: 0.95rem;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.btn-enroll {
+  transition: all 0.2s ease;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #ffffff;
-  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.22);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.25);
+  text-align: center;
+  text-decoration: none;
 }
 
-.btn-enroll:hover {
+.ub-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 26px rgba(37, 99, 235, 0.28);
+  box-shadow: 0 8px 20px rgba(37,99,235,0.3);
 }
 
-.btn-contact {
-  background: #eff6ff;
-  color: #1d4ed8;
-  border: 1px solid #dbeafe;
+.ub-btn-secondary {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fff;
+  color: #475569;
+  text-align: center;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 
-.btn-contact:hover {
-  background: #dbeafe;
+.ub-btn-secondary:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+  background: #f8faff;
 }
 
 .ub-fade {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 72px;
+  width: 80px;
   pointer-events: none;
   z-index: 2;
 }
 
 .ub-fade-left {
   left: 0;
-  background: linear-gradient(90deg, #f8fbff 0%, rgba(248, 251, 255, 0) 100%);
+  background: linear-gradient(90deg, #f8fbff 0%, rgba(248,251,255,0) 100%);
 }
 
 .ub-fade-right {
   right: 0;
-  background: linear-gradient(270deg, #f8fbff 0%, rgba(248, 251, 255, 0) 100%);
+  background: linear-gradient(270deg, #f8fbff 0%, rgba(248,251,255,0) 100%);
 }
 
 .ub-footer-note {
-  margin-top: 18px;
+  margin-top: 24px;
   text-align: center;
-  color: #64748b;
-  font-size: 0.95rem;
+  font-size: 13px;
+  color: #94a3b8;
 }
 
 @media (max-width: 768px) {
   .upcoming-section {
-    padding: 72px 0;
+    padding: 60px 0;
   }
 
   .ub-card {
-    min-width: 280px;
-    max-width: 280px;
-    flex-basis: 280px;
-    border-radius: 24px;
+    min-width: 290px;
+    max-width: 290px;
+    flex-basis: 290px;
   }
 
-  .ub-title {
-    min-height: auto;
-    font-size: 1.05rem;
+  .ub-card-inner {
+    padding: 20px;
   }
 
-  .ub-sub {
-    min-height: auto;
-  }
-
-  .ub-actions {
+  .ub-card-details {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 
   .ub-fade {
-    width: 34px;
+    width: 40px;
   }
 }

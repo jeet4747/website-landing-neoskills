@@ -67,7 +67,7 @@ const TestimonialsSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-dark mb-4">
-            What Our Students Say
+            Student Voices
           </h2>
           <p className="text-lg text-gray-600">
             Real experiences from professionals who transformed their careers with Neoskills

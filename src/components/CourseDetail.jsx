@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import * as LucideIcons from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { useEnroll } from '../context/EnrollContext'
-import { allCourses, courseCategories, getAllResolvedCourses, getMergedCourseCategories } from './courseData'
+import { allCourses, courseCategories, getAllResolvedCourses, getMergedCourseCategories, getTotal } from './courseData'
 import { loadCourseBySlug } from '../data/courseService.js'
 
 const CourseDetail = () => {
@@ -73,8 +74,7 @@ const CourseDetail = () => {
       name: course.category,
     }
 
-  const catalogAmount =
-    Number(course.feeDetails?.total || course.feeDetails?.exam || course.feeDetails?.training || 0)
+  const catalogAmount = getTotal(course)
 
   const handleContactSubmit = (e) => {
     e.preventDefault()
@@ -108,8 +108,45 @@ const CourseDetail = () => {
 
   const RupeeIcon = LucideIcons.IndianRupee || LucideIcons.Banknote
 
+  const pageTitle = `${course.fullTitle || course.title} | NeoSkills Learning Solutions`
+  const pageDesc = course.summary || `${course.fullTitle || course.title} — professional certification training by NeoSkills. Live instructor-led sessions, exam prep, and career support.`
+  const pageUrl = `https://www.neoskills.co.in/course/${course.slug}`
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: course.fullTitle || course.title,
+    description: pageDesc,
+    provider: {
+      '@type': 'Organization',
+      name: 'NeoSkills Learning Solutions',
+      sameAs: 'https://www.neoskills.co.in',
+    },
+    offers: {
+      '@type': 'Offer',
+      price: getTotal(course),
+      priceCurrency: 'INR',
+      availability: 'https://schema.org/InStock',
+    },
+    educationalCredentialAwarded: course.certificate?.title || '',
+    timeRequired: course.stats?.duration || '',
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDesc} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDesc} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDesc} />
+        <link rel="canonical" href={pageUrl} />
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Helmet>
+      <div className="min-h-screen bg-gray-50">
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
           <button
@@ -524,6 +561,7 @@ const CourseDetail = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

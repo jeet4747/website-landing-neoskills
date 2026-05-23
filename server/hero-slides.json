@@ -1,0 +1,41 @@
+[
+  {
+    "id": "slide_pmp",
+    "title": "Project Management Professional (PMP)",
+    "subtitle": "Professional Certification",
+    "description": "Globally recognised certification for project managers. Master leadership, agile, and strategic business management skills.",
+    "badge": "GOLD STANDARD",
+    "gradient": "from-teal-600 to-teal-800",
+    "courseSlug": "pmp",
+    "duration": "4 Days",
+    "nextBatch": "Jun 15",
+    "active": true,
+    "order": 1
+  },
+  {
+    "id": "slide_itil",
+    "title": "ITIL 4 Foundation",
+    "subtitle": "Professional Certification",
+    "description": "The world's leading framework for IT service management. Align IT services with business needs and deliver value.",
+    "badge": "FEATURED PROGRAM",
+    "gradient": "from-blue-600 to-blue-800",
+    "courseSlug": "itil-4-foundation",
+    "duration": "3 Days",
+    "nextBatch": "Jun 20",
+    "active": true,
+    "order": 2
+  },
+  {
+    "id": "slide_prince2",
+    "title": "PRINCE2 Foundation & Practitioner",
+    "subtitle": "Professional Certification",
+    "description": "The most widely recognised project management methodology. Gain end-to-end control of any project, any size, any industry.",
+    "badge": "MOST POPULAR",
+    "gradient": "from-purple-600 to-purple-800",
+    "courseSlug": "prince2-f-and-p",
+    "duration": "5 Days",
+    "nextBatch": "Jun 25",
+    "active": true,
+    "order": 3
+  }
+]

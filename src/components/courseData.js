@@ -19,6 +19,7 @@ import {
   getAllResolvedCourses,
   getCertificateFilenameManifest,
   effectiveListedPrice,
+  getTotal,
 } from '../data/catalogBuilder'
 
 export {
@@ -28,6 +29,7 @@ export {
   getMergedCourseCategories,
   getCertificateFilenameManifest,
   effectiveListedPrice,
+  getTotal,
 }
 
 export const courseCategories = getMergedCourseCategories()

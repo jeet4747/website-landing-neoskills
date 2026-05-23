@@ -103,7 +103,7 @@ const CoursesSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-dark mb-4">
-            Comprehensive Learning Programs
+            Expert-Led Programs
           </h2>
           <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
             Explore NeoSkills certification and advanced learning programs across Agile,

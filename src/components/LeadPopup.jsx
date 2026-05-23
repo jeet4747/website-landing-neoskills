@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Clock, Users } from 'lucide-react'
+
+const SHOW_DELAY = 5000
+const REAPPEAR_INTERVAL = 150000
 
 export default function LeadPopup() {
   const [show, setShow] = useState(false)
@@ -8,19 +11,28 @@ export default function LeadPopup() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', course: '' })
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
+  const intervalRef = useRef(null)
+
+  const startReappearTimer = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    intervalRef.current = setInterval(() => {
+      setShow(true)
+    }, REAPPEAR_INTERVAL)
+  }, [])
 
   useEffect(() => {
-    try {
-      const dismissed = localStorage.getItem('leadPopupDismissed')
-      if (dismissed === 'true') return
-    } catch {}
-    const timer = setTimeout(() => setShow(true), 5000)
-    return () => clearTimeout(timer)
-  }, [])
+    const initialTimer = setTimeout(() => {
+      setShow(true)
+      startReappearTimer()
+    }, SHOW_DELAY)
+    return () => {
+      clearTimeout(initialTimer)
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    }
+  }, [startReappearTimer])
 
   const handleDismiss = useCallback(() => {
     setShow(false)
-    try { localStorage.setItem('leadPopupDismissed', 'true') } catch {}
   }, [])
 
   const handleChange = useCallback((e) => {
@@ -49,7 +61,7 @@ export default function LeadPopup() {
       const data = await res.json()
       if (!data.success) throw new Error(data.message || 'Submit failed')
       setSubmitted(true)
-      try { localStorage.setItem('leadPopupDismissed', 'true') } catch {}
+      if (intervalRef.current) clearInterval(intervalRef.current)
     } catch (err) {
       setError('Something went wrong. Please try again or email us directly.')
     } finally {
@@ -96,7 +108,7 @@ export default function LeadPopup() {
                 <h3 className="text-2xl font-bold text-dark mb-2">Thank You!</h3>
                 <p className="text-gray-500 mb-6">We'll contact you shortly with batch details.</p>
                 <button
-                  onClick={handleDismiss}
+                  onClick={() => setShow(false)}
                   className="bg-primary text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-800 transition-colors"
                 >
                   Got it

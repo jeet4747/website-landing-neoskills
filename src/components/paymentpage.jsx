@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { X } from 'lucide-react'
+import { Lock, Shield, CheckCircle, IndianRupee, CreditCard, ArrowLeft } from 'lucide-react'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'
 
@@ -13,6 +13,7 @@ export default function PaymentPage() {
   const navigate = useNavigate()
   const { state: paymentData } = useLocation()
   const [customAmount, setCustomAmount] = useState(null)
+  const [processing, setProcessing] = useState(false)
 
   useEffect(() => {
     if (!paymentData) {
@@ -38,6 +39,7 @@ export default function PaymentPage() {
     })
 
   const handlePay = async () => {
+    setProcessing(true)
     try {
       await loadRazorpay()
 
@@ -54,7 +56,7 @@ export default function PaymentPage() {
         key: key,
         amount: order.amount,
         currency: order.currency,
-        name: 'Neoskills',
+        name: 'NeoSkills',
         description: paymentData.course || paymentData.plan || 'Course Payment',
         order_id: order.id,
         prefill: {
@@ -69,7 +71,6 @@ export default function PaymentPage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 ...response,
-                // Pass user details for confirmation email
                 name: paymentData.name || 'Student',
                 email: paymentData.email || '',
                 course: paymentData.course || paymentData.plan || 'Professional Course',
@@ -98,11 +99,13 @@ export default function PaymentPage() {
       rzp.on('payment.failed', function (response) {
         console.error('Payment failed', response)
         alert('Payment failed. Please try again.')
+        setProcessing(false)
       })
       rzp.open()
     } catch (err) {
       console.error('Payment initiation error', err)
       alert('Could not start payment. Please try again later.')
+      setProcessing(false)
     }
   }
 
@@ -116,115 +119,127 @@ export default function PaymentPage() {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-    >
-      <motion.div
-        initial={{ scale: 0.9, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.9, y: 20 }}
-        className="bg-white rounded-xl shadow-2xl w-11/12 max-w-md p-8 relative"
-      >
-        <motion.button
-          onClick={() => navigate('/')}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
-        >
-          <X size={24} className="text-gray-600" />
-        </motion.button>
-
-        <div className="mb-6">
-          <h2 className="text-3xl font-bold text-dark mb-2">Payment Details</h2>
-          <p className="text-gray-600">
-            Course: <span className="font-semibold text-primary">{paymentData.course || paymentData.plan || 'Professional Course'}</span>
-          </p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors text-sm font-medium">
+            <ArrowLeft size={18} /> Back to Home
+          </Link>
+          <span className="text-sm text-gray-400 font-medium">Secure Checkout</span>
         </div>
+      </div>
 
-        <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg p-6 mb-6">
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Program price (default)
-              </label>
-              <p className="text-xs text-gray-500 mb-2">
-                This is the amount from your enrollment or course page. You can override it below if your invoice
-                uses a different agreed fee.
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          <div className="lg:col-span-3">
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2.5 bg-primary/10 rounded-xl"><CreditCard className="text-primary" size={24} /></div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">Complete Payment</h1>
+                  <p className="text-sm text-gray-500">{paymentData.course || paymentData.plan || 'Professional Course'}</p>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-xl p-5 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-semibold text-gray-700">Order Summary</span>
+                  <span className="text-xs text-gray-400">{paymentData.name || 'Student'}</span>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Course Fee</span>
+                    <span className="font-semibold text-gray-900">{formatINR(base)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">GST (18%)</span>
+                    <span className="font-semibold text-gray-900">{formatINR(gst)}</span>
+                  </div>
+                  <div className="border-t border-gray-200 pt-3 flex justify-between">
+                    <span className="font-bold text-gray-900">Total Due</span>
+                    <span className="font-bold text-xl text-primary">{formatINR(total)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border border-gray-200 rounded-xl p-5 mb-6">
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Override base amount (optional)</label>
+                <p className="text-xs text-gray-400 mb-3">If your invoice reflects a different agreed fee, enter it here.</p>
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-500 font-medium"><IndianRupee size={16} className="inline" /></span>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="Leave blank for default"
+                    value={customAmount !== null ? customAmount : ''}
+                    onChange={handleCustomAmountChange}
+                    className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
+                  />
+                </div>
+              </div>
+
+              <motion.button
+                onClick={handlePay}
+                disabled={processing}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                className="w-full bg-primary text-white font-bold py-3.5 rounded-xl hover:bg-blue-800 transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed text-base"
+              >
+                {processing ? (
+                  <><span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Processing...</>
+                ) : (
+                  <>Pay {formatINR(total)} <Lock size={18} /></>
+                )}
+              </motion.button>
+
+              <div className="flex items-center justify-center gap-4 mt-5 text-xs text-gray-400">
+                <span className="flex items-center gap-1"><Lock size={12} /> Secured by Razorpay</span>
+                <span className="flex items-center gap-1"><Shield size={12} /> 256-bit SSL</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-2 space-y-5">
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+              <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <CheckCircle size={18} className="text-green-500" />
+                What You Get
+              </h3>
+              <ul className="space-y-3 text-sm text-gray-600">
+                <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0 mt-0.5" /> Live instructor-led training</li>
+                <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0 mt-0.5" /> Course materials & recordings</li>
+                <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0 mt-0.5" /> Mock exams & practice tests</li>
+                <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0 mt-0.5" /> Exam registration guidance</li>
+                <li className="flex gap-2"><CheckCircle size={16} className="text-green-500 shrink-0 mt-0.5" /> Batch coordination support</li>
+              </ul>
+            </div>
+
+            <div className="bg-gradient-to-br from-primary to-blue-800 rounded-2xl p-6 text-white">
+              <Shield size={32} className="mb-3 opacity-90" />
+              <h3 className="font-bold text-lg mb-1">Secure Payment</h3>
+              <p className="text-white/80 text-sm leading-relaxed">
+                Your payment is processed through Razorpay's secure gateway. We do not store your card or UPI details.
               </p>
-              <div className="text-3xl font-bold text-primary">{formatINR(defaultBase)}</div>
+              <div className="mt-4 flex items-center gap-3 text-xs text-white/70">
+                <span>Razorpay</span>
+                <span className="w-px h-4 bg-white/30"></span>
+                <span>PCI DSS</span>
+                <span className="w-px h-4 bg-white/30"></span>
+                <span>SSL</span>
+              </div>
             </div>
-            <div className="border-t-2 border-gray-200 pt-4">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Custom base amount (₹, optional)
-              </label>
-              <motion.input
-                type="number"
-                min="0"
-                placeholder="Leave blank to use program price"
-                value={customAmount !== null ? customAmount : ''}
-                onChange={handleCustomAmountChange}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none transition-colors text-lg font-semibold"
-                whileFocus={{ borderColor: '#0056D2' }}
-              />
-              {customAmount !== null && customAmount !== '' && (
-                <p className="text-sm text-primary mt-2 font-medium">
-                  Paying with custom base: {formatINR(customAmount)}
-                </p>
-              )}
+
+            <div className="text-center">
+              <button
+                onClick={() => navigate('/')}
+                className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                Cancel and return home
+              </button>
             </div>
           </div>
         </div>
-
-        <motion.div
-          layout
-          className="space-y-3 mb-6 bg-white rounded-lg border-2 border-gray-200 p-4"
-        >
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700 font-medium">Base Amount</span>
-            <motion.span key={base} initial={{ scale: 1.2 }} animate={{ scale: 1 }} className="font-bold text-lg text-dark">
-              {formatINR(base)}
-            </motion.span>
-          </div>
-          <div className="flex justify-between items-center py-3 border-t-2 border-dashed border-gray-300">
-            <span className="text-gray-700 font-medium">GST (18%)</span>
-            <motion.span key={gst} initial={{ scale: 1.2 }} animate={{ scale: 1 }} className="font-bold text-lg text-accent">
-              {formatINR(gst)}
-            </motion.span>
-          </div>
-          <div className="flex justify-between items-center pt-2 border-t-2 border-primary bg-primary/10 px-3 py-2 rounded-lg">
-            <span className="text-dark font-bold text-lg">Total Amount</span>
-            <motion.span key={total} initial={{ scale: 1.2 }} animate={{ scale: 1 }} className="font-bold text-2xl text-primary">
-              {formatINR(total)}
-            </motion.span>
-          </div>
-        </motion.div>
-
-        <div className="flex gap-3">
-          <motion.button
-            onClick={handlePay}
-            whileHover={{ scale: 1.02, boxShadow: '0 10px 25px rgba(0, 86, 210, 0.3)' }}
-            whileTap={{ scale: 0.98 }}
-            className="btn-primary w-2/3 font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
-          >
-            Pay Now
-          </motion.button>
-          <motion.button
-            onClick={() => { setCustomAmount(null); navigate('/') }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="btn-outline w-1/3 font-bold py-3 rounded-lg border-2"
-          >
-            Cancel
-          </motion.button>
-        </div>
-
-        <p className="text-xs text-gray-600 text-center mt-4">
-          You will be redirected to a secure Razorpay checkout to complete payment.
-        </p>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   )
 }

@@ -1,5 +1,5 @@
 import { courseStructure } from './courseStructure.js'
-import { getAllResolvedCourses } from './catalogBuilder.js'
+import { getAllResolvedCourses, getTotal } from './catalogBuilder.js'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'
 // Set VITE_BACKEND_URL in production to your deployed backend URL (e.g. https://your-app.vercel.app)
@@ -20,6 +20,10 @@ const findBackendMatch = (staticCourse, backendCourses) => {
 const mergeCourseData = (staticCourse, backendCourse) => {
   if (!backendCourse) return staticCourse
 
+  const training = backendCourse.feeDetails?.training ?? backendCourse.trainingFee ?? staticCourse.trainingFee
+  const exam = backendCourse.feeDetails?.exam ?? 0
+  const total = getTotal(backendCourse) || Number(training) + Number(exam) || staticCourse.trainingExam
+
   return {
     ...staticCourse,
     slug: backendCourse.slug ?? staticCourse.slug,
@@ -30,15 +34,20 @@ const mergeCourseData = (staticCourse, backendCourse) => {
     cohort: backendCourse.stats?.nextBatch ?? backendCourse.cohort ?? staticCourse.cohort,
     duration: backendCourse.stats?.duration ?? backendCourse.duration,
     level: backendCourse.stats?.level ?? backendCourse.level,
-    trainingFee: backendCourse.feeDetails?.training ?? backendCourse.trainingFee ?? staticCourse.trainingFee,
-    trainingExam: (backendCourse.feeDetails?.total ?? backendCourse.feeDetails?.exam) ?? backendCourse.trainingExam ?? staticCourse.trainingExam,
+    trainingFee: training,
+    trainingExam: total,
     supportCost: backendCourse.feeDetails?.support ?? staticCourse.supportCost,
     learnMoreUrl: backendCourse.learnMoreUrl ?? staticCourse.learnMoreUrl,
     feeDisclaimer: backendCourse.feeDisclaimer ?? staticCourse.feeDisclaimer,
     highlights: backendCourse.highlights ?? staticCourse.highlights,
     syllabus: backendCourse.syllabus ?? staticCourse.syllabus,
     stats: backendCourse.stats ?? staticCourse.stats,
-    feeDetails: backendCourse.feeDetails ?? staticCourse.feeDetails,
+    feeDetails: {
+      ...(backendCourse.feeDetails ?? staticCourse.feeDetails ?? {}),
+      training: Number(training),
+      exam: Number(exam),
+      total: Number(total),
+    },
   }
 }
 

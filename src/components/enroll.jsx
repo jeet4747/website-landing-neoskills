@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useEnroll } from '../context/EnrollContext'
-import { getAllResolvedCourses, effectiveListedPrice } from '../data/catalogBuilder'
+import { getAllResolvedCourses, effectiveListedPrice, getTotal } from '../data/catalogBuilder'
 import emailjs from '@emailjs/browser'
+import { CheckCircle, Clock, Users, BookOpen, Award, GraduationCap, Shield, ArrowRight, IndianRupee } from 'lucide-react'
 import './enroll.css'
 
 function buildOptionsAndPrices() {
@@ -11,7 +12,7 @@ function buildOptionsAndPrices() {
   const prices = {}
   for (const c of courses) {
     if (!c.title) continue
-    const price = effectiveListedPrice(c) || c.feeDetails?.total || 0
+    const price = getTotal(c) || effectiveListedPrice(c) || 0
     options.push({ value: c.slug, label: c.fullTitle || c.title })
     if (price > 0) prices[c.slug] = price
   }
@@ -36,6 +37,8 @@ export default function Enroll() {
     message: '',
   })
 
+  const [submitting, setSubmitting] = useState(false)
+
   useEffect(() => {
     const preferredCourse =
       location.state?.course ||
@@ -53,15 +56,10 @@ export default function Enroll() {
 
   const mapCourseToValue = (courseName, options) => {
     const text = (courseName || '').toLowerCase().trim()
-    // Try direct slug match first
     const bySlug = options.find(o => o.value === text)
     if (bySlug) return bySlug.value
-
-    // Try keyword matching against course labels
     const byLabel = options.find(o => o.label.toLowerCase().includes(text))
     if (byLabel) return byLabel.value
-
-    // Legacy keyword matching
     if (text.includes('pmp')) return 'pmp'
     if (text.includes('scrum') || text.includes('agile') || text.includes('psm') || text.includes('csm')) return 'certified-scrum-master-csm'
     if (text.includes('aws')) return 'aws-cloud-practitioner'
@@ -83,6 +81,7 @@ export default function Enroll() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setSubmitting(true)
 
     emailjs.sendForm(
       'service_62ub16q',
@@ -90,7 +89,7 @@ export default function Enroll() {
       form.current,
       'S3TiyuUzfI2FRb5RG'
     ).then(() => {
-      console.log('Email sent successfully!')
+      /* email sent */
     }).catch((error) => {
       console.error('EmailJS error:', error)
     })
@@ -116,136 +115,133 @@ export default function Enroll() {
     }
 
     openPayment(paymentPayload)
-
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      course: '',
-      experience: '',
-      message: '',
-    })
+    setSubmitting(false)
   }
 
+  const selectedPrice = formData.course ? (priceMap[formData.course] || 0) : 0
+
   return (
-    <div className="modal-overlay" onClick={() => navigate('/')}>
-      <div className="modal-content enroll-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={() => navigate('/')} aria-label="Close">
-          &times;
-        </button>
+    <div className="enroll-page">
+      <div className="enroll-header-bar">
+        <div className="enroll-header-inner">
+          <Link to="/">Home</Link>
+          <span className="text-sm text-gray-400">NeoSkills Enrollment</span>
+        </div>
+      </div>
 
-        <div className="enroll-header">
-          <span className="enroll-badge">NeoSkills Enrollment</span>
+      <div className="enroll-hero">
+        <h1>Claim Your Seat</h1>
+        <p>Complete your details below and proceed to secure your seat. Our team will confirm batch allocation within 24 hours.</p>
+      </div>
+
+      <div className="enroll-layout">
+        <div className="enroll-info-panel">
+          <div className="panel-header">
+            <h3>Why Train With NeoSkills?</h3>
+            <p>50+ certification programs trusted by 50,000+ professionals worldwide.</p>
+          </div>
+          <div className="panel-body">
+            <div className="benefit-item">
+              <Award size={20} className="text-primary" />
+              <div>
+                <h4>Industry-Recognized Certifications</h4>
+                <p>PMP, AWS, Azure, ITIL, Scrum, Cybersecurity & more — aligned to global standards.</p>
+              </div>
+            </div>
+            <div className="benefit-item">
+              <Users size={20} className="text-primary" />
+              <div>
+                <h4>Live Instructor-Led Training</h4>
+                <p>Interactive sessions with certified practitioners. Real-time Q&A and hands-on labs.</p>
+              </div>
+            </div>
+            <div className="benefit-item">
+              <GraduationCap size={20} className="text-primary" />
+              <div>
+                <h4>Exam Preparation Support</h4>
+                <p>Mock tests, study kits, and exam registration guidance included with every course.</p>
+              </div>
+            </div>
+            <div className="benefit-item">
+              <Shield size={20} className="text-primary" />
+              <div>
+                <h4>Flexible Batch Scheduling</h4>
+                <p>Choose from weekday morning/evening or weekend batches that fit your schedule.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className={`price-preview ${selectedPrice > 0 ? 'visible' : ''}`}>
+            <div className="label">Course Fee</div>
+            <div className="amount">
+              <IndianRupee size={24} className="inline" />
+              {selectedPrice.toLocaleString('en-IN')}
+              <small> + GST</small>
+            </div>
+          </div>
+
+          <div className="trust-strip">
+            <span className="trust-badge"><CheckCircle size={14} className="text-green-500" /> 95% Placement Rate</span>
+            <span className="trust-badge"><Clock size={14} className="text-blue-500" /> 50K+ Certified</span>
+            <span className="trust-badge"><BookOpen size={14} className="text-purple-500" /> 50+ Programs</span>
+          </div>
+        </div>
+
+        <div className="enroll-form-panel">
           <h2>Reserve Your Seat</h2>
-          <p>
-            Fill in your details to continue with enrollment. Our team will guide you with
-            batch details, course support, and the next steps.
-          </p>
+          <p>Fill in your details and we will guide you through the next steps — batch confirmation, payment, and course access.</p>
+
+          <form className="enroll-form" onSubmit={handleSubmit} ref={form}>
+            <div className="form-grid">
+              <div className="form-group">
+                <label htmlFor="name">Full Name</label>
+                <input id="name" type="text" name="name" placeholder="Your full name" value={formData.name} onChange={handleInputChange} required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="phone">Phone Number</label>
+                <input id="phone" type="tel" name="phone" placeholder="+91 98765 43210" value={formData.phone} onChange={handleInputChange} required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email Address</label>
+                <input id="email" type="email" name="email" placeholder="you@example.com" value={formData.email} onChange={handleInputChange} required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="course">Select Course</label>
+                <select id="course" name="course" value={formData.course} onChange={handleInputChange} required>
+                  <option value="">Choose a course</option>
+                  {courseOptions.map((course) => (
+                    <option key={course.value} value={course.value}>{course.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group form-group-full">
+                <label htmlFor="experience">Experience Level</label>
+                <select id="experience" name="experience" value={formData.experience} onChange={handleInputChange}>
+                  <option value="">Select your level</option>
+                  <option value="student">Student / Fresher</option>
+                  <option value="beginner">Beginner</option>
+                  <option value="working-professional">Working Professional</option>
+                  <option value="career-switcher">Career Switcher</option>
+                </select>
+              </div>
+              <div className="form-group form-group-full">
+                <label htmlFor="message">Additional Notes</label>
+                <textarea id="message" name="message" placeholder="Preferred batch timing, questions about the course, or special requirements" value={formData.message} onChange={handleInputChange} rows={4} />
+              </div>
+            </div>
+
+            <div className="form-footer">
+              <p>By submitting, you agree to our enrollment terms. A confirmation will be sent to your email after payment.</p>
+              <button type="submit" disabled={submitting} className="submit-btn">
+                {submitting ? 'Processing...' : (
+                  <span className="flex items-center justify-center gap-2">
+                    Continue to Payment <ArrowRight size={18} />
+                  </span>
+                )}
+              </button>
+            </div>
+          </form>
         </div>
-
-        <div className="enroll-info-strip">
-          <div className="info-chip">Live Instructor-Led Training</div>
-          <div className="info-chip">Upcoming Batches Available</div>
-          <div className="info-chip">Quick Enrollment Support</div>
-        </div>
-
-        <form className="enroll-form" onSubmit={handleSubmit} ref={form}>
-          <div className="form-grid">
-            <div className="form-group">
-              <label htmlFor="name">Full Name</label>
-              <input
-                id="name"
-                type="text"
-                name="name"
-                placeholder="Enter your full name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="phone">Phone Number</label>
-              <input
-                id="phone"
-                type="tel"
-                name="phone"
-                placeholder="Enter your phone number"
-                value={formData.phone}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="email">Email Address</label>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Enter your email address"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="course">Select Course</label>
-              <select
-                id="course"
-                name="course"
-                value={formData.course}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Choose a course</option>
-                {courseOptions.map((course) => (
-                  <option key={course.value} value={course.value}>
-                    {course.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group form-group-full">
-              <label htmlFor="experience">Your Background</label>
-              <select
-                id="experience"
-                name="experience"
-                value={formData.experience}
-                onChange={handleInputChange}
-              >
-                <option value="">Select your experience level</option>
-                <option value="student">Student / Fresher</option>
-                <option value="beginner">Beginner</option>
-                <option value="working-professional">Working Professional</option>
-                <option value="career-switcher">Career Switcher</option>
-              </select>
-            </div>
-
-            <div className="form-group form-group-full">
-              <label htmlFor="message">Additional Notes</label>
-              <textarea
-                id="message"
-                name="message"
-                placeholder="Tell us the course you are interested in, preferred batch timing, or any question you have"
-                value={formData.message}
-                onChange={handleInputChange}
-                rows="4"
-              />
-            </div>
-          </div>
-
-          <div className="enroll-footer">
-            <p className="enroll-note">
-              By continuing, you can proceed toward payment and enrollment support for your selected course.
-            </p>
-            <button type="submit" className="submit-btn">
-              Continue to Enrollment
-            </button>
-          </div>
-        </form>
       </div>
     </div>
   )

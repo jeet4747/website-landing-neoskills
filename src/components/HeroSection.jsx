@@ -1,60 +1,85 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { ArrowRight, ChevronLeft, ChevronRight, Star, Award, TrendingUp, AlertCircle } from 'lucide-react'
-import { useEnroll } from '../context/EnrollContext'
-import { getCourseBySlug, effectiveListedPrice } from '../data/catalogBuilder'
 
-const SLUGS = ['pmp', 'itil-4-foundation', 'prince2-f-and-p']
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
+const SLIDES_API = BACKEND_URL ? `${BACKEND_URL}/api/hero-slides` : '/api/hero-slides'
 
-const TAG_MAP = {
-  'pmp': 'GOLD STANDARD',
-  'itil-4-foundation': 'FEATURED PROGRAM',
-  'prince2-f-and-p': 'MOST POPULAR',
-}
-
-const GRADIENT_MAP = {
-  'pmp': 'from-amber-600 to-amber-800',
-  'itil-4-foundation': 'from-blue-600 to-blue-800',
-  'prince2-f-and-p': 'from-purple-600 to-purple-800',
-}
-
-function buildSlides() {
-  return SLUGS.map((slug) => {
-    const c = getCourseBySlug(slug)
-    if (!c) {
-      return {
-        id: slug,
-        tag: TAG_MAP[slug] || 'COURSE',
-        title: slug,
-        subtitle: '',
-        description: '',
-        amount: 0,
-        gradient: GRADIENT_MAP[slug] || 'from-gray-600 to-gray-800',
-        stats: [],
-      }
-    }
-    const price = effectiveListedPrice(c) || c.feeDetails?.total || 0
-    return {
-      id: slug,
-      tag: TAG_MAP[slug] || 'COURSE',
-      title: c.fullTitle || c.title,
-      subtitle: c.stats?.mode?.split(',')[0] || 'Professional Certification',
-      description: c.summary || c.description,
-      amount: price,
-      gradient: GRADIENT_MAP[slug] || 'from-gray-600 to-gray-800',
-      stats: [
-        { label: 'Duration', value: c.stats?.duration || '' },
-        { label: 'Next Batch', value: c.stats?.nextBatch || '' },
-      ],
-    }
-  }).filter(Boolean)
+function buildFallbackSlides() {
+  return [
+    {
+      id: 'pmp',
+      title: 'Project Management Professional (PMP)',
+      subtitle: 'Professional Certification',
+      description: 'Globally recognised certification for project managers. Master leadership, agile, and strategic business management skills.',
+      badge: 'GOLD STANDARD',
+      gradient: 'from-amber-600 to-amber-800',
+      courseSlug: 'pmp',
+      duration: '4 Days',
+      nextBatch: 'Jun 15',
+      active: true,
+      order: 1,
+    },
+    {
+      id: 'itil-4-foundation',
+      title: 'ITIL 4 Foundation',
+      subtitle: 'Professional Certification',
+      description: 'The world\'s leading framework for IT service management. Align IT services with business needs and deliver value.',
+      badge: 'FEATURED PROGRAM',
+      gradient: 'from-blue-600 to-blue-800',
+      courseSlug: 'itil-4-foundation',
+      duration: '3 Days',
+      nextBatch: 'Jun 20',
+      active: true,
+      order: 2,
+    },
+    {
+      id: 'prince2-f-and-p',
+      title: 'PRINCE2 Foundation & Practitioner',
+      subtitle: 'Professional Certification',
+      description: 'The most widely recognised project management methodology. Gain end-to-end control of any project, any size, any industry.',
+      badge: 'MOST POPULAR',
+      gradient: 'from-purple-600 to-purple-800',
+      courseSlug: 'prince2-f-and-p',
+      duration: '5 Days',
+      nextBatch: 'Jun 25',
+      active: true,
+      order: 3,
+    },
+  ]
 }
 
 const HeroSection = () => {
-  const { openEnroll } = useEnroll()
+  const navigate = useNavigate()
   const [current, setCurrent] = useState(0)
+  const [slides, setSlides] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const slides = useMemo(() => buildSlides(), [])
+  useEffect(() => {
+    let cancelled = false
+    setLoading(true)
+    fetch(SLIDES_API, { signal: AbortSignal.timeout(4000) })
+      .then(res => res.json())
+      .then(data => {
+        if (cancelled) return
+        const active = (Array.isArray(data) ? data : [])
+          .filter(s => s.active !== false)
+          .sort((a, b) => (a.order || 0) - (b.order || 0))
+        if (active.length > 0) {
+          setSlides(active)
+        } else {
+          setSlides(buildFallbackSlides())
+        }
+        setLoading(false)
+      })
+      .catch(() => {
+        if (cancelled) return
+        setSlides(buildFallbackSlides())
+        setLoading(false)
+      })
+    return () => { cancelled = true }
+  }, [])
 
   useEffect(() => {
     if (slides.length < 2) return
@@ -62,11 +87,22 @@ const HeroSection = () => {
     return () => clearInterval(t)
   }, [slides.length])
 
+  if (loading) {
+    return (
+      <section className="min-h-[85vh] flex items-center justify-center bg-white">
+        <div className="flex items-center gap-3 text-gray-400">
+          <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+          Loading...
+        </div>
+      </section>
+    )
+  }
+
   if (slides.length === 0) {
     return (
       <section className="min-h-[70vh] flex items-center justify-center bg-white">
         <div className="text-center text-gray-400 flex items-center gap-2">
-          <AlertCircle size={20} /> No courses loaded
+          <AlertCircle size={20} /> No slides available
         </div>
       </section>
     )
@@ -115,7 +151,7 @@ const HeroSection = () => {
               >
                 <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary rounded-full px-4 py-1.5 text-xs font-bold tracking-wider mb-4">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
-                  {slide.tag}
+                  {slide.badge || 'COURSE'}
                 </div>
 
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-dark mb-3">
@@ -133,25 +169,34 @@ const HeroSection = () => {
                 </p>
 
                 <div className="flex flex-wrap gap-6 mb-8">
-                  {slide.stats.filter(s => s.value).map((stat, i) => (
-                    <div key={i} className="flex items-center gap-2">
+                  {slide.duration && (
+                    <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
                       <span className="text-sm text-gray-600">
-                        <span className="font-semibold text-dark">{stat.value}</span>
-                        <span className="text-gray-400 ml-1">{stat.label}</span>
+                        <span className="font-semibold text-dark">{slide.duration}</span>
+                        <span className="text-gray-400 ml-1">Duration</span>
                       </span>
                     </div>
-                  ))}
+                  )}
+                  {slide.nextBatch && (
+                    <div className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                      <span className="text-sm text-gray-600">
+                        <span className="font-semibold text-dark">{slide.nextBatch}</span>
+                        <span className="text-gray-400 ml-1">Next Batch</span>
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex flex-wrap gap-4">
                   <motion.button
-                    onClick={() => openEnroll({ course: slide.title, baseAmount: slide.amount })}
+                    onClick={() => navigate(`/course/${slide.courseSlug || slide.id}`)}
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     className="inline-flex items-center gap-2 bg-primary text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-800 transition-all shadow-xl shadow-primary/25 text-base"
                   >
-                    Enroll Now{slide.amount > 0 ? ` — ₹${slide.amount.toLocaleString('en-IN')}` : ''}
+                    View Program
                     <ArrowRight size={18} />
                   </motion.button>
                   <motion.a
@@ -180,7 +225,7 @@ const HeroSection = () => {
               >
                 <div className="relative w-80 h-96 rounded-3xl bg-gradient-to-br from-primary to-accent/80 p-[2px] shadow-2xl">
                   <div className="w-full h-full rounded-3xl bg-white p-8 flex flex-col items-center justify-center">
-                    <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${slide.gradient} flex items-center justify-center text-white text-4xl font-bold mb-4 shadow-lg`}>
+                    <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${slide.gradient || 'from-primary to-blue-700'} flex items-center justify-center text-white text-4xl font-bold mb-4 shadow-lg`}>
                       {slide.title.charAt(0)}
                     </div>
                     <h3 className="text-2xl font-bold text-dark text-center mb-2">{slide.title}</h3>
@@ -190,10 +235,12 @@ const HeroSection = () => {
                         <Star key={i} size={14} className="fill-accent text-accent" />
                       ))}
                     </div>
-                    <div className="text-3xl font-bold text-primary">
-                      {slide.amount > 0 ? `₹${slide.amount.toLocaleString('en-IN')}` : 'On Request'}
-                    </div>
-                    <p className="text-xs text-gray-400 mt-1">+ GST</p>
+                    <button
+                      onClick={() => navigate(`/course/${slide.courseSlug || slide.id}`)}
+                      className="inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-blue-800 transition-all shadow-lg shadow-primary/25"
+                    >
+                      View Program <ArrowRight size={14} />
+                    </button>
                   </div>
                 </div>
 

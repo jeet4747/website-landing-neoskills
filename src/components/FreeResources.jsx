@@ -60,7 +60,7 @@ const FreeResources = () => {
             Free Resources
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-dark mb-4">
-            Accelerate Your Learning Journey
+            Free Career Accelerators
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Download free guides, checklists, and reports crafted by industry experts to help you stay ahead.
