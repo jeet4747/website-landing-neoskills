@@ -242,8 +242,19 @@ app.get('*', (req, res) => {
 
 // ─── Start ───
 // ─── Auto-seed on first run ───
+async function ensureTable() {
+  await query(`
+    CREATE TABLE IF NOT EXISTS app_data (
+      key TEXT PRIMARY KEY,
+      data JSONB NOT NULL,
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `)
+}
+
 async function seedIfEmpty() {
   try {
+    await ensureTable()
     const courses = await getData('courses')
     if (courses && Array.isArray(courses) && courses.length > 0) {
       console.log('  Data already seeded, skipping.')
