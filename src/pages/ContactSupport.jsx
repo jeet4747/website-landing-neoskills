@@ -14,12 +14,11 @@ export default function ContactSupport() {
     e.preventDefault()
     setError('')
     emailjs.send('service_62ub16q', 'template_l3twvqg', {
-      name: form.name,
-      email: form.email,
-      phone: form.phone || 'N/A',
+      user_name: form.name,
+      user_email: form.email,
+      user_phone: form.phone || 'N/A',
       course: form.subject || 'General inquiry',
       message: `[Contact Support page]\n\n${form.message}`,
-      domain: window.location.origin,
       source: 'NeoSkills Contact Support Page',
     }, 'S3TiyuUzfI2FRb5RG')
       .then(() => { setSent(true); setForm({ name: '', email: '', phone: '', subject: '', message: '' }) })

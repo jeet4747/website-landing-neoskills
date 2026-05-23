@@ -86,12 +86,11 @@ const CourseDetail = () => {
         'service_62ub16q',
         'template_l3twvqg',
         {
-          name: contactForm.name,
-          email: contactForm.email,
-          phone: contactForm.phone || 'N/A',
+          user_name: contactForm.name,
+          user_email: contactForm.email,
+          user_phone: contactForm.phone || 'N/A',
           course: courseLabel,
           message: `[Course page: /course/${course.slug}]\n\n${contactForm.message}`,
-          domain: window.location.origin,
           source: 'NeoSkills Course Detail Page',
         },
         'S3TiyuUzfI2FRb5RG'

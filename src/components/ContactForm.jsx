@@ -62,12 +62,11 @@ const ContactForm = () => {
     'service_62ub16q',
       'template_l3twvqg',
       {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
+        user_name: formData.name,
+        user_email: formData.email,
+        user_phone: formData.phone,
         course: formData.course,
         message: formData.message,
-        domain: window.location.origin,
         source: 'NeoSkills Landing Page',
       },
       'S3TiyuUzfI2FRb5RG'
