@@ -47,9 +47,8 @@ export default function AdminDashboard() {
   ]
 
   const checkHealth = useCallback(async () => {
-    const base = BACKEND_URL || 'http://localhost:4000'
     try {
-      const res = await fetch(`${base}/api/health`, { signal: AbortSignal.timeout(3000) })
+      const res = await fetch(`${BACKEND_URL}/api/health`, { signal: AbortSignal.timeout(3000) })
       setBackendOnline(res.ok)
     } catch {
       setBackendOnline(false)
