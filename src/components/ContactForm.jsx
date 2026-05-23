@@ -67,6 +67,7 @@ const ContactForm = () => {
         user_phone: formData.phone,
         course: formData.course,
         message: formData.message,
+        domain: window.location.origin,
         source: 'NeoSkills Landing Page',
       },
       'S3TiyuUzfI2FRb5RG'

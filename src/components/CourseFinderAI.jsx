@@ -108,6 +108,7 @@ const CourseFinderAI = () => {
         user_phone: lead.phone || 'N/A',
         course: lead.course || 'Chatbot inquiry',
         message: `[Source: Course Finder Chatbot]\n\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || 'N/A'}\nCourse interested: ${lead.course || 'Not specified'}`,
+        domain: window.location.origin,
         source: 'NeoSkills Course Finder Chatbot',
       }, EMAILJS_KEY)
     } catch (err) {

@@ -91,6 +91,7 @@ const CourseDetail = () => {
           user_phone: contactForm.phone || 'N/A',
           course: courseLabel,
           message: `[Course page: /course/${course.slug}]\n\n${contactForm.message}`,
+          domain: window.location.origin,
           source: 'NeoSkills Course Detail Page',
         },
         'S3TiyuUzfI2FRb5RG'

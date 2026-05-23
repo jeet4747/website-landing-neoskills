@@ -19,6 +19,7 @@ export default function ContactSupport() {
       user_phone: form.phone || 'N/A',
       course: form.subject || 'General inquiry',
       message: `[Contact Support page]\n\n${form.message}`,
+      domain: window.location.origin,
       source: 'NeoSkills Contact Support Page',
     }, 'S3TiyuUzfI2FRb5RG')
       .then(() => { setSent(true); setForm({ name: '', email: '', phone: '', subject: '', message: '' }) })
