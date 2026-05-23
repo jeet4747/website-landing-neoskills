@@ -5,6 +5,7 @@ const pool = new Pool({
   ssl: process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost')
     ? { rejectUnauthorized: false }
     : false,
+  family: 4,
 })
 
 pool.on('error', (err) => {
