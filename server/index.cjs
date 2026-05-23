@@ -4,6 +4,7 @@ const cors = require('cors')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
 const path = require('path')
+const fs = require('fs')
 require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 const { query } = require('./db.cjs')
@@ -68,7 +69,6 @@ const sendConfirmationEmail = async ({ name, email, course, amount }) => {
 }
 
 // ─── Helper: read/write app_data ───
-const fs = require('fs')
 
 function getJsonPath(key) {
   const map = { courses: 'courses.json', jobs: 'jobs.json', hero_slides: 'hero-slides.json' }
@@ -241,9 +241,37 @@ app.get('*', (req, res) => {
 })
 
 // ─── Start ───
+// ─── Auto-seed on first run ───
+async function seedIfEmpty() {
+  try {
+    const courses = await getData('courses')
+    if (courses && Array.isArray(courses) && courses.length > 0) {
+      console.log('  Data already seeded, skipping.')
+      return
+    }
+  } catch { /* assume empty */ }
+
+  console.log('  Seeding initial data from JSON files...')
+  const seeds = [
+    { key: 'courses', file: 'courses.json' },
+    { key: 'jobs', file: 'jobs.json' },
+    { key: 'hero_slides', file: 'hero-slides.json' },
+  ]
+  for (const { key, file } of seeds) {
+    const p = path.join(__dirname, file)
+    if (fs.existsSync(p)) {
+      const data = JSON.parse(fs.readFileSync(p, 'utf8'))
+      await setData(key, data)
+      console.log(`    ✅ ${key} (${Array.isArray(data) ? data.length : 'ok'})`)
+    }
+  }
+}
+
+// ─── Start ───
 const PORT = process.env.PORT || 4000
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Neoskills server running on http://localhost:${PORT}`)
+  if (process.env.DATABASE_URL) await seedIfEmpty()
   console.log(`  API:    http://localhost:${PORT}/api/health`)
   console.log(`  Frontend (if built): http://localhost:${PORT}/`)
 })
