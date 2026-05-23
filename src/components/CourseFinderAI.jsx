@@ -103,11 +103,12 @@ const CourseFinderAI = () => {
   const sendLeadEmail = useCallback(async () => {
     try {
       await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
-        user_name: lead.name,
-        user_email: lead.email,
-        user_phone: lead.phone || 'N/A',
+        name: lead.name,
+        email: lead.email,
+        phone: lead.phone || 'N/A',
         course: lead.course || 'Chatbot inquiry',
         message: `[Source: Course Finder Chatbot]\n\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || 'N/A'}\nCourse interested: ${lead.course || 'Not specified'}`,
+        domain: window.location.origin,
         source: 'NeoSkills Course Finder Chatbot',
       }, EMAILJS_KEY)
     } catch (err) {
