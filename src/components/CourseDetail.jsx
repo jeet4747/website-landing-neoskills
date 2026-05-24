@@ -115,7 +115,7 @@ const CourseDetail = () => {
       })
       .catch((err) => {
         console.error('EmailJS error', err)
-        setContactError('Could not send your message. Please email contact@neoskills.co.in or call +91 8087020031.')
+        setContactError('Could not send your message. Please email contact@neoskills.co.in or call +91 89569 63953.')
       })
   }
 
@@ -486,7 +486,7 @@ const CourseDetail = () => {
                 <div className="flex items-center gap-3">
                   <LucideIcons.Phone size={16} className="text-gray-500 shrink-0" />
                   <div>
-                    <p className="font-medium">+91 8087020031</p>
+                    <p className="font-medium">+91 89569 63953</p>
                     <p className="text-gray-500">Mon–Fri, 9am–7pm IST</p>
                   </div>
                 </div>

@@ -41,7 +41,7 @@ export default function PrivacyPolicy() {
             <p>We implement industry-standard security measures including SSL/TLS encryption, secure payment gateways, and restricted data access to protect your information.</p></section>
 
             <section><h2 className="text-xl font-bold text-gray-900 mb-3">7. Contact</h2>
-            <p>For privacy-related inquiries, contact us at <a href="mailto:contact@neoskills.co.in" className="text-primary font-medium">contact@neoskills.co.in</a> or call <a href="tel:+918087020031" className="text-primary font-medium">+91 8087020031</a>.</p></section>
+            <p>For privacy-related inquiries, contact us at <a href="mailto:contact@neoskills.co.in" className="text-primary font-medium">contact@neoskills.co.in</a> or call <a href="tel:+918956963953" className="text-primary font-medium">+91 89569 63953</a>.</p></section>
           </div>
         </div>
       </div>

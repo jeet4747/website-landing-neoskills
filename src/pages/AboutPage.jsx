@@ -329,7 +329,7 @@ export default function AboutPage() {
                 </Link>
               </div>
               <div className="flex flex-wrap justify-center gap-5 mt-7 text-xs text-gray-500">
-                <span className="flex items-center gap-1.5"><Phone size={12} /> +91 8087020031</span>
+                <span className="flex items-center gap-1.5"><Phone size={12} /> +91 89569 63953</span>
                 <span className="flex items-center gap-1.5"><Mail size={12} /> contact@neoskills.co.in</span>
                 <span className="flex items-center gap-1.5"><MapPin size={12} /> Baner, Pune</span>
               </div>

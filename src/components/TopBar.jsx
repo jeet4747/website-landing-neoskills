@@ -18,7 +18,7 @@ const TopBar = () => {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Phone size={16} />
-              <a href="tel:+918087020031">+91 8087020031</a>
+              <a href="tel:+918956963953">+91 89569 63953</a>
             </div>
             <div className="hidden md:flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Phone size={16} />
@@ -29,7 +29,7 @@ const TopBar = () => {
           {/* Center - Offer */}
           <div className="flex items-center gap-2 justify-center flex-1 md:flex-none">
             <Gift size={18} />
-            <span className="font-semibold">20% Off | Get Certified. Get Ahead!</span>
+            <span className="font-semibold">Empower Your Future</span>
           </div>
 
           {/* Right - Contact & CTA */}

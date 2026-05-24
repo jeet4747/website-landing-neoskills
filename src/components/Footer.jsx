@@ -96,9 +96,9 @@ const Footer = () => {
 
               {/* Contact strip */}
               <div className="space-y-2.5">
-                <a href="tel:+918087020031" className="flex items-center gap-2.5 text-sm text-gray-400 hover:text-white transition-colors">
-                  <Phone size={14} className="text-primary shrink-0" />
-                  +91 8087020031 / +91 9975214585
+<a href="tel:+918956963953" className="flex items-center gap-2.5 text-sm text-gray-400 hover:text-white transition-colors">
+
+                  +91 89569 63953 / +91 9975214585
                 </a>
                 <a href="mailto:contact@neoskills.co.in" className="flex items-center gap-2.5 text-sm text-gray-400 hover:text-white transition-colors">
                   <Mail size={14} className="text-primary shrink-0" />

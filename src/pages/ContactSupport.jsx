@@ -84,7 +84,7 @@ export default function ContactSupport() {
                 <h3 className="font-bold text-gray-900 mb-5">Contact Information</h3>
                 <div className="space-y-4">
                   <div className="flex gap-3"><Phone className="text-primary flex-shrink-0 mt-0.5" size={20} />
-                    <div><p className="font-medium text-gray-800">+91 8087020031</p><p className="text-sm text-gray-500">+91 9975214585</p><p className="text-xs text-gray-400 mt-1">Mon–Fri, 9am–7pm IST</p></div></div>
+                    <div><p className="font-medium text-gray-800">+91 89569 63953</p><p className="text-sm text-gray-500">+91 9975214585</p><p className="text-xs text-gray-400 mt-1">Mon–Fri, 9am–7pm IST</p></div></div>
                   <div className="flex gap-3"><Mail className="text-primary flex-shrink-0 mt-0.5" size={20} />
                     <div><a href="mailto:contact@neoskills.co.in" className="font-medium text-primary hover:underline">contact@neoskills.co.in</a><p className="text-xs text-gray-400">We reply within 24 hours</p></div></div>
                   <div className="flex gap-3"><MapPin className="text-primary flex-shrink-0 mt-0.5" size={20} />

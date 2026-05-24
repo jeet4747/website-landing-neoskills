@@ -5,7 +5,7 @@ import { BookOpen, Search, Phone, CreditCard, Play, Award } from 'lucide-react'
 
 const steps = [
   { icon: Search, title: 'Choose Your Course', desc: 'Browse our 50+ certification programs. Compare course details, syllabus, batch schedules, and fees. Use the course finder or contact us for personalized recommendations.' },
-  { icon: Phone, title: 'Contact & Enroll', desc: 'Reach out via phone (+91 8087020031), email (contact@neoskills.co.in), or the contact form on our website. Our admissions team will guide you through the enrollment process, confirm batch availability, and share payment options.' },
+  { icon: Phone, title: 'Contact & Enroll', desc: 'Reach out via phone (+91 89569 63953), email (contact@neoskills.co.in), or the contact form on our website. Our admissions team will guide you through the enrollment process, confirm batch availability, and share payment options.' },
   { icon: CreditCard, title: 'Complete Payment', desc: 'Pay the course fee via our secure payment gateway. We accept credit/debit cards, UPI, net banking, and EMI options (subject to eligibility). You will receive a payment confirmation and invoice via email.' },
   { icon: Play, title: 'Access Live Training', desc: 'Join live instructor-led sessions as per your batch schedule. You will receive login details, course materials, and session links before the batch starts. Sessions are conducted via Zoom/Google Meet.' },
   { icon: Award, title: 'Get Certified', desc: 'Complete the training, practice with mock exams, and appear for the vendor certification exam. We provide exam registration guidance and preparation support to help you succeed.' },
