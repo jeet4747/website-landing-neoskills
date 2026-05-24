@@ -6,7 +6,7 @@ import * as LucideIcons from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { useEnroll } from '../context/EnrollContext'
 import { allCourses, courseCategories, getAllResolvedCourses, getMergedCourseCategories, getTotal } from './courseData'
-import { loadCourseBySlug } from '../data/courseService.js'
+import { fetchBackendCourses, loadCourseBySlug } from '../data/courseService.js'
 
 const CourseDetail = () => {
   const [loading, setLoading] = useState(true)
@@ -17,6 +17,7 @@ const CourseDetail = () => {
   const navigate = useNavigate()
   const { openEnroll } = useEnroll()
   const [course, setCourse] = useState(null)
+  const [otherCourses, setOtherCourses] = useState([])
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -24,6 +25,18 @@ const CourseDetail = () => {
     message: '',
   })
   const [formSubmitted, setFormSubmitted] = useState(false)
+
+  useEffect(() => {
+    fetchBackendCourses().then(data => {
+      if (Array.isArray(data) && data.length > 0) {
+        setOtherCourses(data.filter(c => c.slug !== slug))
+      } else {
+        setOtherCourses(getAllResolvedCourses().filter(c => c.slug !== slug))
+      }
+    }).catch(() => {
+      setOtherCourses(getAllResolvedCourses().filter(c => c.slug !== slug))
+    })
+  }, [slug])
 
   useEffect(() => {
     setLoading(true)
@@ -68,7 +81,6 @@ const CourseDetail = () => {
   }
 
   const IconComponent = LucideIcons[course.icon] || LucideIcons.BookOpen
-  const otherCourses = getAllResolvedCourses().filter((c) => c.slug !== course.slug)
   const category =
     getMergedCourseCategories().find((cat) => cat.slug === course.categorySlug) || {
       name: course.category,

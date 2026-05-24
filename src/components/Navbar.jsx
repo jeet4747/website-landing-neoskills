@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Search, ChevronDown, Menu, X, Smartphone } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { getAllResolvedCourses } from '../data/catalogBuilder'
+import { fetchBackendCourses } from '../data/courseService'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -10,7 +11,12 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const searchRef = useRef(null)
+  const courseCache = useRef(null)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    fetchBackendCourses().then(data => { courseCache.current = data })
+  }, [])
 
   // Close search on outside click
   useEffect(() => {
@@ -31,7 +37,7 @@ const Navbar = () => {
       setSearchResults([])
       return
     }
-    const all = getAllResolvedCourses()
+    const all = courseCache.current || getAllResolvedCourses()
     const results = all.filter((c) =>
       c.title.toLowerCase().includes(q.toLowerCase())
     )

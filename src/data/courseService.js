@@ -1,7 +1,7 @@
 import { courseStructure } from './courseStructure.js'
 import { getAllResolvedCourses, getTotal } from './catalogBuilder.js'
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 // Set VITE_BACKEND_URL in production to your deployed backend URL (e.g. https://your-app.vercel.app)
 
 const normalizeKey = (text) => String(text || '').toLowerCase().trim()

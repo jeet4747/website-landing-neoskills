@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useEnroll } from '../context/EnrollContext'
 import { getAllResolvedCourses, effectiveListedPrice, getTotal } from '../data/catalogBuilder'
+import { fetchBackendCourses } from '../data/courseService'
 import emailjs from '@emailjs/browser'
 import { CheckCircle, Clock, Users, BookOpen, Award, GraduationCap, Shield, ArrowRight, IndianRupee } from 'lucide-react'
 import './enroll.css'
 
-function buildOptionsAndPrices() {
-  const courses = getAllResolvedCourses()
+function buildOptionsAndPrices(courses) {
   const options = []
   const prices = {}
   for (const c of courses) {
@@ -26,7 +26,15 @@ export default function Enroll() {
   const location = useLocation()
   const form = useRef()
 
-  const { options: courseOptions, prices: priceMap } = useMemo(() => buildOptionsAndPrices(), [])
+  const [allCourses, setAllCourses] = useState(() => getAllResolvedCourses())
+
+  useEffect(() => {
+    fetchBackendCourses().then(data => {
+      if (data && data.length > 0) setAllCourses(data)
+    })
+  }, [])
+
+  const { options: courseOptions, prices: priceMap } = useMemo(() => buildOptionsAndPrices(allCourses), [allCourses])
 
   const [formData, setFormData] = useState({
     name: '',
