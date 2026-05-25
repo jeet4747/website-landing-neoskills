@@ -1157,6 +1157,14 @@ export default function AdminDashboard() {
                         </div>
                         <Field label="WhatsApp Group Link" value={selectedWebinar.whatsappLink || ''} onChange={v => setWebinarField('whatsappLink', v)} />
                         <Field label="Seats" value={String(selectedWebinar.seats || 50)} onChange={v => setWebinarField('seats', Number(v) || 50)} />
+                        <Field label="Audience (e.g. AI & Data Science Students)" value={selectedWebinar.audience || ''} onChange={v => setWebinarField('audience', v)} />
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">Tools & Platforms (one per line)</label>
+                          <textarea value={(selectedWebinar.tools || []).join('\n')}
+                            onChange={e => setWebinarField('tools', e.target.value.split('\n').map(l => l.trim()).filter(Boolean))} rows={3}
+                            className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary font-mono text-xs" />
+                        </div>
 
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1.5">What You'll Learn (one per line)</label>
