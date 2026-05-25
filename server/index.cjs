@@ -5,6 +5,7 @@ const crypto = require('crypto')
 const nodemailer = require('nodemailer')
 const path = require('path')
 const fs = require('fs')
+const multer = require('multer')
 require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 const { query } = require('./db.cjs')
@@ -69,6 +70,29 @@ const sendConfirmationEmail = async ({ name, email, course, amount }) => {
 }
 
 // ─── Helper: read/write app_data ───
+
+const UPLOAD_DIR = path.join(__dirname, '..', 'uploads')
+const CV_DIR = path.join(UPLOAD_DIR, 'cvs')
+if (!fs.existsSync(CV_DIR)) fs.mkdirSync(CV_DIR, { recursive: true })
+
+const cvStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, CV_DIR),
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase()
+    const safeName = `cv-${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`
+    cb(null, safeName)
+  },
+})
+const upload = multer({
+  storage: cvStorage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    const allowed = ['.pdf', '.doc', '.docx']
+    const ext = path.extname(file.originalname).toLowerCase()
+    if (!allowed.includes(ext)) return cb(new Error('Only PDF and DOCX files are allowed'))
+    cb(null, true)
+  },
+})
 
 function getJsonPath(key) {
   const map = { courses: 'courses.json', jobs: 'jobs.json', hero_slides: 'hero-slides.json', webinars: 'webinars.json' }
@@ -210,6 +234,49 @@ app.post('/api/jobs', requireAdmin, async (req, res) => {
   }
 })
 
+// ─── Job Applications API ───
+app.post('/api/job-applications', upload.single('cv'), async (req, res) => {
+  try {
+    const { name, email, phone, jobId, jobTitle, message } = req.body
+    if (!name || !email || !jobId) return res.status(400).json({ error: 'Name, email, and job are required' })
+
+    const application = {
+      id: `app-${Date.now()}`,
+      jobId,
+      jobTitle: jobTitle || '',
+      name,
+      email,
+      phone: phone || '',
+      message: message || '',
+      cvFile: req.file ? req.file.filename : null,
+      cvOriginalName: req.file ? req.file.originalname : null,
+      createdAt: new Date().toISOString(),
+    }
+
+    const existing = await getData('job_applications')
+    const apps = Array.isArray(existing) ? existing : []
+    apps.push(application)
+    await setData('job_applications', apps)
+
+    res.json({ success: true, application })
+  } catch (err) {
+    console.error('job-application error', err)
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.get('/api/job-applications', requireAdmin, async (req, res) => {
+  try {
+    const data = await getData('job_applications')
+    res.json(Array.isArray(data) ? data : [])
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to read applications' })
+  }
+})
+
+// ─── Serve uploads ───
+app.use('/uploads', express.static(UPLOAD_DIR))
+
 // ─── Hero Slides API ───
 app.get('/api/hero-slides', async (req, res) => {
   try {
@@ -250,6 +317,16 @@ app.post('/api/webinars', requireAdmin, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Failed to save webinars' })
   }
+})
+
+// ─── Multer error handler ───
+app.use((err, _req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') return res.status(400).json({ error: 'File too large. Max 10MB allowed.' })
+    return res.status(400).json({ error: err.message })
+  }
+  if (err.message?.includes('PDF and DOCX')) return res.status(400).json({ error: err.message })
+  next(err)
 })
 
 // ─── Serve frontend (production) ───

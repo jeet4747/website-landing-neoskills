@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { motion } from 'framer-motion'
-import { Briefcase, MapPin, Clock, IndianRupee, Calendar, Filter, Search, ChevronRight, Building2, Users, BookOpen, ExternalLink } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Briefcase, MapPin, Clock, IndianRupee, Calendar, Filter, Search, ChevronRight, Building2, Users, BookOpen, ExternalLink, X, Upload, CheckCircle, AlertCircle } from 'lucide-react'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 const API_URL = BACKEND_URL ? `${BACKEND_URL}/api/jobs` : '/api/jobs'
+const APPLY_API = BACKEND_URL ? `${BACKEND_URL}/api/job-applications` : '/api/job-applications'
 
 const typeStyles = {
   'Full-time': 'bg-blue-50 text-blue-700 border-blue-200',
@@ -21,6 +22,14 @@ export default function JobsPage() {
   const [filterDept, setFilterDept] = useState('all')
   const [filterType, setFilterType] = useState('all')
   const [selectedJob, setSelectedJob] = useState(null)
+
+  // Application modal state
+  const [showApply, setShowApply] = useState(false)
+  const [appForm, setAppForm] = useState({ name: '', email: '', phone: '', message: '' })
+  const [appFile, setAppFile] = useState(null)
+  const [appSubmitting, setAppSubmitting] = useState(false)
+  const [appSubmitted, setAppSubmitted] = useState(false)
+  const [appError, setAppError] = useState('')
 
   useEffect(() => {
     fetch(API_URL)
@@ -46,6 +55,43 @@ export default function JobsPage() {
     }
     return true
   })
+
+  const handleApplyOpen = (job) => {
+    setSelectedJob(job)
+    setAppForm({ name: '', email: '', phone: '', message: '' })
+    setAppFile(null)
+    setAppSubmitted(false)
+    setAppError('')
+    setShowApply(true)
+  }
+
+  const handleAppSubmit = async (e) => {
+    e.preventDefault()
+    setAppError('')
+    if (!appForm.name || !appForm.email) {
+      setAppError('Name and email are required')
+      return
+    }
+    setAppSubmitting(true)
+    try {
+      const fd = new FormData()
+      fd.append('name', appForm.name)
+      fd.append('email', appForm.email)
+      fd.append('phone', appForm.phone)
+      fd.append('message', appForm.message)
+      fd.append('jobId', selectedJob?.id || '')
+      fd.append('jobTitle', selectedJob?.title || '')
+      if (appFile) fd.append('cv', appFile)
+
+      const res = await fetch(APPLY_API, { method: 'POST', body: fd })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.error || 'Submission failed')
+      setAppSubmitted(true)
+    } catch (err) {
+      setAppError(err.message)
+    }
+    setAppSubmitting(false)
+  }
 
   return (
     <>
@@ -275,15 +321,15 @@ export default function JobsPage() {
                     <div className="p-6 bg-gray-50 border-t border-gray-100">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <p className="text-xs text-gray-500">
-                          Qualified candidates can apply through NeoSkills. <a href="/contact-support" className="text-primary font-semibold hover:underline">Contact us</a> for referral.
+                          Qualified candidates can apply through NeoSkills. Submit your CV and details below.
                         </p>
-                        <a
-                          href={selectedJob.applicationUrl || '/contact-support'}
+                        <button
+                          onClick={() => handleApplyOpen(selectedJob)}
                           className="btn-primary inline-flex items-center gap-2 text-sm"
                         >
                           <ExternalLink size={15} />
-                          Apply via NeoSkills
-                        </a>
+                          Apply Now
+                        </button>
                       </div>
                     </div>
                   </motion.div>
@@ -306,6 +352,95 @@ export default function JobsPage() {
             </a>
           </div>
         </section>
+
+        {/* ─── Apply Modal ─── */}
+        <AnimatePresence>
+          {showApply && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+              onClick={() => { if (!appSubmitting) setShowApply(false) }}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                onClick={e => e.stopPropagation()}
+                className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
+              >
+                <div className="flex items-center justify-between p-5 border-b border-gray-100">
+                  <div>
+                    <h2 className="text-lg font-bold text-gray-900">Apply for this Position</h2>
+                    <p className="text-sm text-gray-500 mt-0.5">{selectedJob?.title}</p>
+                  </div>
+                  <button onClick={() => setShowApply(false)} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors">
+                    <X size={18} />
+                  </button>
+                </div>
+
+                {appSubmitted ? (
+                  <div className="p-8 text-center">
+                    <CheckCircle size={48} className="mx-auto mb-4 text-green-500" />
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Application Submitted!</h3>
+                    <p className="text-sm text-gray-500 mb-6">Your CV has been received. Our team will review your application and reach out.</p>
+                    <button onClick={() => setShowApply(false)} className="btn-primary text-sm">Done</button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleAppSubmit} className="p-5 space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                      <input type="text" required value={appForm.name} onChange={e => setAppForm(f => ({ ...f, name: e.target.value }))}
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Your full name" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                      <input type="email" required value={appForm.email} onChange={e => setAppForm(f => ({ ...f, email: e.target.value }))}
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="your@email.com" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                      <input type="tel" value={appForm.phone} onChange={e => setAppForm(f => ({ ...f, phone: e.target.value }))}
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="+91 98765 43210" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">CV / Resume *</label>
+                      <div className="relative">
+                        <input type="file" accept=".pdf,.doc,.docx" onChange={e => setAppFile(e.target.files[0] || null)}
+                          className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-white file:cursor-pointer hover:file:bg-blue-800" />
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1.5">Accepted: PDF, DOCX (max 10MB)</p>
+                    </div>
+                    {appFile && (
+                      <div className="flex items-center gap-2 text-xs text-green-600 bg-green-50 px-3 py-2 rounded-lg">
+                        <Upload size={14} />
+                        {appFile.name} ({(appFile.size / 1024 / 1024).toFixed(1)} MB)
+                      </div>
+                    )}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Message (optional)</label>
+                      <textarea value={appForm.message} onChange={e => setAppForm(f => ({ ...f, message: e.target.value }))} rows={3}
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Anything you'd like to add..." />
+                    </div>
+
+                    {appError && (
+                      <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 px-4 py-3 rounded-xl border border-red-100">
+                        <AlertCircle size={15} />
+                        {appError}
+                      </div>
+                    )}
+
+                    <button type="submit" disabled={appSubmitting}
+                      className="w-full py-3 text-sm font-semibold text-white bg-primary rounded-xl hover:bg-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                      {appSubmitting ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Submitting...</> : 'Submit Application'}
+                    </button>
+                  </form>
+                )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
     </>
   )

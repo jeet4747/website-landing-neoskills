@@ -6,6 +6,7 @@ const COURSES_API = BACKEND_URL ? `${BACKEND_URL}/api/courses` : '/api/courses'
 const JOBS_API = BACKEND_URL ? `${BACKEND_URL}/api/jobs` : '/api/jobs'
 const HERO_SLIDES_API = BACKEND_URL ? `${BACKEND_URL}/api/hero-slides` : '/api/hero-slides'
 const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinars'
+const APPLICATIONS_API = BACKEND_URL ? `${BACKEND_URL}/api/job-applications` : '/api/job-applications'
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'neoskills2026'
 
 export default function AdminDashboard() {
@@ -40,6 +41,12 @@ export default function AdminDashboard() {
   const [selectedWebinarId, setSelectedWebinarId] = useState('')
   const [webinarsLoading, setWebinarsLoading] = useState(false)
   const [webinarsSearch, setWebinarsSearch] = useState('')
+
+  // Applications state
+  const [applications, setApplications] = useState([])
+  const [applicationsLoading, setApplicationsLoading] = useState(false)
+  const [applicationsSearch, setApplicationsSearch] = useState('')
+  const [selectedAppJobId, setSelectedAppJobId] = useState('all')
 
   const GRADIENT_OPTIONS = [
     'from-amber-600 to-amber-800',
@@ -185,6 +192,24 @@ export default function AdminDashboard() {
     setWebinarsLoading(false)
   }, [])
 
+  const loadApplications = useCallback(async () => {
+    setApplicationsLoading(true)
+    setError('')
+    try {
+      const res = await fetch(APPLICATIONS_API, {
+        headers: { 'x-admin-password': ADMIN_PASSWORD },
+        signal: AbortSignal.timeout(5000),
+      })
+      if (!res.ok) throw new Error('Server error')
+      const data = await res.json()
+      setApplications(Array.isArray(data) ? data : [])
+    } catch {
+      setApplications([])
+      setError('Failed to load applications')
+    }
+    setApplicationsLoading(false)
+  }, [])
+
   const switchSection = (s) => {
     setSection(s)
     setError('')
@@ -193,6 +218,7 @@ export default function AdminDashboard() {
     if (s === 'jobs' && jobs.length === 0) loadJobs()
     if (s === 'hero-slides' && slides.length === 0) loadSlides()
     if (s === 'webinars' && webinars.length === 0) loadWebinars()
+    if (s === 'applications') loadApplications()
   }
 
   useEffect(() => {
@@ -208,6 +234,7 @@ export default function AdminDashboard() {
     if (auth && section === 'jobs') loadJobs()
     if (auth && section === 'hero-slides') loadSlides()
     if (auth && section === 'webinars') loadWebinars()
+    if (auth && section === 'applications') loadApplications()
   }, [section])
 
   const selected = courses.find(c => (c.slug || c.id) === selectedSlug) || null
@@ -542,6 +569,14 @@ export default function AdminDashboard() {
                 }`}
               >
                 Webinars
+              </button>
+              <button
+                onClick={() => switchSection('applications')}
+                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                  section === 'applications' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Applications
               </button>
             </div>
             <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${
@@ -1206,6 +1241,96 @@ export default function AdminDashboard() {
               </div>
             )}
           </div>
+        )}
+
+        {/* ─── APPLICATIONS SECTION ─── */}
+        {section === 'applications' && (
+          <>
+            {applicationsLoading ? (
+              <div className="text-center py-20">
+                <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-gray-500">Loading applications...</p>
+              </div>
+            ) : (
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                <div className="p-4 border-b border-gray-100 flex items-center gap-3">
+                  <input type="text" placeholder="Search by name, email, or job..."
+                    value={applicationsSearch}
+                    onChange={e => setApplicationsSearch(e.target.value)}
+                    className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
+                  <select value={selectedAppJobId} onChange={e => setSelectedAppJobId(e.target.value)}
+                    className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                    <option value="all">All Jobs</option>
+                    {[...new Set(applications.map(a => a.jobId).filter(Boolean))].map(id => {
+                      const app = applications.find(a => a.jobId === id)
+                      return <option key={id} value={id}>{app?.jobTitle || id}</option>
+                    })}
+                  </select>
+                  <button onClick={() => loadApplications()} className="px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">Refresh</button>
+                </div>
+                <div className="overflow-x-auto">
+                  {applications.length === 0 ? (
+                    <div className="p-12 text-center text-gray-400">
+                      <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                      <p className="mt-2">No applications received yet.</p>
+                    </div>
+                  ) : (
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-gray-50 border-b border-gray-100">
+                          <th className="text-left px-4 py-3 font-semibold text-gray-600">Name</th>
+                          <th className="text-left px-4 py-3 font-semibold text-gray-600">Email</th>
+                          <th className="text-left px-4 py-3 font-semibold text-gray-600">Phone</th>
+                          <th className="text-left px-4 py-3 font-semibold text-gray-600">Job</th>
+                          <th className="text-left px-4 py-3 font-semibold text-gray-600">CV</th>
+                          <th className="text-left px-4 py-3 font-semibold text-gray-600">Message</th>
+                          <th className="text-left px-4 py-3 font-semibold text-gray-600">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {applications
+                          .filter(a => {
+                            if (selectedAppJobId !== 'all' && a.jobId !== selectedAppJobId) return false
+                            if (applicationsSearch) {
+                              const q = applicationsSearch.toLowerCase()
+                              return a.name?.toLowerCase().includes(q) || a.email?.toLowerCase().includes(q) || a.jobTitle?.toLowerCase().includes(q)
+                            }
+                            return true
+                          })
+                          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                          .map(app => (
+                            <tr key={app.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                              <td className="px-4 py-3 font-medium text-gray-900">{app.name}</td>
+                              <td className="px-4 py-3 text-gray-600">
+                                <a href={`mailto:${app.email}`} className="text-primary hover:underline">{app.email}</a>
+                              </td>
+                              <td className="px-4 py-3 text-gray-600">{app.phone || '-'}</td>
+                              <td className="px-4 py-3 text-gray-600">{app.jobTitle || '-'}</td>
+                              <td className="px-4 py-3">
+                                {app.cvFile ? (
+                                  <a href={`/uploads/cvs/${app.cvFile}`} target="_blank" rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 text-primary font-medium hover:underline text-xs">
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                    {app.cvOriginalName || 'Download CV'}
+                                  </a>
+                                ) : (
+                                  <span className="text-gray-400 text-xs">No file</span>
+                                )}
+                              </td>
+                              <td className="px-4 py-3 text-gray-500 max-w-[200px] truncate" title={app.message}>{app.message || '-'}</td>
+                              <td className="px-4 py-3 text-gray-400 text-xs whitespace-nowrap">{new Date(app.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+                <div className="border-t border-gray-100 px-4 py-3 bg-gray-50/50">
+                  <p className="text-xs text-gray-400">{applications.length} application{applications.length !== 1 ? 's' : ''} total</p>
+                </div>
+              </div>
+            )}
+          </>
         )}
 
       </div>
