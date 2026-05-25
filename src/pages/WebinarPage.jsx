@@ -1,0 +1,271 @@
+import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
+import { Calendar, Clock, Users, CheckCircle, ArrowRight, BarChart3, Cpu, Brain, MessageCircle, Zap, Target, BookOpen } from 'lucide-react'
+import emailjs from '@emailjs/browser'
+
+const WEBINAR = {
+  slug: 'ai-data-science',
+  title: 'AI + Data Science',
+  fullTitle: 'AI + Data Science: Build Real-World Models in 90 Minutes',
+  date: '30 May 2026',
+  time: '5:00 PM - 6:30 PM IST',
+  platform: 'Google Meet (link sent after registration)',
+  seats: 50,
+  description: 'Join our live, hands-on workshop and learn how to build machine learning models from scratch. No prior coding experience needed.',
+  whatYouLearn: [
+    'Python basics for data science in 15 mins',
+    'Build your first ML model (regression/classification)',
+    'Data visualization techniques used by top analysts',
+    'AI career roadmap: certifications & job roles',
+    'Live Q&A with industry expert',
+  ],
+  agenda: [
+    { time: '5:00 PM', title: 'Introduction to AI & Data Science', desc: 'Industry overview, career opportunities, and learning path' },
+    { time: '5:15 PM', title: 'Hands-On: Python & Data Exploration', desc: 'Real dataset walkthrough — clean, analyze, visualize' },
+    { time: '5:45 PM', title: 'Build Your First ML Model', desc: 'Train a model, evaluate accuracy, make predictions' },
+    { time: '6:15 PM', title: 'Career Roadmap & Certifications', desc: 'Which certs matter: AWS, Azure, Google, SAS, and more' },
+    { time: '6:25 PM', title: 'Live Q&A', desc: 'Ask anything — career, projects, salaries, next steps' },
+  ],
+  speaker: {
+    name: 'Industry Expert',
+    role: 'Senior Data Scientist',
+    bio: '8+ years in data science & AI. Has trained 5,000+ professionals across top global companies.',
+  },
+}
+
+const WHATSAPP_GROUP = 'https://chat.whatsapp.com/GRTh5uIPNllL6vFssZJT3r?mode=gi_t'
+
+export default function WebinarPage() {
+  const [registered, setRegistered] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
+  const [form, setForm] = useState({ name: '', email: '', phone: '', experience: '' })
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem(`webinar_${WEBINAR.slug}`)
+    if (saved) setRegistered(true)
+  }, [])
+
+  const handleChange = (e) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError('')
+    setSending(true)
+    try {
+      await emailjs.send('service_62ub16q', 'template_l3twvqg', {
+        user_name: form.name,
+        user_email: form.email,
+        user_phone: form.phone,
+        course: `Webinar: ${WEBINAR.title}`,
+        message: `[Webinar Registration]\n\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nExperience: ${form.experience || 'Not specified'}\n\nWebinar: ${WEBINAR.fullTitle}\nDate: ${WEBINAR.date}\nTime: ${WEBINAR.time}`,
+        domain: window.location.origin,
+      }, 'S3TiyuUzfI2FRb5RG')
+
+      sessionStorage.setItem(`webinar_${WEBINAR.slug}`, 'true')
+      setRegistered(true)
+    } catch {
+      setError('Something went wrong. Please try again or email us.')
+    } finally {
+      setSending(false)
+    }
+  }
+
+  return (
+    <>
+      <Helmet>
+        <title>{WEBINAR.fullTitle} | NeoSkills</title>
+        <meta name="description" content={WEBINAR.description} />
+      </Helmet>
+
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        {/* Nav */}
+        <div className="border-b bg-white">
+          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <Link to="/" className="text-sm text-gray-500 hover:text-primary">← Home</Link>
+            <span className="text-xs font-semibold text-primary bg-primary/5 px-3 py-1 rounded-full">Free Webinar</span>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 py-8 md:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            {/* Left: Content */}
+            <div className="lg:col-span-3 space-y-8">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+                  <Zap size={14} />
+                  Live Workshop • Sat, 30 May 2026
+                </div>
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+                  {WEBINAR.fullTitle}
+                </h1>
+                <p className="text-gray-600 mt-3 text-lg">{WEBINAR.description}</p>
+              </motion.div>
+
+              {/* Info bar */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+                <div className="flex flex-wrap gap-4">
+                  {[
+                    { icon: Calendar, label: WEBINAR.date },
+                    { icon: Clock, label: WEBINAR.time },
+                    { icon: Users, label: `${WEBINAR.seats} live spots` },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-600">
+                      <item.icon size={16} className="text-primary" />
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* What you'll learn */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                <h2 className="text-xl font-bold text-gray-800 mb-4">What You'll Learn</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {WEBINAR.whatYouLearn.map((item, i) => (
+                    <div key={i} className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl p-4">
+                      <CheckCircle size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-gray-700">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Agenda */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                <h2 className="text-xl font-bold text-gray-800 mb-4">Agenda</h2>
+                <div className="space-y-3">
+                  {WEBINAR.agenda.map((item, i) => (
+                    <div key={i} className="flex gap-4 bg-white border border-gray-200 rounded-xl p-4">
+                      <div className="w-16 text-sm font-bold text-primary flex-shrink-0">{item.time}</div>
+                      <div>
+                        <h4 className="font-semibold text-gray-800 text-sm">{item.title}</h4>
+                        <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Speaker */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+                <h2 className="text-xl font-bold text-gray-800 mb-4">Meet Your Instructor</h2>
+                <div className="bg-white border border-gray-200 rounded-2xl p-6 flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                    {WEBINAR.speaker.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-800">{WEBINAR.speaker.name}</h4>
+                    <p className="text-sm text-primary font-medium">{WEBINAR.speaker.role}</p>
+                    <p className="text-xs text-gray-500 mt-1">{WEBINAR.speaker.bio}</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right: Registration */}
+            <div className="lg:col-span-2">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="lg:sticky lg:top-24"
+              >
+                {registered ? (
+                  <div className="bg-white border border-green-200 rounded-3xl shadow-lg overflow-hidden">
+                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-8 text-center text-white">
+                      <CheckCircle size={48} className="mx-auto mb-3" />
+                      <h3 className="text-xl font-bold">You're Registered! 🎉</h3>
+                      <p className="text-white/80 text-sm mt-1">Check your email for the join link</p>
+                    </div>
+                    <div className="p-6 text-center space-y-4">
+                      <p className="text-gray-600 text-sm">Join our WhatsApp group for updates, reminders, and community discussions:</p>
+                      <a
+                        href={WHATSAPP_GROUP}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full flex items-center justify-center gap-2 bg-green-500 text-white font-bold py-3.5 rounded-xl hover:bg-green-600 transition-all"
+                      >
+                        <MessageCircle size={20} />
+                        Join WhatsApp Group
+                      </a>
+                      <p className="text-xs text-gray-400">Stay updated on webinar reminders, resources & upcoming sessions</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-white border border-gray-200 rounded-3xl shadow-lg overflow-hidden">
+                    <div className="bg-gradient-to-r from-purple-700 to-blue-700 p-8 text-white">
+                      <h3 className="text-xl font-bold">Reserve Your Spot</h3>
+                      <p className="text-white/80 text-sm mt-1">Limited to {WEBINAR.seats} live attendees</p>
+                    </div>
+                    <form onSubmit={handleSubmit} className="p-6 space-y-4">
+                      <input
+                        type="text"
+                        name="name"
+                        value={form.name}
+                        onChange={handleChange}
+                        placeholder="Full Name *"
+                        required
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary"
+                      />
+                      <input
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        placeholder="Email Address *"
+                        required
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary"
+                      />
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={form.phone}
+                        onChange={handleChange}
+                        placeholder="Phone Number *"
+                        required
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary"
+                      />
+                      <select
+                        name="experience"
+                        value={form.experience}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary bg-white"
+                      >
+                        <option value="">Experience Level</option>
+                        <option value="student">Student / Fresher</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                      </select>
+
+                      {error && <p className="text-red-500 text-xs">{error}</p>}
+
+                      <button
+                        type="submit"
+                        disabled={sending}
+                        className="w-full bg-gradient-to-r from-purple-700 to-blue-700 text-white font-bold py-3.5 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+                      >
+                        {sending ? 'Registering...' : (
+                          <>
+                            Register Free
+                            <ArrowRight size={18} />
+                          </>
+                        )}
+                      </button>
+                      <p className="text-xs text-gray-400 text-center">Free • 90 mins • Live & Interactive</p>
+                    </form>
+                  </div>
+                )}
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}

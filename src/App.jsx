@@ -34,6 +34,7 @@ const EnrollmentGuide = lazy(() => import('./pages/EnrollmentGuide.jsx'))
 const ContactSupport = lazy(() => import('./pages/ContactSupport.jsx'))
 const JobsPage = lazy(() => import('./pages/JobsPage.jsx'))
 const AboutPage = lazy(() => import('./pages/AboutPage.jsx'))
+const WebinarPage = lazy(() => import('./pages/WebinarPage.jsx'))
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-white">
@@ -134,6 +135,7 @@ export default function App() {
               <Route path="/contact-support" element={<ContactSupport />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/placements" element={<JobsPage />} />
+              <Route path="/webinar/:slug" element={<WebinarPage />} />
               <Route path="*" element={
                 <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
                   <div className="text-center max-w-md">
