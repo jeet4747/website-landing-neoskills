@@ -111,8 +111,7 @@ export default function WebinarPopup() {
                   <p className="text-white/90 text-lg font-semibold">{webinar.fullTitle || webinar.title}</p>
                   <p className="text-white/70 text-sm mt-2">{webinar.description}</p>
                   <div className="flex gap-4 mt-4 text-xs text-white/70">
-                    <span className="flex items-center gap-1"><Clock size={12} /> 90 mins</span>
-                    <span className="flex items-center gap-1"><Users size={12} /> {webinar.seats || 50} spots</span>
+                    {webinar.audience && <span className="flex items-center gap-1"><Users size={12} /> {webinar.audience}</span>}
                   </div>
                 </div>
 

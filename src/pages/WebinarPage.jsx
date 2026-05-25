@@ -11,33 +11,38 @@ const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinar
 
 const DEFAULT_WEBINAR = {
   slug: 'ai-data-science',
-  title: 'AI + Data Science',
-  fullTitle: 'AI + Data Science: Build Real-World Models in 90 Minutes',
-  date: '30 May 2026',
-  time: '5:00 PM - 6:30 PM IST',
-  platform: 'Google Meet',
-  seats: 50,
-  description: 'Join our live, hands-on workshop and learn how to build machine learning models from scratch. No prior coding experience needed.',
+  title: 'Beyond Coding',
+  fullTitle: 'Beyond Coding: Prompt Engineering & Generative AI in Modern Software Engineering',
+  date: 'TBD',
+  time: 'TBD',
+  platform: 'JSPM Narhe Technical Campus',
+  seats: 100,
+  description: 'An industry-oriented demonstration session that introduces students to the rapidly evolving world of AI-assisted software engineering and Prompt Engineering. Bridges the gap between academic learning and industry application.',
   whatYouLearn: [
-    'Python basics for data science in 15 mins',
-    'Build your first ML model (regression/classification)',
-    'Data visualization techniques used by top analysts',
-    'AI career roadmap: certifications & job roles',
-    'Live Q&A with industry expert',
+    'Understand modern AI engineering workflows',
+    'Explore practical Prompt Engineering',
+    'Experience AI-assisted development',
+    'Gain exposure to future industry practices',
+    'AI-assisted code generation & debugging',
+    'Documentation automation with AI',
   ],
   agenda: [
-    { time: '5:00 PM', title: 'Introduction to AI & Data Science', desc: 'Industry overview, career opportunities, and learning path' },
-    { time: '5:15 PM', title: 'Hands-On: Python & Data Exploration', desc: 'Real dataset walkthrough — clean, analyze, visualize' },
-    { time: '5:45 PM', title: 'Build Your First ML Model', desc: 'Train a model, evaluate accuracy, make predictions' },
-    { time: '6:15 PM', title: 'Career Roadmap & Certifications', desc: 'Which certs matter: AWS, Azure, Google, SAS, and more' },
-    { time: '6:25 PM', title: 'Live Q&A', desc: 'Ask anything — career, projects, salaries, next steps' },
+    { time: 'Seg 1', title: 'Future of AI-Assisted Software Engineering', desc: 'Overview of AI transforming coding, debugging, documentation and workflows' },
+    { time: 'Seg 2', title: 'Introduction to Prompt Engineering', desc: 'Fundamentals of crafting effective prompts for AI systems' },
+    { time: 'Seg 3', title: 'Live AI Demonstrations', desc: 'Real-time demos of AI tools in action' },
+    { time: 'Seg 4', title: 'AI-Based Coding & Debugging', desc: 'Using AI to generate, review and debug code' },
+    { time: 'Seg 5', title: 'Practical Prompting Frameworks', desc: 'Structured approaches to prompt engineering' },
+    { time: 'Seg 6', title: 'Future AI Engineering Careers', desc: 'Career paths in AI-assisted software engineering' },
+    { time: 'Seg 7', title: 'Interactive Q&A', desc: 'Open discussion with the industry mentor' },
   ],
   speaker: {
-    name: 'Industry Expert',
-    role: 'Senior Data Scientist',
-    bio: '8+ years in data science & AI. Has trained 5,000+ professionals across top global companies.',
+    name: 'Rahul Shah',
+    role: 'AI Educator | Industry Mentor | AI Transformation Speaker',
+    bio: 'AI Educator and Industry Mentor specializing in AI transformation and Prompt Engineering.',
   },
-  whatsappLink: 'https://chat.whatsapp.com/GRTh5uIPNllL6vFssZJT3r?mode=gi_t',
+  tools: ['ChatGPT', 'Claude', 'NotebookLM', 'Gamma AI', 'Cursor AI', 'Canva AI'],
+  audience: 'AI & Data Science Students (SE & TE) - JSPM Narhe Technical Campus',
+  whatsappLink: 'https://chat.whatsapp.com/GRTh5uIPNllL6vFssZJT3r',
 }
 
 export default function WebinarPage() {
@@ -122,6 +127,11 @@ export default function WebinarPage() {
                   {activeWebinar.fullTitle}
                 </h1>
                 <p className="text-gray-600 mt-3 text-lg">{activeWebinar.description}</p>
+                {activeWebinar.audience && (
+                  <p className="text-sm text-primary font-medium mt-2 flex items-center gap-1.5">
+                    <Users size={14} /> {activeWebinar.audience}
+                  </p>
+                )}
               </motion.div>
 
               {/* Info bar */}
@@ -152,6 +162,17 @@ export default function WebinarPage() {
                   ))}
                 </div>
               </motion.div>
+
+              {activeWebinar.tools && activeWebinar.tools.length > 0 && (
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
+                  <h2 className="text-xl font-bold text-gray-800 mb-4">Tools & Platforms</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {activeWebinar.tools.map((tool, i) => (
+                      <span key={i} className="bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-gray-700">{tool}</span>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
               {/* Agenda */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
