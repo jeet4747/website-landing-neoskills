@@ -233,7 +233,17 @@ app.post('/api/hero-slides', requireAdmin, async (req, res) => {
 
 // ─── Serve frontend (production) ───
 const distPath = path.join(__dirname, '..', 'dist')
-app.use(express.static(distPath))
+const publicPath = path.join(__dirname, '..', 'public')
+app.use(express.static(publicPath))
+app.use(express.static(distPath, {
+  maxAge: '1y',
+  immutable: true,
+  setHeaders(res, filePath) {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'public, max-age=0')
+    }
+  }
+}))
 
 app.get('*', (req, res) => {
   if (req.path.startsWith('/api')) return res.status(404).json({ error: 'API route not found' })
