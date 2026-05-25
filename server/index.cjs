@@ -71,7 +71,7 @@ const sendConfirmationEmail = async ({ name, email, course, amount }) => {
 // ─── Helper: read/write app_data ───
 
 function getJsonPath(key) {
-  const map = { courses: 'courses.json', jobs: 'jobs.json', hero_slides: 'hero-slides.json' }
+  const map = { courses: 'courses.json', jobs: 'jobs.json', hero_slides: 'hero-slides.json', webinars: 'webinars.json' }
   return path.join(__dirname, map[key] || `${key}.json`)
 }
 
@@ -228,6 +228,27 @@ app.post('/api/hero-slides', requireAdmin, async (req, res) => {
     res.json({ success: true })
   } catch (err) {
     res.status(500).json({ error: 'Failed to save hero slides' })
+  }
+})
+
+// ─── Webinars API ───
+app.get('/api/webinars', async (req, res) => {
+  try {
+    const data = await getData('webinars')
+    if (!data) return res.json([])
+    res.json(data)
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to read webinars' })
+  }
+})
+
+app.post('/api/webinars', requireAdmin, async (req, res) => {
+  if (!Array.isArray(req.body)) return res.status(400).json({ error: 'Webinars must be an array' })
+  try {
+    await setData('webinars', req.body)
+    res.json({ success: true })
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save webinars' })
   }
 })
 

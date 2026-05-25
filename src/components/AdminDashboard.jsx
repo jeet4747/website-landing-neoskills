@@ -5,6 +5,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 const COURSES_API = BACKEND_URL ? `${BACKEND_URL}/api/courses` : '/api/courses'
 const JOBS_API = BACKEND_URL ? `${BACKEND_URL}/api/jobs` : '/api/jobs'
 const HERO_SLIDES_API = BACKEND_URL ? `${BACKEND_URL}/api/hero-slides` : '/api/hero-slides'
+const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinars'
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'neoskills2026'
 
 export default function AdminDashboard() {
@@ -33,6 +34,12 @@ export default function AdminDashboard() {
   const [slides, setSlides] = useState([])
   const [selectedSlideId, setSelectedSlideId] = useState('')
   const [slidesLoading, setSlidesLoading] = useState(false)
+
+  // Webinar state
+  const [webinars, setWebinars] = useState([])
+  const [selectedWebinarId, setSelectedWebinarId] = useState('')
+  const [webinarsLoading, setWebinarsLoading] = useState(false)
+  const [webinarsSearch, setWebinarsSearch] = useState('')
 
   const GRADIENT_OPTIONS = [
     'from-amber-600 to-amber-800',
@@ -160,6 +167,24 @@ export default function AdminDashboard() {
     setSlidesLoading(false)
   }, [])
 
+  const loadWebinars = useCallback(async () => {
+    setWebinarsLoading(true)
+    setError('')
+    try {
+      const res = await fetch(WEBINARS_API, { signal: AbortSignal.timeout(5000) })
+      if (!res.ok) throw new Error('Server error')
+      const data = await res.json()
+      if (Array.isArray(data)) {
+        setWebinars(data.length > 0 ? data : [])
+        if (!selectedWebinarId && data.length > 0) setSelectedWebinarId(data[0].id || data[0].slug)
+      }
+    } catch {
+      setWebinars([])
+      setError('Backend offline. Webinars can be edited locally but saving requires the server.')
+    }
+    setWebinarsLoading(false)
+  }, [])
+
   const switchSection = (s) => {
     setSection(s)
     setError('')
@@ -167,6 +192,7 @@ export default function AdminDashboard() {
     setUnsaved(false)
     if (s === 'jobs' && jobs.length === 0) loadJobs()
     if (s === 'hero-slides' && slides.length === 0) loadSlides()
+    if (s === 'webinars' && webinars.length === 0) loadWebinars()
   }
 
   useEffect(() => {
@@ -181,6 +207,7 @@ export default function AdminDashboard() {
     if (auth && section === 'courses') loadCourses()
     if (auth && section === 'jobs') loadJobs()
     if (auth && section === 'hero-slides') loadSlides()
+    if (auth && section === 'webinars') loadWebinars()
   }, [section])
 
   const selected = courses.find(c => (c.slug || c.id) === selectedSlug) || null
@@ -405,6 +432,42 @@ export default function AdminDashboard() {
     setSaving(false)
   }
 
+  // ─── Webinar Helpers ───
+  const selectedWebinar = webinars.find(w => w.id === selectedWebinarId || w.slug === selectedWebinarId) || null
+  const filteredWebinars = webinars.filter(w =>
+    !webinarsSearch || w.title?.toLowerCase().includes(webinarsSearch.toLowerCase()) || w.slug?.toLowerCase().includes(webinarsSearch.toLowerCase())
+  )
+
+  const setWebinarField = (field, value) => {
+    setWebinars(prev => prev.map(w => (w.id === selectedWebinarId || w.slug === selectedWebinarId) ? { ...w, [field]: value } : w))
+    setUnsaved(true)
+  }
+
+  const handleWebinarsSave = async () => {
+    if (!backendOnline) {
+      setError('Backend is offline. Cannot save.')
+      return
+    }
+    setSaving(true)
+    setError('')
+    setSuccess('')
+    try {
+      const res = await fetch(WEBINARS_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-password': ADMIN_PASSWORD },
+        body: JSON.stringify(webinars),
+      })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.error || 'Save failed')
+      setSuccess('Webinars saved successfully.')
+      setUnsaved(false)
+      loadWebinars()
+    } catch (err) {
+      setError('Save failed: ' + (err.message || 'Connection error'))
+    }
+    setSaving(false)
+  }
+
   // ─── Auth Screen ───
   if (!auth) {
     return (
@@ -471,6 +534,14 @@ export default function AdminDashboard() {
                 }`}
               >
                 Hero Slides
+              </button>
+              <button
+                onClick={() => switchSection('webinars')}
+                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                  section === 'webinars' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Webinars
               </button>
             </div>
             <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${
@@ -690,9 +761,145 @@ export default function AdminDashboard() {
                                 className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-mono text-xs"
                               />
                             </div>
-                          </>
-                        )}
+          </>
+        )}
+
+        {/* ─── WEBINARS SECTION ─── */}
+        {section === 'webinars' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-900">Webinars</h2>
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-500">{webinars.length} webinar{webinars.length !== 1 ? 's' : ''}</span>
+                <button onClick={() => {
+                  const n = { id: Date.now().toString(), slug: '', title: '', fullTitle: '', date: '', time: '', description: '', whatYouLearn: [], agenda: [], speaker: { name: '', role: '', bio: '' }, whatsappLink: '', platform: 'Google Meet', seats: 50, active: true }
+                  setWebinars(prev => [...prev, n])
+                  setSelectedWebinarId(n.id)
+                  setUnsaved(true)
+                }} className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-blue-800 transition-all flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                  New Webinar
+                </button>
+              </div>
+            </div>
+
+            {webinarsLoading ? (
+              <div className="text-center py-12"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div></div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-1 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                  <div className="p-4 border-b border-gray-100">
+                    <input placeholder="Search webinars..." value={webinarsSearch} onChange={e => setWebinarsSearch(e.target.value)}
+                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary" />
+                  </div>
+                  <div className="overflow-y-auto max-h-[calc(100vh-280px)]">
+                    {filteredWebinars.map(w => {
+                      const active = w.id === selectedWebinarId || w.slug === selectedWebinarId
+                      return (
+                        <button key={w.id || w.slug} onClick={() => { setSelectedWebinarId(w.id || w.slug); setUnsaved(false) }}
+                          className={`w-full text-left px-5 py-4 border-b border-gray-50 hover:bg-gray-50 transition-colors ${active ? 'bg-primary/5 border-l-[3px] border-l-primary' : ''}`}
+                        >
+                          <p className={`text-sm font-semibold truncate ${active ? 'text-primary' : 'text-gray-800'}`}>{w.title || 'Untitled Webinar'}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            {w.date && <span className="text-xs text-gray-400">{w.date}</span>}
+                            <span className={`w-2 h-2 rounded-full ${w.active !== false ? 'bg-green-400' : 'bg-gray-300'}`} />
+                          </div>
+                        </button>
+                      )
+                    })}
+                    {filteredWebinars.length === 0 && (
+                      <div className="p-5 text-center"><p className="text-sm text-gray-400">No webinars yet.</p></div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm">
+                  {!selectedWebinar ? (
+                    <div className="p-12 text-center text-gray-400"><p>Select or create a webinar to edit</p></div>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between border-b border-gray-200 px-6 py-3">
+                        <div className="flex items-center gap-2">
+                          <h2 className="text-sm font-semibold text-gray-900">Edit Webinar</h2>
+                          <button onClick={() => {
+                            setWebinars(prev => prev.map(w => (w.id === selectedWebinarId || w.slug === selectedWebinarId) ? { ...w, active: !w.active } : w))
+                            setUnsaved(true)
+                          }} className={`text-xs font-semibold px-3 py-1 rounded-full border transition-all ${selectedWebinar.active !== false ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-50 text-gray-500 border-gray-200'}`}>
+                            {selectedWebinar.active !== false ? 'Active' : 'Hidden'}
+                          </button>
+                        </div>
+                        <button onClick={() => {
+                          setWebinars(prev => prev.filter(w => w.id !== selectedWebinarId && w.slug !== selectedWebinarId))
+                          setSelectedWebinarId(webinars.length > 1 ? (webinars[0].id || webinars[0].slug) : '')
+                          setUnsaved(true)
+                        }} className="text-xs text-red-600 hover:text-red-800 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors font-medium">Delete</button>
                       </div>
+
+                      <div className="p-6 space-y-5 overflow-y-auto max-h-[calc(100vh-340px)]">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <Field label="Slug (e.g. ai-data-science)" value={selectedWebinar.slug || ''} onChange={v => setWebinarField('slug', v)} />
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Active</label>
+                            <select value={selectedWebinar.active !== false ? 'true' : 'false'} onChange={e => setWebinarField('active', e.target.value === 'true')}
+                              className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary">
+                              <option value="true">Active</option><option value="false">Hidden</option>
+                            </select>
+                          </div>
+                        </div>
+                        <Field label="Title (short)" value={selectedWebinar.title || ''} onChange={v => setWebinarField('title', v)} />
+                        <Field label="Full Title" value={selectedWebinar.fullTitle || ''} onChange={v => setWebinarField('fullTitle', v)} />
+                        <TextAreaField label="Description" value={selectedWebinar.description || ''} onChange={v => setWebinarField('description', v)} rows={3} />
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                          <Field label="Date (e.g. 30 May 2026)" value={selectedWebinar.date || ''} onChange={v => setWebinarField('date', v)} />
+                          <Field label="Time (e.g. 5:00 PM IST)" value={selectedWebinar.time || ''} onChange={v => setWebinarField('time', v)} />
+                          <Field label="Platform" value={selectedWebinar.platform || ''} onChange={v => setWebinarField('platform', v)} />
+                        </div>
+                        <Field label="WhatsApp Group Link" value={selectedWebinar.whatsappLink || ''} onChange={v => setWebinarField('whatsappLink', v)} />
+                        <Field label="Seats" value={String(selectedWebinar.seats || 50)} onChange={v => setWebinarField('seats', Number(v) || 50)} />
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">What You'll Learn (one per line)</label>
+                          <textarea value={(selectedWebinar.whatYouLearn || []).join('\n')}
+                            onChange={e => setWebinarField('whatYouLearn', e.target.value.split('\n').map(l => l.trim()).filter(Boolean))} rows={4}
+                            className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary font-mono text-xs" />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">Agenda (format: time|title|desc, one per line)</label>
+                          <textarea value={(selectedWebinar.agenda || []).map(a => `${a.time}|${a.title}|${a.desc}`).join('\n')}
+                            onChange={e => setWebinarField('agenda', e.target.value.split('\n').filter(Boolean).map(l => { const [time, title, desc] = l.split('|'); return { time: time || '', title: title || '', desc: desc || '' } }))} rows={4}
+                            className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary font-mono text-xs" />
+                        </div>
+
+                        <div className="border-t border-gray-200 pt-5">
+                          <p className="text-sm font-semibold text-gray-700 mb-3">Speaker Details</p>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <Field label="Speaker Name" value={selectedWebinar.speaker?.name || ''} onChange={v => setWebinarField('speaker', { ...selectedWebinar.speaker, name: v })} />
+                            <Field label="Speaker Role" value={selectedWebinar.speaker?.role || ''} onChange={v => setWebinarField('speaker', { ...selectedWebinar.speaker, role: v })} />
+                            <TextAreaField label="Speaker Bio" value={selectedWebinar.speaker?.bio || ''} onChange={v => setWebinarField('speaker', { ...selectedWebinar.speaker, bio: v })} rows={2} />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="border-t border-gray-100 px-6 py-4 flex items-center justify-between bg-gray-50/50 rounded-b-2xl">
+                        <p className="text-xs text-gray-400">Webinars sync across homepage popup + webinar detail page</p>
+                        <div className="flex gap-3">
+                          <button onClick={() => loadWebinars()} className="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">Refresh</button>
+                          <button onClick={handleWebinarsSave} disabled={saving || !backendOnline}
+                            className="px-6 py-2.5 text-sm font-semibold text-white bg-primary rounded-xl hover:bg-blue-800 transition-all disabled:opacity-50 flex items-center gap-2 shadow-sm">
+                            {saving ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Saving...</> : 'Save All Webinars'}
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+      </div>
 
                       <div className="border-t border-gray-100 px-6 py-4 flex items-center justify-between bg-gray-50/50 rounded-b-2xl">
                         <p className="text-xs text-gray-400">{courses.length} courses loaded</p>

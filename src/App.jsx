@@ -20,6 +20,7 @@ import CourseFinderAI from './components/CourseFinderAI.jsx'
 import AICoursesPopup from './components/AICoursesPopup.jsx'
 import LeadPopup from './components/LeadPopup.jsx'
 import WhatsAppPopup from './components/WhatsAppPopup.jsx'
+import WebinarPopup from './components/WebinarPopup.jsx'
 import { EnrollProvider } from './context/EnrollContext.jsx'
 
 const Enroll = lazy(() => import('./components/enroll.jsx'))
@@ -152,6 +153,7 @@ export default function App() {
           <CourseFinderAI />
           <AICoursesPopup />
           <WhatsAppPopup />
+          <WebinarPopup />
           <LeadPopup />
           <Footer />
         </div>

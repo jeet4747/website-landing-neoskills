@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
-import { Calendar, Clock, Users, CheckCircle, ArrowRight, BarChart3, Cpu, Brain, MessageCircle, Zap, Target, BookOpen } from 'lucide-react'
+import { Calendar, Clock, Users, CheckCircle, ArrowRight, MessageCircle, Zap, ExternalLink } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 
-const WEBINAR = {
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
+const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinars'
+
+const DEFAULT_WEBINAR = {
   slug: 'ai-data-science',
   title: 'AI + Data Science',
   fullTitle: 'AI + Data Science: Build Real-World Models in 90 Minutes',
   date: '30 May 2026',
   time: '5:00 PM - 6:30 PM IST',
-  platform: 'Google Meet (link sent after registration)',
+  platform: 'Google Meet',
   seats: 50,
   description: 'Join our live, hands-on workshop and learn how to build machine learning models from scratch. No prior coding experience needed.',
   whatYouLearn: [
@@ -33,20 +37,34 @@ const WEBINAR = {
     role: 'Senior Data Scientist',
     bio: '8+ years in data science & AI. Has trained 5,000+ professionals across top global companies.',
   },
+  whatsappLink: 'https://chat.whatsapp.com/GRTh5uIPNllL6vFssZJT3r?mode=gi_t',
 }
 
-const WHATSAPP_GROUP = 'https://chat.whatsapp.com/GRTh5uIPNllL6vFssZJT3r?mode=gi_t'
-
 export default function WebinarPage() {
+  const { slug } = useParams()
+  const [webinar, setWebinar] = useState(DEFAULT_WEBINAR)
   const [registered, setRegistered] = useState(false)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState({ name: '', email: '', phone: '', experience: '' })
 
   useEffect(() => {
-    const saved = sessionStorage.getItem(`webinar_${WEBINAR.slug}`)
+    fetch(activeWebinarS_API)
+      .then(r => r.json())
+      .then(data => {
+        const found = Array.isArray(data) ? data.find(w => w.slug === slug) : null
+        if (found) setWebinar({ ...DEFAULT_WEBINAR, ...found })
+      })
+      .catch(() => {})
+  }, [slug])
+
+  useEffect(() => {
+    const s = slug || DEFAULT_WEBINAR.slug
+    const saved = sessionStorage.getItem(`webinar_${s}`)
     if (saved) setRegistered(true)
-  }, [])
+  }, [slug])
+
+  const activeWebinar = webinar
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -61,12 +79,12 @@ export default function WebinarPage() {
         user_name: form.name,
         user_email: form.email,
         user_phone: form.phone,
-        course: `Webinar: ${WEBINAR.title}`,
-        message: `[Webinar Registration]\n\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nExperience: ${form.experience || 'Not specified'}\n\nWebinar: ${WEBINAR.fullTitle}\nDate: ${WEBINAR.date}\nTime: ${WEBINAR.time}`,
+        course: `Webinar: ${activeWebinar.title}`,
+        message: `[Webinar Registration]\n\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nExperience: ${form.experience || 'Not specified'}\n\nWebinar: ${activeWebinar.fullTitle}\nDate: ${activeWebinar.date}\nTime: ${activeWebinar.time}`,
         domain: window.location.origin,
       }, 'S3TiyuUzfI2FRb5RG')
 
-      sessionStorage.setItem(`webinar_${WEBINAR.slug}`, 'true')
+      sessionStorage.setItem(`webinar_${slug || DEFAULT_WEBINAR.slug}`, 'true')
       setRegistered(true)
     } catch {
       setError('Something went wrong. Please try again or email us.')
@@ -78,8 +96,8 @@ export default function WebinarPage() {
   return (
     <>
       <Helmet>
-        <title>{WEBINAR.fullTitle} | NeoSkills</title>
-        <meta name="description" content={WEBINAR.description} />
+        <title>{activeWebinar.fullTitle} | NeoSkills</title>
+        <meta name="description" content={activeWebinar.description} />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -101,18 +119,18 @@ export default function WebinarPage() {
                   Live Workshop • Sat, 30 May 2026
                 </div>
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-                  {WEBINAR.fullTitle}
+                  {activeWebinar.fullTitle}
                 </h1>
-                <p className="text-gray-600 mt-3 text-lg">{WEBINAR.description}</p>
+                <p className="text-gray-600 mt-3 text-lg">{activeWebinar.description}</p>
               </motion.div>
 
               {/* Info bar */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
                 <div className="flex flex-wrap gap-4">
                   {[
-                    { icon: Calendar, label: WEBINAR.date },
-                    { icon: Clock, label: WEBINAR.time },
-                    { icon: Users, label: `${WEBINAR.seats} live spots` },
+                    { icon: Calendar, label: activeWebinar.date },
+                    { icon: Clock, label: activeWebinar.time },
+                    { icon: Users, label: `${activeWebinar.seats} live spots` },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-600">
                       <item.icon size={16} className="text-primary" />
@@ -126,7 +144,7 @@ export default function WebinarPage() {
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
                 <h2 className="text-xl font-bold text-gray-800 mb-4">What You'll Learn</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {WEBINAR.whatYouLearn.map((item, i) => (
+                  {activeWebinar.whatYouLearn.map((item, i) => (
                     <div key={i} className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl p-4">
                       <CheckCircle size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
                       <span className="text-sm text-gray-700">{item}</span>
@@ -139,7 +157,7 @@ export default function WebinarPage() {
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
                 <h2 className="text-xl font-bold text-gray-800 mb-4">Agenda</h2>
                 <div className="space-y-3">
-                  {WEBINAR.agenda.map((item, i) => (
+                  {activeWebinar.agenda.map((item, i) => (
                     <div key={i} className="flex gap-4 bg-white border border-gray-200 rounded-xl p-4">
                       <div className="w-16 text-sm font-bold text-primary flex-shrink-0">{item.time}</div>
                       <div>
@@ -156,12 +174,12 @@ export default function WebinarPage() {
                 <h2 className="text-xl font-bold text-gray-800 mb-4">Meet Your Instructor</h2>
                 <div className="bg-white border border-gray-200 rounded-2xl p-6 flex items-center gap-4">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
-                    {WEBINAR.speaker.name.charAt(0)}
+                    {activeWebinar.speaker.name.charAt(0)}
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-800">{WEBINAR.speaker.name}</h4>
-                    <p className="text-sm text-primary font-medium">{WEBINAR.speaker.role}</p>
-                    <p className="text-xs text-gray-500 mt-1">{WEBINAR.speaker.bio}</p>
+                    <h4 className="font-bold text-gray-800">{activeWebinar.speaker.name}</h4>
+                    <p className="text-sm text-primary font-medium">{activeWebinar.speaker.role}</p>
+                    <p className="text-xs text-gray-500 mt-1">{activeWebinar.speaker.bio}</p>
                   </div>
                 </div>
               </motion.div>
@@ -185,7 +203,7 @@ export default function WebinarPage() {
                     <div className="p-6 text-center space-y-4">
                       <p className="text-gray-600 text-sm">Join our WhatsApp group for updates, reminders, and community discussions:</p>
                       <a
-                        href={WHATSAPP_GROUP}
+                        href={activeWebinar.whatsappLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full flex items-center justify-center gap-2 bg-green-500 text-white font-bold py-3.5 rounded-xl hover:bg-green-600 transition-all"
@@ -200,7 +218,7 @@ export default function WebinarPage() {
                   <div className="bg-white border border-gray-200 rounded-3xl shadow-lg overflow-hidden">
                     <div className="bg-gradient-to-r from-purple-700 to-blue-700 p-8 text-white">
                       <h3 className="text-xl font-bold">Reserve Your Spot</h3>
-                      <p className="text-white/80 text-sm mt-1">Limited to {WEBINAR.seats} live attendees</p>
+                      <p className="text-white/80 text-sm mt-1">Limited to {activeWebinar.seats} live attendees</p>
                     </div>
                     <form onSubmit={handleSubmit} className="p-6 space-y-4">
                       <input
