@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
+import emailjs from '@emailjs/browser'
 import { Briefcase, MapPin, Clock, IndianRupee, Calendar, Filter, Search, ChevronRight, Building2, Users, BookOpen, ExternalLink, X, Upload, CheckCircle, AlertCircle } from 'lucide-react'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
@@ -86,6 +87,21 @@ export default function JobsPage() {
       const res = await fetch(APPLY_API, { method: 'POST', body: fd })
       const data = await res.json()
       if (!data.success) throw new Error(data.error || 'Submission failed')
+
+      emailjs.send(
+        'service_62ub16q',
+        'template_l3twvqg',
+        {
+          user_name: appForm.name,
+          user_email: appForm.email,
+          user_phone: appForm.phone,
+          course: `Job Application: ${selectedJob?.title || ''}`,
+          message: `${appForm.message || ''}\n\nJob: ${selectedJob?.title || ''}\nCV: ${window.location.origin}/uploads/cvs/${data.application?.cvFile || ''}`,
+          domain: window.location.hostname,
+        },
+        'S3TiyuUzfI2FRb5RG'
+      )
+
       setAppSubmitted(true)
     } catch (err) {
       setAppError(err.message)
