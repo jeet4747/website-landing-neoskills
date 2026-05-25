@@ -1174,6 +1174,19 @@ export default function AdminDashboard() {
                       <div className="p-6 space-y-5 overflow-y-auto max-h-[calc(100vh-340px)]">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <Field label="Slug (e.g. ai-data-science)" value={selectedWebinar.slug || ''} onChange={v => setWebinarField('slug', v)} />
+                          {selectedWebinar.slug && (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1.5">Webinar Page Link</label>
+                              <div className="flex items-center gap-2">
+                                <input type="text" readOnly value={`${window.location.origin}/webinar/${selectedWebinar.slug}`}
+                                  className="flex-1 px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl text-sm text-gray-600 font-mono text-xs select-all" />
+                                <button onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/webinar/${selectedWebinar.slug}`); setSuccess('Link copied!'); setTimeout(() => setSuccess(''), 2000) }}
+                                  className="shrink-0 px-3 py-2.5 text-xs font-medium text-primary bg-primary/5 border border-primary/20 rounded-xl hover:bg-primary/10 transition-colors">Copy</button>
+                                <a href={`/webinar/${selectedWebinar.slug}`} target="_blank" rel="noopener noreferrer"
+                                  className="shrink-0 px-3 py-2.5 text-xs font-medium text-white bg-primary rounded-xl hover:bg-blue-800 transition-colors">Open</a>
+                              </div>
+                            </div>
+                          )}
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1.5">Active</label>
                             <select value={selectedWebinar.active !== false ? 'true' : 'false'} onChange={e => setWebinarField('active', e.target.value === 'true')}
