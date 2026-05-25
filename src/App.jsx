@@ -36,6 +36,7 @@ const ContactSupport = lazy(() => import('./pages/ContactSupport.jsx'))
 const JobsPage = lazy(() => import('./pages/JobsPage.jsx'))
 const AboutPage = lazy(() => import('./pages/AboutPage.jsx'))
 const WebinarPage = lazy(() => import('./pages/WebinarPage.jsx'))
+const QuickPay = lazy(() => import('./components/QuickPay.jsx'))
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-white">
@@ -126,6 +127,7 @@ export default function App() {
               />
               <Route path="/enroll" element={<Enroll />} />
               <Route path="/payment" element={<PaymentPage />} />
+              <Route path="/quick-pay" element={<QuickPay />} />
               <Route path="/course/:slug" element={<CourseDetail />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />

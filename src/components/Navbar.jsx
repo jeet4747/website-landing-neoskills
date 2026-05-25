@@ -244,7 +244,7 @@ const Navbar = () => {
             </div>
 
             {/* Enroll */}
-            <a href="/enroll"
+            <a href="/quick-pay"
               className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-blue-800 transition-all shadow-sm"
             >
               <GraduationCap size={16} />
@@ -350,7 +350,7 @@ const Navbar = () => {
                   {item.label}
                 </a>
               ))}
-              <a href="/enroll" onClick={() => setIsOpen(false)}
+              <a href="/quick-pay" onClick={() => setIsOpen(false)}
                 className="block px-4 py-3 text-white font-semibold bg-primary rounded-xl hover:bg-blue-800 transition-colors text-center mt-2">
                 Enroll Now
               </a>
