@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, ChevronDown, Menu, X, Smartphone } from 'lucide-react'
+import { Search, ChevronDown, Menu, X, Smartphone, GraduationCap } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { getAllResolvedCourses } from '../data/catalogBuilder'
 import { fetchBackendCourses } from '../data/courseService'
@@ -243,6 +243,14 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
 
+            {/* Enroll */}
+            <a href="/enroll"
+              className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-blue-800 transition-all shadow-sm"
+            >
+              <GraduationCap size={16} />
+              <span>Enroll</span>
+            </a>
+
             {/* Download App */}
             <div className="relative hidden md:block group">
               <motion.button
@@ -342,6 +350,10 @@ const Navbar = () => {
                   {item.label}
                 </a>
               ))}
+              <a href="/enroll" onClick={() => setIsOpen(false)}
+                className="block px-4 py-3 text-white font-semibold bg-primary rounded-xl hover:bg-blue-800 transition-colors text-center mt-2">
+                Enroll Now
+              </a>
 
               {/* Mobile Download App */}
               <div className="mt-3 pt-3 border-t border-gray-100">
