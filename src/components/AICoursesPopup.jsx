@@ -20,16 +20,21 @@ export default function AICoursesPopup() {
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [step, setStep] = useState('list')
   const navigate = useNavigate()
+  const dismissedRef = useRef(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => setShow(true), 3000)
-    return () => clearTimeout(timer)
+    const timer = setTimeout(() => {
+      if (!dismissedRef.current) setShow(true)
+    }, 10000)
+    const interval = setInterval(() => {
+      if (!dismissedRef.current) setShow(true)
+    }, 300000)
+    return () => { clearTimeout(timer); clearInterval(interval) }
   }, [])
 
-  useEffect(() => {
-    const handler = () => setShow(true)
-    window.addEventListener('open-ai-popup', handler)
-    return () => window.removeEventListener('open-ai-popup', handler)
+  const handleDismiss = useCallback(() => {
+    dismissedRef.current = true
+    setShow(false)
   }, [])
 
   const handleCourseClick = (course) => {
@@ -70,7 +75,7 @@ export default function AICoursesPopup() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50"
-          onClick={() => setShow(false)}
+          onClick={handleDismiss}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.92, y: 30 }}
@@ -79,7 +84,7 @@ export default function AICoursesPopup() {
             onClick={e => e.stopPropagation()}
             className="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
           >
-            <button onClick={() => setShow(false)} className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full z-10">
+            <button onClick={handleDismiss} className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full z-10">
               <X size={18} />
             </button>
 
@@ -97,7 +102,7 @@ export default function AICoursesPopup() {
                 <CheckCircle size={64} className="text-green-500 mx-auto mb-4" />
                 <h3 className="text-2xl font-bold text-dark mb-2">Thank You!</h3>
                 <p className="text-gray-500 mb-4">Our team will reach out with AI course details.</p>
-                <button onClick={() => { setShow(false); setSubmitted(false); setStep('list') }} className="bg-primary text-white px-8 py-3 rounded-xl font-semibold">Got it</button>
+                <button onClick={() => { handleDismiss(); setSubmitted(false); setStep('list') }} className="bg-primary text-white px-8 py-3 rounded-xl font-semibold">Got it</button>
               </div>
             ) : step === 'list' ? (
               <div className="p-6 space-y-3">

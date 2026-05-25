@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Clock, Users } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 
-const SHOW_DELAY = 5000
-const REAPPEAR_INTERVAL = 150000
+const SHOW_DELAY = 120000
+const REAPPEAR_INTERVAL = 120000
 
 export default function LeadPopup() {
   const [show, setShow] = useState(false)
