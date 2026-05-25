@@ -17,6 +17,7 @@ import FreeResources from './components/FreeResources.jsx'
 import CareerPathQuiz from './components/CareerPathQuiz.jsx'
 import FAQAccordion from './components/FAQAccordion.jsx'
 import CourseFinderAI from './components/CourseFinderAI.jsx'
+import AICoursesPopup from './components/AICoursesPopup.jsx'
 import LeadPopup from './components/LeadPopup.jsx'
 import { EnrollProvider } from './context/EnrollContext.jsx'
 
@@ -146,6 +147,7 @@ export default function App() {
           </Suspense>
 
           <CourseFinderAI />
+          <AICoursesPopup trigger={true} />
           <LeadPopup />
           <Footer />
         </div>

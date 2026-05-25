@@ -4,7 +4,7 @@ import { useEnroll } from '../context/EnrollContext'
 import {
   MessageCircle, Send, Bot, User, X,
   Award, Cloud, Shield, BookOpen, Users, Briefcase,
-  ArrowRight, BarChart3, Cpu, CheckCircle, Loader2
+  ArrowRight, BarChart3, Cpu, CheckCircle, Loader2, Brain
 } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 
@@ -38,6 +38,7 @@ const quickReplies = [
   'I am interested in cyber security',
   'I want agile / scrum training',
   'Show me all courses',
+  'AI & Machine Learning courses',
 ]
 
 const EMAILJS_SERVICE = 'service_62ub16q'
@@ -56,6 +57,7 @@ function ThinkingDots() {
 
 const CourseFinderAI = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [showGreeting, setShowGreeting] = useState(false)
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [showQuickReplies, setShowQuickReplies] = useState(false)
@@ -66,6 +68,16 @@ const CourseFinderAI = () => {
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
   const { openEnroll } = useEnroll()
+
+  useEffect(() => {
+    const g = setTimeout(() => setShowGreeting(true), 3000)
+    const h = setTimeout(() => setShowGreeting(false), 10000)
+    return () => { clearTimeout(g); clearTimeout(h) }
+  }, [])
+
+  useEffect(() => {
+    if (isOpen) setShowGreeting(false)
+  }, [isOpen])
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -213,15 +225,31 @@ const CourseFinderAI = () => {
 
   return (
     <>
-      <motion.button
-        onClick={() => setIsOpen(true)}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.92 }}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-br from-primary to-blue-700 text-white rounded-full shadow-xl shadow-primary/30 flex items-center justify-center hover:shadow-primary/40 transition-shadow"
-        aria-label="Open course finder"
-      >
-        <MessageCircle size={24} />
-      </motion.button>
+      <div className="fixed bottom-6 right-6 z-40 flex items-end gap-3">
+        <AnimatePresence>
+          {showGreeting && !isOpen && (
+            <motion.div
+              initial={{ opacity: 0, x: 20, scale: 0.9 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 20, scale: 0.9 }}
+              transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+              className="relative bg-white rounded-2xl rounded-br-sm shadow-xl border border-gray-200 px-4 py-3 mb-1"
+            >
+              <p className="text-sm text-gray-700 whitespace-nowrap">Hi, how can I help you? 👋</p>
+              <div className="absolute -bottom-1.5 right-5 w-3 h-3 bg-white border-r border-b border-gray-200 rotate-45" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <motion.button
+          onClick={() => setIsOpen(true)}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
+          className="w-14 h-14 bg-gradient-to-br from-primary to-blue-700 text-white rounded-full shadow-xl shadow-primary/30 flex items-center justify-center hover:shadow-primary/40 transition-shadow flex-shrink-0"
+          aria-label="Open course finder"
+        >
+          <MessageCircle size={24} />
+        </motion.button>
+      </div>
 
       <AnimatePresence>
         {isOpen && (
@@ -242,9 +270,18 @@ const CourseFinderAI = () => {
                   <p className="text-[11px] text-white/70">Online • Typically replies instantly</p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="p-1.5 hover:bg-white/20 rounded-xl transition-colors">
-                <X size={18} />
-              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-ai-popup'))}
+                  className="p-1.5 hover:bg-white/20 rounded-xl transition-colors text-xs flex items-center gap-1"
+                  title="AI Courses"
+                >
+                  <Brain size={16} />
+                </button>
+                <button onClick={() => setIsOpen(false)} className="p-1.5 hover:bg-white/20 rounded-xl transition-colors">
+                  <X size={18} />
+                </button>
+              </div>
             </div>
 
             <div className="h-[440px] overflow-y-auto p-4 bg-[#f5f6f8] space-y-3" style={{ background: '#f5f6f8' }}>
