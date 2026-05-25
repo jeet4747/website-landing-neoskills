@@ -19,6 +19,7 @@ import FAQAccordion from './components/FAQAccordion.jsx'
 import CourseFinderAI from './components/CourseFinderAI.jsx'
 import AICoursesPopup from './components/AICoursesPopup.jsx'
 import LeadPopup from './components/LeadPopup.jsx'
+import WhatsAppPopup from './components/WhatsAppPopup.jsx'
 import { EnrollProvider } from './context/EnrollContext.jsx'
 
 const Enroll = lazy(() => import('./components/enroll.jsx'))
@@ -147,7 +148,8 @@ export default function App() {
           </Suspense>
 
           <CourseFinderAI />
-          <AICoursesPopup trigger={true} />
+          <AICoursesPopup />
+          <WhatsAppPopup />
           <LeadPopup />
           <Footer />
         </div>
