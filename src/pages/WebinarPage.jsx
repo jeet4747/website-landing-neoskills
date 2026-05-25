@@ -49,7 +49,7 @@ export default function WebinarPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', experience: '' })
 
   useEffect(() => {
-    fetch(activeWebinarS_API)
+    fetch(WEBINARS_API)
       .then(r => r.json())
       .then(data => {
         const found = Array.isArray(data) ? data.find(w => w.slug === slug) : null
