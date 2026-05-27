@@ -81,6 +81,8 @@ export default function QuickPay() {
                 phone: formData.phone || '',
                 course: selectedLabel,
                 amount: total,
+                hasGst: false,
+                source: 'quick-pay',
               }),
             })
             const json = await verify.json()

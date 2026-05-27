@@ -1506,10 +1506,10 @@ export default function AdminDashboard() {
                     <thead>
                       <tr className="bg-gray-50 border-b border-gray-100">
                         <th className="text-left px-5 py-3 font-semibold text-gray-600">Name</th>
-                        <th className="text-left px-5 py-3 font-semibold text-gray-600">Email</th>
-                        <th className="text-left px-5 py-3 font-semibold text-gray-600">Phone</th>
                         <th className="text-left px-5 py-3 font-semibold text-gray-600">Course</th>
                         <th className="text-right px-5 py-3 font-semibold text-gray-600">Amount</th>
+                        <th className="text-center px-5 py-3 font-semibold text-gray-600">GST</th>
+                        <th className="text-center px-5 py-3 font-semibold text-gray-600">Source</th>
                         <th className="text-left px-5 py-3 font-semibold text-gray-600">Payment ID</th>
                         <th className="text-left px-5 py-3 font-semibold text-gray-600">Date</th>
                         <th className="text-center px-5 py-3 font-semibold text-gray-600">Status</th>
@@ -1518,11 +1518,22 @@ export default function AdminDashboard() {
                     <tbody className="divide-y divide-gray-100">
                       {enrollments.filter(e => !enrollmentsSearch || e.name?.toLowerCase().includes(enrollmentsSearch.toLowerCase()) || e.email?.toLowerCase().includes(enrollmentsSearch.toLowerCase()) || e.course?.toLowerCase().includes(enrollmentsSearch.toLowerCase()) || e.paymentId?.includes(enrollmentsSearch)).map(e => (
                         <tr key={e.id} className="hover:bg-gray-50 transition-colors">
-                          <td className="px-5 py-3 font-medium text-gray-800">{e.name}</td>
-                          <td className="px-5 py-3 text-gray-500">{e.email}</td>
-                          <td className="px-5 py-3 text-gray-500">{e.phone}</td>
-                          <td className="px-5 py-3 text-gray-700">{e.course}</td>
+                          <td className="px-5 py-3">
+                            <div className="font-medium text-gray-800">{e.name}</div>
+                            <div className="text-xs text-gray-400">{e.email}{e.phone ? ` • ${e.phone}` : ''}</div>
+                          </td>
+                          <td className="px-5 py-3 text-gray-700 max-w-[200px] truncate">{e.course}</td>
                           <td className="px-5 py-3 text-right font-medium text-gray-800">₹{Number(e.amount).toLocaleString('en-IN')}</td>
+                          <td className="px-5 py-3 text-center">
+                            <span className={`inline-block text-[10px] font-semibold px-2 py-1 rounded-full ${e.hasGst ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-gray-50 text-gray-500 border border-gray-200'}`}>
+                              {e.hasGst ? 'With GST' : 'No GST'}
+                            </span>
+                          </td>
+                          <td className="px-5 py-3 text-center">
+                            <span className="inline-block text-[10px] font-medium px-2 py-1 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+                              {e.source || 'enroll'}
+                            </span>
+                          </td>
                           <td className="px-5 py-3 text-xs text-gray-400 font-mono">{e.paymentId}</td>
                           <td className="px-5 py-3 text-gray-500 text-xs">{e.createdAt ? new Date(e.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-'}</td>
                           <td className="px-5 py-3 text-center"><span className="inline-block text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-200">Paid</span></td>

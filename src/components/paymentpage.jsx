@@ -76,6 +76,8 @@ export default function PaymentPage() {
                 phone: paymentData.phone || '',
                 course: paymentData.course || paymentData.plan || 'Professional Course',
                 amount: total,
+                hasGst: true,
+                source: paymentData.source || 'enroll',
               }),
             })
             const json = await verify.json()

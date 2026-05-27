@@ -166,7 +166,7 @@ app.post('/api/create-order', async (req, res) => {
 })
 
 app.post('/api/verify-payment', async (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, name, email, phone, course, amount } = req.body
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, name, email, phone, course, amount, hasGst, source } = req.body
   if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
     return res.status(400).json({ ok: false, error: 'Missing parameters' })
   }
@@ -175,7 +175,7 @@ app.post('/api/verify-payment', async (req, res) => {
     .update(razorpay_order_id + '|' + razorpay_payment_id)
     .digest('hex')
   if (generated_signature === razorpay_signature) {
-    await storeEnrollment({ name, email, phone, course, amount: Number(amount) || 0, paymentId: razorpay_payment_id, orderId: razorpay_order_id, status: 'captured' })
+    await storeEnrollment({ name, email, phone, course, amount: Number(amount) || 0, paymentId: razorpay_payment_id, orderId: razorpay_order_id, status: 'captured', hasGst: hasGst !== false, source: source || 'enroll' })
     try {
       await sendConfirmationEmail({ name, email, course, amount })
     } catch (emailErr) {
@@ -211,12 +211,14 @@ app.post('/api/payment-webhook', async (req, res) => {
       paymentId: p.id,
       orderId: p.order_id,
       status: 'captured',
+      hasGst: notes.hasGst !== 'false',
+      source: notes.source || 'webhook',
     })
   }
   res.json({ ok: true })
 })
 
-async function storeEnrollment({ name, email, phone, course, amount, paymentId, orderId, status }) {
+async function storeEnrollment({ name, email, phone, course, amount, paymentId, orderId, status, hasGst, source }) {
   try {
     const existing = await getData('enrollments')
     const enrollments = Array.isArray(existing) ? existing : []
@@ -227,6 +229,8 @@ async function storeEnrollment({ name, email, phone, course, amount, paymentId, 
       phone: phone || '',
       course: course || 'Unknown',
       amount: amount || 0,
+      hasGst: hasGst !== false,
+      source: source || 'enroll',
       paymentId: paymentId || '',
       orderId: orderId || '',
       status: status || 'captured',
