@@ -147,13 +147,13 @@ export default function UpcomingBatches() {
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <h2 className="upcoming-title">Pick Your Batch</h2>
             <button onClick={() => setViewMode(v => v === 'carousel' ? 'calendar' : 'carousel')}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-lg border transition-all"
+              className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl border-2 transition-all shadow-sm"
               style={{
-                backgroundColor: viewMode === 'calendar' ? '#0056D2' : 'transparent',
-                color: viewMode === 'calendar' ? 'white' : '#6b7280',
-                borderColor: viewMode === 'calendar' ? '#0056D2' : '#d1d5db',
+                backgroundColor: viewMode === 'calendar' ? '#0056D2' : 'white',
+                color: viewMode === 'calendar' ? 'white' : '#0056D2',
+                borderColor: '#0056D2',
               }}>
-              {viewMode === 'calendar' ? <List size={14} /> : <LayoutGrid size={14} />}
+              {viewMode === 'calendar' ? <List size={16} /> : <LayoutGrid size={16} />}
               {viewMode === 'calendar' ? 'Carousel View' : 'Calendar View'}
             </button>
           </div>

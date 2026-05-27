@@ -81,6 +81,10 @@ export default function App() {
                   path="/"
                   element={
                     <>
+                      <section id="upcoming">
+                        <UpcomingBatches />
+                      </section>
+
                       <section id="home">
                         <HeroSection />
                       </section>
