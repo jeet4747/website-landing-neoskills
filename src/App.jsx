@@ -91,10 +91,6 @@ export default function App() {
 
                     <PartneringSection />
 
-                    <section id="upcoming">
-                      <UpcomingBatches />
-                    </section>
-
                     <section id="courses">
                       <CoursesSection />
                     </section>
