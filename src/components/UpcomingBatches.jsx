@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Calendar, Clock, MapPin, Users, LayoutGrid, List, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Calendar, Clock, MapPin, Users, LayoutGrid, List } from 'lucide-react'
 import './upcoming.css'
 import { useEnroll } from '../context/EnrollContext'
 
@@ -31,10 +31,6 @@ export default function UpcomingBatches() {
   const [batches, setBatches] = useState(staticBatches)
   const [loading, setLoading] = useState(true)
   const [viewMode, setViewMode] = useState('carousel')
-  const [calMonth, setCalMonth] = useState(() => {
-    const n = new Date()
-    return { month: n.getMonth(), year: n.getFullYear() }
-  })
 
   useEffect(() => {
     const fetchBatches = async () => {
@@ -82,31 +78,6 @@ export default function UpcomingBatches() {
     }
     return Object.values(groups).sort((a, b) => a.date - b.date)
   }, [batches])
-
-  const calMonthBatches = useMemo(() => {
-    return calendarGroups.filter(g => g.date.getMonth() === calMonth.month && g.date.getFullYear() === calMonth.year)
-  }, [calendarGroups, calMonth])
-
-  const daysInMonth = new Date(calMonth.year, calMonth.month + 1, 0).getDate()
-  const firstDayOfWeek = new Date(calMonth.year, calMonth.month, 1).getDay()
-  const monthName = new Date(calMonth.year, calMonth.month).toLocaleString('en-US', { month: 'long', year: 'numeric' })
-
-  const calGrid = useMemo(() => {
-    const cells = []
-    for (let i = 0; i < firstDayOfWeek; i++) cells.push(null)
-    for (let d = 1; d <= daysInMonth; d++) {
-      const key = `${calMonth.year}-${String(calMonth.month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
-      const dayBatches = calMonthBatches.filter(g => {
-        const gk = `${g.date.getFullYear()}-${String(g.date.getMonth() + 1).padStart(2, '0')}-${String(g.date.getDate()).padStart(2, '0')}`
-        return gk === key
-      })
-      cells.push({ day: d, batches: dayBatches.flatMap(g => g.batches) })
-    }
-    return cells
-  }, [calMonthBatches, daysInMonth, firstDayOfWeek, calMonth])
-
-  const prevMonth = () => setCalMonth(c => ({ month: c.month === 0 ? 11 : c.month - 1, year: c.month === 0 ? c.year - 1 : c.year }))
-  const nextMonth = () => setCalMonth(c => ({ month: c.month === 11 ? 0 : c.month + 1, year: c.month === 11 ? c.year + 1 : c.year }))
 
   const duplicated = [...batches, ...batches]
 
@@ -211,59 +182,42 @@ export default function UpcomingBatches() {
             </div>
           </>
         ) : (
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
-            {/* Month navigation */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-              <button onClick={prevMonth} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-400 hover:text-white">
-                <ChevronLeft size={20} />
-              </button>
-              <h3 className="text-lg font-semibold text-white">{monthName}</h3>
-              <button onClick={nextMonth} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-400 hover:text-white">
-                <ChevronRight size={20} />
-              </button>
-            </div>
-
-            {/* Day headers */}
-            <div className="grid grid-cols-7 border-b border-white/5">
-              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-                <div key={d} className="text-center py-2 text-xs font-medium text-gray-500">{d}</div>
-              ))}
-            </div>
-
-            {/* Calendar grid */}
-            <div className="grid grid-cols-7">
-              {calGrid.map((cell, i) => (
-                <div key={i} className={`min-h-[90px] border-b border-r border-white/5 p-1.5 ${!cell ? 'bg-white/[0.02]' : ''}`}>
-                  {cell && (
-                    <>
-                      <span className={`text-xs font-semibold ${cell.batches.length > 0 ? 'text-primary' : 'text-gray-500'}`}>
-                        {cell.day}
-                      </span>
-                      <div className="mt-1 space-y-1">
-                        {cell.batches.slice(0, 2).map(b => (
-                          <Link key={b.id} to={`/course/${b.slug}`}
-                            className="block text-[10px] leading-tight bg-primary/20 text-primary rounded px-1.5 py-0.5 truncate hover:bg-primary/30 transition-colors"
-                            title={b.title}>
+          <div className="space-y-4">
+            {calendarGroups.length === 0 ? (
+              <div className="text-center py-12 text-gray-500 text-sm">No upcoming batch dates scheduled.</div>
+            ) : (
+              calendarGroups.map((g, i) => (
+                <div key={i} className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
+                  <div className="flex items-center gap-3 px-6 py-4 bg-white/[0.03] border-b border-white/10">
+                    <div className="flex items-center gap-2 text-primary">
+                      <Calendar size={16} />
+                      <span className="font-bold text-white">{g.date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                    </div>
+                    <span className="text-xs text-gray-500 ml-auto">{g.batches.length} batch{g.batches.length > 1 ? 'es' : ''}</span>
+                  </div>
+                  <div className="divide-y divide-white/5">
+                    {g.batches.map(b => (
+                      <div key={b.id} className="flex items-center gap-4 px-6 py-4 hover:bg-white/[0.02] transition-colors">
+                        <div className="flex-1 min-w-0">
+                          <Link to={`/course/${b.slug}`} className="text-sm font-semibold text-white hover:text-primary transition-colors truncate block">
                             {b.title}
                           </Link>
-                        ))}
-                        {cell.batches.length > 2 && (
-                          <span className="text-[10px] text-gray-500 pl-1">+{cell.batches.length - 2} more</span>
-                        )}
+                          <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                            <span>{b.mode}</span>
+                            <span>{b.category}</span>
+                          </div>
+                        </div>
+                        <span className="text-xs text-amber-400 font-medium whitespace-nowrap">{b.seats} seats</span>
+                        <button onClick={() => openEnroll()}
+                          className="shrink-0 px-4 py-2 text-xs font-semibold bg-primary text-white rounded-xl hover:bg-blue-800 transition-all">
+                          Enroll
+                        </button>
                       </div>
-                    </>
-                  )}
+                    ))}
+                  </div>
                 </div>
-              ))}
-            </div>
-
-            {/* Legend */}
-            <div className="px-6 py-3 border-t border-white/5 flex items-center gap-4 text-xs text-gray-500">
-              <span className="flex items-center gap-1.5"><Calendar size={12} /> {calendarGroups.length} batch dates scheduled</span>
-              {calendarGroups.filter(g => g.date.getMonth() === calMonth.month && g.date.getFullYear() === calMonth.year).length > 0 && (
-                <span className="flex items-center gap-1.5"><Users size={12} /> {calMonthBatches.reduce((s, g) => s + g.batches.length, 0)} batches this month</span>
-              )}
-            </div>
+              ))
+            )}
           </div>
         )}
       </div>
