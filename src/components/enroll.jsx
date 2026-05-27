@@ -120,6 +120,7 @@ export default function Enroll() {
       experience: formData.experience,
       message: formData.message,
       baseAmount,
+      source: location.state?.source || 'enroll',
     }
 
     openPayment(paymentPayload)
