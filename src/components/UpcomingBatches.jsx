@@ -234,7 +234,7 @@ export default function UpcomingBatches() {
                               {g.batches.map(b => (
                                 <div key={b.id} className="flex items-center gap-4 px-6 py-4 hover:bg-white/[0.02] transition-colors">
                                   <div className="flex-1 min-w-0">
-                                    <Link to={`/course/${b.slug}`} className="text-sm font-semibold text-white hover:text-primary transition-colors truncate block">
+                                    <Link to={`/course/${b.slug}`} className="text-sm font-semibold text-gray-100 hover:text-primary transition-colors truncate block">
                                       {b.title}
                                     </Link>
                                     <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
