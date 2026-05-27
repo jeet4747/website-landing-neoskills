@@ -322,8 +322,25 @@ app.post('/api/webinars', requireAdmin, async (req, res) => {
 // ─── Batches API ───
 app.get('/api/batches', async (req, res) => {
   try {
-    const data = await getData('batches')
-    if (!data) return res.json([])
+    let data = await getData('batches')
+    if (!data) {
+      const defaultBatches = [
+        { id: '1', slug: '', title: '', course: 'aws-cloud-practitioner', date: '30-05-2026', mode: 'Evening • 4:00 PM - 7:00 PM', seats: 8, active: true },
+        { id: '2', slug: '', title: '', course: 'certified-scrum-master-csm', date: '23-05-2026', mode: 'Live online', seats: 5, active: true },
+        { id: '3', slug: '', title: '', course: 'devops-tools-and-training', date: '06-06-2026', mode: 'Live online', seats: 12, active: true },
+        { id: '4', slug: '', title: '', course: 'itil-4-foundation', date: '23-05-2026', mode: 'Weekend cohort', seats: 6, active: true },
+        { id: '5', slug: '', title: '', course: 'agile-safe-advanced-scrum-master-sasm', date: '23-05-2026', mode: 'Advanced cohort', seats: 4, active: true },
+        { id: '6', slug: '', title: '', course: 'pmp', date: '23-05-2026', mode: 'Live bootcamp', seats: 3, active: true },
+        { id: '7', slug: '', title: '', course: 'power-bi', date: '23-05-2026', mode: 'Data analytics track', seats: 10, active: true },
+        { id: '8', slug: '', title: '', course: 'professional-scrum-master-i-psm-i', date: '23-05-2026', mode: 'Live online', seats: 7, active: true },
+        { id: '9', slug: '', title: '', course: 'professional-scrum-master-ai-essentials-certification', date: '30-05-2026', mode: 'AI-enabled Scrum', seats: 9, active: true },
+        { id: '10', slug: '', title: '', course: 'professional-scrum-product-owner-i-pspo-i', date: '23-05-2026', mode: 'Live online', seats: 6, active: true },
+        { id: '11', slug: '', title: '', course: 'servicenow', date: '23-05-2026', mode: 'Evening cohort', seats: 8, active: true },
+        { id: '12', slug: '', title: '', course: 'professional-scrum-product-owner-ii-pspo-ii', date: '30-05-2026', mode: 'Live online', seats: 11, active: true },
+      ]
+      await setData('batches', defaultBatches)
+      return res.json(defaultBatches)
+    }
     res.json(data)
   } catch (err) {
     res.status(500).json({ error: 'Failed to read batches' })
