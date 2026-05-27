@@ -216,25 +216,25 @@ export default function UpcomingBatches() {
                   if (dates.length === 0) return null
                   return (
                     <div key={mg.label}>
-                      <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                      <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
                         <Calendar size={18} className="text-primary" />
                         {mg.label}
                       </h3>
                       <div className="space-y-3">
                         {dates.map((g, i) => (
-                          <div key={i} className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
-                            <div className="flex items-center gap-3 px-6 py-4 bg-white/[0.03] border-b border-white/10">
+                          <div key={i} className="bg-white shadow-sm rounded-2xl border border-gray-200 overflow-hidden">
+                            <div className="flex items-center gap-3 px-6 py-4 bg-gray-50 border-b border-gray-100">
                               <div className="flex items-center gap-2 text-primary">
                                 <Calendar size={16} />
                                 <span className="font-bold text-primary text-base">{g.date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })}</span>
                               </div>
-                              <span className="text-xs text-gray-500 ml-auto">{g.batches.length} batch{g.batches.length > 1 ? 'es' : ''}</span>
+                              <span className="text-xs text-gray-400 ml-auto">{g.batches.length} batch{g.batches.length > 1 ? 'es' : ''}</span>
                             </div>
-                            <div className="divide-y divide-white/5">
+                            <div className="divide-y divide-gray-100">
                               {g.batches.map(b => (
-                                <div key={b.id} className="flex items-center gap-4 px-6 py-4 hover:bg-white/[0.02] transition-colors">
+                                <div key={b.id} className="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors">
                                   <div className="flex-1 min-w-0">
-                                    <Link to={`/course/${b.slug}`} className="text-sm font-semibold text-gray-100 hover:text-primary transition-colors truncate block">
+                                    <Link to={`/course/${b.slug}`} className="text-sm font-semibold text-gray-800 hover:text-primary transition-colors truncate block">
                                       {b.title}
                                     </Link>
                                     <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
@@ -242,7 +242,7 @@ export default function UpcomingBatches() {
                                       <span>{b.category || ''}</span>
                                     </div>
                                   </div>
-                                  <span className="text-xs text-amber-400 font-medium whitespace-nowrap">{b.seats} seats</span>
+                                  <span className="text-xs text-amber-600 font-medium whitespace-nowrap">{b.seats} seats</span>
                                   <button onClick={() => openEnroll()}
                                     className="shrink-0 px-5 py-2 text-xs font-semibold bg-primary text-white rounded-xl hover:bg-blue-800 transition-all shadow-sm">
                                     Enroll
@@ -258,7 +258,7 @@ export default function UpcomingBatches() {
                 })}
                 {expiredGroups.length > 0 && (
                   <details className="group">
-                    <summary className="cursor-pointer text-sm text-gray-400 hover:text-gray-300 transition-colors flex items-center gap-2 py-2">
+                    <summary className="cursor-pointer text-sm text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-2 py-2">
                       <span className="transition-transform group-open:rotate-90 inline-block mr-1">▶</span>
                       Past Batches ({expiredGroups.length} date{expiredGroups.length > 1 ? 's' : ''})
                     </summary>
@@ -268,20 +268,20 @@ export default function UpcomingBatches() {
                         if (dates.length === 0) return null
                         return (
                           <div key={`exp-${mg.label}`}>
-                            <h4 className="text-sm font-semibold text-gray-400 mb-2 flex items-center gap-2">
-                              <Calendar size={14} className="text-gray-500" />
+                            <h4 className="text-sm font-semibold text-gray-500 mb-2 flex items-center gap-2">
+                              <Calendar size={14} className="text-gray-400" />
                               {mg.label}
                             </h4>
                             {dates.map((g, i) => (
-                              <div key={i} className="bg-white/[0.02] rounded-xl border border-white/5 overflow-hidden mb-2">
-                                <div className="flex items-center gap-3 px-5 py-3 bg-white/[0.02] border-b border-white/5">
-                                  <Calendar size={14} className="text-gray-500" />
-                                  <span className="font-medium text-gray-400 text-sm">{g.date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })}</span>
-                                  <span className="text-[10px] text-gray-600 ml-auto">Expired</span>
+                              <div key={i} className="bg-gray-50 rounded-xl border border-gray-100 overflow-hidden mb-2">
+                                <div className="flex items-center gap-3 px-5 py-3 bg-gray-100/50 border-b border-gray-100">
+                                  <Calendar size={14} className="text-gray-400" />
+                                  <span className="font-medium text-gray-500 text-sm">{g.date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })}</span>
+                                  <span className="text-[10px] text-gray-400 ml-auto">Expired</span>
                                 </div>
-                                <div className="divide-y divide-white/[0.02]">
+                                <div className="divide-y divide-gray-100/50">
                                   {g.batches.map(b => (
-                                    <div key={b.id} className="flex items-center gap-3 px-5 py-2.5 opacity-40">
+                                    <div key={b.id} className="flex items-center gap-3 px-5 py-2.5 opacity-50">
                                       <span className="text-xs text-gray-500">{b.title}</span>
                                     </div>
                                   ))}
