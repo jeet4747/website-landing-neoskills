@@ -187,7 +187,7 @@ export default function UpcomingBatches() {
                         </div>
                       </div>
                       <div className="ub-card-actions">
-                        <button className="ub-btn-primary" onClick={() => openEnroll()}>
+                        <button className="ub-btn-primary" onClick={() => openEnroll({ course: b.slug })}>
                           Enroll Now
                         </button>
                         <Link className="ub-btn-secondary" to={`/course/${b.slug}`}>
@@ -243,7 +243,7 @@ export default function UpcomingBatches() {
                                     </div>
                                   </div>
                                   <span className="text-xs text-amber-600 font-medium whitespace-nowrap">{b.seats} seats</span>
-                                  <button onClick={() => openEnroll()}
+                                  <button onClick={() => openEnroll({ course: b.slug })}
                                     className="shrink-0 px-5 py-2 text-xs font-semibold bg-primary text-white rounded-xl hover:bg-blue-800 transition-all shadow-sm">
                                     Enroll
                                   </button>
