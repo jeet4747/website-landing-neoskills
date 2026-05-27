@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Calendar, Clock, MapPin, Users } from 'lucide-react'
+import { Calendar, Clock, MapPin, Users, LayoutGrid, List, ChevronLeft, ChevronRight } from 'lucide-react'
 import './upcoming.css'
 import { useEnroll } from '../context/EnrollContext'
 
@@ -30,6 +30,11 @@ export default function UpcomingBatches() {
   const [isPaused, setIsPaused] = useState(false)
   const [batches, setBatches] = useState(staticBatches)
   const [loading, setLoading] = useState(true)
+  const [viewMode, setViewMode] = useState('carousel')
+  const [calMonth, setCalMonth] = useState(() => {
+    const n = new Date()
+    return { month: n.getMonth(), year: n.getFullYear() }
+  })
 
   useEffect(() => {
     const fetchBatches = async () => {
@@ -60,6 +65,48 @@ export default function UpcomingBatches() {
     }
     fetchBatches()
   }, [])
+
+  const parseDate = (d) => {
+    const parts = (d || '').split('-')
+    if (parts.length === 3) return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
+    return new Date(d)
+  }
+
+  const calendarGroups = useMemo(() => {
+    const groups = {}
+    for (const b of batches) {
+      const d = parseDate(b.date)
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+      if (!groups[key]) groups[key] = { date: d, label: b.date, batches: [] }
+      groups[key].batches.push(b)
+    }
+    return Object.values(groups).sort((a, b) => a.date - b.date)
+  }, [batches])
+
+  const calMonthBatches = useMemo(() => {
+    return calendarGroups.filter(g => g.date.getMonth() === calMonth.month && g.date.getFullYear() === calMonth.year)
+  }, [calendarGroups, calMonth])
+
+  const daysInMonth = new Date(calMonth.year, calMonth.month + 1, 0).getDate()
+  const firstDayOfWeek = new Date(calMonth.year, calMonth.month, 1).getDay()
+  const monthName = new Date(calMonth.year, calMonth.month).toLocaleString('en-US', { month: 'long', year: 'numeric' })
+
+  const calGrid = useMemo(() => {
+    const cells = []
+    for (let i = 0; i < firstDayOfWeek; i++) cells.push(null)
+    for (let d = 1; d <= daysInMonth; d++) {
+      const key = `${calMonth.year}-${String(calMonth.month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
+      const dayBatches = calMonthBatches.filter(g => {
+        const gk = `${g.date.getFullYear()}-${String(g.date.getMonth() + 1).padStart(2, '0')}-${String(g.date.getDate()).padStart(2, '0')}`
+        return gk === key
+      })
+      cells.push({ day: d, batches: dayBatches.flatMap(g => g.batches) })
+    }
+    return cells
+  }, [calMonthBatches, daysInMonth, firstDayOfWeek, calMonth])
+
+  const prevMonth = () => setCalMonth(c => ({ month: c.month === 0 ? 11 : c.month - 1, year: c.month === 0 ? c.year - 1 : c.year }))
+  const nextMonth = () => setCalMonth(c => ({ month: c.month === 11 ? 0 : c.month + 1, year: c.month === 11 ? c.year + 1 : c.year }))
 
   const duplicated = [...batches, ...batches]
 
@@ -97,58 +144,128 @@ export default function UpcomingBatches() {
             <Calendar size={14} />
             Upcoming Batches
           </span>
-          <h2 className="upcoming-title">Pick Your Batch</h2>
+          <div className="flex items-center justify-center gap-4 flex-wrap">
+            <h2 className="upcoming-title">Pick Your Batch</h2>
+            <button onClick={() => setViewMode(v => v === 'carousel' ? 'calendar' : 'carousel')}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-lg border transition-all"
+              style={{
+                backgroundColor: viewMode === 'calendar' ? '#0056D2' : 'transparent',
+                color: viewMode === 'calendar' ? 'white' : '#6b7280',
+                borderColor: viewMode === 'calendar' ? '#0056D2' : '#d1d5db',
+              }}>
+              {viewMode === 'calendar' ? <List size={14} /> : <LayoutGrid size={14} />}
+              {viewMode === 'calendar' ? 'Carousel View' : 'Calendar View'}
+            </button>
+          </div>
           <p className="upcoming-subtitle">
             Join live instructor-led batches. Limited seats available — secure yours today.
           </p>
         </motion.div>
 
-        <div
-          className="ub-slider-wrap"
-          onMouseEnter={() => { isHoveredRef.current = true; setIsPaused(true) }}
-          onMouseLeave={() => { isHoveredRef.current = false; setIsPaused(false) }}
-        >
-          <div className="ub-slider" ref={sliderRef}>
-            {duplicated.map((b, index) => (
-              <article className="ub-card" key={`${b.id}-${index}`}>
-                <div className="ub-card-inner">
-                  <div className="ub-card-top">
-                    <span className="ub-category">{b.category}</span>
-                    <span className="ub-badge-urgent">
-                      <span className="pulse-dot" /> {b.seats} seats
-                    </span>
-                  </div>
-                  <h3 className="ub-card-title">{b.title}</h3>
-                  <p className="ub-card-sub">{b.mode}</p>
-                  <div className="ub-card-details">
-                    <div className="ub-detail-item">
-                      <Calendar size={15} />
-                      <span><span className="ub-date-value">{b.date}</span></span>
+        {viewMode === 'carousel' ? (
+          <>
+            <div
+              className="ub-slider-wrap"
+              onMouseEnter={() => { isHoveredRef.current = true; setIsPaused(true) }}
+              onMouseLeave={() => { isHoveredRef.current = false; setIsPaused(false) }}
+            >
+              <div className="ub-slider" ref={sliderRef}>
+                {duplicated.map((b, index) => (
+                  <article className="ub-card" key={`${b.id}-${index}`}>
+                    <div className="ub-card-inner">
+                      <div className="ub-card-top">
+                        <span className="ub-category">{b.category}</span>
+                        <span className="ub-badge-urgent">
+                          <span className="pulse-dot" /> {b.seats} seats
+                        </span>
+                      </div>
+                      <h3 className="ub-card-title">{b.title}</h3>
+                      <p className="ub-card-sub">{b.mode}</p>
+                      <div className="ub-card-details">
+                        <div className="ub-detail-item">
+                          <Calendar size={15} />
+                          <span><span className="ub-date-value">{b.date}</span></span>
+                        </div>
+                        <div className="ub-detail-item">
+                          <Users size={15} />
+                          <span>{b.seats} seats left</span>
+                        </div>
+                      </div>
+                      <div className="ub-card-actions">
+                        <button className="ub-btn-primary" onClick={() => openEnroll()}>
+                          Enroll Now
+                        </button>
+                        <Link className="ub-btn-secondary" to={`/course/${b.slug}`}>
+                          Details
+                        </Link>
+                      </div>
                     </div>
-                    <div className="ub-detail-item">
-                      <Users size={15} />
-                      <span>{b.seats} seats left</span>
-                    </div>
-                  </div>
-                  <div className="ub-card-actions">
-                    <button className="ub-btn-primary" onClick={() => openEnroll()}>
-                      Enroll Now
-                    </button>
-                    <Link className="ub-btn-secondary" to={`/course/${b.slug}`}>
-                      Details
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className="ub-fade ub-fade-left" />
-          <div className="ub-fade ub-fade-right" />
-        </div>
+                  </article>
+                ))}
+              </div>
+              <div className="ub-fade ub-fade-left" />
+              <div className="ub-fade ub-fade-right" />
+            </div>
+            <div className="ub-footer-note">
+              {loading ? 'Loading batches...' : isPaused ? 'Paused — hover off to resume scrolling' : 'Auto-scrolling through upcoming batches'}
+            </div>
+          </>
+        ) : (
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
+            {/* Month navigation */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+              <button onClick={prevMonth} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-400 hover:text-white">
+                <ChevronLeft size={20} />
+              </button>
+              <h3 className="text-lg font-semibold text-white">{monthName}</h3>
+              <button onClick={nextMonth} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-400 hover:text-white">
+                <ChevronRight size={20} />
+              </button>
+            </div>
 
-        <div className="ub-footer-note">
-          {loading ? 'Loading batches...' : isPaused ? 'Paused — hover off to resume scrolling' : 'Auto-scrolling through upcoming batches'}
-        </div>
+            {/* Day headers */}
+            <div className="grid grid-cols-7 border-b border-white/5">
+              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
+                <div key={d} className="text-center py-2 text-xs font-medium text-gray-500">{d}</div>
+              ))}
+            </div>
+
+            {/* Calendar grid */}
+            <div className="grid grid-cols-7">
+              {calGrid.map((cell, i) => (
+                <div key={i} className={`min-h-[90px] border-b border-r border-white/5 p-1.5 ${!cell ? 'bg-white/[0.02]' : ''}`}>
+                  {cell && (
+                    <>
+                      <span className={`text-xs font-semibold ${cell.batches.length > 0 ? 'text-primary' : 'text-gray-500'}`}>
+                        {cell.day}
+                      </span>
+                      <div className="mt-1 space-y-1">
+                        {cell.batches.slice(0, 2).map(b => (
+                          <Link key={b.id} to={`/course/${b.slug}`}
+                            className="block text-[10px] leading-tight bg-primary/20 text-primary rounded px-1.5 py-0.5 truncate hover:bg-primary/30 transition-colors"
+                            title={b.title}>
+                            {b.title}
+                          </Link>
+                        ))}
+                        {cell.batches.length > 2 && (
+                          <span className="text-[10px] text-gray-500 pl-1">+{cell.batches.length - 2} more</span>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Legend */}
+            <div className="px-6 py-3 border-t border-white/5 flex items-center gap-4 text-xs text-gray-500">
+              <span className="flex items-center gap-1.5"><Calendar size={12} /> {calendarGroups.length} batch dates scheduled</span>
+              {calendarGroups.filter(g => g.date.getMonth() === calMonth.month && g.date.getFullYear() === calMonth.year).length > 0 && (
+                <span className="flex items-center gap-1.5"><Users size={12} /> {calMonthBatches.reduce((s, g) => s + g.batches.length, 0)} batches this month</span>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   )

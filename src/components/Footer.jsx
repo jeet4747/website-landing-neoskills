@@ -96,10 +96,16 @@ const Footer = () => {
 
               {/* Contact strip */}
               <div className="space-y-2.5">
-<a href="tel:+918956963953" className="flex items-center gap-2.5 text-sm text-gray-400 hover:text-white transition-colors">
-
-                  +91 89569 63953 / +91 9975214585
-                </a>
+                <div className="flex items-start gap-2.5 text-sm text-gray-400">
+                  <Phone size={14} className="text-primary shrink-0 mt-0.5" />
+                  <div className="flex flex-col gap-1">
+                    <a href="tel:+919975214585" className="hover:text-white transition-colors">+91 9975214585</a>
+                    <a href="tel:+918796654378" className="hover:text-white transition-colors">+91 87966 54378</a>
+                    <a href="tel:+917666945708" className="hover:text-white transition-colors">+91 76669 45708</a>
+                    <a href="tel:+918956963953" className="hover:text-white transition-colors">+91 89569 63953</a>
+                    <a href="tel:+918956930877" className="hover:text-white transition-colors">+91 8956930877</a>
+                  </div>
+                </div>
                 <a href="mailto:contact@neoskills.co.in" className="flex items-center gap-2.5 text-sm text-gray-400 hover:text-white transition-colors">
                   <Mail size={14} className="text-primary shrink-0" />
                   contact@neoskills.co.in
