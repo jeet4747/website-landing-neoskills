@@ -226,7 +226,7 @@ export default function UpcomingBatches() {
                             <div className="flex items-center gap-3 px-6 py-4 bg-white/[0.03] border-b border-white/10">
                               <div className="flex items-center gap-2 text-primary">
                                 <Calendar size={16} />
-                                <span className="font-bold text-white text-base">{g.date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })}</span>
+                                <span className="font-bold text-primary text-base">{g.date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })}</span>
                               </div>
                               <span className="text-xs text-gray-500 ml-auto">{g.batches.length} batch{g.batches.length > 1 ? 'es' : ''}</span>
                             </div>
