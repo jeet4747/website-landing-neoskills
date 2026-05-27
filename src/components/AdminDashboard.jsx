@@ -7,6 +7,7 @@ const JOBS_API = BACKEND_URL ? `${BACKEND_URL}/api/jobs` : '/api/jobs'
 const HERO_SLIDES_API = BACKEND_URL ? `${BACKEND_URL}/api/hero-slides` : '/api/hero-slides'
 const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinars'
 const APPLICATIONS_API = BACKEND_URL ? `${BACKEND_URL}/api/job-applications` : '/api/job-applications'
+const BATCHES_API = BACKEND_URL ? `${BACKEND_URL}/api/batches` : '/api/batches'
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'neoskills2026'
 
 export default function AdminDashboard() {
@@ -47,6 +48,12 @@ export default function AdminDashboard() {
   const [applicationsLoading, setApplicationsLoading] = useState(false)
   const [applicationsSearch, setApplicationsSearch] = useState('')
   const [selectedAppJobId, setSelectedAppJobId] = useState('all')
+
+  // Batches state
+  const [batches, setBatches] = useState([])
+  const [selectedBatchId, setSelectedBatchId] = useState('')
+  const [batchesLoading, setBatchesLoading] = useState(false)
+  const [batchesSearch, setBatchesSearch] = useState('')
 
   const GRADIENT_OPTIONS = [
     'from-amber-600 to-amber-800',
@@ -210,6 +217,24 @@ export default function AdminDashboard() {
     setApplicationsLoading(false)
   }, [])
 
+  const loadBatches = useCallback(async () => {
+    setBatchesLoading(true)
+    setError('')
+    try {
+      const res = await fetch(BATCHES_API, { signal: AbortSignal.timeout(5000) })
+      if (!res.ok) throw new Error('Server error')
+      const data = await res.json()
+      if (Array.isArray(data)) {
+        setBatches(data.length > 0 ? data : [])
+        if (!selectedBatchId && data.length > 0) setSelectedBatchId(data[0].id || data[0].slug)
+      }
+    } catch {
+      setBatches([])
+      setError('Backend offline. Batches can be edited locally but saving requires the server.')
+    }
+    setBatchesLoading(false)
+  }, [])
+
   const switchSection = (s) => {
     setSection(s)
     setError('')
@@ -219,6 +244,7 @@ export default function AdminDashboard() {
     if (s === 'hero-slides' && slides.length === 0) loadSlides()
     if (s === 'webinars' && webinars.length === 0) loadWebinars()
     if (s === 'applications') loadApplications()
+    if (s === 'batches' && batches.length === 0) loadBatches()
   }
 
   useEffect(() => {
@@ -235,6 +261,7 @@ export default function AdminDashboard() {
     if (auth && section === 'hero-slides') loadSlides()
     if (auth && section === 'webinars') loadWebinars()
     if (auth && section === 'applications') loadApplications()
+    if (auth && section === 'batches') loadBatches()
   }, [section])
 
   const selected = courses.find(c => (c.slug || c.id) === selectedSlug) || null
@@ -470,6 +497,43 @@ export default function AdminDashboard() {
     setUnsaved(true)
   }
 
+  // Batches derived data
+  const courseOptions = courses.map(c => ({ value: c.slug || c.id, label: c.fullTitle || c.title || c.slug }))
+  const selectedBatch = batches.find(b => b.id === selectedBatchId || b.slug === selectedBatchId) || null
+  const filteredBatches = batches.filter(b =>
+    !batchesSearch || b.title?.toLowerCase().includes(batchesSearch.toLowerCase()) || b.slug?.toLowerCase().includes(batchesSearch.toLowerCase()) || b.course?.toLowerCase().includes(batchesSearch.toLowerCase())
+  )
+
+  const setBatchField = (field, value) => {
+    setBatches(prev => prev.map(b => (b.id === selectedBatchId || b.slug === selectedBatchId) ? { ...b, [field]: value } : b))
+    setUnsaved(true)
+  }
+
+  const handleBatchesSave = async () => {
+    if (!backendOnline) {
+      setError('Backend is offline. Cannot save.')
+      return
+    }
+    setSaving(true)
+    setError('')
+    setSuccess('')
+    try {
+      const res = await fetch(BATCHES_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-password': ADMIN_PASSWORD },
+        body: JSON.stringify(batches),
+      })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.error || 'Save failed')
+      setSuccess('Batches saved successfully.')
+      setUnsaved(false)
+      loadBatches()
+    } catch (err) {
+      setError('Save failed: ' + (err.message || 'Connection error'))
+    }
+    setSaving(false)
+  }
+
   const handleWebinarsSave = async () => {
     if (!backendOnline) {
       setError('Backend is offline. Cannot save.')
@@ -569,6 +633,14 @@ export default function AdminDashboard() {
                 }`}
               >
                 Webinars
+              </button>
+              <button
+                onClick={() => switchSection('batches')}
+                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                  section === 'batches' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Batches
               </button>
               <button
                 onClick={() => switchSection('applications')}
@@ -1245,6 +1317,126 @@ export default function AdminDashboard() {
                           <button onClick={handleWebinarsSave} disabled={saving || !backendOnline}
                             className="px-6 py-2.5 text-sm font-semibold text-white bg-primary rounded-xl hover:bg-blue-800 transition-all disabled:opacity-50 flex items-center gap-2 shadow-sm">
                             {saving ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Saving...</> : 'Save All Webinars'}
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ─── BATCHES SECTION ─── */}
+        {section === 'batches' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-900">Batches</h2>
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-500">{batches.length} batch{batches.length !== 1 ? 'es' : ''}</span>
+                <button onClick={() => {
+                  const n = { id: Date.now().toString(), slug: '', title: '', course: '', date: '', mode: 'Live online', seats: 20, active: true }
+                  setBatches(prev => [...prev, n])
+                  setSelectedBatchId(n.id)
+                  setUnsaved(true)
+                }} className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-blue-800 transition-all flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                  New Batch
+                </button>
+              </div>
+            </div>
+
+            {batchesLoading ? (
+              <div className="text-center py-12"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div></div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-1 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                  <div className="p-4 border-b border-gray-100">
+                    <input placeholder="Search batches..." value={batchesSearch} onChange={e => setBatchesSearch(e.target.value)}
+                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary" />
+                  </div>
+                  <div className="overflow-y-auto max-h-[calc(100vh-280px)]">
+                    {filteredBatches.map(b => {
+                      const active = b.id === selectedBatchId || b.slug === selectedBatchId
+                      const courseInfo = courses.find(c => (c.slug || c.id) === b.course)
+                      return (
+                        <button key={b.id || b.slug} onClick={() => { setSelectedBatchId(b.id || b.slug); setUnsaved(false) }}
+                          className={`w-full text-left px-5 py-4 border-b border-gray-50 hover:bg-gray-50 transition-colors ${active ? 'bg-primary/5 border-l-[3px] border-l-primary' : ''}`}
+                        >
+                          <p className={`text-sm font-semibold truncate ${active ? 'text-primary' : 'text-gray-800'}`}>{b.title || courseInfo?.fullTitle || courseInfo?.title || 'Untitled Batch'}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            {b.date && <span className="text-xs text-gray-400">{b.date}</span>}
+                            <span className={`w-2 h-2 rounded-full ${b.active !== false ? 'bg-green-400' : 'bg-gray-300'}`} />
+                          </div>
+                        </button>
+                      )
+                    })}
+                    {filteredBatches.length === 0 && (
+                      <div className="p-5 text-center"><p className="text-sm text-gray-400">No batches yet.</p></div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm">
+                  {!selectedBatch ? (
+                    <div className="p-12 text-center text-gray-400"><p>Select or create a batch to edit</p></div>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between border-b border-gray-200 px-6 py-3">
+                        <div className="flex items-center gap-2">
+                          <h2 className="text-sm font-semibold text-gray-900">Edit Batch</h2>
+                          <button onClick={() => {
+                            setBatches(prev => prev.map(b => (b.id === selectedBatchId || b.slug === selectedBatchId) ? { ...b, active: !b.active } : b))
+                            setUnsaved(true)
+                          }} className={`text-xs font-semibold px-3 py-1 rounded-full border transition-all ${selectedBatch.active !== false ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-50 text-gray-500 border-gray-200'}`}>
+                            {selectedBatch.active !== false ? 'Active' : 'Hidden'}
+                          </button>
+                        </div>
+                        <button onClick={() => {
+                          setBatches(prev => prev.filter(b => b.id !== selectedBatchId && b.slug !== selectedBatchId))
+                          setSelectedBatchId(batches.length > 1 ? (batches[0].id || batches[0].slug) : '')
+                          setUnsaved(true)
+                        }} className="text-xs text-red-600 hover:text-red-800 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors font-medium">Delete</button>
+                      </div>
+
+                      <div className="p-6 space-y-5 overflow-y-auto max-h-[calc(100vh-340px)]">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <Field label="Batch Title" value={selectedBatch.title || ''} onChange={v => setBatchField('title', v)} placeholder="e.g. Evening batch" />
+                          <Field label="Slug" value={selectedBatch.slug || ''} onChange={v => setBatchField('slug', v)} placeholder="e.g. evening-may-2026" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">Module / Course</label>
+                          <select value={selectedBatch.course || ''} onChange={e => setBatchField('course', e.target.value)}
+                            className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary">
+                            <option value="">— Select a course —</option>
+                            {courseOptions.map(o => (
+                              <option key={o.value} value={o.value}>{o.label}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <Field label="Date" value={selectedBatch.date || ''} onChange={v => setBatchField('date', v)} placeholder="e.g. 15-06-2026" />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Mode</label>
+                            <select value={selectedBatch.mode || 'Live online'} onChange={e => setBatchField('mode', e.target.value)}
+                              className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary">
+                              <option>Live online</option><option>Weekend cohort</option><option>Evening • 4:00 PM - 7:00 PM</option>
+                              <option>Advanced cohort</option><option>Data analytics track</option><option>AI-enabled Scrum</option>
+                              <option>Live bootcamp</option><option>Evening cohort</option>
+                            </select>
+                          </div>
+                          <Field label="Seats" value={String(selectedBatch.seats || 20)} onChange={v => setBatchField('seats', Number(v) || 20)} />
+                        </div>
+                      </div>
+
+                      <div className="border-t border-gray-100 px-6 py-4 flex items-center justify-between bg-gray-50/50 rounded-b-2xl">
+                        <p className="text-xs text-gray-400">{batches.length} batch{batches.length !== 1 ? 'es' : ''} total</p>
+                        <div className="flex gap-3">
+                          <button onClick={() => loadBatches()} className="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">Refresh</button>
+                          <button onClick={handleBatchesSave} disabled={saving || !backendOnline}
+                            className="px-6 py-2.5 text-sm font-semibold text-white bg-primary rounded-xl hover:bg-blue-800 transition-all disabled:opacity-50 flex items-center gap-2 shadow-sm">
+                            {saving ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Saving...</> : 'Save All Batches'}
                           </button>
                         </div>
                       </div>

@@ -34,30 +34,71 @@ export default function UpcomingBatches() {
 
   useEffect(() => {
     const fetchBatches = async () => {
+      let fetched = false
       try {
-        const url = API_BASE ? `${API_BASE}/api/courses` : '/api/courses'
-        const res = await fetch(url)
-        if (!res.ok) throw new Error('Fetch failed')
-        const courses = await res.json()
-        if (Array.isArray(courses) && courses.length > 0) {
-          const mapped = courses
-            .filter(c => c.stats?.nextBatch)
-            .map((c, i) => ({
-              id: i + 1,
-              slug: c.slug,
-              title: c.title || c.fullTitle,
-              mode: c.stats?.mode || 'Live online',
-              date: c.stats.nextBatch,
-              category: c.category || 'Professional',
-              seats: Math.floor(Math.random() * 15) + 3,
-            }))
-          if (mapped.length > 0) setBatches(mapped)
+        const batchesUrl = API_BASE ? `${API_BASE}/api/batches` : '/api/batches'
+        const bRes = await fetch(batchesUrl)
+        if (bRes.ok) {
+          const bData = await bRes.json()
+          if (Array.isArray(bData) && bData.length > 0) {
+            const activeBatches = bData.filter(b => b.active !== false)
+            if (activeBatches.length > 0) {
+              const coursesUrl = API_BASE ? `${API_BASE}/api/courses` : '/api/courses'
+              let courseMap = {}
+              try {
+                const cRes = await fetch(coursesUrl)
+                if (cRes.ok) {
+                  const cData = await cRes.json()
+                  for (const c of (Array.isArray(cData) ? cData : [])) {
+                    const key = c.slug || c.id
+                    courseMap[key] = c.fullTitle || c.title || key
+                  }
+                }
+              } catch {}
+              const mapped = activeBatches.map((b, i) => ({
+                id: i + 1,
+                slug: b.course || b.slug || '',
+                title: b.title || courseMap[b.course] || b.course || 'Untitled Batch',
+                mode: b.mode || 'Live online',
+                date: b.date || '',
+                category: b.category || '',
+                seats: b.seats || 15,
+                course: b.course || '',
+              }))
+              setBatches(mapped)
+              fetched = true
+            }
+          }
         }
       } catch (err) {
-        console.warn('Using static batch data:', err.message)
-      } finally {
-        setLoading(false)
+        console.warn('Batches API failed:', err.message)
       }
+      if (!fetched) {
+        try {
+          const cUrl = API_BASE ? `${API_BASE}/api/courses` : '/api/courses'
+          const cRes = await fetch(cUrl)
+          if (cRes.ok) {
+            const courses = await cRes.json()
+            if (Array.isArray(courses) && courses.length > 0) {
+              const mapped = courses
+                .filter(c => c.stats?.nextBatch)
+                .map((c, i) => ({
+                  id: i + 1,
+                  slug: c.slug,
+                  title: c.title || c.fullTitle,
+                  mode: c.stats?.mode || 'Live online',
+                  date: c.stats.nextBatch,
+                  category: c.category || 'Professional',
+                  seats: Math.floor(Math.random() * 15) + 3,
+                }))
+              if (mapped.length > 0) setBatches(mapped)
+            }
+          }
+        } catch (err) {
+          console.warn('Using static batch data:', err.message)
+        }
+      }
+      setLoading(false)
     }
     fetchBatches()
   }, [])

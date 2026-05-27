@@ -319,6 +319,27 @@ app.post('/api/webinars', requireAdmin, async (req, res) => {
   }
 })
 
+// ─── Batches API ───
+app.get('/api/batches', async (req, res) => {
+  try {
+    const data = await getData('batches')
+    if (!data) return res.json([])
+    res.json(data)
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to read batches' })
+  }
+})
+
+app.post('/api/batches', requireAdmin, async (req, res) => {
+  if (!Array.isArray(req.body)) return res.status(400).json({ error: 'Batches must be an array' })
+  try {
+    await setData('batches', req.body)
+    res.json({ success: true })
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save batches' })
+  }
+})
+
 // ─── Multer error handler ───
 app.use((err, _req, res, next) => {
   if (err instanceof multer.MulterError) {
