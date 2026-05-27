@@ -12,6 +12,15 @@ const { query } = require('./db.cjs')
 
 const app = express()
 app.use(cors({ origin: true }))
+app.use((req, _res, next) => {
+  if (req.path === '/api/payment-webhook') {
+    let data = ''
+    req.on('data', chunk => data += chunk)
+    req.on('end', () => { req.rawBody = data; next() })
+  } else {
+    next()
+  }
+})
 app.use(express.json({ limit: '20mb' }))
 app.use(express.urlencoded({ extended: true, limit: '20mb' }))
 
@@ -166,7 +175,7 @@ app.post('/api/create-order', async (req, res) => {
 })
 
 app.post('/api/verify-payment', async (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, name, email, course, amount } = req.body
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, name, email, phone, course, amount } = req.body
   if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
     return res.status(400).json({ ok: false, error: 'Missing parameters' })
   }
@@ -175,6 +184,7 @@ app.post('/api/verify-payment', async (req, res) => {
     .update(razorpay_order_id + '|' + razorpay_payment_id)
     .digest('hex')
   if (generated_signature === razorpay_signature) {
+    await storeEnrollment({ name, email, phone, course, amount: Number(amount) || 0, paymentId: razorpay_payment_id, orderId: razorpay_order_id, status: 'captured' })
     try {
       await sendConfirmationEmail({ name, email, course, amount })
     } catch (emailErr) {
@@ -183,6 +193,66 @@ app.post('/api/verify-payment', async (req, res) => {
     return res.json({ ok: true })
   }
   return res.status(400).json({ ok: false, error: 'Invalid signature' })
+})
+
+// ─── Payment Webhook (Razorpay server-to-server) ───
+app.post('/api/payment-webhook', async (req, res) => {
+  const raw = req.rawBody
+  if (!raw) return res.status(400).json({ ok: false, error: 'No raw body' })
+  const secret = process.env.RAZORPAY_WEBHOOK_SECRET
+  const signature = req.headers['x-razorpay-signature']
+  if (secret) {
+    const expected = crypto.createHmac('sha256', secret).update(raw).digest('hex')
+    if (signature !== expected) return res.status(400).json({ ok: false, error: 'Invalid webhook signature' })
+  }
+  let event
+  try { event = JSON.parse(raw) } catch { return res.status(400).json({ ok: false, error: 'Invalid JSON' }) }
+  if (event.event === 'payment.captured') {
+    const p = event.payload.payment.entity
+    const notes = p.notes || {}
+    await storeEnrollment({
+      name: notes.name || p.email || 'Student',
+      email: p.email || notes.email || '',
+      phone: p.contact || notes.phone || '',
+      course: notes.course || 'Professional Course',
+      amount: (p.amount || 0) / 100,
+      paymentId: p.id,
+      orderId: p.order_id,
+      status: 'captured',
+    })
+  }
+  res.json({ ok: true })
+})
+
+async function storeEnrollment({ name, email, phone, course, amount, paymentId, orderId, status }) {
+  try {
+    const existing = await getData('enrollments')
+    const enrollments = Array.isArray(existing) ? existing : []
+    enrollments.push({
+      id: Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8),
+      name: name || 'Unknown',
+      email: email || '',
+      phone: phone || '',
+      course: course || 'Unknown',
+      amount: amount || 0,
+      paymentId: paymentId || '',
+      orderId: orderId || '',
+      status: status || 'captured',
+      createdAt: new Date().toISOString(),
+    })
+    await setData('enrollments', enrollments)
+  } catch (err) {
+    console.error('Failed to store enrollment:', err)
+  }
+}
+
+app.get('/api/enrollments', requireAdmin, async (req, res) => {
+  try {
+    const data = await getData('enrollments')
+    res.json(Array.isArray(data) ? data : [])
+  } catch {
+    res.status(500).json({ error: 'Failed to read enrollments' })
+  }
 })
 
 // ─── Courses API ───

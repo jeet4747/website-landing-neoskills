@@ -76,8 +76,9 @@ export default function QuickPay() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 ...response,
-                name: 'Student',
-                email: '',
+                name: formData.name || 'Student',
+                email: formData.email || '',
+                phone: formData.phone || '',
                 course: selectedLabel,
                 amount: total,
               }),

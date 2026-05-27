@@ -73,6 +73,7 @@ export default function PaymentPage() {
                 ...response,
                 name: paymentData.name || 'Student',
                 email: paymentData.email || '',
+                phone: paymentData.phone || '',
                 course: paymentData.course || paymentData.plan || 'Professional Course',
                 amount: total,
               }),

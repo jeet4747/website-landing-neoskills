@@ -8,6 +8,7 @@ const HERO_SLIDES_API = BACKEND_URL ? `${BACKEND_URL}/api/hero-slides` : '/api/h
 const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinars'
 const APPLICATIONS_API = BACKEND_URL ? `${BACKEND_URL}/api/job-applications` : '/api/job-applications'
 const BATCHES_API = BACKEND_URL ? `${BACKEND_URL}/api/batches` : '/api/batches'
+const ENROLLMENTS_API = BACKEND_URL ? `${BACKEND_URL}/api/enrollments` : '/api/enrollments'
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'neoskills2026'
 
 export default function AdminDashboard() {
@@ -54,6 +55,11 @@ export default function AdminDashboard() {
   const [selectedBatchId, setSelectedBatchId] = useState('')
   const [batchesLoading, setBatchesLoading] = useState(false)
   const [batchesSearch, setBatchesSearch] = useState('')
+
+  // Enrollments state
+  const [enrollments, setEnrollments] = useState([])
+  const [enrollmentsLoading, setEnrollmentsLoading] = useState(false)
+  const [enrollmentsSearch, setEnrollmentsSearch] = useState('')
 
   const GRADIENT_OPTIONS = [
     'from-amber-600 to-amber-800',
@@ -235,6 +241,24 @@ export default function AdminDashboard() {
     setBatchesLoading(false)
   }, [])
 
+  const loadEnrollments = useCallback(async () => {
+    setEnrollmentsLoading(true)
+    setError('')
+    try {
+      const res = await fetch(ENROLLMENTS_API, {
+        headers: { 'x-admin-password': ADMIN_PASSWORD },
+        signal: AbortSignal.timeout(5000),
+      })
+      if (!res.ok) throw new Error('Server error')
+      const data = await res.json()
+      setEnrollments(Array.isArray(data) ? data : [])
+    } catch {
+      setEnrollments([])
+      setError('Failed to load enrollments')
+    }
+    setEnrollmentsLoading(false)
+  }, [])
+
   const switchSection = (s) => {
     setSection(s)
     setError('')
@@ -245,6 +269,7 @@ export default function AdminDashboard() {
     if (s === 'webinars' && webinars.length === 0) loadWebinars()
     if (s === 'applications') loadApplications()
     if (s === 'batches' && batches.length === 0) loadBatches()
+    if (s === 'enrollments') loadEnrollments()
   }
 
   useEffect(() => {
@@ -262,6 +287,7 @@ export default function AdminDashboard() {
     if (auth && section === 'webinars') loadWebinars()
     if (auth && section === 'applications') loadApplications()
     if (auth && section === 'batches') loadBatches()
+    if (auth && section === 'enrollments') loadEnrollments()
   }, [section])
 
   const selected = courses.find(c => (c.slug || c.id) === selectedSlug) || null
@@ -641,6 +667,14 @@ export default function AdminDashboard() {
                 }`}
               >
                 Batches
+              </button>
+              <button
+                onClick={() => switchSection('enrollments')}
+                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                  section === 'enrollments' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Enrollments
               </button>
               <button
                 onClick={() => switchSection('applications')}
@@ -1442,6 +1476,60 @@ export default function AdminDashboard() {
                       </div>
                     </>
                   )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ─── ENROLLMENTS SECTION ─── */}
+        {section === 'enrollments' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-900">Enrollments</h2>
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-500">{enrollments.length} enrollment{enrollments.length !== 1 ? 's' : ''}</span>
+                <input type="text" placeholder="Search by name, email, course..."
+                  value={enrollmentsSearch} onChange={e => setEnrollmentsSearch(e.target.value)}
+                  className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary w-64" />
+                <button onClick={() => loadEnrollments()} className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">Refresh</button>
+              </div>
+            </div>
+            {enrollmentsLoading ? (
+              <div className="text-center py-20"><div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div><p className="text-gray-500">Loading enrollments...</p></div>
+            ) : enrollments.length === 0 ? (
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-12 text-center"><p className="text-gray-400">No enrollments yet. Payments will appear here automatically.</p></div>
+            ) : (
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-gray-50 border-b border-gray-100">
+                        <th className="text-left px-5 py-3 font-semibold text-gray-600">Name</th>
+                        <th className="text-left px-5 py-3 font-semibold text-gray-600">Email</th>
+                        <th className="text-left px-5 py-3 font-semibold text-gray-600">Phone</th>
+                        <th className="text-left px-5 py-3 font-semibold text-gray-600">Course</th>
+                        <th className="text-right px-5 py-3 font-semibold text-gray-600">Amount</th>
+                        <th className="text-left px-5 py-3 font-semibold text-gray-600">Payment ID</th>
+                        <th className="text-left px-5 py-3 font-semibold text-gray-600">Date</th>
+                        <th className="text-center px-5 py-3 font-semibold text-gray-600">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {enrollments.filter(e => !enrollmentsSearch || e.name?.toLowerCase().includes(enrollmentsSearch.toLowerCase()) || e.email?.toLowerCase().includes(enrollmentsSearch.toLowerCase()) || e.course?.toLowerCase().includes(enrollmentsSearch.toLowerCase()) || e.paymentId?.includes(enrollmentsSearch)).map(e => (
+                        <tr key={e.id} className="hover:bg-gray-50 transition-colors">
+                          <td className="px-5 py-3 font-medium text-gray-800">{e.name}</td>
+                          <td className="px-5 py-3 text-gray-500">{e.email}</td>
+                          <td className="px-5 py-3 text-gray-500">{e.phone}</td>
+                          <td className="px-5 py-3 text-gray-700">{e.course}</td>
+                          <td className="px-5 py-3 text-right font-medium text-gray-800">₹{Number(e.amount).toLocaleString('en-IN')}</td>
+                          <td className="px-5 py-3 text-xs text-gray-400 font-mono">{e.paymentId}</td>
+                          <td className="px-5 py-3 text-gray-500 text-xs">{e.createdAt ? new Date(e.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-'}</td>
+                          <td className="px-5 py-3 text-center"><span className="inline-block text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-200">Paid</span></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             )}
