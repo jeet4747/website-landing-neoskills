@@ -192,6 +192,7 @@ app.post('/api/verify-payment', async (req, res) => {
     }
     return res.json({ ok: true })
   }
+  console.error('Signature mismatch', { order: razorpay_order_id, payment: razorpay_payment_id, got: razorpay_signature, expected: generated_signature })
   return res.status(400).json({ ok: false, error: 'Invalid signature' })
 })
 
