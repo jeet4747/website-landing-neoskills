@@ -63,22 +63,46 @@ export default function UpcomingBatches() {
   }, [])
 
   const parseDate = (d) => {
+    if (!d) return null
     const parts = (d || '').split('-')
-    if (parts.length === 3) return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
-    return new Date(d)
+    if (parts.length === 3) {
+      if (parts[0].length === 4) return new Date(`${parts[0]}-${parts[1]}-${parts[2]}`)
+      return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
+    }
+    const t = new Date(d)
+    return isNaN(t.getTime()) ? null : t
   }
 
   const calendarGroups = useMemo(() => {
+    const n = new Date()
+    const today = new Date(n.getFullYear(), n.getMonth(), n.getDate())
     const groups = {}
     for (const b of batches) {
       const d = parseDate(b.date)
+      if (!d) continue
       const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
       if (!groups[key]) groups[key] = { date: d, label: b.date, batches: [] }
-      groups[key].batches.push(b)
+      groups[key].batches.push({ ...b, expired: d < today })
     }
     return Object.values(groups).sort((a, b) => a.date - b.date)
   }, [batches])
 
+  const monthGroups = useMemo(() => {
+    const n = new Date()
+    const today = new Date(n.getFullYear(), n.getMonth(), n.getDate())
+    const groups = {}
+    const upcoming = []
+    const expired = []
+    for (const g of calendarGroups) {
+      const key = `${g.date.getFullYear()}-${String(g.date.getMonth() + 1).padStart(2, '0')}`
+      if (!groups[key]) groups[key] = { year: g.date.getFullYear(), month: g.date.getMonth(), label: g.date.toLocaleString('en-US', { month: 'long', year: 'numeric' }), dates: [] }
+      groups[key].dates.push(g)
+      ;(g.date >= today ? upcoming : expired).push(g)
+    }
+    return { monthGroups: Object.values(groups), upcoming, expired }
+  }, [calendarGroups])
+
+  const { monthGroups: monthGroupsList, upcoming: upcomingGroups, expired: expiredGroups } = monthGroups
   const duplicated = [...batches, ...batches]
 
   useEffect(() => {
@@ -182,41 +206,95 @@ export default function UpcomingBatches() {
             </div>
           </>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-8">
             {calendarGroups.length === 0 ? (
-              <div className="text-center py-12 text-gray-500 text-sm">No upcoming batch dates scheduled.</div>
+              <div className="text-center py-12 text-gray-500 text-sm">No batch dates scheduled.</div>
             ) : (
-              calendarGroups.map((g, i) => (
-                <div key={i} className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
-                  <div className="flex items-center gap-3 px-6 py-4 bg-white/[0.03] border-b border-white/10">
-                    <div className="flex items-center gap-2 text-primary">
-                      <Calendar size={16} />
-                      <span className="font-bold text-white">{g.date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                    </div>
-                    <span className="text-xs text-gray-500 ml-auto">{g.batches.length} batch{g.batches.length > 1 ? 'es' : ''}</span>
-                  </div>
-                  <div className="divide-y divide-white/5">
-                    {g.batches.map(b => (
-                      <div key={b.id} className="flex items-center gap-4 px-6 py-4 hover:bg-white/[0.02] transition-colors">
-                        <div className="flex-1 min-w-0">
-                          <Link to={`/course/${b.slug}`} className="text-sm font-semibold text-white hover:text-primary transition-colors truncate block">
-                            {b.title}
-                          </Link>
-                          <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
-                            <span>{b.mode}</span>
-                            <span>{b.category}</span>
+              <>
+                {upcomingGroups.length > 0 && monthGroupsList.map(mg => {
+                  const dates = upcomingGroups.filter(g => g.date.getMonth() === mg.month && g.date.getFullYear() === mg.year)
+                  if (dates.length === 0) return null
+                  return (
+                    <div key={mg.label}>
+                      <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <Calendar size={18} className="text-primary" />
+                        {mg.label}
+                      </h3>
+                      <div className="space-y-3">
+                        {dates.map((g, i) => (
+                          <div key={i} className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
+                            <div className="flex items-center gap-3 px-6 py-4 bg-white/[0.03] border-b border-white/10">
+                              <div className="flex items-center gap-2 text-primary">
+                                <Calendar size={16} />
+                                <span className="font-bold text-white text-base">{g.date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })}</span>
+                              </div>
+                              <span className="text-xs text-gray-500 ml-auto">{g.batches.length} batch{g.batches.length > 1 ? 'es' : ''}</span>
+                            </div>
+                            <div className="divide-y divide-white/5">
+                              {g.batches.map(b => (
+                                <div key={b.id} className="flex items-center gap-4 px-6 py-4 hover:bg-white/[0.02] transition-colors">
+                                  <div className="flex-1 min-w-0">
+                                    <Link to={`/course/${b.slug}`} className="text-sm font-semibold text-white hover:text-primary transition-colors truncate block">
+                                      {b.title}
+                                    </Link>
+                                    <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                                      <span>{b.mode || 'N/A'}</span>
+                                      <span>{b.category || ''}</span>
+                                    </div>
+                                  </div>
+                                  <span className="text-xs text-amber-400 font-medium whitespace-nowrap">{b.seats} seats</span>
+                                  <button onClick={() => openEnroll()}
+                                    className="shrink-0 px-5 py-2 text-xs font-semibold bg-primary text-white rounded-xl hover:bg-blue-800 transition-all shadow-sm">
+                                    Enroll
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                        <span className="text-xs text-amber-400 font-medium whitespace-nowrap">{b.seats} seats</span>
-                        <button onClick={() => openEnroll()}
-                          className="shrink-0 px-4 py-2 text-xs font-semibold bg-primary text-white rounded-xl hover:bg-blue-800 transition-all">
-                          Enroll
-                        </button>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
-              ))
+                    </div>
+                  )
+                })}
+                {expiredGroups.length > 0 && (
+                  <details className="group">
+                    <summary className="cursor-pointer text-sm text-gray-400 hover:text-gray-300 transition-colors flex items-center gap-2 py-2">
+                      <span className="transition-transform group-open:rotate-90 inline-block mr-1">▶</span>
+                      Past Batches ({expiredGroups.length} date{expiredGroups.length > 1 ? 's' : ''})
+                    </summary>
+                    <div className="mt-3 space-y-3">
+                      {monthGroupsList.map(mg => {
+                        const dates = expiredGroups.filter(g => g.date.getMonth() === mg.month && g.date.getFullYear() === mg.year)
+                        if (dates.length === 0) return null
+                        return (
+                          <div key={`exp-${mg.label}`}>
+                            <h4 className="text-sm font-semibold text-gray-400 mb-2 flex items-center gap-2">
+                              <Calendar size={14} className="text-gray-500" />
+                              {mg.label}
+                            </h4>
+                            {dates.map((g, i) => (
+                              <div key={i} className="bg-white/[0.02] rounded-xl border border-white/5 overflow-hidden mb-2">
+                                <div className="flex items-center gap-3 px-5 py-3 bg-white/[0.02] border-b border-white/5">
+                                  <Calendar size={14} className="text-gray-500" />
+                                  <span className="font-medium text-gray-400 text-sm">{g.date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })}</span>
+                                  <span className="text-[10px] text-gray-600 ml-auto">Expired</span>
+                                </div>
+                                <div className="divide-y divide-white/[0.02]">
+                                  {g.batches.map(b => (
+                                    <div key={b.id} className="flex items-center gap-3 px-5 py-2.5 opacity-40">
+                                      <span className="text-xs text-gray-500">{b.title}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </details>
+                )}
+              </>
             )}
           </div>
         )}
