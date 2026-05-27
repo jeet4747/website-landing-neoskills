@@ -24,9 +24,8 @@ export default function WebinarPopup() {
           setWebinar(active)
           const timer = setTimeout(() => {
             if (!dismissedRef.current) setShow(true)
-          }, 20000)
+          }, 60000)
           const interval = setInterval(() => {
-            dismissedRef.current = false
             if (!dismissedRef.current) setShow(true)
           }, 300000)
           return () => { clearTimeout(timer); clearInterval(interval) }

@@ -25,7 +25,7 @@ export default function AICoursesPopup() {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!dismissedRef.current) setShow(true)
-    }, 10000)
+    }, 60000)
     const interval = setInterval(() => {
       if (!dismissedRef.current) setShow(true)
     }, 300000)

@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Clock, Users } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 
-const SHOW_DELAY = 120000
-const REAPPEAR_INTERVAL = 120000
+const SHOW_DELAY = 60000
+const REAPPEAR_INTERVAL = 300000
 
 export default function LeadPopup() {
   const [show, setShow] = useState(false)
@@ -13,17 +13,18 @@ export default function LeadPopup() {
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
   const intervalRef = useRef(null)
+  const dismissedRef = useRef(false)
 
   const startReappearTimer = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current)
     intervalRef.current = setInterval(() => {
-      setShow(true)
+      if (!dismissedRef.current) setShow(true)
     }, REAPPEAR_INTERVAL)
   }, [])
 
   useEffect(() => {
     const initialTimer = setTimeout(() => {
-      setShow(true)
+      if (!dismissedRef.current) setShow(true)
       startReappearTimer()
     }, SHOW_DELAY)
     return () => {
@@ -33,6 +34,7 @@ export default function LeadPopup() {
   }, [startReappearTimer])
 
   const handleDismiss = useCallback(() => {
+    dismissedRef.current = true
     setShow(false)
   }, [])
 
