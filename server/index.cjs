@@ -12,16 +12,7 @@ const { query } = require('./db.cjs')
 
 const app = express()
 app.use(cors({ origin: true }))
-app.use((req, _res, next) => {
-  if (req.path === '/api/payment-webhook') {
-    let data = ''
-    req.on('data', chunk => data += chunk)
-    req.on('end', () => { req.rawBody = data; next() })
-  } else {
-    next()
-  }
-})
-app.use(express.json({ limit: '20mb' }))
+app.use(express.json({ limit: '20mb', verify: (req, _res, buf) => { req.rawBody = buf.toString() } }))
 app.use(express.urlencoded({ extended: true, limit: '20mb' }))
 
 // ─── Razorpay ───
