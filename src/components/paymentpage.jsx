@@ -46,7 +46,13 @@ export default function PaymentPage() {
       const res = await fetch(`${BACKEND_URL}/api/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: total }),
+        body: JSON.stringify({
+          amount: total,
+          name: paymentData.name || 'Student',
+          email: paymentData.email || '',
+          phone: paymentData.phone || '',
+          course: paymentData.course || paymentData.plan || 'Professional Course',
+        }),
       })
       if (!res.ok) throw new Error('Failed to create order')
       const { order, key } = await res.json()
@@ -82,12 +88,36 @@ export default function PaymentPage() {
             })
             const json = await verify.json()
             if (verify.ok && json.ok) {
-              alert(`Payment successful! A confirmation email has been sent to ${paymentData.email}`)
-              setCustomAmount(null)
-              navigate('/')
+              navigate('/payment/success', {
+                state: {
+                  enrollmentId: json.enrollmentId,
+                  name: paymentData.name || 'Student',
+                  email: paymentData.email || '',
+                  phone: paymentData.phone || '',
+                  course: paymentData.course || paymentData.plan || 'Professional Course',
+                  amount: total,
+                  paymentId: response.razorpay_payment_id,
+                  orderId: response.razorpay_order_id,
+                },
+              })
             } else {
               console.error('Verification failed', json)
-              alert('Payment verification failed. Contact support.')
+              if (json.enrollmentId) {
+                navigate('/payment/success', {
+                  state: {
+                    enrollmentId: json.enrollmentId,
+                    name: paymentData.name || 'Student',
+                    email: paymentData.email || '',
+                    phone: paymentData.phone || '',
+                    course: paymentData.course || paymentData.plan || 'Professional Course',
+                    amount: total,
+                    paymentId: response.razorpay_payment_id,
+                    orderId: response.razorpay_order_id,
+                  },
+                })
+              } else {
+                alert('Payment could not be verified. Contact support.')
+              }
             }
           } catch (err) {
             console.error('Verification error', err)

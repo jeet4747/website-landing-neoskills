@@ -76,9 +76,9 @@ export default function QuickPay() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 ...response,
-                name: formData.name || 'Student',
-                email: formData.email || '',
-                phone: formData.phone || '',
+                name: 'Student',
+                email: '',
+                phone: '',
                 course: selectedLabel,
                 amount: total,
                 hasGst: false,
@@ -87,10 +87,35 @@ export default function QuickPay() {
             })
             const json = await verify.json()
             if (verify.ok && json.ok) {
-              alert('Payment successful!')
-              navigate('/')
+              navigate('/payment/success', {
+                state: {
+                  enrollmentId: json.enrollmentId,
+                  name: 'Student',
+                  email: '',
+                  phone: '',
+                  course: selectedLabel,
+                  amount: total,
+                  paymentId: response.razorpay_payment_id,
+                  orderId: response.razorpay_order_id,
+                },
+              })
             } else {
-              alert('Payment verification failed. Contact support.')
+              if (json.enrollmentId) {
+                navigate('/payment/success', {
+                  state: {
+                    enrollmentId: json.enrollmentId,
+                    name: 'Student',
+                    email: '',
+                    phone: '',
+                    course: selectedLabel,
+                    amount: total,
+                    paymentId: response.razorpay_payment_id,
+                    orderId: response.razorpay_order_id,
+                  },
+                })
+              } else {
+                alert('Payment verification failed. Contact support.')
+              }
             }
           } catch {
             alert('Payment verification failed. Contact support.')

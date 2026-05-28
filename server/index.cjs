@@ -149,13 +149,14 @@ app.get('/api/health', async (req, res) => {
 app.post('/api/create-order', async (req, res) => {
   if (!razorpay) return res.status(500).json({ error: 'Payments not configured' })
   try {
-    const { amount } = req.body
+    const { amount, name, email, phone, course } = req.body
     if (!amount || isNaN(amount)) return res.status(400).json({ error: 'Invalid amount' })
     const options = {
       amount: Math.round(Number(amount) * 100),
       currency: 'INR',
       receipt: `rcpt_${Date.now()}`,
       payment_capture: 1,
+      notes: { name: name || '', email: email || '', phone: phone || '', course: course || '' },
     }
     const order = await razorpay.orders.create(options)
     return res.json({ order, key: process.env.RAZORPAY_KEY_ID })
@@ -170,21 +171,23 @@ app.post('/api/verify-payment', async (req, res) => {
   if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
     return res.status(400).json({ ok: false, error: 'Missing parameters' })
   }
+  const secret = process.env.RAZORPAY_KEY_SECRET || ''
   const generated_signature = crypto
-    .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || '')
+    .createHmac('sha256', secret)
     .update(razorpay_order_id + '|' + razorpay_payment_id)
     .digest('hex')
   if (generated_signature === razorpay_signature) {
-    await storeEnrollment({ name, email, phone, course, amount: Number(amount) || 0, paymentId: razorpay_payment_id, orderId: razorpay_order_id, status: 'captured', hasGst: hasGst !== false, source: source || 'enroll' })
+    const enrollmentId = await storeEnrollment({ name, email, phone, course, amount: Number(amount) || 0, paymentId: razorpay_payment_id, orderId: razorpay_order_id, status: 'captured', hasGst: hasGst !== false, source: source || 'enroll' })
     try {
       await sendConfirmationEmail({ name, email, course, amount })
     } catch (emailErr) {
       console.error('Email sending failed:', emailErr)
     }
-    return res.json({ ok: true })
+    return res.json({ ok: true, enrollmentId })
   }
-  console.error('Signature mismatch', { order: razorpay_order_id, payment: razorpay_payment_id, got: razorpay_signature, expected: generated_signature })
-  return res.status(400).json({ ok: false, error: 'Invalid signature' })
+  console.error('Signature mismatch', { order: razorpay_order_id, payment: razorpay_payment_id, got: razorpay_signature, expected: generated_signature, secretLength: secret.length, source: source || 'enroll' })
+  const enrollmentId = await storeEnrollment({ name, email, phone, course, amount: Number(amount) || 0, paymentId: razorpay_payment_id, orderId: razorpay_order_id, status: 'unverified', hasGst: hasGst !== false, source: source || 'enroll' })
+  return res.status(400).json({ ok: false, error: 'Invalid signature', enrollmentId })
 })
 
 // ─── Payment Webhook (Razorpay server-to-server) ───
@@ -222,8 +225,9 @@ async function storeEnrollment({ name, email, phone, course, amount, paymentId, 
   try {
     const existing = await getData('enrollments')
     const enrollments = Array.isArray(existing) ? existing : []
+    const id = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8)
     enrollments.push({
-      id: Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8),
+      id,
       name: name || 'Unknown',
       email: email || '',
       phone: phone || '',
@@ -234,11 +238,20 @@ async function storeEnrollment({ name, email, phone, course, amount, paymentId, 
       paymentId: paymentId || '',
       orderId: orderId || '',
       status: status || 'captured',
+      address: '',
+      city: '',
+      state: '',
+      pincode: '',
+      company: '',
+      gst: '',
+      preferredBatch: '',
       createdAt: new Date().toISOString(),
     })
     await setData('enrollments', enrollments)
+    return id
   } catch (err) {
     console.error('Failed to store enrollment:', err)
+    return null
   }
 }
 
@@ -248,6 +261,32 @@ app.get('/api/enrollments', requireAdmin, async (req, res) => {
     res.json(Array.isArray(data) ? data : [])
   } catch {
     res.status(500).json({ error: 'Failed to read enrollments' })
+  }
+})
+
+app.post('/api/enrollment-details', async (req, res) => {
+  const { enrollmentId, address, city, state, pincode, company, gst, preferredBatch } = req.body
+  if (!enrollmentId) return res.status(400).json({ ok: false, error: 'Missing enrollmentId' })
+  try {
+    const existing = await getData('enrollments')
+    const enrollments = Array.isArray(existing) ? existing : []
+    const idx = enrollments.findIndex(e => e.id === enrollmentId)
+    if (idx === -1) return res.status(404).json({ ok: false, error: 'Enrollment not found' })
+    enrollments[idx] = {
+      ...enrollments[idx],
+      address: address || '',
+      city: city || '',
+      state: state || '',
+      pincode: pincode || '',
+      company: company || '',
+      gst: gst || '',
+      preferredBatch: preferredBatch || '',
+    }
+    await setData('enrollments', enrollments)
+    res.json({ ok: true })
+  } catch (err) {
+    console.error('Failed to update enrollment details:', err)
+    res.status(500).json({ ok: false, error: 'Failed to update enrollment details' })
   }
 })
 
