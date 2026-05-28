@@ -252,8 +252,46 @@ export default function UpcomingBatches() {
               <div className="text-center py-12 text-gray-500 text-sm">No batch dates scheduled.</div>
             ) : (
               <>
-                {upcomingGroups.length > 0 && monthGroupsList.map(mg => {
-                  const dates = upcomingGroups.filter(g => g.date.getMonth() === mg.month && g.date.getFullYear() === mg.year)
+                {upcomingGroups.length > 0 && (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                      <Calendar size={18} className="text-primary" />
+                      Next 3 Dates
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {upcomingGroups.slice(0, 3).map((g, i) => (
+                        <div key={i} className="bg-white shadow-sm rounded-2xl border border-gray-200 overflow-hidden">
+                          <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-b border-gray-100">
+                            <Calendar size={14} className="text-primary shrink-0" />
+                            <span className="font-bold text-primary text-sm">{g.date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long' })}</span>
+                            <span className="text-[10px] text-gray-400 ml-auto">{g.batches.length}</span>
+                          </div>
+                          <div className="divide-y divide-gray-100">
+                            {g.batches.map(b => (
+                              <div key={b.id} className="px-4 py-3">
+                                <Link to={`/course/${b.slug}`} className="text-xs font-semibold text-gray-800 hover:text-primary transition-colors block leading-snug">
+                                  {b.title}
+                                </Link>
+                                <div className="flex items-center justify-between mt-2">
+                                  <span className="text-[11px] text-gray-500">{b.mode || 'N/A'}</span>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-[10px] text-amber-600 font-medium">{b.seats} seats</span>
+                                    <button onClick={() => openEnroll({ course: b.slug, source: 'upcoming-batches' })}
+                                      className="px-3 py-1.5 text-[11px] font-semibold bg-primary text-white rounded-lg hover:bg-blue-800 transition-all">
+                                      Enroll
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {upcomingGroups.slice(3).length > 0 && monthGroupsList.map(mg => {
+                  const dates = upcomingGroups.slice(3).filter(g => g.date.getMonth() === mg.month && g.date.getFullYear() === mg.year)
                   if (dates.length === 0) return null
                   return (
                     <div key={mg.label}>
