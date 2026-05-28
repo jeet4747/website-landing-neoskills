@@ -466,18 +466,25 @@ async function ensureTable() {
 
 async function seedIfEmpty() {
   await ensureTable()
-  console.log('  Syncing data from JSON files to database...')
-  const seeds = [
-    { key: 'courses', file: 'courses.json' },
-    { key: 'jobs', file: 'jobs.json' },
-    { key: 'hero_slides', file: 'hero-slides.json' },
-  ]
-  for (const { key, file } of seeds) {
-    const p = path.join(__dirname, file)
-    if (fs.existsSync(p)) {
-      const data = JSON.parse(fs.readFileSync(p, 'utf8'))
-      await setData(key, data)
-      console.log(`    ✅ ${key} (${Array.isArray(data) ? data.length : 'ok'})`)
+  console.log('  Syncing data to database...')
+  // Always sync courses from file (curriculum updates go live on deploy)
+  const coursePath = path.join(__dirname, 'courses.json')
+  if (fs.existsSync(coursePath)) {
+    const data = JSON.parse(fs.readFileSync(coursePath, 'utf8'))
+    await setData('courses', data)
+    console.log(`    ✅ courses (${Array.isArray(data) ? data.length : 'ok'})`)
+  }
+  // Only seed jobs/hero_slides if empty (preserve admin edits)
+  const onlyIfEmpty = ['jobs', 'hero_slides']
+  for (const key of onlyIfEmpty) {
+    const existing = await getData(key)
+    if (!existing || (Array.isArray(existing) && existing.length === 0)) {
+      const p = path.join(__dirname, `${key}.json`)
+      if (fs.existsSync(p)) {
+        const data = JSON.parse(fs.readFileSync(p, 'utf8'))
+        await setData(key, data)
+        console.log(`    ✅ ${key} seeded (${Array.isArray(data) ? data.length : 'ok'})`)
+      }
     }
   }
 }
