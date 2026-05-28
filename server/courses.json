@@ -4221,65 +4221,71 @@
     "title": "CPMAI & AI Project Management",
     "fullTitle": "CPMAI & AI Project Management",
     "icon": "Lightbulb",
-    "summary": "AI project management concepts with practical business relevance.",
-    "description": "AI project management concepts with practical business relevance.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
+    "summary": "Certified Project Management for AI (CPMAI) — master AI project lifecycle, data strategy, model deployment, and cross-functional team leadership.",
+    "description": "The CPMAI certification equips you to lead AI and data-driven projects effectively. This program covers the end-to-end AI project lifecycle — from problem framing and data preparation to model deployment, monitoring, and governance — with live instruction, case studies, and hands-on exercises.",
     "stats": {
       "duration": "4-6 weeks",
       "nextBatch": "23-05-2026",
       "level": "Intermediate",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
-      "hours": "Contact hours vary by certification; see syllabus modules below",
-      "certificate": "Vendor or professional credential pathway (where applicable)",
-      "placement": "Resume guidance and interview preparation support (program-dependent)"
+      "mode": "Live online (instructor-led)",
+      "hours": "24+ contact hours",
+      "certificate": "CPMAI credential pathway",
+      "placement": "Resume guidance & interview preparation support"
     },
     "highlights": [
-      "Structured, instructor-led coverage for CPMAI & AI Project Management",
-      "Materials, assignments, and cohort coordination through NeoSkills",
-      "Exam or certification guidance where applicable",
-      "Access to recordings and updates per batch policy"
+      "Live instructor-led sessions covering the complete AI project lifecycle",
+      "Real-world case studies in data strategy, model deployment, and MLOps",
+      "Hands-on exercises with AI project artifacts and documentation",
+      "Covers governance, ethics, and risk management for AI initiatives",
+      "24+ contact hours with flexible batch scheduling"
     ],
     "whoShouldJoin": [
-      "Working professionals upgrading or certifying",
-      "Teams aligning to industry-standard practices",
-      "Anyone seeking a clear learning path with mentor support"
+      "Project managers transitioning into AI and data-driven projects",
+      "AI/ML engineers wanting structured project management skills",
+      "Product managers leading AI-powered product development",
+      "IT leaders and consultants managing AI initiative portfolios"
     ],
     "syllabus": [
       {
-        "week": "Module 1",
+        "week": "Module 1 — AI Project Lifecycle & Fundamentals",
         "topics": [
-          "Foundations and key concepts for CPMAI & AI Project Management",
-          "Instructor-led sessions, guided practice, and Q&A",
-          "Hands-on exercises aligned to certification or job outcomes"
+          "Overview of AI, ML, and data science project types",
+          "CPMAI framework and methodology overview",
+          "Problem framing and opportunity assessment",
+          "Stakeholder identification and cross-functional team structures"
         ]
       },
       {
-        "week": "Module 2",
+        "week": "Module 2 — Data Strategy & Preparation",
         "topics": [
-          "Foundations and key concepts for CPMAI & AI Project Management",
-          "Instructor-led sessions, guided practice, and Q&A",
-          "Hands-on exercises aligned to certification or job outcomes"
+          "Data sourcing, quality assessment, and governance",
+          "Data preparation pipelines and feature engineering",
+          "Exploratory data analysis (EDA) for project planning",
+          "Data privacy, security, and compliance considerations"
         ]
       },
       {
-        "week": "Module 3",
+        "week": "Module 3 — Model Development & Deployment",
         "topics": [
-          "Foundations and key concepts for CPMAI & AI Project Management",
-          "Instructor-led sessions, guided practice, and Q&A",
-          "Hands-on exercises aligned to certification or job outcomes"
+          "Model selection, training, and evaluation strategies",
+          "MLOps fundamentals — CI/CD for machine learning",
+          "Model deployment architectures and monitoring",
+          "A/B testing and model performance tracking"
         ]
       },
       {
-        "week": "Module 4",
+        "week": "Module 4 — AI Governance & Career Readiness",
         "topics": [
-          "Foundations and key concepts for CPMAI & AI Project Management",
-          "Instructor-led sessions, guided practice, and Q&A",
-          "Hands-on exercises aligned to certification or job outcomes"
+          "AI ethics, bias detection, and responsible AI practices",
+          "Risk management and compliance for AI systems",
+          "AI project documentation and stakeholder reporting",
+          "Certification exam strategy and career pathways"
         ]
       }
     ],
     "certificate": {
-      "title": "CPMAI & AI Project Management — credential pathway",
-      "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
+      "title": "CPMAI — Certified Project Management for AI",
+      "description": "CPMAI certification validates your ability to manage AI and data-driven projects. NeoSkills training focuses on practical skills and exam readiness.",
       "image": "/images/nsl-logo.svg"
     },
     "feeDetails": {
