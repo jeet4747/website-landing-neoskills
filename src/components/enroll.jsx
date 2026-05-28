@@ -4,7 +4,7 @@ import { useEnroll } from '../context/EnrollContext'
 import { getAllResolvedCourses, effectiveListedPrice, getTotal } from '../data/catalogBuilder'
 import { fetchBackendCourses } from '../data/courseService'
 import emailjs from '@emailjs/browser'
-import { CheckCircle, Clock, Users, BookOpen, Award, GraduationCap, Shield, ArrowRight, IndianRupee } from 'lucide-react'
+import { ArrowRight, IndianRupee } from 'lucide-react'
 import './enroll.css'
 
 function buildOptionsAndPrices(courses) {
@@ -134,71 +134,14 @@ export default function Enroll() {
       <div className="enroll-header-bar">
         <div className="enroll-header-inner">
           <Link to="/">Home</Link>
-          <span className="text-sm text-gray-400">NeoSkills Enrollment</span>
+          <span className="text-sm text-gray-400">Enrollment</span>
         </div>
       </div>
 
-      <div className="enroll-hero">
-        <h1>Claim Your Seat</h1>
-        <p>Complete your details below and proceed to secure your seat. Our team will confirm batch allocation within 24 hours.</p>
-      </div>
-
-      <div className="enroll-layout">
-        <div className="enroll-info-panel">
-          <div className="panel-header">
-            <h3>Why Train With NeoSkills?</h3>
-            <p>50+ certification programs trusted by 50,000+ professionals worldwide.</p>
-          </div>
-          <div className="panel-body">
-            <div className="benefit-item">
-              <Award size={20} className="text-primary" />
-              <div>
-                <h4>Industry-Recognized Certifications</h4>
-                <p>PMP, AWS, Azure, ITIL, Scrum, Cybersecurity & more — aligned to global standards.</p>
-              </div>
-            </div>
-            <div className="benefit-item">
-              <Users size={20} className="text-primary" />
-              <div>
-                <h4>Live Instructor-Led Training</h4>
-                <p>Interactive sessions with certified practitioners. Real-time Q&A and hands-on labs.</p>
-              </div>
-            </div>
-            <div className="benefit-item">
-              <GraduationCap size={20} className="text-primary" />
-              <div>
-                <h4>Exam Preparation Support</h4>
-                <p>Mock tests, study kits, and exam registration guidance included with every course.</p>
-              </div>
-            </div>
-            <div className="benefit-item">
-              <Shield size={20} className="text-primary" />
-              <div>
-                <h4>Flexible Batch Scheduling</h4>
-                <p>Choose from weekday morning/evening or weekend batches that fit your schedule.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className={`price-preview ${selectedPrice > 0 ? 'visible' : ''}`}>
-            <div className="label">Course Fee</div>
-            <div className="amount">
-              <IndianRupee size={24} className="inline" />
-              {selectedPrice.toLocaleString('en-IN')}
-              <small> + GST</small>
-            </div>
-          </div>
-
-          <div className="trust-strip">
-            <span className="trust-badge"><CheckCircle size={14} className="text-green-500" /> 95% Placement Rate</span>
-            <span className="trust-badge"><Clock size={14} className="text-blue-500" /> 50K+ Certified</span>
-            <span className="trust-badge"><BookOpen size={14} className="text-purple-500" /> 50+ Programs</span>
-          </div>
-        </div>
-
-        <div className="enroll-form-panel">
-          <h2>Reserve Your Seat</h2>
-          <p>Fill in your details and we will guide you through the next steps — batch confirmation, payment, and course access.</p>
+      <div className="enroll-form-wrap">
+        <div className="enroll-card">
+          <h1>Enroll Now</h1>
+          <p className="subtitle">Fill in your details below to proceed to payment. We'll confirm your batch within 24 hours.</p>
 
           <form className="enroll-form" onSubmit={handleSubmit} ref={form}>
             <div className="form-grid">
@@ -235,8 +178,17 @@ export default function Enroll() {
               </div>
               <div className="form-group form-group-full">
                 <label htmlFor="message">Additional Notes</label>
-                <textarea id="message" name="message" placeholder="Preferred batch timing, questions about the course, or special requirements" value={formData.message} onChange={handleInputChange} rows={4} />
+                <textarea id="message" name="message" placeholder="Preferred batch timing, questions about the course, or special requirements" value={formData.message} onChange={handleInputChange} rows={3} />
               </div>
+            </div>
+
+            <div className={`price-row ${selectedPrice > 0 ? 'visible' : ''}`}>
+              <span className="label">Course Fee</span>
+              <span className="amount">
+                <IndianRupee size={18} className="inline" />
+                {selectedPrice.toLocaleString('en-IN')}
+                <small> + GST</small>
+              </span>
             </div>
 
             <div className="form-footer">

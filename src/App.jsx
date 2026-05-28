@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { HelmetProvider, Helmet } from 'react-helmet-async'
+import ScrollToTop from './components/ScrollToTop.jsx'
 import TopBar from './components/TopBar.jsx'
 import Navbar from './components/Navbar.jsx'
 import HeroSection from './components/HeroSection.jsx'
@@ -56,6 +57,7 @@ export default function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <EnrollProvider>
           <Helmet>
             <html lang="en" />
