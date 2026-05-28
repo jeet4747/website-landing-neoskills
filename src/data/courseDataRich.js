@@ -493,6 +493,90 @@ export const itil5FoundationCourse = {
   learnMoreUrl: 'https://www.neoskills.co.in/itil-5-foundation/',
 }
 
+export const capmCourse = {
+  slug: 'capm',
+  category: 'Project Management',
+  title: 'CAPM® Certification Training',
+  fullTitle: 'Certified Associate in Project Management (CAPM®)',
+  icon: 'Award',
+  summary: 'Entry-level project management certification from PMI® — build foundational skills in project planning, agile frameworks, and exam readiness.',
+  description: `The CAPM® certification is your first step toward a career in project management. This program follows the latest PMI® exam outline covering project fundamentals, planning, agile methods, and exam strategy — with live instruction, mock tests, and career guidance.`,
+  stats: {
+    duration: '4–6 Weeks',
+    nextBatch: 'Launching Soon',
+    level: 'Beginner',
+    mode: 'Live online (instructor-led)',
+    hours: '23+ contact hours',
+    certificate: 'CAPM® credential pathway (PMI®)',
+    placement: 'Resume guidance & interview preparation support',
+  },
+  highlights: [
+    'Live instructor-led sessions aligned with the current PMI® CAPM exam outline',
+    'Covers predictive, agile, and hybrid approaches with real-world case studies',
+    'Includes mock tests, practice questions, and exam preparation strategy',
+    'Resume building, interview prep, and career guidance support',
+    '23+ contact hours of structured learning with flexible batch scheduling',
+  ],
+  whoShouldJoin: [
+    'Aspiring project managers looking to start their career',
+    'Recent graduates seeking a recognized certification',
+    'Professionals transitioning into project management roles',
+    'Anyone wanting to understand project management fundamentals',
+  ],
+  syllabus: [
+    {
+      week: 'Module 1 — Introduction to CAPM and PMI Framework',
+      topics: [
+        'Project Management Fundamentals',
+        'Project Lifecycle & Methodologies',
+        'Roles and Responsibilities of Project Managers',
+        'Key Project Management Concepts',
+      ],
+    },
+    {
+      week: 'Module 2 — Project Planning and Execution',
+      topics: [
+        'Project Planning and Scheduling',
+        'Work Breakdown Structure (WBS)',
+        'Resource and Budget Management',
+        'Risk Management Basics',
+        'Stakeholder Communication',
+      ],
+    },
+    {
+      week: 'Module 3 — Agile and Adaptive Approaches',
+      topics: [
+        'Agile Project Management Fundamentals',
+        'Scrum Framework and Roles',
+        'Sprint Planning & Retrospectives',
+        'Kanban and Hybrid Approaches',
+        'Team Collaboration Techniques',
+      ],
+    },
+    {
+      week: 'Module 4 — Exam Prep & Career Launch',
+      topics: [
+        'CAPM Exam Preparation Strategy',
+        'Mock Tests and Practice Questions',
+        'Real-world Project Case Studies',
+        'Resume & Interview Preparation',
+        'Certification and Career Guidance',
+      ],
+    },
+  ],
+  certificate: {
+    title: 'CAPM® — Certified Associate in Project Management',
+    description: 'The CAPM® certification is awarded by PMI® upon passing the exam. NeoSkills training focuses on exam readiness and applied project management skills.',
+    image: '/images/nsl-logo.svg',
+  },
+  feeDetails: {
+    training: 18500,
+    exam: 36480,
+    support: 18500,
+    total: 73480,
+  },
+}
+
 export const courseCategories = [
   { slug: 'project-management', name: 'Project Management' },
   { slug: 'cloud-computing', name: 'Cloud Computing' },

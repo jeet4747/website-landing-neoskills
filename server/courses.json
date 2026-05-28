@@ -241,67 +241,76 @@
     "slug": "capm",
     "category": "Project Management",
     "title": "CAPM",
-    "fullTitle": "CAPM",
+    "fullTitle": "Certified Associate in Project Management (CAPM\u00ae)",
     "icon": "Award",
-    "summary": "Entry-level project management certification for aspiring professionals.",
-    "description": "Entry-level project management certification for aspiring professionals.\n\nThis NeoSkills program is listed under our Certification catalog. Schedules, cohorts, and fees are maintained to match the training desk. For the latest brochure and batch plan, use the enquiry form or call us.",
+    "summary": "Entry-level project management certification from PMI\u00ae \u2014 build foundational skills in project planning, agile frameworks, and exam readiness.",
+    "description": "The CAPM\u00ae certification is your first step toward a career in project management. This program follows the latest PMI\u00ae exam outline covering project fundamentals, planning, agile methods, and exam strategy \u2014 with live instruction, mock tests, and career guidance.",
     "stats": {
       "duration": "4-6 weeks",
       "nextBatch": "Launching Soon",
       "level": "Beginner",
-      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
-      "hours": "Contact hours vary by certification; see syllabus modules below",
-      "certificate": "Vendor or professional credential pathway (where applicable)",
-      "placement": "Resume guidance and interview preparation support (program-dependent)"
+      "mode": "Live online (instructor-led)",
+      "hours": "23+ contact hours",
+      "certificate": "CAPM\u00ae credential pathway (PMI\u00ae)",
+      "placement": "Resume guidance & interview preparation support"
     },
     "highlights": [
-      "Structured, instructor-led coverage for CAPM",
-      "Materials, assignments, and cohort coordination through NeoSkills",
-      "Exam or certification guidance where applicable",
-      "Access to recordings and updates per batch policy"
+      "Live instructor-led sessions aligned with the current PMI\u00ae CAPM exam outline",
+      "Covers predictive, agile, and hybrid approaches with real-world case studies",
+      "Includes mock tests, practice questions, and exam preparation strategy",
+      "Resume building, interview prep, and career guidance support",
+      "23+ contact hours of structured learning with flexible batch scheduling"
     ],
     "whoShouldJoin": [
-      "Beginners building foundational skills",
-      "Teams aligning to industry-standard practices",
-      "Anyone seeking a clear learning path with mentor support"
+      "Aspiring project managers looking to start their career",
+      "Recent graduates seeking a recognized certification",
+      "Professionals transitioning into project management roles",
+      "Anyone wanting to understand project management fundamentals"
     ],
     "syllabus": [
       {
-        "week": "Module 1",
+        "week": "Module 1 \u2014 Introduction to CAPM and PMI Framework",
         "topics": [
-          "Foundations and key concepts for CAPM",
-          "Instructor-led sessions, guided practice, and Q&A",
-          "Hands-on exercises aligned to certification or job outcomes"
+          "Project Management Fundamentals",
+          "Project Lifecycle & Methodologies",
+          "Roles and Responsibilities of Project Managers",
+          "Key Project Management Concepts"
         ]
       },
       {
-        "week": "Module 2",
+        "week": "Module 2 \u2014 Project Planning and Execution",
         "topics": [
-          "Foundations and key concepts for CAPM",
-          "Instructor-led sessions, guided practice, and Q&A",
-          "Hands-on exercises aligned to certification or job outcomes"
+          "Project Planning and Scheduling",
+          "Work Breakdown Structure (WBS)",
+          "Resource and Budget Management",
+          "Risk Management Basics",
+          "Stakeholder Communication"
         ]
       },
       {
-        "week": "Module 3",
+        "week": "Module 3 \u2014 Agile and Adaptive Approaches",
         "topics": [
-          "Foundations and key concepts for CAPM",
-          "Instructor-led sessions, guided practice, and Q&A",
-          "Hands-on exercises aligned to certification or job outcomes"
+          "Agile Project Management Fundamentals",
+          "Scrum Framework and Roles",
+          "Sprint Planning & Retrospectives",
+          "Kanban and Hybrid Approaches",
+          "Team Collaboration Techniques"
         ]
       },
       {
-        "week": "Module 4",
+        "week": "Module 4 \u2014 Exam Prep & Career Launch",
         "topics": [
-          "Foundations and key concepts for CAPM",
-          "Instructor-led sessions, guided practice, and Q&A",
-          "Hands-on exercises aligned to certification or job outcomes"
+          "CAPM Exam Preparation Strategy",
+          "Mock Tests and Practice Questions",
+          "Real-world Project Case Studies",
+          "Resume & Interview Preparation",
+          "Certification and Career Guidance"
         ]
       }
     ],
     "certificate": {
-      "title": "CAPM — credential pathway",
-      "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
+      "title": "CAPM\u00ae \u2014 Certified Associate in Project Management",
+      "description": "The CAPM\u00ae certification is awarded by PMI\u00ae upon passing the exam. NeoSkills training focuses on exam readiness and applied project management skills.",
       "image": "/images/nsl-logo.svg"
     },
     "feeDetails": {

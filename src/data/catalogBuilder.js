@@ -4,6 +4,7 @@ import {
   awsTrainingCourse,
   azureAiTrainingCourse,
   itil5FoundationCourse,
+  capmCourse,
   courseCategories as baseCourseCategories,
 } from './courseDataRich.js'
 
@@ -103,6 +104,7 @@ function certificateImageFor(row) {
 function pickRichTemplate(row) {
   const t = (row.title || '').toLowerCase()
   if (t.includes('pmp')) return pmpCourse
+  if (t.includes('capm')) return capmCourse
   if (t.includes('itil')) return itil5FoundationCourse
   if (t.includes('google cloud')) return null
   if (t.includes('aws')) return awsTrainingCourse

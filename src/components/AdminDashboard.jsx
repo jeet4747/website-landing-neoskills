@@ -891,16 +891,41 @@ export default function AdminDashboard() {
                               />
                             </div>
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1.5">Syllabus items (one per line)</label>
-                              <textarea
-                                value={(selected.syllabus || []).flatMap(s => [s.week ? s.week : '', ...(s.topics || [])]).join('\n')}
-                                onChange={e => {
-                                  const lines = e.target.value.split('\n').map(l => l.trim()).filter(Boolean)
-                                  setField('syllabus', [{ week: 'Curriculum', topics: lines }])
-                                }}
-                                rows={6}
-                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-mono text-xs"
-                              />
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Syllabus (modules & topics)</label>
+                              {(selected.syllabus || []).map((mod, modIdx) => (
+                                <div key={modIdx} className="mb-3 p-3 border border-gray-200 rounded-xl bg-gray-50/50">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <input
+                                      value={mod.week || ''}
+                                      onChange={e => {
+                                        const s = [...(selected.syllabus || [])]
+                                        s[modIdx] = { ...s[modIdx], week: e.target.value }
+                                        setField('syllabus', s)
+                                      }}
+                                      placeholder="Module title (e.g. Module 1 — Introduction)"
+                                      className="flex-1 px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm font-medium focus:outline-none focus:border-primary"
+                                    />
+                                    <button onClick={() => {
+                                      const s = (selected.syllabus || []).filter((_, i) => i !== modIdx)
+                                      setField('syllabus', s)
+                                    }} className="text-xs text-red-600 hover:text-red-800 px-2 py-1 rounded hover:bg-red-50 transition-colors">Remove</button>
+                                  </div>
+                                  <textarea
+                                    value={(mod.topics || []).join('\n')}
+                                    onChange={e => {
+                                      const s = [...(selected.syllabus || [])]
+                                      s[modIdx] = { ...s[modIdx], topics: e.target.value.split('\n').map(l => l.trim()).filter(Boolean) }
+                                      setField('syllabus', s)
+                                    }}
+                                    placeholder="One topic per line"
+                                    rows={3}
+                                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary font-mono text-xs"
+                                  />
+                                </div>
+                              ))}
+                              <button onClick={() => {
+                                setField('syllabus', [...(selected.syllabus || []), { week: '', topics: [] }])
+                              }} className="text-sm text-primary font-medium hover:text-blue-800 transition-colors">+ Add Module</button>
                             </div>
           </>
         )}
