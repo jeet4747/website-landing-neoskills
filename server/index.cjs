@@ -465,16 +465,8 @@ async function ensureTable() {
 }
 
 async function seedIfEmpty() {
-  try {
-    await ensureTable()
-    const courses = await getData('courses')
-    if (courses && Array.isArray(courses) && courses.length > 0) {
-      console.log('  Data already seeded, skipping.')
-      return
-    }
-  } catch { /* assume empty */ }
-
-  console.log('  Seeding initial data from JSON files...')
+  await ensureTable()
+  console.log('  Syncing data from JSON files to database...')
   const seeds = [
     { key: 'courses', file: 'courses.json' },
     { key: 'jobs', file: 'jobs.json' },
@@ -495,6 +487,11 @@ const PORT = process.env.PORT || 4000
 app.listen(PORT, async () => {
   console.log(`Neoskills server running on http://localhost:${PORT}`)
   if (process.env.DATABASE_URL) await seedIfEmpty()
+  // expose manual re-seed endpoint for admin
+  app.post('/api/reseed', requireAdmin, async (req, res) => {
+    await seedIfEmpty()
+    res.json({ status: 'ok', message: 'Data synced from JSON files' })
+  })
   console.log(`  API:    http://localhost:${PORT}/api/health`)
   console.log(`  Frontend (if built): http://localhost:${PORT}/`)
 })
