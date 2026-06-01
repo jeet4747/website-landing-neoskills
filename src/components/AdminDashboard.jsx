@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { getAllResolvedCourses } from '../data/catalogBuilder'
+import { courseStructure } from '../data/courseStructure'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 const COURSES_API = BACKEND_URL ? `${BACKEND_URL}/api/courses` : '/api/courses'
@@ -60,6 +61,21 @@ export default function AdminDashboard() {
   const [enrollments, setEnrollments] = useState([])
   const [enrollmentsLoading, setEnrollmentsLoading] = useState(false)
   const [enrollmentsSearch, setEnrollmentsSearch] = useState('')
+
+  // Categories state
+  const [categories, setCategories] = useState([])
+  const [categoriesLoading, setCategoriesLoading] = useState(false)
+  const [selectedCategoryIdx, setSelectedCategoryIdx] = useState(-1)
+
+  const fallbackCategoryNames = useMemo(() => {
+    const names = new Set()
+    for (const tab of Object.values(courseStructure)) {
+      for (const name of Object.keys(tab.categories || {})) {
+        names.add(name)
+      }
+    }
+    return [...names]
+  }, [])
 
   const GRADIENT_OPTIONS = [
     'from-amber-600 to-amber-800',
@@ -259,6 +275,27 @@ export default function AdminDashboard() {
     setEnrollmentsLoading(false)
   }, [])
 
+  const CATEGORIES_API_URL = BACKEND_URL ? `${BACKEND_URL}/api/categories` : '/api/categories'
+
+  const loadCategories = useCallback(async () => {
+    setCategoriesLoading(true)
+    setError('')
+    try {
+      const res = await fetch(CATEGORIES_API_URL, { signal: AbortSignal.timeout(5000) })
+      if (!res.ok) throw new Error('Server error')
+      const data = await res.json()
+      if (Array.isArray(data) && data.length > 0) {
+        setCategories(data)
+        if (selectedCategoryIdx === -1) setSelectedCategoryIdx(0)
+      } else {
+        setCategories(fallbackCategoryNames.map(n => ({ name: n, slug: n.toLowerCase().replace(/\s+/g, '-') })))
+      }
+    } catch {
+      setCategories(fallbackCategoryNames.map(n => ({ name: n, slug: n.toLowerCase().replace(/\s+/g, '-'), description: '' })))
+    }
+    setCategoriesLoading(false)
+  }, [])
+
   const switchSection = (s) => {
     setSection(s)
     setError('')
@@ -270,12 +307,13 @@ export default function AdminDashboard() {
     if (s === 'applications') loadApplications()
     if (s === 'batches' && batches.length === 0) loadBatches()
     if (s === 'enrollments') loadEnrollments()
+    if (s === 'categories' && categories.length === 0) loadCategories()
   }
 
   useEffect(() => {
     if (auth) {
       checkHealth()
-      if (section === 'courses') loadCourses()
+      if (section === 'courses') { loadCourses(); loadCategories() }
       if (section === 'jobs') loadJobs()
     }
   }, [auth])
@@ -288,7 +326,43 @@ export default function AdminDashboard() {
     if (auth && section === 'applications') loadApplications()
     if (auth && section === 'batches') loadBatches()
     if (auth && section === 'enrollments') loadEnrollments()
+    if (auth && section === 'categories') loadCategories()
   }, [section])
+
+  const addCourse = () => {
+    const newSlug = `course-${Date.now()}`
+    const newCourse = {
+      slug: newSlug,
+      category: '',
+      title: 'New Course',
+      fullTitle: 'New Course Title',
+      icon: 'Award',
+      summary: 'Course summary here.',
+      description: 'Full course description.',
+      stats: { duration: '', nextBatch: '', level: 'Beginner', mode: 'Live online' },
+      highlights: ['Key highlight 1', 'Key highlight 2'],
+      whoShouldJoin: ['Target audience 1'],
+      syllabus: [{ week: 'Module 1 — Introduction', topics: ['Topic 1', 'Topic 2'] }],
+      certificate: { title: 'Certificate title', description: 'Certificate description' },
+      feeDetails: { training: 0, exam: 0, support: 0, total: 0, emi: '' },
+      feeDisclaimer: '',
+      trainers: [{ name: '', bio: '' }],
+      categorySlug: '',
+      learnMoreUrl: 'https://www.neoskills.co.in/',
+      alternateSlugs: [],
+    }
+    setCourses(prev => [...prev, newCourse])
+    setSelectedSlug(newSlug)
+    setUnsaved(true)
+  }
+
+  const deleteCourse = () => {
+    if (!selectedSlug) return
+    setCourses(prev => prev.filter(c => (c.slug || c.id) !== selectedSlug))
+    const remaining = courses.filter(c => (c.slug || c.id) !== selectedSlug)
+    setSelectedSlug(remaining[0]?.slug || remaining[0]?.id || '')
+    setUnsaved(true)
+  }
 
   const selected = courses.find(c => (c.slug || c.id) === selectedSlug) || null
   const filtered = courses.filter(c =>
@@ -311,6 +385,7 @@ export default function AdminDashboard() {
       })
       return next
     })
+    if (path === 'slug' && value) setSelectedSlug(value)
     setUnsaved(true)
   }
 
@@ -684,6 +759,14 @@ export default function AdminDashboard() {
               >
                 Applications
               </button>
+              <button
+                onClick={() => switchSection('categories')}
+                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                  section === 'categories' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Categories
+              </button>
             </div>
             <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${
               backendOnline === true ? 'bg-green-50 text-green-700 border border-green-200'
@@ -741,14 +824,17 @@ export default function AdminDashboard() {
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-1 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-                  <div className="p-4 border-b border-gray-100">
+                  <div className="p-4 border-b border-gray-100 flex items-center gap-2">
                     <input
                       type="text"
                       placeholder="Search courses..."
                       value={search}
                       onChange={e => setSearch(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                      className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     />
+                    <button onClick={addCourse} className="shrink-0 w-9 h-9 bg-primary text-white rounded-xl hover:bg-blue-800 transition-all flex items-center justify-center" title="Add new course">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                    </button>
                   </div>
                   <div className="overflow-y-auto max-h-[calc(100vh-280px)]">
                     {filtered.map(c => {
@@ -782,22 +868,25 @@ export default function AdminDashboard() {
                     </div>
                   ) : (
                     <>
-                      <div className="flex border-b border-gray-200 px-6">
-                        {['details', 'pricing', 'content'].map(tab => (
-                          <button
-                            key={tab}
-                            onClick={() => setActiveTab(tab)}
-                            className={`px-5 py-3.5 text-sm font-medium capitalize border-b-2 transition-colors ${
-                              activeTab === tab
-                                ? 'border-primary text-primary'
-                                : 'border-transparent text-gray-500 hover:text-gray-700'
-                            }`}
-                          >
-                            {tab === 'details' ? 'Details & Dates'
-                              : tab === 'pricing' ? 'Pricing'
-                              : 'Description & Content'}
-                          </button>
-                        ))}
+                      <div className="flex items-center justify-between border-b border-gray-200 px-6">
+                        <div className="flex">
+                          {['details', 'pricing', 'content'].map(tab => (
+                            <button
+                              key={tab}
+                              onClick={() => setActiveTab(tab)}
+                              className={`px-5 py-3.5 text-sm font-medium capitalize border-b-2 transition-colors ${
+                                activeTab === tab
+                                  ? 'border-primary text-primary'
+                                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                              }`}
+                            >
+                              {tab === 'details' ? 'Details & Dates'
+                                : tab === 'pricing' ? 'Pricing'
+                                : 'Description & Content'}
+                            </button>
+                          ))}
+                        </div>
+                        <button onClick={deleteCourse} className="text-xs text-red-600 hover:text-red-800 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors font-medium shrink-0">Delete</button>
                       </div>
 
                       <div className="p-6 space-y-5 overflow-y-auto max-h-[calc(100vh-340px)]">
@@ -825,6 +914,19 @@ export default function AdminDashboard() {
                                 </select>
                               </div>
                               <Field label="Mode (e.g. Live online)" value={selected.stats?.mode || ''} onChange={v => setField('stats.mode', v)} />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1.5">Category</label>
+                              <select
+                                value={selected.category || selected.categorySlug || ''}
+                                onChange={e => { setField('category', e.target.value); setField('categorySlug', e.target.value) }}
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                              >
+                                <option value="">Select category</option>
+                                {categories.map((cat, i) => (
+                                  <option key={i} value={cat.slug || cat.name}>{cat.name}</option>
+                                ))}
+                              </select>
                             </div>
                             <Field label="Learn More URL" value={selected.learnMoreUrl || ''} onChange={v => setField('learnMoreUrl', v)} />
                           </>
@@ -1573,6 +1675,112 @@ export default function AdminDashboard() {
         )}
 
         {/* ─── APPLICATIONS SECTION ─── */}
+        {/* ─── CATEGORIES SECTION ─── */}
+        {section === 'categories' && (
+          <>
+            {categoriesLoading ? (
+              <div className="text-center py-20">
+                <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-gray-500">Loading categories...</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-1 bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                  <div className="p-4 border-b border-gray-100 flex items-center gap-2">
+                    <h2 className="text-sm font-semibold text-gray-900 flex-1">Categories</h2>
+                    <button onClick={() => {
+                      setCategories(prev => [...prev, { name: 'New Category', slug: '', icon: 'Award', description: '', courses: [] }])
+                      setSelectedCategoryIdx(categories.length)
+                      setUnsaved(true)
+                    }} className="shrink-0 w-9 h-9 bg-primary text-white rounded-xl hover:bg-blue-800 transition-all flex items-center justify-center" title="Add new category">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                    </button>
+                  </div>
+                  <div className="overflow-y-auto max-h-[calc(100vh-280px)]">
+                    {categories.map((cat, idx) => (
+                      <button key={idx} onClick={() => { setSelectedCategoryIdx(idx); setUnsaved(false) }}
+                        className={`w-full text-left px-5 py-3.5 border-b border-gray-50 hover:bg-gray-50 transition-colors ${idx === selectedCategoryIdx ? 'bg-primary/5 border-l-[3px] border-l-primary' : ''}`}
+                      >
+                        <p className={`text-sm font-semibold ${idx === selectedCategoryIdx ? 'text-primary' : 'text-gray-800'}`}>{cat.name || 'Unnamed'}</p>
+                        <p className="text-xs text-gray-400 mt-0.5 truncate">{cat.slug || 'No slug'}</p>
+                      </button>
+                    ))}
+                    {categories.length === 0 && <p className="p-5 text-sm text-gray-400 text-center">No categories yet.</p>}
+                  </div>
+                </div>
+                <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm">
+                  {selectedCategoryIdx === -1 || !categories[selectedCategoryIdx] ? (
+                    <div className="p-12 text-center text-gray-400">
+                      <p>Select or create a category</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between border-b border-gray-200 px-6 py-3">
+                        <h2 className="text-sm font-semibold text-gray-900">Edit Category</h2>
+                        <button onClick={() => {
+                          setCategories(prev => prev.filter((_, i) => i !== selectedCategoryIdx))
+                          setSelectedCategoryIdx(Math.min(selectedCategoryIdx, categories.length - 2))
+                          setUnsaved(true)
+                        }} className="text-xs text-red-600 hover:text-red-800 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors font-medium">Delete</button>
+                      </div>
+                      <div className="p-6 space-y-5 overflow-y-auto max-h-[calc(100vh-340px)]">
+                        <Field label="Category Name" value={categories[selectedCategoryIdx]?.name || ''}
+                          onChange={v => {
+                            const next = [...categories]
+                            next[selectedCategoryIdx] = { ...next[selectedCategoryIdx], name: v }
+                            setCategories(next)
+                            setUnsaved(true)
+                          }} />
+                        <Field label="Slug" value={categories[selectedCategoryIdx]?.slug || ''}
+                          onChange={v => {
+                            const next = [...categories]
+                            next[selectedCategoryIdx] = { ...next[selectedCategoryIdx], slug: v }
+                            setCategories(next)
+                            setUnsaved(true)
+                          }} />
+                        <TextAreaField label="Description" value={categories[selectedCategoryIdx]?.description || ''}
+                          onChange={v => {
+                            const next = [...categories]
+                            next[selectedCategoryIdx] = { ...next[selectedCategoryIdx], description: v }
+                            setCategories(next)
+                            setUnsaved(true)
+                          }} rows={3} />
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+            <div className="mt-4 flex justify-end gap-3">
+              <button onClick={() => loadCategories()} className="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">Refresh</button>
+              <button onClick={async () => {
+                if (!backendOnline) { setError('Backend is offline'); return }
+                setSaving(true)
+                setError('')
+                setSuccess('')
+                try {
+                  const res = await fetch(CATEGORIES_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-admin-password': ADMIN_PASSWORD },
+                    body: JSON.stringify(categories),
+                  })
+                  const data = await res.json()
+                  if (!data.success) throw new Error(data.error || 'Save failed')
+                  setSuccess('Categories saved successfully.')
+                  setUnsaved(false)
+                  loadCategories()
+                } catch (err) {
+                  setError('Save failed: ' + (err.message || 'Connection error'))
+                }
+                setSaving(false)
+              }} disabled={saving || !backendOnline}
+                className="px-6 py-2.5 text-sm font-semibold text-white bg-primary rounded-xl hover:bg-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm flex items-center gap-2">
+                {saving ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Saving...</> : 'Save Categories'}
+              </button>
+            </div>
+          </>
+        )}
+
         {section === 'applications' && (
           <>
             {applicationsLoading ? (

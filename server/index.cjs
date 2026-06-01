@@ -318,6 +318,27 @@ app.post('/api/courses', requireAdmin, async (req, res) => {
   }
 })
 
+// ─── Categories API ───
+app.get('/api/categories', async (req, res) => {
+  try {
+    const data = await getData('categories')
+    res.json(Array.isArray(data) ? data : [])
+  } catch {
+    res.status(500).json({ error: 'Failed to read categories' })
+  }
+})
+
+app.post('/api/categories', requireAdmin, async (req, res) => {
+  const cat = req.body
+  if (!Array.isArray(cat)) return res.status(400).json({ error: 'Categories must be an array' })
+  try {
+    await setData('categories', cat)
+    res.json({ success: true })
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save categories' })
+  }
+})
+
 // ─── Jobs API ───
 app.get('/api/jobs', async (req, res) => {
   try {
