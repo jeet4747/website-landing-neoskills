@@ -7,6 +7,12 @@ import { useEnroll } from '../context/EnrollContext'
 
 const SKELETON_COUNT = 6
 
+const staticFallback = [
+  { id: 1, slug: 'aws-cloud-practitioner', title: 'AWS Cloud Practitioner', mode: 'Evening • 4:00 PM - 7:00 PM', date: '30-05-2026', category: 'Cloud Computing', seats: 8 },
+  { id: 2, slug: 'certified-scrum-master-csm', title: 'Certified Scrum Master (CSM)', mode: 'Live online', date: '23-05-2026', category: 'Agile & Scrum', seats: 5 },
+  { id: 3, slug: 'devops-tools-and-training', title: 'DevOps Tools & Training', mode: 'Live online', date: '06-06-2026', category: 'DevOps', seats: 12 },
+]
+
 const API_BASE = import.meta.env.VITE_API_URL || ''
 
 export default function UpcomingBatches() {
@@ -85,6 +91,7 @@ export default function UpcomingBatches() {
           console.warn('Using static batch data:', err.message)
         }
       }
+      setBatches(prev => prev.length > 0 ? prev : staticFallback)
       setLoading(false)
     }
     fetchBatches()
