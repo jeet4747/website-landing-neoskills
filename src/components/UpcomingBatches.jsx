@@ -5,20 +5,7 @@ import { Calendar, Clock, MapPin, Users, LayoutGrid, List } from 'lucide-react'
 import './upcoming.css'
 import { useEnroll } from '../context/EnrollContext'
 
-const staticBatches = [
-  { id: 1, slug: 'aws-cloud-practitioner', title: 'AWS Cloud Practitioner', mode: 'Evening • 4:00 PM - 7:00 PM', date: '30-05-2026', category: 'Cloud Computing', seats: 8 },
-  { id: 2, slug: 'certified-scrum-master-csm', title: 'Certified Scrum Master (CSM)', mode: 'Live online', date: '23-05-2026', category: 'Agile & Scrum', seats: 5 },
-  { id: 3, slug: 'devops-tools-and-training', title: 'DevOps Tools & Training', mode: 'Live online', date: '06-06-2026', category: 'DevOps', seats: 12 },
-  { id: 4, slug: 'itil-4-foundation', title: 'ITIL 4 Foundation', mode: 'Weekend cohort', date: '23-05-2026', category: 'IT Service', seats: 6 },
-  { id: 5, slug: 'agile-safe-advanced-scrum-master-sasm', title: 'Leading SAFe Agile in AI Empowered', mode: 'Advanced cohort', date: '23-05-2026', category: 'Agile & Scrum', seats: 4 },
-  { id: 6, slug: 'pmp', title: 'PMP Certification', mode: 'Live bootcamp', date: '23-05-2026', category: 'Project Management', seats: 3 },
-  { id: 7, slug: 'power-bi', title: 'Power BI', mode: 'Data analytics track', date: '23-05-2026', category: 'Data & Analytics', seats: 10 },
-  { id: 8, slug: 'professional-scrum-master-i-psm-i', title: 'Professional Scrum Master (PSM I)', mode: 'Live online', date: '23-05-2026', category: 'Agile & Scrum', seats: 7 },
-  { id: 9, slug: 'professional-scrum-master-ai-essentials-certification', title: 'PSM AI Essentials', mode: 'AI-enabled Scrum', date: '30-05-2026', category: 'Agile & Scrum', seats: 9 },
-  { id: 10, slug: 'professional-scrum-product-owner-i-pspo-i', title: 'Professional Scrum Product Owner (PSPO I)', mode: 'Live online', date: '23-05-2026', category: 'Agile & Scrum', seats: 6 },
-  { id: 11, slug: 'servicenow', title: 'ServiceNow', mode: 'Evening cohort', date: '23-05-2026', category: 'IT Service', seats: 8 },
-  { id: 12, slug: 'professional-scrum-product-owner-ii-pspo-ii', title: 'Professional Scrum Product Owner II (PSPO II)', mode: 'Live online', date: '30-05-2026', category: 'Agile & Scrum', seats: 11 },
-]
+const SKELETON_COUNT = 6
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
 
@@ -28,7 +15,7 @@ export default function UpcomingBatches() {
   const isHoveredRef = useRef(false)
   const { openEnroll } = useEnroll()
   const [isPaused, setIsPaused] = useState(false)
-  const [batches, setBatches] = useState(staticBatches)
+  const [batches, setBatches] = useState([])
   const [loading, setLoading] = useState(true)
   const [viewMode, setViewMode] = useState('carousel')
 
@@ -198,7 +185,33 @@ export default function UpcomingBatches() {
           </p>
         </motion.div>
 
-        {viewMode === 'carousel' ? (
+        {loading ? (
+          <div className="ub-slider-wrap">
+            <div className="ub-slider">
+              {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+                <article key={i} className="ub-card">
+                  <div className="ub-card-inner">
+                    <div className="ub-card-top">
+                      <div className="h-3 w-20 bg-gray-200 rounded animate-pulse" />
+                      <div className="h-3 w-16 bg-gray-200 rounded animate-pulse" />
+                    </div>
+                    <div className="h-5 w-3/4 bg-gray-200 rounded animate-pulse mt-4" />
+                    <div className="h-3 w-1/2 bg-gray-200 rounded animate-pulse mt-3" />
+                    <div className="ub-card-details mt-4">
+                      <div className="h-3 w-28 bg-gray-200 rounded animate-pulse" />
+                      <div className="h-3 w-20 bg-gray-200 rounded animate-pulse" />
+                    </div>
+                    <div className="ub-card-actions mt-4">
+                      <div className="h-10 w-full bg-gray-200 rounded-xl animate-pulse" />
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="ub-fade ub-fade-left" />
+            <div className="ub-fade ub-fade-right" />
+          </div>
+        ) : viewMode === 'carousel' ? (
           <>
             <div
               className="ub-slider-wrap"
