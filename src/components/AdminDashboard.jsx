@@ -308,7 +308,7 @@ export default function AdminDashboard() {
     if (s === 'batches' && batches.length === 0) loadBatches()
     if (s === 'enrollments') loadEnrollments()
     if (s === 'categories' && categories.length === 0) loadCategories()
-    if (s === 'keywords' && allCourses.length === 0) loadCourses()
+    if (s === 'keywords' && courses.length === 0) loadCourses()
   }
 
   useEffect(() => {
@@ -1880,7 +1880,7 @@ export default function AdminDashboard() {
         )}
 
         {section === 'keywords' && (
-          <KeywordsSection courses={allCourses} />
+          <KeywordsSection courses={courses} />
         )}
 
       </div>
