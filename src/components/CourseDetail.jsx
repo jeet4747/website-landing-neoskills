@@ -300,6 +300,8 @@ const CourseDetail = () => {
                 <img
                   src={course.certificate.image}
                   alt=""
+                  width="400"
+                  height="224"
                   className="rounded-xl shadow-lg mb-4 w-full max-h-56 object-contain bg-gray-50 p-4 border border-gray-100"
                   loading="lazy"
                 />
@@ -357,6 +359,8 @@ const CourseDetail = () => {
                     <img
                       src={trainer.image}
                       alt=""
+                      width="64"
+                      height="64"
                       className="w-16 h-16 rounded-full object-contain border-2 border-primary bg-white p-1"
                       loading="lazy"
                     />

@@ -496,7 +496,17 @@ app.use((err, _req, res, next) => {
 // ─── Serve frontend (production) ───
 const distPath = path.join(__dirname, '..', 'dist')
 const publicPath = path.join(__dirname, '..', 'public')
-app.use(express.static(publicPath))
+app.use(express.static(publicPath, {
+  maxAge: '1d',
+  setHeaders(res, filePath) {
+    if (/\.(svg|png|jpg|jpeg|webp|ico)$/i.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=86400')
+    }
+    if (filePath.endsWith('.xml') || filePath.endsWith('.txt')) {
+      res.setHeader('Cache-Control', 'public, max-age=3600')
+    }
+  }
+}))
 app.use(express.static(distPath, {
   maxAge: '1y',
   immutable: true,

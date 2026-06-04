@@ -70,6 +70,8 @@ const Footer = () => {
                 <img
                   src="/images/nsl_logo__Logo_.svg"
                   alt="NeoSkills Learning Solutions"
+                  width="145"
+                  height="80"
                   className="h-20 w-auto object-contain"
                   loading="lazy"
                 />

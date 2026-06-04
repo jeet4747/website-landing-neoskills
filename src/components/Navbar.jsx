@@ -118,6 +118,8 @@ const Navbar = () => {
             <img
               src="/images/nsl_logo__Logo_.svg"
               alt="Neoskills Learning Solutions"
+              width="145"
+              height="80"
               className="h-20 w-auto object-contain transform scale-125"
               fetchpriority="high"
             />
