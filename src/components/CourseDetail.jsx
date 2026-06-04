@@ -2,7 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
-import * as LucideIcons from 'lucide-react'
+import {
+  Award, Cloud, Users, BookOpen, Zap, Briefcase, BarChart3,
+  TrendingUp, Code, Shield, Lightbulb, Cpu,
+  IndianRupee, ArrowLeft, Check, ChevronDown, ChevronRight,
+  Download, FileText, Clock, Mail, Phone, MapPin, MessageSquare,
+  Send, ExternalLink, Calendar, GraduationCap, CheckCircle,
+  User, Banknote
+} from 'lucide-react'
+
+const LucideIcons = {
+  Award, Cloud, Users, BookOpen, Zap, Briefcase, BarChart3,
+  TrendingUp, Code, Shield, Lightbulb, Cpu,
+  IndianRupee, ArrowLeft, Check, ChevronDown, ChevronRight,
+  Download, FileText, Clock, Mail, Phone, MapPin, MessageSquare,
+  Send, ExternalLink, Calendar, GraduationCap, CheckCircle,
+  User, Banknote,
+}
 import emailjs from '@emailjs/browser'
 import { useEnroll } from '../context/EnrollContext'
 import { allCourses, courseCategories, getAllResolvedCourses, getMergedCourseCategories, getTotal } from './courseData'
@@ -285,6 +301,7 @@ const CourseDetail = () => {
                   src={course.certificate.image}
                   alt=""
                   className="rounded-xl shadow-lg mb-4 w-full max-h-56 object-contain bg-gray-50 p-4 border border-gray-100"
+                  loading="lazy"
                 />
                 <div className="bg-gray-50 rounded-lg p-4 text-center w-full">
                   <h4 className="font-bold text-gray-700 mb-1">{course.certificate.title}</h4>
@@ -341,6 +358,7 @@ const CourseDetail = () => {
                       src={trainer.image}
                       alt=""
                       className="w-16 h-16 rounded-full object-contain border-2 border-primary bg-white p-1"
+                      loading="lazy"
                     />
                     <div className="flex-1 min-w-0">
                       <h4 className="font-bold text-gray-800 text-lg">{trainer.name}</h4>

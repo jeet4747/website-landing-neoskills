@@ -69,8 +69,9 @@ const Footer = () => {
               <div className="bg-white rounded-xl p-2 w-fit mb-5">
                 <img
                   src="/images/nsl_logo__Logo_.svg"
-                  alt="Neoskill Learning Solutions"
+                  alt="NeoSkills Learning Solutions"
                   className="h-20 w-auto object-contain"
+                  loading="lazy"
                 />
               </div>
               <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-xs">
