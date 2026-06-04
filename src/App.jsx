@@ -4,10 +4,10 @@ import { HelmetProvider, Helmet } from 'react-helmet-async'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import TopBar from './components/TopBar.jsx'
 import Navbar from './components/Navbar.jsx'
+import HeroSection from './components/HeroSection.jsx'
 import Footer from './components/Footer.jsx'
 import { EnrollProvider } from './context/EnrollContext.jsx'
 
-const HeroSection = lazy(() => import('./components/HeroSection.jsx'))
 const CoursesSection = lazy(() => import('./components/CoursesSection.jsx'))
 const WhyChooseUs = lazy(() => import('./components/WhyChooseUs.jsx'))
 const PartneringSection = lazy(() => import('./components/partneringsection.jsx'))
