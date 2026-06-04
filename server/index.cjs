@@ -500,7 +500,7 @@ app.use(express.static(publicPath, {
   maxAge: '1d',
   setHeaders(res, filePath) {
     if (/\.(svg|png|jpg|jpeg|webp|ico)$/i.test(filePath)) {
-      res.setHeader('Cache-Control', 'public, max-age=86400')
+      res.setHeader('Cache-Control', 'public, max-age=604800')
     }
     if (filePath.endsWith('.xml') || filePath.endsWith('.txt')) {
       res.setHeader('Cache-Control', 'public, max-age=3600')
