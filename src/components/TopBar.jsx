@@ -1,20 +1,13 @@
 import React from 'react'
-import { motion } from 'framer-motion'
 import { Phone, Mail, Gift } from 'lucide-react'
 import { useEnroll } from '../context/EnrollContext'
 
 const TopBar = () => {
   const { openEnroll } = useEnroll()
   return (
-    <motion.div
-      initial={{ y: -50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="bg-primary text-white py-3 text-sm"
-    >
+    <div className="bg-primary text-white py-3 text-sm animate-slide-down">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          {/* Left - Contact Info */}
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Phone size={16} />
@@ -25,14 +18,10 @@ const TopBar = () => {
               <a href="tel:+919975214585">+91 9975214585</a>
             </div>
           </div>
-
-          {/* Center - Offer */}
           <div className="flex items-center gap-2 justify-center flex-1 md:flex-none">
             <Gift size={18} />
             <span className="font-semibold">Empower Your Future</span>
           </div>
-
-          {/* Right - Contact & CTA */}
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Mail size={16} />
@@ -44,7 +33,7 @@ const TopBar = () => {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 

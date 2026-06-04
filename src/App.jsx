@@ -4,25 +4,26 @@ import { HelmetProvider, Helmet } from 'react-helmet-async'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import TopBar from './components/TopBar.jsx'
 import Navbar from './components/Navbar.jsx'
-import HeroSection from './components/HeroSection.jsx'
-import CoursesSection from './components/CoursesSection.jsx'
-import WhyChooseUs from './components/WhyChooseUs.jsx'
-import PartneringSection from './components/partneringsection.jsx'
-import VideoShowcase from './components/VideoShowcase.jsx'
-import TestimonialsSection from './components/TestimonialsSection.jsx'
-import ContactForm from './components/ContactForm.jsx'
 import Footer from './components/Footer.jsx'
-import UpcomingBatches from './components/UpcomingBatches.jsx'
-import CorporateTraining from './components/CorporateTraining.jsx'
-import FreeResources from './components/FreeResources.jsx'
-import CareerPathQuiz from './components/CareerPathQuiz.jsx'
-import FAQAccordion from './components/FAQAccordion.jsx'
-import CourseFinderAI from './components/CourseFinderAI.jsx'
-import AICoursesPopup from './components/AICoursesPopup.jsx'
-import LeadPopup from './components/LeadPopup.jsx'
-import WhatsAppPopup from './components/WhatsAppPopup.jsx'
-import WebinarPopup from './components/WebinarPopup.jsx'
 import { EnrollProvider } from './context/EnrollContext.jsx'
+
+const HeroSection = lazy(() => import('./components/HeroSection.jsx'))
+const CoursesSection = lazy(() => import('./components/CoursesSection.jsx'))
+const WhyChooseUs = lazy(() => import('./components/WhyChooseUs.jsx'))
+const PartneringSection = lazy(() => import('./components/partneringsection.jsx'))
+const VideoShowcase = lazy(() => import('./components/VideoShowcase.jsx'))
+const TestimonialsSection = lazy(() => import('./components/TestimonialsSection.jsx'))
+const ContactForm = lazy(() => import('./components/ContactForm.jsx'))
+const UpcomingBatches = lazy(() => import('./components/UpcomingBatches.jsx'))
+const CorporateTraining = lazy(() => import('./components/CorporateTraining.jsx'))
+const FreeResources = lazy(() => import('./components/FreeResources.jsx'))
+const CareerPathQuiz = lazy(() => import('./components/CareerPathQuiz.jsx'))
+const FAQAccordion = lazy(() => import('./components/FAQAccordion.jsx'))
+const CourseFinderAI = lazy(() => import('./components/CourseFinderAI.jsx'))
+const AICoursesPopup = lazy(() => import('./components/AICoursesPopup.jsx'))
+const LeadPopup = lazy(() => import('./components/LeadPopup.jsx'))
+const WhatsAppPopup = lazy(() => import('./components/WhatsAppPopup.jsx'))
+const WebinarPopup = lazy(() => import('./components/WebinarPopup.jsx'))
 
 const Enroll = lazy(() => import('./components/enroll.jsx'))
 const PaymentPage = lazy(() => import('./components/paymentpage.jsx'))
