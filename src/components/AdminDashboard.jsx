@@ -308,6 +308,7 @@ export default function AdminDashboard() {
     if (s === 'batches' && batches.length === 0) loadBatches()
     if (s === 'enrollments') loadEnrollments()
     if (s === 'categories' && categories.length === 0) loadCategories()
+    if (s === 'keywords' && allCourses.length === 0) loadCourses()
   }
 
   useEffect(() => {
@@ -766,6 +767,14 @@ export default function AdminDashboard() {
                 }`}
               >
                 Categories
+              </button>
+              <button
+                onClick={() => switchSection('keywords')}
+                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                  section === 'keywords' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Keywords
               </button>
             </div>
             <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${
@@ -1870,6 +1879,101 @@ export default function AdminDashboard() {
           </>
         )}
 
+        {section === 'keywords' && (
+          <KeywordsSection courses={allCourses} />
+        )}
+
+      </div>
+    </div>
+  )
+}
+
+function KeywordsSection({ courses }) {
+  const IT_CITIES = ['Pune', 'Mumbai', 'Bangalore', 'Hyderabad', 'Chennai', 'Delhi NCR', 'Kolkata']
+  const [copiedIdx, setCopiedIdx] = useState(-1)
+  const [filterCity, setFilterCity] = useState('')
+  const [filterCourse, setFilterCourse] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('')
+
+  let keywords = []
+  for (const c of courses) {
+    const name = c.fullTitle || c.title
+    if (!name) continue
+    for (const city of IT_CITIES) {
+      keywords.push({
+        course: name,
+        slug: c.slug,
+        city,
+        keyword: `${name} Training in ${city}`,
+        matchType: 'Phrase',
+        ad: `${name} | ${city}`,
+      })
+    }
+  }
+
+  if (filterCity) keywords = keywords.filter(k => k.city === filterCity)
+  if (filterCourse) keywords = keywords.filter(k => k.slug === filterCourse)
+  if (categoryFilter) keywords = keywords.filter(k => k.keyword.toLowerCase().includes(categoryFilter.toLowerCase()))
+
+  const copyAll = () => {
+    const text = keywords.map(k => k.keyword).join('\n')
+    navigator.clipboard.writeText(text)
+    setCopiedIdx(-2)
+    setTimeout(() => setCopiedIdx(-3), 2000)
+  }
+
+  return (
+    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 className="text-base font-bold text-gray-900">Keywords for Google Ads</h2>
+          <p className="text-xs text-gray-500 mt-0.5">{keywords.length} keyword{keywords.length !== 1 ? 's' : ''} from {courses.length} courses × {IT_CITIES.length} cities</p>
+        </div>
+        <button onClick={copyAll}
+          className="px-4 py-2 text-sm font-medium bg-primary text-white rounded-xl hover:bg-blue-800 transition-all">
+          {copiedIdx === -2 ? 'Copied!' : 'Copy All'}
+        </button>
+      </div>
+      <div className="px-6 py-3 border-b border-gray-100 flex flex-wrap gap-3">
+        <select value={filterCity} onChange={e => setFilterCity(e.target.value)} className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg bg-gray-50">
+          <option value="">All Cities</option>
+          {IT_CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+        </select>
+        <select value={filterCourse} onChange={e => setFilterCourse(e.target.value)} className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg bg-gray-50">
+          <option value="">All Courses</option>
+          {courses.filter(c => c.fullTitle || c.title).map(c => (
+            <option key={c.slug} value={c.slug}>{c.fullTitle || c.title}</option>
+          ))}
+        </select>
+        <input type="text" value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)}
+          placeholder="Search keywords..." className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg bg-gray-50 w-48" />
+      </div>
+      <div className="overflow-auto max-h-[500px]">
+        <table className="w-full text-xs">
+          <thead className="bg-gray-50 sticky top-0">
+            <tr>
+              <th className="text-left px-4 py-2.5 text-gray-500 font-medium">Course</th>
+              <th className="text-left px-4 py-2.5 text-gray-500 font-medium">City</th>
+              <th className="text-left px-4 py-2.5 text-gray-500 font-medium">Keyword</th>
+              <th className="text-left px-4 py-2.5 text-gray-500 font-medium">Match Type</th>
+              <th className="text-left px-4 py-2.5 text-gray-500 font-medium">Ad Headline</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-50">
+            {keywords.map((k, i) => (
+              <tr key={i} className="hover:bg-gray-50/50">
+                <td className="px-4 py-2 text-gray-700">{k.course}</td>
+                <td className="px-4 py-2"><span className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-medium">{k.city}</span></td>
+                <td className="px-4 py-2 text-gray-900 font-medium">{k.keyword}</td>
+                <td className="px-4 py-2 text-gray-500">{k.matchType}</td>
+                <td className="px-4 py-2 text-gray-600">{k.ad}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="px-6 py-3 border-t border-gray-100 bg-gray-50/50 text-xs text-gray-400">
+        Copy these keywords into Google Ads → Keywords → Add phrase match keywords to target IT professionals searching for certification courses in major Indian cities.
       </div>
     </div>
   )

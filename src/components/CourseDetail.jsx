@@ -121,19 +121,41 @@ const CourseDetail = () => {
 
   const RupeeIcon = LucideIcons.IndianRupee || LucideIcons.Banknote
 
-  const pageTitle = `${course.fullTitle || course.title} | NeoSkills Learning Solutions`
-  const pageDesc = course.summary || `${course.fullTitle || course.title} — professional certification training by NeoSkills. Live instructor-led sessions, exam prep, and career support.`
+  const PRIMARY_CITY = 'Pune'
+  const IT_CITIES = ['Pune', 'Mumbai', 'Bangalore', 'Hyderabad', 'Chennai', 'Delhi NCR', 'Kolkata']
+  const citiesStr = IT_CITIES.slice(1).join(', ')
+
+  const courseName = course.fullTitle || course.title
+  const pageTitle = `${courseName} Certification Training in ${PRIMARY_CITY} | NeoSkills`
+  const pageDesc = course.summary || `Get certified with ${courseName} training in ${PRIMARY_CITY}. We also offer this course in ${citiesStr}. Live instructor-led sessions, exam prep, and career support.`
   const pageUrl = `https://www.neoskills.co.in/course/${course.slug}`
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Course',
-    name: course.fullTitle || course.title,
+    name: `${courseName} Certification Training in ${PRIMARY_CITY}`,
     description: pageDesc,
     provider: {
       '@type': 'Organization',
       name: 'NeoSkills Learning Solutions',
       sameAs: 'https://www.neoskills.co.in',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: PRIMARY_CITY,
+        addressRegion: 'Maharashtra',
+        addressCountry: 'IN',
+      },
     },
+    contentLocation: {
+      '@type': 'City',
+      name: PRIMARY_CITY,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: PRIMARY_CITY,
+        addressRegion: 'Maharashtra',
+        addressCountry: 'IN',
+      },
+    },
+    areaServed: IT_CITIES.map(c => ({ '@type': 'City', name: c })),
     offers: {
       '@type': 'Offer',
       price: getTotal(course),

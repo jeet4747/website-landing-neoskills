@@ -62,16 +62,16 @@ export default function App() {
           <Helmet>
             <html lang="en" />
             <meta charSet="utf-8" />
-            <title>NeoSkills Learning Solutions - IT Training & Certifications</title>
-            <meta name="description" content="Transform your career with world-class IT training from NeoSkills. 95% job placement rate, 50K+ certified professionals. CompTIA, PMP, CISA, AWS, Azure, Scrum and 50+ certification courses." />
-            <meta name="keywords" content="IT training, cybersecurity certification, CompTIA Security+, PMP, CISA, CISM, AWS, Azure, project management, agile scrum, professional development, NeoSkills" />
-            <meta property="og:title" content="NeoSkills Learning Solutions - Professional IT Training" />
-            <meta property="og:description" content="Transform your career with world-class IT training. 95% job placement. 50K+ certified professionals." />
+            <title>NeoSkills Learning Solutions - IT Training & Certifications in Pune</title>
+            <meta name="description" content="Transform your career with world-class IT training from NeoSkills in Pune. 95% job placement rate, 50K+ certified professionals. CompTIA, PMP, CISA, AWS, Azure, Scrum and 50+ certification courses. Available in Mumbai, Bangalore, Hyderabad, Chennai & Delhi NCR." />
+            <meta name="keywords" content="IT training Pune, cybersecurity certification Pune, PMP training Pune, AWS certification Pune, CompTIA Security+ Pune, CISA training, CISM, Azure, project management, agile scrum, NeoSkills" />
+            <meta property="og:title" content="NeoSkills Learning Solutions - IT Training & Certifications in Pune" />
+            <meta property="og:description" content="Transform your career with world-class IT training from NeoSkills in Pune. 95% job placement. 50K+ certified professionals." />
             <meta property="og:url" content={SITE_URL} />
             <meta property="og:type" content="website" />
             <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content="NeoSkills Learning Solutions - Professional IT Training" />
-            <meta name="twitter:description" content="Transform your career with world-class IT training. 95% job placement. 50K+ certified professionals." />
+            <meta name="twitter:title" content="NeoSkills Learning Solutions - IT Training & Certifications in Pune" />
+            <meta name="twitter:description" content="Transform your career with world-class IT training from NeoSkills in Pune. 95% job placement. 50K+ certified professionals." />
             <link rel="canonical" href={SITE_URL} />
           </Helmet>
           <div className="bg-white min-h-screen">

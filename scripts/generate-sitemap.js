@@ -23,7 +23,7 @@ const slugs = [
   'advanced-analytics-and-ml','big-data-ai-integration',
 ]
 
-const SITE_URL = 'https://neoskills.co.in'
+const SITE_URL = 'https://www.neoskills.co.in'
 const today = new Date().toISOString().split('T')[0]
 
 const staticPages = [
