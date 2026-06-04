@@ -73,6 +73,42 @@ export default function App() {
             <meta name="twitter:title" content="NeoSkills Learning Solutions - IT Training & Certifications in Pune" />
             <meta name="twitter:description" content="Transform your career with world-class IT training from NeoSkills in Pune. 95% job placement. 50K+ certified professionals." />
             <link rel="canonical" href={SITE_URL} />
+            <script type="application/ld+json">{JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'LocalBusiness',
+              name: 'NeoSkills Learning Solutions',
+              url: SITE_URL,
+              description: 'IT training and certification provider in Pune. 50+ courses, live instructor-led sessions, exam prep, and career support.',
+              image: 'https://www.neoskills.co.in/images/nsl-logo.svg',
+              telephone: '+91 89569 63953',
+              email: 'contact@neoskills.co.in',
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: 'Pune',
+                addressRegion: 'Maharashtra',
+                addressCountry: 'IN',
+              },
+              areaServed: [
+                { '@type': 'City', name: 'Pune' },
+                { '@type': 'City', name: 'Mumbai' },
+                { '@type': 'City', name: 'Bangalore' },
+                { '@type': 'City', name: 'Hyderabad' },
+                { '@type': 'City', name: 'Chennai' },
+                { '@type': 'City', name: 'Delhi NCR' },
+                { '@type': 'City', name: 'Kolkata' },
+              ],
+              hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'IT Certification Courses',
+                itemListElement: [
+                  { '@type': 'Offer', itemOffered: { '@type': 'Course', name: 'PMP Certification' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Course', name: 'AWS Cloud Practitioner' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Course', name: 'CompTIA Security+' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Course', name: 'Certified Scrum Master (CSM)' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Course', name: 'ITIL 4 Foundation' } },
+                ],
+              },
+            })}</script>
           </Helmet>
           <div className="bg-white min-h-screen">
             <TopBar />
