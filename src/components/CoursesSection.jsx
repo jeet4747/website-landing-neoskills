@@ -16,10 +16,19 @@ import {
   Lightbulb,
   BarChart3,
 } from 'lucide-react'
+
 import { useEnroll } from '../context/EnrollContext'
 import { courseStructure } from '../data/courseStructure'
 import { getDetailSlugForCatalogTitle, effectiveListedPrice } from './courseData'
 import { loadCoursesForDisplay } from '../data/courseService.js'
+
+const ICON_MAP = { Shield, BookOpen, Award, Cpu, Zap, Users, ArrowRight, Cloud, Briefcase, Code, TrendingUp, Lightbulb, BarChart3 }
+
+function resolveIcon(icon) {
+  if (!icon) return Award
+  if (typeof icon === 'string') return ICON_MAP[icon] || Award
+  return icon
+}
 
 const formatINR = (amount) => {
   if (!amount) return null
@@ -193,7 +202,7 @@ const CoursesSection = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {currentTab.categories[expandedCategory].courses.map((course, index) => {
-                  const Icon = course.icon
+                  const Icon = resolveIcon(course.icon)
 
                   return (
                     <motion.div
@@ -277,7 +286,7 @@ const CoursesSection = () => {
                         <motion.button
                           type="button"
                           onClick={() => {
-                            const detailSlug = getDetailSlugForCatalogTitle(course.title)
+                            const detailSlug = getDetailSlugForCatalogTitle(course.title) || course.slug
                             if (detailSlug) {
                               navigate(`/course/${detailSlug}`)
                               return
@@ -294,7 +303,7 @@ const CoursesSection = () => {
                           whileTap={{ scale: 0.97 }}
                           className="btn-secondary flex-1 flex items-center justify-center gap-2 text-sm py-3 rounded-xl border-2 border-primary text-primary hover:bg-primary hover:text-white"
                         >
-                          {getDetailSlugForCatalogTitle(course.title) ? 'More info' : 'Request details'}
+                          {(getDetailSlugForCatalogTitle(course.title) || course.slug) ? 'More info' : 'Request details'}
                           <BookOpen size={16} />
                         </motion.button>
                       </div>

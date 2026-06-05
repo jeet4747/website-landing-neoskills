@@ -537,15 +537,8 @@ async function ensureTable() {
 async function seedIfEmpty() {
   await ensureTable()
   console.log('  Syncing data to database...')
-  // Always sync courses from file (curriculum updates go live on deploy)
-  const coursePath = path.join(__dirname, 'courses.json')
-  if (fs.existsSync(coursePath)) {
-    const data = JSON.parse(fs.readFileSync(coursePath, 'utf8'))
-    await setData('courses', data)
-    console.log(`    ✅ courses (${Array.isArray(data) ? data.length : 'ok'})`)
-  }
-  // Only seed jobs/hero_slides if empty (preserve admin edits)
-  const onlyIfEmpty = ['jobs', 'hero_slides']
+  // Only seed if DB key is empty (preserve admin edits on restart)
+  const onlyIfEmpty = ['courses', 'jobs', 'hero_slides']
   for (const key of onlyIfEmpty) {
     const existing = await getData(key)
     if (!existing || (Array.isArray(existing) && existing.length === 0)) {

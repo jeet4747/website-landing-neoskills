@@ -1,5 +1,5 @@
 import { courseStructure } from './courseStructure.js'
-import { getAllResolvedCourses, getTotal } from './catalogBuilder.js'
+import { getAllResolvedCourses, getTotal, slugify } from './catalogBuilder.js'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 // Set VITE_BACKEND_URL in production to your deployed backend URL (e.g. https://your-app.vercel.app)
@@ -71,7 +71,9 @@ export async function fetchBackendCourses() {
 export async function loadCoursesForDisplay() {
   const backendCourses = await fetchBackendCourses()
   const mergedStructure = {}
+  const matchedBackendSlugs = new Set()
 
+  // 1. Process all static courses and track which backend ones got matched
   for (const [tabKey, tabValue] of Object.entries(courseStructure)) {
     mergedStructure[tabKey] = {
       ...tabValue,
@@ -83,9 +85,58 @@ export async function loadCoursesForDisplay() {
         ...categoryValue,
         courses: categoryValue.courses.map((staticCourse) => {
           const backendCourse = findBackendMatch(staticCourse, backendCourses)
+          if (backendCourse) {
+            matchedBackendSlugs.add(normalizeKey(backendCourse.slug))
+          }
           return mergeCourseData(staticCourse, backendCourse)
         }),
       }
+    }
+  }
+
+  // 2. Build category lookup: all normalized forms → { tab, key }
+  const categoryLookup = {}
+  for (const [tabKey, tabValue] of Object.entries(courseStructure)) {
+    for (const [categoryKey] of Object.entries(tabValue.categories || {})) {
+      const forms = [
+        normalizeKey(categoryKey),
+        categoryKey.toLowerCase().replace(/[^a-z0-9]/g, ''),
+        slugify(categoryKey),
+      ]
+      for (const form of forms) {
+        if (!categoryLookup[form]) {
+          categoryLookup[form] = { tab: tabKey, key: categoryKey }
+        }
+      }
+    }
+  }
+
+  // 3. Add backend-only courses (created via admin dashboard)
+  for (const backendCourse of backendCourses) {
+    const slug = normalizeKey(backendCourse.slug)
+    if (matchedBackendSlugs.has(slug)) continue
+
+    const rawCategorySlug = (backendCourse.categorySlug || '').toLowerCase().trim()
+    if (!rawCategorySlug) continue
+
+    const match = categoryLookup[rawCategorySlug] ||
+                  categoryLookup[rawCategorySlug.replace(/[^a-z0-9]/g, '')] ||
+                  categoryLookup[slugify(rawCategorySlug)]
+
+    if (match) {
+      const mergedCourse = {
+        ...backendCourse,
+        _isAdminCourse: true,
+        title: backendCourse.title || backendCourse.fullTitle || 'Untitled Course',
+        description: backendCourse.summary || backendCourse.description || '',
+        duration: backendCourse.stats?.duration || backendCourse.duration,
+        cohort: backendCourse.stats?.nextBatch || backendCourse.cohort,
+        level: backendCourse.stats?.level || backendCourse.level,
+      }
+      if (!mergedCourse.feeDetails) {
+        mergedCourse.feeDetails = { training: 0, exam: 0, total: 0 }
+      }
+      mergedStructure[match.tab].categories[match.key].courses.push(mergedCourse)
     }
   }
 
