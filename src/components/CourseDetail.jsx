@@ -306,7 +306,7 @@ const CourseDetail = () => {
               </div>
               <div className="w-full md:w-80 flex flex-col items-center justify-center">
                 <img
-                  src={course.certificate?.image || ''}
+                  src={course.certificate?.image || '/images/nsl-logo.svg'}
                   alt=""
                   width="400"
                   height="224"
@@ -314,8 +314,8 @@ const CourseDetail = () => {
                   loading="lazy"
                 />
                 <div className="bg-gray-50 rounded-lg p-4 text-center w-full">
-                  <h4 className="font-bold text-gray-700 mb-1">{course.certificate.title}</h4>
-                  <p className="text-xs text-gray-500">{course.certificate.description}</p>
+                  <h4 className="font-bold text-gray-700 mb-1">{course.certificate?.title || 'Certificate'}</h4>
+                  <p className="text-xs text-gray-500">{course.certificate?.description || 'Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.'}</p>
                 </div>
               </div>
             </div>
@@ -359,13 +359,20 @@ const CourseDetail = () => {
                 Program trainers
               </h3>
               <div className="grid gap-6">
-                {course.trainers.map((trainer, i) => (
+                {(course.trainers && course.trainers.length > 0 ? course.trainers : [{
+                  name: 'Expert Instructor',
+                  role: 'Lead Instructor',
+                  experience: '10+ years',
+                  certifications: 'Industry certifications aligned to this track',
+                  bio: 'Certified professional with extensive industry experience in this domain.',
+                  image: '/images/nsl-logo.svg',
+                }]).map((trainer, i) => (
                   <div
                     key={i}
                     className="flex items-center gap-4 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg border border-purple-100"
                   >
                     <img
-                      src={trainer.image || ''}
+                      src={trainer.image || '/images/nsl-logo.svg'}
                       alt=""
                       width="64"
                       height="64"
@@ -373,8 +380,8 @@ const CourseDetail = () => {
                       loading="lazy"
                     />
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-gray-800 text-lg">{trainer.name || 'Instructor'}</h4>
-                      <p className="text-purple-600 font-medium text-sm">{trainer.role || 'Trainer'}</p>
+                      <h4 className="font-bold text-gray-800 text-lg">{trainer.name || 'Expert Instructor'}</h4>
+                      <p className="text-purple-600 font-medium text-sm">{trainer.role || 'Lead Instructor'}</p>
                       {trainer.experience && <p className="text-gray-600 text-sm">{trainer.experience} experience</p>}
                       {trainer.certifications && <p className="text-gray-500 text-sm">{trainer.certifications}</p>}
                       <p className="text-gray-500 text-xs mt-1 leading-relaxed">{trainer.bio || ''}</p>
@@ -415,13 +422,24 @@ const CourseDetail = () => {
               )}
               <div className="space-y-3">
                 <h4 className="font-semibold text-gray-800 mb-3">What is included</h4>
-                  <ul className="list-disc ml-6 text-gray-700 text-sm space-y-1">
-                    <li>{course.feeDetails.emi}</li>
-                    {course.feeDetails.refund && <li>{course.feeDetails.refund}</li>}
-                    {(course.feeDetails.includes || []).map((inc, i) => (
-                      <li key={i}>{inc}</li>
-                    ))}
-                  </ul>
+                <ul className="list-disc ml-6 text-gray-700 text-sm space-y-1">
+                  {(course.feeDetails?.includes || course.feeDetails?.emi || course.feeDetails?.refund
+                    ? [
+                        ...(course.feeDetails?.includes || []),
+                        ...(course.feeDetails?.emi ? [course.feeDetails.emi] : ['EMI or installment options may be available — ask admissions']),
+                        ...(course.feeDetails?.refund ? [course.feeDetails.refund] : ['Refund and transfer policy as per NeoSkills enrollment terms']),
+                      ]
+                    : [
+                        'Live training and mentor support',
+                        'Practice materials and assignments (where applicable)',
+                        'Batch coordination and learner success check-ins',
+                        'EMI or installment options may be available — ask admissions',
+                        'Refund and transfer policy as per NeoSkills enrollment terms',
+                      ]
+                  ).map((inc, i) => (
+                    <li key={i}>{inc}</li>
+                  ))}
+                </ul>
               </div>
             </motion.div>
           </div>
