@@ -340,14 +340,14 @@ export default function AdminDashboard() {
       icon: 'Award',
       summary: 'Course summary here.',
       description: 'Full course description.',
-      stats: { duration: '', nextBatch: '', level: 'Beginner', mode: 'Live online' },
+      stats: { duration: '', nextBatch: '', level: 'Beginner', mode: 'Live online', hours: '', certificate: '', placement: '' },
       highlights: ['Key highlight 1', 'Key highlight 2'],
       whoShouldJoin: ['Target audience 1'],
       syllabus: [{ week: 'Module 1 — Introduction', topics: ['Topic 1', 'Topic 2'] }],
-      certificate: { title: 'Certificate title', description: 'Certificate description' },
-      feeDetails: { training: 0, exam: 0, support: 0, total: 0, emi: '' },
+      certificate: { title: 'Certificate title', description: 'Certificate description', image: '' },
+      feeDetails: { training: 0, exam: 0, support: 0, total: 0, emi: '', refund: '', includes: ['Live training & labs', 'Mock exams & study kit', 'Certificate preparation guidance', 'Career support'] },
       feeDisclaimer: '',
-      trainers: [{ name: '', bio: '' }],
+      trainers: [{ name: '', bio: '', role: '', experience: '', certifications: '', image: '' }],
       categorySlug: '',
       learnMoreUrl: 'https://www.neoskills.co.in/',
       alternateSlugs: [],
@@ -925,6 +925,23 @@ export default function AdminDashboard() {
                               <Field label="Mode (e.g. Live online)" value={selected.stats?.mode || ''} onChange={v => setField('stats.mode', v)} />
                             </div>
                             <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1.5">Icon</label>
+                              <select
+                                value={selected.icon || 'Award'}
+                                onChange={e => setField('icon', e.target.value)}
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                              >
+                                {['Award', 'BookOpen', 'Shield', 'Cloud', 'Cpu', 'Zap', 'Users', 'Briefcase', 'Code', 'TrendingUp', 'Lightbulb', 'BarChart3'].map(n => (
+                                  <option key={n} value={n}>{n}</option>
+                                ))}
+                              </select>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                              <Field label="Contact Hours" value={selected.stats?.hours || ''} onChange={v => setField('stats.hours', v)} />
+                              <Field label="Certificate Type" value={selected.stats?.certificate || ''} onChange={v => setField('stats.certificate', v)} />
+                              <Field label="Placement Support" value={selected.stats?.placement || ''} onChange={v => setField('stats.placement', v)} />
+                            </div>
+                            <div>
                               <label className="block text-sm font-medium text-gray-700 mb-1.5">Category</label>
                               <select
                                 value={selected.category || selected.categorySlug || ''}
@@ -943,7 +960,7 @@ export default function AdminDashboard() {
 
                         {activeTab === 'pricing' && (
                           <>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                               <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">Training Fee (₹)</label>
                                 <input
@@ -973,6 +990,15 @@ export default function AdminDashboard() {
                                 />
                               </div>
                               <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Support Fee (₹)</label>
+                                <input
+                                  type="number"
+                                  value={selected.feeDetails?.support ?? ''}
+                                  onChange={e => setField('feeDetails.support', Number(e.target.value))}
+                                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                                />
+                              </div>
+                              <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">Total (₹)</label>
                                 <div className="flex items-center gap-2">
                                   <input
@@ -985,6 +1011,17 @@ export default function AdminDashboard() {
                               </div>
                             </div>
                             <TextAreaField label="Fee Disclaimer" value={selected.feeDisclaimer || ''} onChange={v => setField('feeDisclaimer', v)} rows={2} />
+                            <Field label="EMI Info" value={selected.feeDetails?.emi || ''} onChange={v => setField('feeDetails.emi', v)} />
+                            <TextAreaField label="Refund Policy" value={selected.feeDetails?.refund || ''} onChange={v => setField('feeDetails.refund', v)} rows={2} />
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1.5">What's Included (one per line)</label>
+                              <textarea
+                                value={(selected.feeDetails?.includes || []).join('\n')}
+                                onChange={e => setField('feeDetails.includes', e.target.value.split('\n').map(l => l.trim()).filter(Boolean))}
+                                rows={4}
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-mono text-xs"
+                              />
+                            </div>
                           </>
                         )}
 
@@ -1000,6 +1037,76 @@ export default function AdminDashboard() {
                                 rows={4}
                                 className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-mono text-xs"
                               />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1.5">Who Should Join (one per line)</label>
+                              <textarea
+                                value={(selected.whoShouldJoin || []).join('\n')}
+                                onChange={e => setField('whoShouldJoin', e.target.value.split('\n').map(l => l.trim()).filter(Boolean))}
+                                rows={3}
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-mono text-xs"
+                              />
+                            </div>
+                            <div className="border-t border-gray-200 pt-4 mt-2">
+                              <h4 className="text-sm font-semibold text-gray-800 mb-3">Certificate</h4>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <Field label="Certificate Title" value={selected.certificate?.title || ''} onChange={v => setField('certificate.title', v)} />
+                                <Field label="Certificate Image URL" value={selected.certificate?.image || ''} onChange={v => setField('certificate.image', v)} />
+                              </div>
+                              <div className="mt-3">
+                                <TextAreaField label="Certificate Description" value={selected.certificate?.description || ''} onChange={v => setField('certificate.description', v)} rows={2} />
+                              </div>
+                            </div>
+                            <div className="border-t border-gray-200 pt-4 mt-2">
+                              <h4 className="text-sm font-semibold text-gray-800 mb-3">Program Trainers</h4>
+                              {(selected.trainers || []).map((trainer, tIdx) => (
+                                <div key={tIdx} className="mb-4 p-4 border border-gray-200 rounded-xl bg-gray-50/50">
+                                  <div className="flex items-center justify-between mb-3">
+                                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Trainer {tIdx + 1}</span>
+                                    <button onClick={() => {
+                                      const t = (selected.trainers || []).filter((_, i) => i !== tIdx)
+                                      setField('trainers', t)
+                                    }} className="text-xs text-red-600 hover:text-red-800 px-2 py-1 rounded hover:bg-red-50 transition-colors">Remove</button>
+                                  </div>
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <Field label="Name" value={trainer.name || ''} onChange={v => {
+                                      const t = [...(selected.trainers || [])]
+                                      t[tIdx] = { ...t[tIdx], name: v }
+                                      setField('trainers', t)
+                                    }} />
+                                    <Field label="Role" value={trainer.role || ''} onChange={v => {
+                                      const t = [...(selected.trainers || [])]
+                                      t[tIdx] = { ...t[tIdx], role: v }
+                                      setField('trainers', t)
+                                    }} />
+                                    <Field label="Experience" value={trainer.experience || ''} onChange={v => {
+                                      const t = [...(selected.trainers || [])]
+                                      t[tIdx] = { ...t[tIdx], experience: v }
+                                      setField('trainers', t)
+                                    }} />
+                                    <Field label="Certifications" value={trainer.certifications || ''} onChange={v => {
+                                      const t = [...(selected.trainers || [])]
+                                      t[tIdx] = { ...t[tIdx], certifications: v }
+                                      setField('trainers', t)
+                                    }} />
+                                    <Field label="Image URL" value={trainer.image || ''} onChange={v => {
+                                      const t = [...(selected.trainers || [])]
+                                      t[tIdx] = { ...t[tIdx], image: v }
+                                      setField('trainers', t)
+                                    }} className="sm:col-span-2" />
+                                  </div>
+                                  <div className="mt-3">
+                                    <TextAreaField label="Bio" value={trainer.bio || ''} onChange={v => {
+                                      const t = [...(selected.trainers || [])]
+                                      t[tIdx] = { ...t[tIdx], bio: v }
+                                      setField('trainers', t)
+                                    }} rows={2} />
+                                  </div>
+                                </div>
+                              ))}
+                              <button onClick={() => {
+                                setField('trainers', [...(selected.trainers || []), { name: '', bio: '', role: '', experience: '', certifications: '', image: '' }])
+                              }} className="text-sm text-primary font-medium hover:text-blue-800 transition-colors">+ Add Trainer</button>
                             </div>
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-2">Syllabus (modules & topics)</label>
