@@ -245,30 +245,38 @@ const CourseDetail = () => {
               </div>
               <div className="flex flex-wrap gap-4 md:ml-auto">
                 <div className="bg-white/20 rounded-lg px-4 py-2 text-sm">
-                  <LucideIcons.Clock size={16} className="inline mr-1" /> {course.stats.duration}
+                  <LucideIcons.Clock size={16} className="inline mr-1" /> {course.stats?.duration}
                 </div>
                 <div className="bg-white/20 rounded-lg px-4 py-2 text-sm">
-                  <LucideIcons.Calendar size={16} className="inline mr-1" /> Next: {course.stats.nextBatch}
+                  <LucideIcons.Calendar size={16} className="inline mr-1" /> Next: {course.stats?.nextBatch}
                 </div>
                 <div className="bg-white/20 rounded-lg px-4 py-2 text-sm">
-                  <LucideIcons.Award size={16} className="inline mr-1" /> {course.stats.level}
+                  <LucideIcons.Award size={16} className="inline mr-1" /> {course.stats?.level}
                 </div>
                 <div className="bg-white/20 rounded-lg px-4 py-2 text-sm">
-                  <LucideIcons.Users size={16} className="inline mr-1" /> {course.stats.mode}
+                  <LucideIcons.Users size={16} className="inline mr-1" /> {course.stats?.mode}
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap gap-4 mt-4">
-              <div className="bg-white/20 rounded-lg px-4 py-2 text-sm">
-                <LucideIcons.BookOpen size={16} className="inline mr-1" /> {course.stats.hours}
+              {course.stats && (course.stats.hours || course.stats.certificate || course.stats.placement) && (
+              <div className="flex flex-wrap gap-4 mt-4">
+                {course.stats.hours && (
+                <div className="bg-white/20 rounded-lg px-4 py-2 text-sm">
+                  <LucideIcons.BookOpen size={16} className="inline mr-1" /> {course.stats.hours}
+                </div>
+                )}
+                {course.stats.certificate && (
+                <div className="bg-white/20 rounded-lg px-4 py-2 text-sm">
+                  <LucideIcons.GraduationCap size={16} className="inline mr-1" /> {course.stats.certificate}
+                </div>
+                )}
+                {course.stats.placement && (
+                <div className="bg-white/20 rounded-lg px-4 py-2 text-sm">
+                  <LucideIcons.TrendingUp size={16} className="inline mr-1" /> {course.stats.placement}
+                </div>
+                )}
               </div>
-              <div className="bg-white/20 rounded-lg px-4 py-2 text-sm">
-                <LucideIcons.GraduationCap size={16} className="inline mr-1" /> {course.stats.certificate}
-              </div>
-              <div className="bg-white/20 rounded-lg px-4 py-2 text-sm">
-                <LucideIcons.TrendingUp size={16} className="inline mr-1" /> {course.stats.placement}
-              </div>
-            </div>
+              )}
           </div>
           <div className="p-8">
             <div className="flex flex-col md:flex-row gap-8">
@@ -298,7 +306,7 @@ const CourseDetail = () => {
               </div>
               <div className="w-full md:w-80 flex flex-col items-center justify-center">
                 <img
-                  src={course.certificate.image}
+                  src={course.certificate?.image || ''}
                   alt=""
                   width="400"
                   height="224"
@@ -357,7 +365,7 @@ const CourseDetail = () => {
                     className="flex items-center gap-4 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg border border-purple-100"
                   >
                     <img
-                      src={trainer.image}
+                      src={trainer.image || ''}
                       alt=""
                       width="64"
                       height="64"
@@ -365,11 +373,11 @@ const CourseDetail = () => {
                       loading="lazy"
                     />
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-gray-800 text-lg">{trainer.name}</h4>
-                      <p className="text-purple-600 font-medium text-sm">{trainer.role}</p>
-                      <p className="text-gray-600 text-sm">{trainer.experience} experience</p>
-                      <p className="text-gray-500 text-sm">{trainer.certifications}</p>
-                      <p className="text-gray-500 text-xs mt-1 leading-relaxed">{trainer.bio}</p>
+                      <h4 className="font-bold text-gray-800 text-lg">{trainer.name || 'Instructor'}</h4>
+                      <p className="text-purple-600 font-medium text-sm">{trainer.role || 'Trainer'}</p>
+                      {trainer.experience && <p className="text-gray-600 text-sm">{trainer.experience} experience</p>}
+                      {trainer.certifications && <p className="text-gray-500 text-sm">{trainer.certifications}</p>}
+                      <p className="text-gray-500 text-xs mt-1 leading-relaxed">{trainer.bio || ''}</p>
                     </div>
                   </div>
                 ))}
@@ -407,13 +415,13 @@ const CourseDetail = () => {
               )}
               <div className="space-y-3">
                 <h4 className="font-semibold text-gray-800 mb-3">What is included</h4>
-                <ul className="list-disc ml-6 text-gray-700 text-sm space-y-1">
-                  <li>{course.feeDetails.emi}</li>
-                  <li>{course.feeDetails.refund}</li>
-                  {course.feeDetails.includes.map((inc, i) => (
-                    <li key={i}>{inc}</li>
-                  ))}
-                </ul>
+                  <ul className="list-disc ml-6 text-gray-700 text-sm space-y-1">
+                    <li>{course.feeDetails.emi}</li>
+                    {course.feeDetails.refund && <li>{course.feeDetails.refund}</li>}
+                    {(course.feeDetails.includes || []).map((inc, i) => (
+                      <li key={i}>{inc}</li>
+                    ))}
+                  </ul>
               </div>
             </motion.div>
           </div>
@@ -605,7 +613,7 @@ const CourseDetail = () => {
                     <div>
                       <h4 className="font-bold text-lg text-primary mb-1">{oc.title}</h4>
                       <p className="text-xs text-gray-500">
-                        {oc.stats.level} · {oc.stats.duration}
+                        {oc.stats?.level || ''}{oc.stats?.level && oc.stats?.duration ? ' · ' : ''}{oc.stats?.duration || ''}
                       </p>
                     </div>
                   </div>
