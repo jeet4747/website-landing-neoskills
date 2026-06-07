@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Clock, Users } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 
-const SHOW_DELAY = 60000
-const REAPPEAR_INTERVAL = 300000
+const SHOW_DELAY = 120000
 
 export default function LeadPopup() {
   const [show, setShow] = useState(false)
@@ -12,29 +11,19 @@ export default function LeadPopup() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', course: '' })
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
-  const intervalRef = useRef(null)
-  const dismissedRef = useRef(false)
-
-  const startReappearTimer = useCallback(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current)
-    intervalRef.current = setInterval(() => {
-      if (!dismissedRef.current) setShow(true)
-    }, REAPPEAR_INTERVAL)
-  }, [])
+  const shownRef = useRef(false)
 
   useEffect(() => {
-    const initialTimer = setTimeout(() => {
-      if (!dismissedRef.current) setShow(true)
-      startReappearTimer()
+    const timer = setTimeout(() => {
+      if (!shownRef.current) {
+        shownRef.current = true
+        setShow(true)
+      }
     }, SHOW_DELAY)
-    return () => {
-      clearTimeout(initialTimer)
-      if (intervalRef.current) clearInterval(intervalRef.current)
-    }
-  }, [startReappearTimer])
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleDismiss = useCallback(() => {
-    dismissedRef.current = true
     setShow(false)
   }, [])
 
@@ -57,7 +46,6 @@ export default function LeadPopup() {
         domain: window.location.origin,
       }, 'S3TiyuUzfI2FRb5RG')
       setSubmitted(true)
-      if (intervalRef.current) clearInterval(intervalRef.current)
     } catch (err) {
       setError('Something went wrong. Please try again or email us directly.')
     } finally {

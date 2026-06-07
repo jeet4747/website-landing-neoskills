@@ -23,7 +23,7 @@ const CourseFinderAI = lazy(() => import('./components/CourseFinderAI.jsx'))
 const AICoursesPopup = lazy(() => import('./components/AICoursesPopup.jsx'))
 const LeadPopup = lazy(() => import('./components/LeadPopup.jsx'))
 const WhatsAppPopup = lazy(() => import('./components/WhatsAppPopup.jsx'))
-const WebinarPopup = lazy(() => import('./components/WebinarPopup.jsx'))
+// const WebinarPopup = lazy(() => import('./components/WebinarPopup.jsx'))
 
 const Enroll = lazy(() => import('./components/enroll.jsx'))
 const PaymentPage = lazy(() => import('./components/paymentpage.jsx'))
@@ -196,7 +196,6 @@ export default function App() {
           <CourseFinderAI />
           <AICoursesPopup />
           <WhatsAppPopup />
-          <WebinarPopup />
           <LeadPopup />
           <Footer />
         </div>

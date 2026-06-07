@@ -20,20 +20,19 @@ export default function AICoursesPopup() {
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [step, setStep] = useState('list')
   const navigate = useNavigate()
-  const dismissedRef = useRef(false)
+  const shownRef = useRef(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!dismissedRef.current) setShow(true)
-    }, 60000)
-    const interval = setInterval(() => {
-      if (!dismissedRef.current) setShow(true)
-    }, 300000)
-    return () => { clearTimeout(timer); clearInterval(interval) }
+      if (!shownRef.current) {
+        shownRef.current = true
+        setShow(true)
+      }
+    }, 180000)
+    return () => clearTimeout(timer)
   }, [])
 
   const handleDismiss = useCallback(() => {
-    dismissedRef.current = true
     setShow(false)
   }, [])
 
