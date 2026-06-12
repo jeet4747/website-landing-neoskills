@@ -22,6 +22,12 @@ export default function QuickPay() {
     })
   }, [])
 
+  const staticOptions = [
+    { value: 'training', label: 'Training' },
+    { value: 'certification-training', label: 'Certification & Training' },
+    { value: 'certification', label: 'Certification' },
+  ]
+
   const courseOptions = useMemo(() => {
     const options = []
     const seen = new Set()
@@ -34,7 +40,8 @@ export default function QuickPay() {
     return options
   }, [allCourses])
 
-  const selectedLabel = courseOptions.find(c => c.value === selectedCourse)?.label || ''
+  const allOptions = [...staticOptions, ...courseOptions]
+  const selectedLabel = allOptions.find(c => c.value === selectedCourse)?.label || ''
   const feeAmount = Number(amount) || 0
   const gstAmount = Math.round(feeAmount * 0.18)
   const total = feeAmount + gstAmount
@@ -58,7 +65,7 @@ export default function QuickPay() {
       const res = await fetch(`${BACKEND_URL}/api/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: total }),
+        body: JSON.stringify({ amount: total, name: 'Student', email: '', phone: '', course: selectedLabel }),
       })
       if (!res.ok) throw new Error('Failed to create order')
       const { order, key } = await res.json()
@@ -166,7 +173,7 @@ export default function QuickPay() {
               <select value={selectedCourse} onChange={e => setSelectedCourse(e.target.value)}
                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
                 <option value="">Choose a training...</option>
-                {courseOptions.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
+                {allOptions.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
               </select>
             </div>
 
