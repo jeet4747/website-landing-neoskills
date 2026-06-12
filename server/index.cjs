@@ -178,11 +178,7 @@ app.post('/api/verify-payment', async (req, res) => {
     .digest('hex')
   if (generated_signature === razorpay_signature) {
     const enrollmentId = await storeEnrollment({ name, email, phone, course, amount: Number(amount) || 0, paymentId: razorpay_payment_id, orderId: razorpay_order_id, status: 'captured', hasGst: hasGst !== false, source: source || 'enroll' })
-    try {
-      await sendConfirmationEmail({ name, email, course, amount })
-    } catch (emailErr) {
-      console.error('Email sending failed:', emailErr)
-    }
+    sendConfirmationEmail({ name, email, course, amount }).catch(err => console.error('Email sending failed:', err))
     return res.json({ ok: true, enrollmentId })
   }
   console.error('Signature mismatch', { order: razorpay_order_id, payment: razorpay_payment_id, got: razorpay_signature, expected: generated_signature, secretLength: secret.length, source: source || 'enroll' })
@@ -225,6 +221,11 @@ async function storeEnrollment({ name, email, phone, course, amount, paymentId, 
   try {
     const existing = await getData('enrollments')
     const enrollments = Array.isArray(existing) ? existing : []
+    // Deduplicate: if same paymentId already exists, return its id
+    if (paymentId) {
+      const dup = enrollments.find(e => e.paymentId === paymentId)
+      if (dup) return dup.id
+    }
     const id = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8)
     enrollments.push({
       id,
