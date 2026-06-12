@@ -35,7 +35,9 @@ export default function QuickPay() {
   }, [allCourses])
 
   const selectedLabel = courseOptions.find(c => c.value === selectedCourse)?.label || ''
-  const total = Number(amount) || 0
+  const feeAmount = Number(amount) || 0
+  const gstAmount = Math.round(feeAmount * 0.18)
+  const total = feeAmount + gstAmount
 
   const loadRazorpay = () =>
     new Promise((resolve, reject) => {
@@ -81,7 +83,7 @@ export default function QuickPay() {
                 phone: '',
                 course: selectedLabel,
                 amount: total,
-                hasGst: false,
+                hasGst: true,
                 source: 'quick-pay',
               }),
             })
@@ -176,16 +178,22 @@ export default function QuickPay() {
                   value={amount} onChange={e => setAmount(e.target.value)}
                   className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
               </div>
-              <p className="text-xs text-gray-400 mt-1.5">Enter the exact amount as agreed. No additional taxes or fees.</p>
+              <p className="text-xs text-gray-400 mt-1.5">Enter the base fee. 18% GST will be added automatically.</p>
             </div>
 
-            {total > 0 && selectedCourse && (
-              <div className="bg-gray-50 rounded-xl p-5 border border-gray-200">
+            {feeAmount > 0 && selectedCourse && (
+              <div className="bg-gray-50 rounded-xl p-5 border border-gray-200 space-y-2">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-gray-600">{selectedLabel}</span>
+                  <span className="text-gray-800 font-medium">₹{feeAmount.toLocaleString('en-IN')}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-gray-600">GST (18%)</span>
+                  <span className="text-gray-800 font-medium">₹{gstAmount.toLocaleString('en-IN')}</span>
+                </div>
+                <hr className="border-gray-300" />
                 <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-sm text-gray-600">{selectedLabel}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">Amount to pay</p>
-                  </div>
+                  <span className="text-sm font-semibold text-gray-700">Total to pay</span>
                   <span className="text-2xl font-bold text-primary">₹{total.toLocaleString('en-IN')}</span>
                 </div>
               </div>
