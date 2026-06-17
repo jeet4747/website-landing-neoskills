@@ -25,7 +25,7 @@ export default function WhatsAppPopup() {
               exit={{ opacity: 0, x: -20, scale: 0.9 }}
               className="relative bg-white rounded-2xl rounded-bl-sm shadow-xl border border-gray-200 px-4 py-3 mb-1"
             >
-              <p className="text-sm text-gray-700 whitespace-nowrap">Join our WhatsApp community! 💬</p>
+              <p className="text-sm text-gray-700 whitespace-nowrap">Connect with a trainer! 💬</p>
               <div className="absolute -bottom-1.5 left-5 w-3 h-3 bg-white border-l border-b border-gray-200 rotate-45" />
             </motion.div>
           )}
@@ -69,16 +69,16 @@ export default function WhatsAppPopup() {
                 <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <MessageCircle size={36} />
                 </div>
-                <h3 className="text-2xl font-bold">Join Our Community</h3>
-                <p className="text-white/80 text-sm mt-1">Connect with fellow learners on WhatsApp</p>
+                <h3 className="text-2xl font-bold">Connect with a Mentor</h3>
+                <p className="text-white/80 text-sm mt-1">Talk to our expert trainers on WhatsApp</p>
               </div>
 
               <div className="p-6 text-center">
                 <div className="flex items-center gap-3 bg-green-50 rounded-2xl p-4 mb-6 text-left">
                   <Users size={24} className="text-green-600 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-gray-800 text-sm">WhatsApp Group</p>
-                    <p className="text-xs text-gray-500">Get updates on batches, free resources & career tips</p>
+                    <p className="font-semibold text-gray-800 text-sm">Talk to a Trainer</p>
+                    <p className="text-xs text-gray-500">Get personalized guidance on courses, batches & career path</p>
                   </div>
                 </div>
 
@@ -88,10 +88,10 @@ export default function WhatsAppPopup() {
                   rel="noopener noreferrer"
                   className="w-full bg-green-500 text-white font-bold py-3.5 rounded-xl hover:bg-green-600 transition-all flex items-center justify-center gap-2"
                 >
-                  Join Now
+                  Start Chat
                   <ArrowRight size={18} />
                 </a>
-                <p className="text-xs text-gray-400 mt-3">No spam. Leave anytime.</p>
+                <p className="text-xs text-gray-400 mt-3">Free. No spam. Leave anytime.</p>
               </div>
             </motion.div>
           </motion.div>
