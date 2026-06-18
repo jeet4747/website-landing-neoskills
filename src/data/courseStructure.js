@@ -19,7 +19,7 @@ export const courseStructure = {
   courses: {
     label: 'All Courses',
     categories: {
-      'Project Management (PMP/Prince 2)': {
+      'Project Management': {
         icon: Briefcase,
         description: 'Master project delivery with PMP, CAPM, and PRINCE2 certifications.',
         courses: [
@@ -114,7 +114,7 @@ export const courseStructure = {
         ],
       },
 
-      'Cloud Computing (AWS/Azure/Google Cloud)': {
+      'Cloud Computing': {
         icon: Cloud,
         description: 'Cloud infrastructure and certification programs across AWS, Azure, and Google Cloud.',
         courses: [
@@ -431,9 +431,15 @@ export const courseStructure = {
         ],
       },
 
-      'Salesforce & Software Development': {
+      Salesforce: {
         icon: Code,
-        description: 'Salesforce CRM, software testing, and automation development programs.',
+        description: 'Salesforce CRM training and certification programs.',
+        courses: [],
+      },
+
+      'Software Development': {
+        icon: Code,
+        description: 'Software testing, automation, and development programs.',
         courses: [
           {
             title: 'ISTQB Foundation',
@@ -465,9 +471,9 @@ export const courseStructure = {
         ],
       },
 
-      'ISO & Cybersecurity': {
+      ISO: {
         icon: Shield,
-        description: 'Information security auditing, management, and ISO standard certifications.',
+        description: 'Information security auditing and management certifications.',
         courses: [
           {
             title: 'CISA',
@@ -494,7 +500,7 @@ export const courseStructure = {
         ],
       },
 
-      'TOGAF® Architecture': {
+      'TOGAF\u00ae Architecture': {
         icon: BookOpen,
         description: 'Enterprise architecture certification for strategic IT design.',
         courses: [
@@ -541,9 +547,9 @@ export const courseStructure = {
         ],
       },
 
-      'IT Governance & Risk Management': {
+      'IT Governance': {
         icon: Lightbulb,
-        description: 'Business analysis, IT governance, and risk management frameworks.',
+        description: 'IT governance, business analysis, and compliance frameworks.',
         courses: [
           {
             title: 'CBAP',
@@ -559,9 +565,15 @@ export const courseStructure = {
         ],
       },
 
-      'Data Science & Business Intelligence': {
+      'Risk Management': {
+        icon: Shield,
+        description: 'Risk assessment, mitigation, and management programs.',
+        courses: [],
+      },
+
+      'Data Science': {
         icon: Cpu,
-        description: 'Data analytics, AI, machine learning, and business intelligence programs.',
+        description: 'Data engineering, AI, machine learning, and analytics programs.',
         courses: [
           {
             title: 'CPMAI & AI Project Management',
@@ -573,17 +585,6 @@ export const courseStructure = {
             trainingFee: 25000,
             trainingExam: 25000 + 699 * R,
             supportCost: 25000,
-          },
-          {
-            title: 'Power BI',
-            icon: BarChart3,
-            description: 'Power BI dashboarding, reporting, and business analytics training.',
-            cohort: '23-05-2026',
-            level: 'Intermediate',
-            duration: '4-5 weeks',
-            trainingFee: 15000,
-            trainingExam: 15000 + 99 * R,
-            supportCost: 15000,
           },
           {
             title: 'Advanced Data Engineering',
@@ -616,6 +617,24 @@ export const courseStructure = {
             level: 'Advanced',
             duration: '3-4 months',
             cohort: 'Launching Soon',
+          },
+        ],
+      },
+
+      'Business Intelligence': {
+        icon: BarChart3,
+        description: 'Dashboards, reporting, and business analytics tools training.',
+        courses: [
+          {
+            title: 'Power BI',
+            icon: BarChart3,
+            description: 'Power BI dashboarding, reporting, and business analytics training.',
+            cohort: '23-05-2026',
+            level: 'Intermediate',
+            duration: '4-5 weeks',
+            trainingFee: 15000,
+            trainingExam: 15000 + 99 * R,
+            supportCost: 15000,
           },
         ],
       },
