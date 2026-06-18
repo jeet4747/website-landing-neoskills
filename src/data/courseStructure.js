@@ -262,9 +262,9 @@ export const courseStructure = {
         ],
       },
 
-      'Agile, Scrum & DevOps': {
+      'Agile, Scrum': {
         icon: Zap,
-        description: 'Agile, Scrum, SAFe, and DevOps certifications for modern software delivery.',
+        description: 'Agile, Scrum, and SAFe certifications for modern product delivery.',
         courses: [
           {
             title: 'Certified Scrum Master (CSM)',
@@ -356,6 +356,13 @@ export const courseStructure = {
             cohort: '23-05-2026',
             trainingExam: 45000,
           },
+        ],
+      },
+
+      DevOps: {
+        icon: Code,
+        description: 'DevOps practices, CI/CD pipelines, and automation certifications.',
+        courses: [
           {
             title: 'DevOps Exin Master',
             icon: Code,
