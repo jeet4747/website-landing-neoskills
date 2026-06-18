@@ -578,8 +578,16 @@ export const capmCourse = {
 }
 
 export const courseCategories = [
-  { slug: 'project-management', name: 'Project Management' },
-  { slug: 'cloud-computing', name: 'Cloud Computing' },
-  { slug: 'it-service-architecture', name: 'IT Service & Architecture' },
+  { slug: 'project-management-pmp-prince-2', name: 'Project Management (PMP/Prince 2)' },
+  { slug: 'cloud-computing-aws-azure-google-cloud', name: 'Cloud Computing (AWS/Azure/Google Cloud)' },
+  { slug: 'cybersecurity', name: 'Cybersecurity' },
+  { slug: 'agile-scrum-and-devops', name: 'Agile, Scrum & DevOps' },
+  { slug: 'it-service-management', name: 'IT Service Management' },
+  { slug: 'salesforce-and-software-development', name: 'Salesforce & Software Development' },
+  { slug: 'iso-and-cybersecurity', name: 'ISO & Cybersecurity' },
+  { slug: 'togaf-architecture', name: 'TOGAF® Architecture' },
+  { slug: 'six-sigma', name: 'Six Sigma' },
+  { slug: 'it-governance-and-risk-management', name: 'IT Governance & Risk Management' },
+  { slug: 'data-science-and-business-intelligence', name: 'Data Science & Business Intelligence' },
 ]
 

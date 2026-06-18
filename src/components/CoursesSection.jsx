@@ -65,8 +65,8 @@ const PricingBlock = ({ trainingFee, trainingExam, supportCost }) => {
 }
 
 const CoursesSection = () => {
-  const [activeTab, setActiveTab] = useState('certification')
-  const [expandedCategory, setExpandedCategory] = useState('Project Management')
+  const [activeTab, setActiveTab] = useState('courses')
+  const [expandedCategory, setExpandedCategory] = useState('Project Management (PMP/Prince 2)')
   const [loadedStructure, setLoadedStructure] = useState(courseStructure)
   const [isLoading, setIsLoading] = useState(true)
   const { openEnroll } = useEnroll()
