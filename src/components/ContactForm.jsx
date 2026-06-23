@@ -244,11 +244,11 @@ const ContactForm = () => {
                 <div>
                   <h3 className="font-bold text-dark mb-2">Phone</h3>
                   <p className="text-gray-600 text-sm">USA</p>
-                  <a href="tel:+13073875278" className="text-primary font-semibold hover:underline">
-                    +1 307-387-5278
+                  <a href="tel:+12162320274" className="text-primary font-semibold hover:underline">
+                    +1 (216) 232-0274
                   </a>
                   <p className="text-gray-600 text-sm mt-2">India</p>
-                  <a href="tel:+13073875278" className="text-primary font-semibold hover:underline">
+                  <a href="tel:+919975214585" className="text-primary font-semibold hover:underline">
                     +91 9975214585
                   </a>
                 </div>
