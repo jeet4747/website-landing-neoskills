@@ -7,45 +7,69 @@ const TestimonialsSection = () => {
 
   const testimonials = [
     {
-      name: 'Ajay Kumar',
-      role: 'Security Analyst',
-      company: 'TechCorp India',
-      testimonial: 'Neoskills CompTIA Security+ course was comprehensive and practical. The instructors were incredibly supportive, and I cleared the exam on my first attempt. Highly recommended!',
+      name: 'Rohit Deshmukh',
+      role: 'Project Manager',
+      company: 'Infosys',
+      testimonial: 'The PMP training at Neoskills was exceptional. The trainer had deep industry knowledge and the mock exams closely mirrored the actual test. Cleared PMP on first attempt with Above Target in all domains.',
       rating: 5,
       image: '👨‍💼'
     },
     {
-      name: 'Priya Sharma',
-      role: 'Project Manager',
-      company: 'Digital Solutions LLC',
-      testimonial: 'The Agile Scrum Master training transformed how I manage projects. The hands-on approach and real-world examples made learning engaging and immediately applicable.',
+      name: 'Ananya Sharma',
+      role: 'Cloud Engineer',
+      company: 'Amazon',
+      testimonial: 'I took the AWS Solutions Architect course and it was worth every rupee. The hands-on labs, real-world scenarios, and exam-focused approach helped me get certified in just 5 weeks. The batch timings were flexible too.',
+      rating: 5,
+      image: '👩‍💻'
+    },
+    {
+      name: 'Suresh Iyer',
+      role: 'Scrum Master',
+      company: 'TCS',
+      testimonial: 'Neoskills CSM program is top-notch. The instructor made complex Scrum concepts easy to understand with practical examples from their own industry experience. Our entire team of 12 trained here and all passed.',
+      rating: 5,
+      image: '👨‍🏫'
+    },
+    {
+      name: 'Priya Kulkarni',
+      role: 'IT Service Manager',
+      company: 'Wipro',
+      testimonial: 'ITIL 4 Foundation training was well-structured and engaging. The study materials were comprehensive and the trainer ensured every concept was crystal clear. Received my certificate within a week of the exam.',
       rating: 5,
       image: '👩‍💼'
     },
     {
-      name: 'Rahul Verma',
-      role: 'CISA Certified Professional',
-      company: 'Enterprise Security Ltd',
-      testimonial: 'CISA certification through Neoskills was challenging but rewarding. The structured curriculum and expert guidance made the complex topics easy to understand.',
+      name: 'Amit Joshi',
+      role: 'DevOps Lead',
+      company: 'Microsoft',
+      testimonial: 'The DevOps Tools & Training program at Neoskills gave me practical exposure to Jenkins, Docker, Kubernetes, and CI/CD pipelines. The project-based learning approach helped me immediately apply skills at work.',
       rating: 5,
-      image: '👨‍💻'
+      image: '👨‍🔧'
     },
     {
-      name: 'Neha Singh',
-      role: 'AI & Security Specialist',
-      company: 'InnovateTech Inc',
-      testimonial: 'The AI in Cybersecurity module opened new career opportunities for me. The instructors\' industry experience and current content made all the difference.',
+      name: 'Divya Nair',
+      role: 'Information Security Analyst',
+      company: 'Deloitte',
+      testimonial: 'CISA certification was intense but Neoskills made it manageable. The study plan, practice questions, and one-on-one doubt sessions were invaluable. Proud to say I scored above 650 on my first attempt!',
       rating: 5,
       image: '👩‍🔬'
     },
     {
-      name: 'Vikram Patel',
-      role: 'IT Manager',
-      company: 'Global Tech Solutions',
-      testimonial: 'Neoskills provides world-class training with flexible schedules. I completed my CompTIA Core certification while managing my full-time job. Great support team!',
+      name: 'Vijay Pawar',
+      role: 'Business Analyst',
+      company: 'Accenture',
+      testimonial: 'Completed Six Sigma Green Belt training with Neoskills. The trainers brought real manufacturing and IT case studies which made the statistical concepts practical and easy to grasp. Highly recommend their corporate training.',
       rating: 5,
-      image: '👨‍💼'
-    }
+      image: '👨‍💻'
+    },
+    {
+      name: 'Sneha Patil',
+      role: 'Azure Administrator',
+      company: 'Cognizant',
+      testimonial: 'Microsoft Azure AZ-104 training was incredibly detailed. The trainer had hands-on experience with Azure deployments and shared tips that aren\'t in the official docs. Lab sessions were the highlight. Got certified in 4 weeks!',
+      rating: 5,
+      image: '👩‍💻'
+    },
   ]
 
   const nextTestimonial = () => {
@@ -157,16 +181,16 @@ const TestimonialsSection = () => {
             className="mt-16 grid grid-cols-3 gap-6 text-center"
           >
             <div className="bg-white rounded-xl p-6 border border-border-gray">
-              <p className="text-3xl font-bold text-primary">50K+</p>
-              <p className="text-sm text-gray-600 mt-2">Happy Students</p>
+              <p className="text-3xl font-bold text-primary">4.9★</p>
+              <p className="text-sm text-gray-600 mt-2">Google Rating</p>
+            </div>
+            <div className="bg-white rounded-xl p-6 border border-border-gray">
+              <p className="text-3xl font-bold text-primary">728</p>
+              <p className="text-sm text-gray-600 mt-2">Google Reviews</p>
             </div>
             <div className="bg-white rounded-xl p-6 border border-border-gray">
               <p className="text-3xl font-bold text-primary">98%</p>
               <p className="text-sm text-gray-600 mt-2">Success Rate</p>
-            </div>
-            <div className="bg-white rounded-xl p-6 border border-border-gray">
-              <p className="text-3xl font-bold text-primary">4.8★</p>
-              <p className="text-sm text-gray-600 mt-2">Average Rating</p>
             </div>
           </motion.div>
         </div>
