@@ -205,35 +205,45 @@ function defaultCareerRoles(row) {
   }
 
   // ── Agile, Scrum ─────────────────────────────────────────────────
+  // AI Scrum (must come before general Scrum checks)
+  if (t.includes('professional scrum master') && t.includes('ai')) {
+    return ['Scrum Master (AI Teams)', 'AI Product Owner', 'Agile Coach (AI)', 'AI Delivery Manager']
+  }
+  // Scrum Alliance — A-CSPO (Advanced Certified Scrum Product Owner)
+  if (t.includes('a-cspo')) {
+    return ['Senior Product Owner', 'Product Manager', 'Business Analyst Lead', 'Product Strategist']
+  }
+  // Scrum Alliance — A-CSM (Advanced Certified ScrumMaster)
+  if (t.includes('a-csm')) {
+    return ['Senior Scrum Master', 'Agile Coach', 'Enterprise Coach', 'Agile Delivery Lead']
+  }
+  // Scrum Alliance — CSPO (Certified Scrum Product Owner)
+  if (t.includes('cspo')) {
+    return ['Product Owner', 'Product Analyst', 'Requirements Manager', 'Business Analyst']
+  }
+  // Scrum Alliance — CSM (Certified Scrum Master)
   if (t.includes('csm') || t.includes('certified scrum master')) {
     return ['Scrum Master', 'Agile Coach', 'Team Coach', 'Project Facilitator']
   }
-  if (t.includes('psm i') || t.includes('psm i') || t.includes('professional scrum master') && !t.includes('ii') && !t.includes('ai') && !t.includes('a-csm')) {
-    if (t.includes('ii') || t.includes('2')) {
-      return ['Senior Scrum Master', 'Agile Coach', 'Team Lead', 'Agile Delivery Manager']
-    }
-    return ['Scrum Master', 'Agile Coach', 'Team Facilitator', 'Agile Practitioner']
+  // Scrum.org — PSPO II (Professional Scrum Product Owner II)
+  if (t.includes('pspo') && (t.includes('ii') || t.includes('2'))) {
+    return ['Senior Product Owner', 'Product Lead', 'Product Strategist', 'Business Line Owner']
   }
+  // Scrum.org — PSPO I
   if (t.includes('pspo')) {
-    if (t.includes('ii') || t.includes('2')) {
-      return ['Senior Product Owner', 'Product Lead', 'Product Strategist', 'Business Line Owner']
-    }
     return ['Product Owner', 'Product Manager', 'Requirements Analyst', 'Business Analyst']
   }
-  if (t.includes('a-cspo') || t.includes('advanced.*product owner') || t === 'advanced certified scrum product owner (a-cspo)') {
-    return ['Senior Product Owner', 'Product Manager', 'Business Analyst Lead', 'Product Strategist']
+  // Scrum.org — PSM II (Professional Scrum Master II)
+  if (t.includes('psm') && (t.includes('ii') || t.includes('2'))) {
+    return ['Senior Scrum Master', 'Agile Coach', 'Team Lead', 'Agile Delivery Manager']
   }
-  if (t.includes('a-csm') || t.includes('advanced.*scrum master') || t === 'agile advanced certified scrummaster (a-csm)') {
-    return ['Senior Scrum Master', 'Agile Coach', 'Enterprise Coach', 'Agile Delivery Lead']
+  // Scrum.org — PSM I (Professional Scrum Master I) — must come after PSM II check
+  if (t.includes('psm') || t.includes('professional scrum')) {
+    return ['Scrum Master', 'Agile Coach', 'Team Facilitator', 'Agile Practitioner']
   }
-  if (t.includes('cspo') || t.includes('certified scrum product owner')) {
-    return ['Product Owner', 'Product Analyst', 'Requirements Manager', 'Business Analyst']
-  }
+  // Scaled Agile — SAFe SASM
   if (t.includes('sasm') || t.includes('safe')) {
     return ['SAFe Scrum Master', 'Release Train Engineer', 'Agile Program Manager', 'Enterprise Agile Coach']
-  }
-  if (t.includes('professional scrum master') && t.includes('ai')) {
-    return ['Scrum Master (AI Teams)', 'AI Product Owner', 'Agile Coach (AI)', 'AI Delivery Manager']
   }
 
   // ── DevOps ───────────────────────────────────────────────────────
@@ -353,7 +363,7 @@ function examBodyInfo(row) {
   if (t.includes('safe') || t.includes('sasm')) return { name: 'Scaled Agile', url: 'https://scaledagile.com' }
   if (t.includes('devops exin') || t.includes('exin')) return { name: 'EXIN', url: 'https://www.exin.com' }
   if (t.includes('power bi')) return { name: 'Microsoft', url: 'https://learn.microsoft.com/en-us/credentials' }
-  if (t.includes('cpmai')) return { name: 'CPMAI', url: 'https://www.cpmai.org' }
+  if (t.includes('cpmai')) return { name: 'PMI\u00ae', url: 'https://www.pmi.org/certifications/ai-project-management-cpmai' }
   if (t.includes('compensation') || t.includes('ccp') || t.includes('worldatwork'))
     return { name: 'WorldatWork', url: 'https://worldatwork.org' }
 
