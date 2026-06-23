@@ -150,6 +150,183 @@ function genericTrainers() {
   ]
 }
 
+function defaultCareerRoles(row) {
+  const t = (row.title || '').toLowerCase()
+  const cat = (row.categoryName || '').toLowerCase()
+
+  // ── Project Management ──────────────────────────────────────────
+  if (t.includes('pmp') || row.title === 'PMP Morning Batch') {
+    return ['Project Manager', 'Program Manager', 'PMO Lead', 'Delivery Lead', 'Portfolio Manager', 'Project Consultant']
+  }
+  if (t.includes('capm')) {
+    return ['Junior Project Manager', 'Project Coordinator', 'Project Analyst', 'Assistant Project Manager']
+  }
+  if (t.includes('prince2')) {
+    if (t.includes('foundation') && !t.includes('practitioner')) {
+      return ['Project Coordinator', 'Project Support Officer', 'Project Administrator', 'Team Member']
+    }
+    if (t.includes('practitioner')) {
+      return ['Project Manager', 'Programme Manager', 'Change Manager', 'Project Consultant']
+    }
+    return ['Project Manager', 'Programme Manager', 'Project Coordinator', 'Change Manager']
+  }
+
+  // ── Cloud Computing ──────────────────────────────────────────────
+  if (t.includes('aws') || t.includes('amazon web services')) {
+    if (t.includes('cloud practitioner')) return ['Cloud Practitioner', 'Cloud Associate', 'Cloud Administrator']
+    if (t.includes('solutions architect')) return ['Solutions Architect', 'Cloud Architect', 'Infrastructure Architect', 'Technical Lead']
+    if (t.includes('sysops')) return ['SysOps Administrator', 'Cloud Operations Engineer', 'Cloud Administrator']
+    if (t.includes('developer')) return ['Cloud Developer', 'DevOps Engineer', 'Full Stack Developer (Cloud)']
+    return ['Cloud Engineer', 'Solutions Architect', 'DevOps Engineer', 'Cloud Administrator']
+  }
+  if (t.includes('azure') || t.includes('az-') || t.includes('microsoft')) {
+    if (t.includes('az-900') || t.includes('fundamental')) return ['Cloud Administrator', 'Azure Administrator (entry)', 'Cloud Engineer']
+    if (t.includes('az-104') || t.includes('administrator')) return ['Azure Administrator', 'Cloud Administrator', 'Infrastructure Engineer']
+    if (t.includes('az-305') || t.includes('architect')) return ['Solutions Architect', 'Cloud Architect', 'Enterprise Architect']
+    if (t.includes('az-400') || t.includes('devops')) return ['DevOps Engineer', 'Release Engineer', 'Automation Engineer', 'Cloud DevOps Lead']
+    return ['Azure Administrator', 'Cloud Solutions Architect', 'DevOps Engineer', 'AI Engineer', 'Cloud Consultant']
+  }
+  if (t.includes('google cloud')) {
+    return ['Cloud Engineer', 'Cloud Architect', 'Data Engineer', 'Cloud Consultant']
+  }
+
+  // ── Cybersecurity ────────────────────────────────────────────────
+  if (t.includes('comptia') || t.includes('security+')) {
+    return ['Security Analyst', 'Security Specialist', 'IT Auditor', 'SOC Analyst', 'Security Consultant']
+  }
+  if (t.includes('ceh') || t.includes('ethical') || t.includes('hacker')) {
+    return ['Ethical Hacker', 'Penetration Tester', 'Security Analyst', 'Security Consultant', 'Red Team Engineer']
+  }
+  if (t.includes('threat')) {
+    return ['Threat Analyst', 'SOC Analyst', 'Security Operations Lead', 'Threat Intelligence Analyst']
+  }
+  if (t.includes('security architecture')) {
+    return ['Security Architect', 'Security Engineer', 'Enterprise Security Lead', 'Security Consultant']
+  }
+
+  // ── Agile, Scrum ─────────────────────────────────────────────────
+  if (t.includes('csm') || t.includes('certified scrum master')) {
+    return ['Scrum Master', 'Agile Coach', 'Team Coach', 'Project Facilitator']
+  }
+  if (t.includes('psm i') || t.includes('psm i') || t.includes('professional scrum master') && !t.includes('ii') && !t.includes('ai') && !t.includes('a-csm')) {
+    if (t.includes('ii') || t.includes('2')) {
+      return ['Senior Scrum Master', 'Agile Coach', 'Team Lead', 'Agile Delivery Manager']
+    }
+    return ['Scrum Master', 'Agile Coach', 'Team Facilitator', 'Agile Practitioner']
+  }
+  if (t.includes('pspo')) {
+    if (t.includes('ii') || t.includes('2')) {
+      return ['Senior Product Owner', 'Product Lead', 'Product Strategist', 'Business Line Owner']
+    }
+    return ['Product Owner', 'Product Manager', 'Requirements Analyst', 'Business Analyst']
+  }
+  if (t.includes('a-cspo') || t.includes('advanced.*product owner') || t === 'advanced certified scrum product owner (a-cspo)') {
+    return ['Senior Product Owner', 'Product Manager', 'Business Analyst Lead', 'Product Strategist']
+  }
+  if (t.includes('a-csm') || t.includes('advanced.*scrum master') || t === 'agile advanced certified scrummaster (a-csm)') {
+    return ['Senior Scrum Master', 'Agile Coach', 'Enterprise Coach', 'Agile Delivery Lead']
+  }
+  if (t.includes('cspo') || t.includes('certified scrum product owner')) {
+    return ['Product Owner', 'Product Analyst', 'Requirements Manager', 'Business Analyst']
+  }
+  if (t.includes('sasm') || t.includes('safe')) {
+    return ['SAFe Scrum Master', 'Release Train Engineer', 'Agile Program Manager', 'Enterprise Agile Coach']
+  }
+  if (t.includes('professional scrum master') && t.includes('ai')) {
+    return ['Scrum Master (AI Teams)', 'AI Product Owner', 'Agile Coach (AI)', 'AI Delivery Manager']
+  }
+
+  // ── DevOps ───────────────────────────────────────────────────────
+  if (t.includes('devops exin') || t.includes('exin devops')) {
+    return ['DevOps Engineer', 'DevOps Lead', 'Automation Engineer', 'DevOps Consultant']
+  }
+  if (t.includes('devops') && !t.includes('exin')) {
+    return ['DevOps Engineer', 'CI/CD Engineer', 'Build & Release Engineer', 'Automation Specialist']
+  }
+
+  // ── IT Service Management ───────────────────────────────────────
+  if (t.includes('itil')) {
+    if (t.includes('foundation')) return ['IT Service Desk Analyst', 'IT Support Specialist', 'Service Management Associate']
+    if (t.includes('expert')) return ['ITSM Consultant', 'Service Management Lead', 'IT Director', 'Process Owner']
+    if (t.includes('master') || t.includes('strategy')) return ['IT Strategy Manager', 'Service Transformation Lead', 'Enterprise Architect']
+    return ['IT Service Manager', 'Service Desk Lead', 'IT Operations Manager', 'Service Delivery Manager', 'ITSM Consultant']
+  }
+  if (t.includes('servicenow')) {
+    return ['ServiceNow Administrator', 'ServiceNow Developer', 'ServiceNow Architect', 'ITSM Process Manager']
+  }
+
+  // ── Software Development ─────────────────────────────────────────
+  if (t.includes('istqb')) {
+    return ['Test Engineer', 'QA Analyst', 'Test Analyst', 'Software Tester', 'QA Lead']
+  }
+  if (t.includes('test automation') || t.includes('automation framework')) {
+    return ['Automation Engineer', 'QA Lead', 'SDET', 'Test Architect']
+  }
+  if (t.includes('ai in testing') || t.includes('ai testing')) {
+    return ['AI Test Engineer', 'QA Automation Architect', 'Quality Engineer (AI)', 'SDET Lead']
+  }
+
+  // ── ISO / ISACA ──────────────────────────────────────────────────
+  if (t.includes('cisa')) {
+    return ['IT Auditor', 'IS Auditor', 'Compliance Analyst', 'Risk & Compliance Manager']
+  }
+  if (t.includes('cism')) {
+    return ['Security Manager', 'IS Manager', 'Risk & Compliance Manager', 'SOC Manager']
+  }
+
+  // ── TOGAF ────────────────────────────────────────────────────────
+  if (t.includes('togaf')) {
+    return ['Enterprise Architect', 'Solution Architect', 'Technical Architect', 'Domain Architect']
+  }
+
+  // ── Six Sigma ────────────────────────────────────────────────────
+  if (t.includes('six sigma')) {
+    if (t.includes('black belt')) return ['Quality Manager', 'Process Excellence Manager', 'Operations Lead', 'Continuous Improvement Manager']
+    return ['Quality Analyst', 'Process Improvement Lead', 'Operations Analyst', 'Continuous Improvement Specialist']
+  }
+
+  // ── IT Governance ────────────────────────────────────────────────
+  if (t.includes('cbap') || t.includes('iiba') || t.includes('ecba') || t.includes('ccba')) {
+    return ['Business Analyst Lead', 'Business Architect', 'Product Manager', 'Strategy Analyst', 'Requirements Manager']
+  }
+
+  // ── Data Science ─────────────────────────────────────────────────
+  if (t.includes('cpmai') || t.includes('ai project management')) {
+    return ['AI Project Manager', 'AI Program Manager', 'ML Project Lead', 'Data Science Manager']
+  }
+  if (t.includes('data engineering')) {
+    return ['Data Engineer', 'Data Architect', 'Big Data Engineer', 'ETL Developer']
+  }
+  if (t.includes('real-time') || t.includes('streaming') || t.includes('data processing')) {
+    return ['Data Engineer (Streaming)', 'Real-time Analytics Engineer', 'Pipeline Engineer', 'Data Platform Engineer']
+  }
+  if (t.includes('analytics') && (t.includes('ml') || t.includes('machine learning'))) {
+    return ['Data Scientist', 'ML Engineer', 'Analytics Manager', 'Decision Scientist']
+  }
+  if (t.includes('big data') || t.includes('ai integration')) {
+    return ['AI Engineer', 'Data Architect', 'ML Engineer', 'Big Data Architect']
+  }
+
+  // ── Business Intelligence ────────────────────────────────────────
+  if (t.includes('power bi')) {
+    return ['BI Analyst', 'Data Analyst', 'Reporting Lead', 'Dashboard Developer', 'BI Consultant']
+  }
+
+  // ── Category-based fallbacks ─────────────────────────────────────
+  if (cat.includes('project management')) return ['Project Coordinator', 'Project Manager (entry)', 'PMO Analyst']
+  if (cat.includes('cloud computing')) return ['Cloud Engineer', 'Cloud Administrator', 'Cloud Support Associate']
+  if (cat.includes('cyber') || cat.includes('security')) return ['Security Analyst', 'Security Consultant', 'SOC Analyst']
+  if (cat.includes('agile') || cat.includes('scrum')) return ['Agile Practitioner', 'Scrum Master', 'Product Owner', 'Agile Team Member']
+  if (cat.includes('devops')) return ['DevOps Practitioner', 'Automation Engineer', 'CI/CD Specialist']
+  if (cat.includes('it service')) return ['Service Desk Analyst', 'IT Support Specialist', 'ITSM Practitioner']
+  if (cat.includes('software') || cat.includes('development')) return ['Software Tester', 'QA Analyst', 'Developer', 'Automation Engineer']
+  if (cat.includes('six sigma') || cat.includes('quality')) return ['Quality Analyst', 'Process Improvement Specialist']
+  if (cat.includes('data')) return ['Data Analyst', 'Data Engineer', 'Data Scientist (entry)', 'BI Analyst']
+  if (cat.includes('business intelligence')) return ['BI Analyst', 'Data Analyst', 'Reporting Specialist']
+
+  return ['Career outcomes vary by program — ask our team for typical roles']
+}
+
 function examBodyInfo(row) {
   const t = (row.title || '').toLowerCase()
   const cat = (row.categoryName || '').toLowerCase()
@@ -255,7 +432,7 @@ function buildGeneratedBase(row) {
     examBodyUrl: ebInfo ? ebInfo.url : '',
     certValidity: '',
     enrollmentCount: 0,
-    careerOpportunities: ['Career outcomes vary by program \u2014 ask our team for typical roles'],
+    careerOpportunities: defaultCareerRoles(row),
     trainers: genericTrainers(),
     categorySlug: row.categorySlug,
     learnMoreUrl: 'https://www.neoskills.co.in/',

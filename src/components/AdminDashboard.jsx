@@ -116,6 +116,11 @@ export default function AdminDashboard() {
                 stats: { ...gen.stats, ...(apiCourse.stats || {}) },
                 feeDetails: { ...gen.feeDetails, ...(apiCourse.feeDetails || {}) },
                 certificate: { ...gen.certificate, ...(apiCourse.certificate || {}) },
+                examBody: apiCourse.examBody || gen.examBody,
+                examBodyUrl: apiCourse.examBodyUrl || gen.examBodyUrl,
+                certValidity: apiCourse.certValidity || gen.certValidity,
+                careerOpportunities: apiCourse.careerOpportunities?.length ? apiCourse.careerOpportunities : gen.careerOpportunities,
+                enrollmentCount: apiCourse.enrollmentCount ?? gen.enrollmentCount,
               }
             : apiCourse
         })
