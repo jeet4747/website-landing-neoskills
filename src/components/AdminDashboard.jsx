@@ -106,8 +106,21 @@ export default function AdminDashboard() {
       if (!res.ok) throw new Error('Server error')
       const data = await res.json()
       if (Array.isArray(data) && data.length > 0) {
-        setCourses(data)
-        if (!selectedSlug) setSelectedSlug(data[0]?.slug || data[0]?.id || '')
+        const fallback = getAllResolvedCourses()
+        const merged = data.map(apiCourse => {
+          const gen = fallback.find(c => c.slug === apiCourse.slug || c.id === apiCourse.id)
+          return gen
+            ? {
+                ...gen,
+                ...apiCourse,
+                stats: { ...gen.stats, ...(apiCourse.stats || {}) },
+                feeDetails: { ...gen.feeDetails, ...(apiCourse.feeDetails || {}) },
+                certificate: { ...gen.certificate, ...(apiCourse.certificate || {}) },
+              }
+            : apiCourse
+        })
+        setCourses(merged)
+        if (!selectedSlug) setSelectedSlug(merged[0]?.slug || merged[0]?.id || '')
       } else {
         throw new Error('Empty data')
       }
@@ -348,6 +361,11 @@ export default function AdminDashboard() {
       feeDetails: { training: 0, exam: 0, support: 0, total: 0, emi: 'EMI or installment options may be available — ask admissions', refund: 'Refund and transfer policy as per NeoSkills enrollment terms', includes: ['Live training and mentor support', 'Practice materials and assignments (where applicable)', 'Batch coordination and learner success check-ins', 'EMI or installment options may be available — ask admissions', 'Refund and transfer policy as per NeoSkills enrollment terms'] },
       feeDisclaimer: '',
       trainers: [{ name: 'Expert Instructor', bio: 'Certified professional with extensive industry experience in this domain.', role: 'Lead Instructor', experience: '10+ years', certifications: 'Industry certifications aligned to this track', image: '/images/nsl-logo.svg' }],
+      examBody: '',
+      examBodyUrl: '',
+      certValidity: '',
+      enrollmentCount: 0,
+      careerOpportunities: [],
       categorySlug: '',
       learnMoreUrl: 'https://www.neoskills.co.in/',
       alternateSlugs: [],
@@ -955,11 +973,18 @@ export default function AdminDashboard() {
                               </select>
                             </div>
                             <Field label="Learn More URL" value={selected.learnMoreUrl || ''} onChange={v => setField('learnMoreUrl', v)} />
+                            <Field label="Alternate Slugs (comma-separated)" value={(selected.alternateSlugs || []).join(', ')} onChange={v => setField('alternateSlugs', v.split(',').map(s => s.trim()).filter(Boolean))} />
                           </>
                         )}
 
                         {activeTab === 'pricing' && (
                           <>
+                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                              <Field label="Exam Body (e.g. PMI®)" value={selected.examBody || ''} onChange={v => setField('examBody', v)} />
+                              <Field label="Exam Body Website URL" value={selected.examBodyUrl || ''} onChange={v => setField('examBodyUrl', v)} />
+                              <Field label="Cert Validity (e.g. 3 years)" value={selected.certValidity || ''} onChange={v => setField('certValidity', v)} />
+                              <Field label="Enrollment Count" value={String(selected.enrollmentCount ?? 0)} onChange={v => setField('enrollmentCount', Number(v) || 0)} />
+                            </div>
                             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                               <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">Training Fee (₹)</label>
@@ -1043,6 +1068,15 @@ export default function AdminDashboard() {
                               <textarea
                                 value={(selected.whoShouldJoin || []).join('\n')}
                                 onChange={e => setField('whoShouldJoin', e.target.value.split('\n').map(l => l.trim()).filter(Boolean))}
+                                rows={3}
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-mono text-xs"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1.5">Career Opportunities (one per line)</label>
+                              <textarea
+                                value={(selected.careerOpportunities || []).join('\n')}
+                                onChange={e => setField('careerOpportunities', e.target.value.split('\n').map(l => l.trim()).filter(Boolean))}
                                 rows={3}
                                 className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-mono text-xs"
                               />

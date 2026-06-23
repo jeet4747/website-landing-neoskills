@@ -104,6 +104,18 @@ export const pmpCourse = {
     refund: 'Refund policy as per NeoSkills enrollment terms',
     includes: ['Live training & labs', 'Mock exams & study kit', 'Mentor support', 'Exam application guidance'],
   },
+  examBody: 'PMI\u00ae',
+  examBodyUrl: 'https://www.pmi.org',
+  certValidity: '3 years (renewable through continuing education)',
+  enrollmentCount: 128,
+  careerOpportunities: [
+    'Project Manager',
+    'Program Manager',
+    'PMO Lead',
+    'Delivery Lead',
+    'Portfolio Manager',
+    'Project Consultant',
+  ],
   feeDisclaimer:
     'Vendor (PMI®) exam fees and membership are set by PMI® and may change; training fee covers NeoSkills program components listed above.',
   trainers: [
@@ -229,6 +241,17 @@ export const awsTrainingCourse = {
     refund: 'Refund policy as per NeoSkills enrollment terms',
     includes: ['Live training & guided labs', 'Practice tests & assignments', 'Mentor support', 'Career prep sessions'],
   },
+  examBody: 'AWS (Amazon Web Services)',
+  examBodyUrl: 'https://aws.amazon.com/certification',
+  certValidity: '3 years (recertification available)',
+  enrollmentCount: 95,
+  careerOpportunities: [
+    'Cloud Engineer',
+    'Solutions Architect',
+    'DevOps Engineer',
+    'Cloud Administrator',
+    'SysOps Administrator',
+  ],
   feeDisclaimer:
     'Certification exam fees are payable separately at actuals directly to AWS. Training fee covers NeoSkills program components listed above.',
   trainers: [
@@ -352,6 +375,18 @@ export const azureAiTrainingCourse = {
     refund: 'Refund policy as per NeoSkills enrollment terms',
     includes: ['Live training & labs', 'Projects', 'Mock tests', 'Career prep'],
   },
+  examBody: 'Microsoft',
+  examBodyUrl: 'https://learn.microsoft.com/en-us/credentials',
+  certValidity: '1 year (annual renewal via free assessment)',
+  enrollmentCount: 72,
+  careerOpportunities: [
+    'Azure Administrator',
+    'Cloud Solutions Architect',
+    'DevOps Engineer',
+    'AI Engineer',
+    'Cloud Consultant',
+    'Infrastructure Engineer',
+  ],
   feeDisclaimer:
     'Certification exam fees are payable separately at actuals directly to Microsoft. Training fee covers NeoSkills program components listed above.',
   trainers: [
@@ -469,6 +504,18 @@ export const itil5FoundationCourse = {
     refund: 'Refund policy as per NeoSkills enrollment terms',
     includes: ['Live training', 'Practice bank access', 'Mentor support', 'Exam application guidance'],
   },
+  examBody: 'PeopleCert',
+  examBodyUrl: 'https://www.peoplecert.org',
+  certValidity: 'Lifetime (no expiry)',
+  enrollmentCount: 156,
+  careerOpportunities: [
+    'IT Service Manager',
+    'Service Desk Lead',
+    'IT Operations Manager',
+    'Service Delivery Manager',
+    'ITSM Consultant',
+    'Change & Release Manager',
+  ],
   feeDisclaimer:
     'Exam fees and PeopleCert pricing are subject to change; totals shown are representative planning figures—confirm with admissions for your cohort.',
   trainers: [
@@ -569,6 +616,17 @@ export const capmCourse = {
     description: 'The CAPM® certification is awarded by PMI® upon passing the exam. NeoSkills training focuses on exam readiness and applied project management skills.',
     image: '/images/nsl-logo.svg',
   },
+  examBody: 'PMI\u00ae',
+  examBodyUrl: 'https://www.pmi.org',
+  certValidity: '3 years (renewable through continuing education)',
+  enrollmentCount: 45,
+  careerOpportunities: [
+    'Junior Project Manager',
+    'Project Coordinator',
+    'Project Analyst',
+    'Assistant Project Manager',
+    'Scrum Master (entry-level)',
+  ],
   feeDetails: {
     training: 18500,
     exam: 36480,

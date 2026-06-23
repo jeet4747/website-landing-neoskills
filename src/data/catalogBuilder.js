@@ -150,6 +150,39 @@ function genericTrainers() {
   ]
 }
 
+function examBodyInfo(row) {
+  const t = (row.title || '').toLowerCase()
+  const cat = (row.categoryName || '').toLowerCase()
+
+  if (t.includes('pmp') || t.includes('capm')) return { name: 'PMI\u00ae', url: 'https://www.pmi.org' }
+  if (t.includes('prince2')) return { name: 'AXELOS', url: 'https://www.axelos.com' }
+  if (t.includes('itil')) return { name: 'PeopleCert', url: 'https://www.peoplecert.org' }
+  if (t.includes('aws')) return { name: 'AWS', url: 'https://aws.amazon.com/certification' }
+  if (t.includes('azure') || t.includes('microsoft')) return { name: 'Microsoft', url: 'https://learn.microsoft.com/en-us/credentials' }
+  if (t.includes('google cloud')) return { name: 'Google Cloud', url: 'https://cloud.google.com/learn/certification' }
+  if (t.includes('comptia')) return { name: 'CompTIA', url: 'https://www.comptia.org/certifications' }
+  if (t.includes('ceh') || t.includes('ethical')) return { name: 'EC-Council', url: 'https://www.eccouncil.org' }
+  if (t.includes('cisa') || t.includes('cism')) return { name: 'ISACA', url: 'https://www.isaca.org' }
+  if (t.includes('togaf')) return { name: 'The Open Group', url: 'https://www.opengroup.org/certifications/togaf' }
+  if (t.includes('six sigma')) return { name: 'CSSC / IASSC', url: 'https://www.sixsigma.org' }
+  if (t.includes('istqb')) return { name: 'ISTQB', url: 'https://www.istqb.org' }
+  if (t.includes('cbap') || t.includes('iiba') || t.includes('ecba') || t.includes('ccba'))
+    return { name: 'IIBA', url: 'https://www.iiba.org' }
+  if (t.includes('servicenow')) return { name: 'ServiceNow', url: 'https://www.servicenow.com/certification' }
+  if (t.includes('scrum master') || t.includes('csm') || t.includes('cspo') || t.includes('a-csm') || t.includes('a-cspo'))
+    return { name: 'Scrum Alliance', url: 'https://www.scrumalliance.org' }
+  if (t.includes('psm') || t.includes('pspo') || t.includes('professional scrum'))
+    return { name: 'Scrum.org', url: 'https://www.scrum.org' }
+  if (t.includes('safe') || t.includes('sasm')) return { name: 'Scaled Agile', url: 'https://scaledagile.com' }
+  if (t.includes('devops exin') || t.includes('exin')) return { name: 'EXIN', url: 'https://www.exin.com' }
+  if (t.includes('power bi')) return { name: 'Microsoft', url: 'https://learn.microsoft.com/en-us/credentials' }
+  if (t.includes('cpmai')) return { name: 'CPMAI', url: 'https://www.cpmai.org' }
+  if (t.includes('compensation') || t.includes('ccp') || t.includes('worldatwork'))
+    return { name: 'WorldatWork', url: 'https://worldatwork.org' }
+
+  return null
+}
+
 function buildGeneratedBase(row) {
   const listed = effectiveListedPrice(row)
   const num = (v) => {
@@ -161,6 +194,8 @@ function buildGeneratedBase(row) {
   const examTotal = num(row.trainingExam)
   const support = num(row.supportCost)
   const examComponent = Math.max(0, examTotal - training)
+
+  const ebInfo = examBodyInfo(row)
 
   return {
     slug: row.slug,
@@ -216,6 +251,11 @@ function buildGeneratedBase(row) {
       listed == null
         ? 'Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use "Enquire" if pricing shows as on request.'
         : 'Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.',
+    examBody: ebInfo ? ebInfo.name : '',
+    examBodyUrl: ebInfo ? ebInfo.url : '',
+    certValidity: '',
+    enrollmentCount: 0,
+    careerOpportunities: ['Career outcomes vary by program \u2014 ask our team for typical roles'],
     trainers: genericTrainers(),
     categorySlug: row.categorySlug,
     learnMoreUrl: 'https://www.neoskills.co.in/',

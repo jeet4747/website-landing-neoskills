@@ -8,7 +8,7 @@ import {
   IndianRupee, ArrowLeft, Check, ChevronDown, ChevronRight,
   Download, FileText, Clock, Mail, Phone, MapPin, MessageSquare,
   Send, ExternalLink, Calendar, GraduationCap, CheckCircle,
-  User, Banknote
+  User, Banknote, X
 } from 'lucide-react'
 
 const LucideIcons = {
@@ -17,7 +17,7 @@ const LucideIcons = {
   IndianRupee, ArrowLeft, Check, ChevronDown, ChevronRight,
   Download, FileText, Clock, Mail, Phone, MapPin, MessageSquare,
   Send, ExternalLink, Calendar, GraduationCap, CheckCircle,
-  User, Banknote,
+  User, Banknote, X,
 }
 import emailjs from '@emailjs/browser'
 import { useEnroll } from '../context/EnrollContext'
@@ -41,6 +41,7 @@ const CourseDetail = () => {
     message: '',
   })
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [showEnrollmentToast, setShowEnrollmentToast] = useState(true)
 
   useEffect(() => {
     fetchBackendCourses().then(data => {
@@ -71,6 +72,13 @@ const CourseDetail = () => {
       })
       .finally(() => setLoading(false))
   }, [slug])
+
+  useEffect(() => {
+    if (course?.enrollmentCount > 0) {
+      const timer = setTimeout(() => setShowEnrollmentToast(false), 6000)
+      return () => clearTimeout(timer)
+    }
+  }, [course])
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>
@@ -401,24 +409,15 @@ const CourseDetail = () => {
                 <RupeeIcon size={24} className="text-green-600" />
                 Fees & financing
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-600">Training fee</p>
-                  <p className="text-2xl font-bold text-primary">₹{course.feeDetails.training.toLocaleString('en-IN')}</p>
-                </div>
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-600">Exam fee (estimate)</p>
-                  <p className="text-2xl font-bold text-primary">
-                    {course.feeDetails.exam > 0 ? `₹${course.feeDetails.exam.toLocaleString('en-IN')}` : 'Vendor actuals'}
-                  </p>
-                </div>
-                <div className="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
-                  <p className="text-sm text-blue-600 font-medium">Amount due (catalog)</p>
-                  <p className="text-3xl font-bold text-blue-600">₹{catalogAmount.toLocaleString('en-IN')}</p>
+              <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 mb-6">
+                <p className="text-sm text-blue-600 font-medium mb-1">Total program fee</p>
+                <p className="text-4xl font-bold text-blue-600">₹{catalogAmount.toLocaleString('en-IN')}</p>
+                <div className="flex items-center justify-center gap-2 mt-3 text-sm text-gray-600 flex-wrap">
+                  <span>Training & Certification: ₹{catalogAmount.toLocaleString('en-IN')}</span>
                 </div>
               </div>
               {course.feeDisclaimer && (
-                <p className="text-sm text-gray-600 mb-4 border-l-4 border-primary pl-3">{course.feeDisclaimer}</p>
+                <p className="text-xs text-gray-500 mb-4 italic">*{course.feeDisclaimer}</p>
               )}
               <div className="space-y-3">
                 <h4 className="font-semibold text-gray-800 mb-3">What is included</h4>
@@ -542,6 +541,25 @@ const CourseDetail = () => {
               )}
             </motion.div>
 
+            {course.enrollmentCount > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.65 }}
+              className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-5"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <LucideIcons.Users size={22} className="text-primary" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-primary">{course.enrollmentCount}</p>
+                  <p className="text-sm text-gray-600">people have enrolled in this batch</p>
+                </div>
+              </div>
+            </motion.div>
+            )}
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -569,6 +587,61 @@ const CourseDetail = () => {
                 </div>
               </div>
             </motion.div>
+
+            {course.examBody && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.75 }}
+              className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+            >
+              <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <LucideIcons.Award size={20} className="text-primary" />
+                Official certification body
+              </h3>
+              <p className="text-sm font-semibold text-gray-800">{course.examBody}</p>
+              {course.examBodyUrl && (
+                <a
+                  href={course.examBodyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-sm text-primary font-medium hover:underline mt-0.5"
+                >
+                  Visit website &rarr;
+                </a>
+              )}
+              {course.certValidity && (
+                <div className="mt-4 pt-3 border-t border-gray-100">
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Validity</p>
+                  <p className="text-sm font-medium text-gray-800 mt-0.5">{course.certValidity}</p>
+                </div>
+              )}
+              <p className="text-xs text-gray-500 mt-3 leading-relaxed">
+                The official certification is issued and administered by the body listed above. NeoSkills training focuses on skill building and exam readiness.
+              </p>
+            </motion.div>
+            )}
+
+            {(course.careerOpportunities || []).length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.78 }}
+              className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+            >
+              <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <LucideIcons.TrendingUp size={20} className="text-primary" />
+                Roles you can pursue
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {course.careerOpportunities.map((role, i) => (
+                  <span key={i} className="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full border border-blue-100">
+                    {role}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+            )}
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -644,6 +717,33 @@ const CourseDetail = () => {
         </div>
       </div>
     </div>
+    {course.enrollmentCount > 0 && showEnrollmentToast && (
+      <motion.div
+        initial={{ opacity: 0, y: 40, x: 0 }}
+        animate={{ opacity: 1, y: 0, x: 0 }}
+        exit={{ opacity: 0, y: 40 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="fixed bottom-6 right-6 z-50 max-w-xs"
+      >
+        <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-4 flex items-start gap-3">
+          <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center shrink-0 mt-0.5">
+            <LucideIcons.Users size={16} className="text-primary" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-gray-800">{course.enrollmentCount} people have enrolled</p>
+            <p className="text-xs text-gray-500 mt-0.5">in this program</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowEnrollmentToast(false)}
+            className="text-gray-400 hover:text-gray-600 transition-colors shrink-0 mt-0.5"
+            aria-label="Dismiss"
+          >
+            <LucideIcons.X size={16} />
+          </button>
+        </div>
+      </motion.div>
+    )}
     </>
   )
 }
