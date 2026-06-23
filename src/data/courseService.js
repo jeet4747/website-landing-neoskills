@@ -149,6 +149,18 @@ export async function loadCourseBySlug(slug) {
   const course = backendCourses.find(
     (c) => normalizeKey(c.slug) === normalizedSlug || normalizeKey(c.title) === normalizedSlug
   )
-  if (course) return course
+  if (course) {
+    const gen = getAllResolvedCourses().find((c) => normalizeKey(c.slug) === normalizedSlug)
+    if (gen) {
+      return {
+        ...gen,
+        ...course,
+        stats: { ...gen.stats, ...(course.stats || {}) },
+        feeDetails: { ...gen.feeDetails, ...(course.feeDetails || {}) },
+        certificate: { ...gen.certificate, ...(course.certificate || {}) },
+      }
+    }
+    return course
+  }
   return getAllResolvedCourses().find((c) => normalizeKey(c.slug) === normalizedSlug)
 }

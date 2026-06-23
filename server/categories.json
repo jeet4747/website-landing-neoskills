@@ -1,0 +1,107 @@
+[
+  {
+    "name": "Project Management",
+    "slug": "project-management",
+    "icon": "Briefcase",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "Cloud Computing",
+    "slug": "cloud-computing",
+    "icon": "Cloud",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "Cybersecurity",
+    "slug": "cybersecurity",
+    "icon": "Shield",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "Agile, Scrum",
+    "slug": "agile-scrum",
+    "icon": "Zap",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "DevOps",
+    "slug": "devops",
+    "icon": "Code",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "IT Service Management",
+    "slug": "it-service-management",
+    "icon": "Users",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "Salesforce",
+    "slug": "salesforce",
+    "icon": "Code",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "Software Development",
+    "slug": "software-development",
+    "icon": "Code",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "ISO",
+    "slug": "iso",
+    "icon": "Shield",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "TOGAF® Architecture",
+    "slug": "togaf-architecture",
+    "icon": "BookOpen",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "Six Sigma",
+    "slug": "six-sigma",
+    "icon": "BarChart3",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "IT Governance",
+    "slug": "it-governance",
+    "icon": "Lightbulb",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "Risk Management",
+    "slug": "risk-management",
+    "icon": "Shield",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "Data Science",
+    "slug": "data-science",
+    "icon": "Cpu",
+    "description": "",
+    "courses": []
+  },
+  {
+    "name": "Business Intelligence",
+    "slug": "business-intelligence",
+    "icon": "BarChart3",
+    "description": "",
+    "courses": []
+  }
+]
