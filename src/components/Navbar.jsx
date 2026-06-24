@@ -1,8 +1,28 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Search, ChevronDown, Menu, X, Smartphone, GraduationCap } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
-import { getAllResolvedCourses } from '../data/catalogBuilder'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
+import { Search, ChevronDown, Menu, X, Smartphone, GraduationCap, Award, Cloud, Shield, Users, BookOpen, Zap, BarChart3, Briefcase, Code, TrendingUp, Cpu, Lightbulb, Database, Layers } from 'lucide-react'
+import { useNavigate, Link } from 'react-router-dom'
+import { getAllResolvedCourses, getMergedCourseCategories } from '../data/catalogBuilder'
 import { fetchBackendCourses } from '../data/courseService'
+
+const categoryIcons = {
+  'project-management': Briefcase,
+  'cloud-computing': Cloud,
+  'agile-scrum': Users,
+  'cybersecurity': Shield,
+  'it-service-management': Layers,
+  'data-science': BarChart3,
+  'business-intelligence': BarChart3,
+  'software-development': Code,
+  'devops': Zap,
+  'six-sigma': TrendingUp,
+  'iso': Award,
+  'it-governance': Award,
+  'togaf-architecture': Lightbulb,
+  'salesforce': Cloud,
+  'risk-management': Shield,
+}
+
+const popularSlugs = ['pmp', 'aws-cloud-practitioner', 'certified-scrum-master-csm', 'itil-4-foundation', 'microsoft-azure-az-900', 'capm', 'prince2-foundation', 'six-sigma-green-belt', 'comptia-security', 'power-bi']
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -12,6 +32,18 @@ const Navbar = () => {
   const searchRef = useRef(null)
   const courseCache = useRef(null)
   const navigate = useNavigate()
+
+  const allCourses = useMemo(() => getAllResolvedCourses(), [])
+  const categories = useMemo(() => getMergedCourseCategories(), [])
+  const popularCourses = useMemo(() => {
+    const slugs = [...popularSlugs]
+    const res = []
+    for (const s of slugs) {
+      const found = allCourses.find(c => c.slug === s)
+      if (found) res.push(found)
+    }
+    return res
+  }, [allCourses])
 
   useEffect(() => {
     fetchBackendCourses().then(data => { courseCache.current = data })
@@ -35,7 +67,7 @@ const Navbar = () => {
       setSearchResults([])
       return
     }
-    const all = courseCache.current || getAllResolvedCourses()
+    const all = courseCache.current || allCourses
     const results = all.filter((c) =>
       c.title.toLowerCase().includes(q.toLowerCase())
     )
@@ -59,27 +91,7 @@ const Navbar = () => {
     }
   }
 
-  const menuItems = [
-    { label: 'Home', href: '#home' },
-    {
-      label: 'Courses',
-      href: '#courses',
-      dropdown: [
-        { label: 'All Courses', href: '#courses' },
-        { label: 'Upcoming Batches', href: '#upcoming' },
-        { label: 'Project Management', href: '#courses' },
-        { label: 'Cloud Computing', href: '#courses' },
-        { label: 'Cyber Security', href: '#courses' },
-        { label: 'Agile & Scrum', href: '#courses' },
-      ]
-    },
-    { label: 'Corporate', href: '#corporate' },
-    { label: 'Placements', href: '/placements' },
-    { label: 'FAQ', href: '#faq' },
-    { label: 'Contact', href: '#contact' },
-  ]
-
-  const [dropdownOpen, setDropdownOpen] = useState(null)
+  const [megaOpen, setMegaOpen] = useState(false)
 
   const handleNavClick = (e, href) => {
     if (href.startsWith('#')) {
@@ -103,8 +115,8 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
 
           {/* Logo */}
-          <a
-            href="/"
+          <Link
+            to="/"
             className="flex items-center gap-2 flex-shrink-0 opacity-0 animate-fade-in"
           >
             <img
@@ -115,53 +127,101 @@ const Navbar = () => {
               className="h-20 w-auto object-contain transform scale-125"
               fetchpriority="high"
             />
-          </a>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-1">
-            {menuItems.map((item, i) => (
-              <div
-                key={i}
-                className="relative"
-                onMouseEnter={() => item.dropdown && setDropdownOpen(i)}
-                onMouseLeave={() => setDropdownOpen(null)}
-              >
-                <a
-                  href={item.href}
-                  onClick={(e) => {
-                    if (!item.dropdown) handleNavClick(e, item.href)
-                  }}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-1 ${
-                    dropdownOpen === i
-                      ? 'text-primary bg-primary/5'
-                      : 'text-gray-700 hover:text-primary hover:bg-gray-50'
-                  }`}
-                >
-                  {item.label}
-                  {item.dropdown && (
-                    <ChevronDown size={14} className={`transition-transform duration-200 ${dropdownOpen === i ? 'rotate-180' : ''}`} />
-                  )}
-                </a>
-                {item.dropdown && (
-                  <div
-                    className={`absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 transition-all duration-150 ${
-                      dropdownOpen === i ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none'
-                    }`}
-                  >
-                    {item.dropdown.map((sub, si) => (
-                      <a
-                        key={si}
-                        href={sub.href}
-                        onClick={(e) => handleNavClick(e, sub.href)}
-                        className="block px-5 py-2.5 text-sm text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors"
-                      >
-                        {sub.label}
-                      </a>
-                    ))}
+            <Link to="/" className="px-4 py-2 text-sm font-medium rounded-lg text-gray-700 hover:text-primary hover:bg-gray-50 transition-all">Home</Link>
+
+            {/* Courses Mega-Menu */}
+            <div
+              className="relative"
+              onMouseEnter={() => setMegaOpen(true)}
+              onMouseLeave={() => setMegaOpen(false)}
+            >
+              <button className={`px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-1 ${megaOpen ? 'text-primary bg-primary/5' : 'text-gray-700 hover:text-primary hover:bg-gray-50'}`}>
+                Courses
+                <ChevronDown size={14} className={`transition-transform duration-200 ${megaOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[720px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 z-50 transition-all duration-150 ${megaOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
+                <div className="grid grid-cols-12 gap-6">
+                  {/* Column 1: Categories */}
+                  <div className="col-span-5">
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Categories</p>
+                    <div className="grid grid-cols-1 gap-1">
+                      {categories.map((cat) => {
+                        const CatIcon = categoryIcons[cat.slug] || BookOpen
+                        return (
+                          <Link
+                            key={cat.slug}
+                            to={`/#courses`}
+                            onClick={(e) => { handleNavClick(e, '#courses'); setMegaOpen(false) }}
+                            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors"
+                          >
+                            <CatIcon size={15} className="text-primary shrink-0" />
+                            {cat.name}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                    <Link
+                      to="/#courses"
+                      onClick={(e) => { handleNavClick(e, '#courses'); setMegaOpen(false) }}
+                      className="inline-flex items-center gap-1 text-xs text-primary font-semibold mt-3 hover:underline px-3"
+                    >
+                      View all courses &rarr;
+                    </Link>
                   </div>
-                )}
+
+                  {/* Column 2: Popular Courses */}
+                  <div className="col-span-4 border-l border-gray-100 pl-6">
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Popular courses</p>
+                    <div className="space-y-1">
+                      {popularCourses.map((c) => (
+                        <Link
+                          key={c.slug}
+                          to={`/course/${c.slug}`}
+                          onClick={() => setMegaOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                          <span className="truncate">{c.title}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Column 3: Quick Links */}
+                  <div className="col-span-3 border-l border-gray-100 pl-6">
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Resources</p>
+                    <div className="space-y-1">
+                      {[
+                        { label: 'Upcoming Batches', href: '#upcoming' },
+                        { label: 'Corporate Training', href: '#corporate' },
+                        { label: 'Placement Support', href: '/placements' },
+                        { label: 'FAQ', href: '#faq' },
+                        { label: 'Contact Us', href: '#contact' },
+                      ].map((link) => (
+                        <Link
+                          key={link.label}
+                          to={link.href}
+                          onClick={(e) => { if (link.href.startsWith('#')) { handleNavClick(e, link.href); setMegaOpen(false) } else { setMegaOpen(false) }}}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-700 hover:text-primary hover:bg-primary/5 transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
-            ))}
+            </div>
+
+            <Link to="/#corporate" onClick={(e) => handleNavClick(e, '#corporate')} className="px-4 py-2 text-sm font-medium rounded-lg text-gray-700 hover:text-primary hover:bg-gray-50 transition-all">Corporate</Link>
+            <Link to="/placements" className="px-4 py-2 text-sm font-medium rounded-lg text-gray-700 hover:text-primary hover:bg-gray-50 transition-all">Placements</Link>
+            <Link to="/#faq" onClick={(e) => handleNavClick(e, '#faq')} className="px-4 py-2 text-sm font-medium rounded-lg text-gray-700 hover:text-primary hover:bg-gray-50 transition-all">FAQ</Link>
+            <Link to="/#contact" onClick={(e) => handleNavClick(e, '#contact')} className="px-4 py-2 text-sm font-medium rounded-lg text-gray-700 hover:text-primary hover:bg-gray-50 transition-all">Contact</Link>
           </div>
 
           {/* Right side: Search + CTA */}
@@ -205,16 +265,22 @@ const Navbar = () => {
                 {searchResults.length > 0 && (
                   <div className="max-h-72 overflow-y-auto p-2">
                     <p className="text-xs text-gray-400 px-2 py-1 font-medium">Courses</p>
-                    {searchResults.map((r) => (
-                      <button
-                        key={r.slug}
-                        onClick={() => handleSearchSelect(r.slug)}
-                        className="w-full text-left px-3 py-2.5 rounded-lg text-sm text-dark hover:bg-primary/5 transition-colors flex items-center gap-3"
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                        {r.title}
-                      </button>
-                    ))}
+                    {searchResults.map((r) => {
+                      const SearchCatIcon = categoryIcons[r.category ? r.category.toLowerCase().replace(/[\s,&]+/g, '-').replace(/™|®/g, '') : ''] || BookOpen
+                      return (
+                        <button
+                          key={r.slug}
+                          onClick={() => handleSearchSelect(r.slug)}
+                          className="w-full text-left px-3 py-2.5 rounded-lg text-sm text-dark hover:bg-primary/5 transition-colors flex items-center gap-3"
+                        >
+                          <SearchCatIcon size={15} className="text-primary shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <span className="block truncate">{r.title}</span>
+                            <span className="block text-xs text-gray-400 truncate">{r.category || ''}</span>
+                          </div>
+                        </button>
+                      )
+                    })}
                   </div>
                 )}
                 {searchQuery.length >= 2 && searchResults.length === 0 && (
@@ -282,7 +348,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         className={`lg:hidden border-t border-gray-100 bg-white overflow-hidden transition-all duration-300 ${
-          isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+          isOpen ? 'max-h-[900px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <div className="container mx-auto px-4 py-4 space-y-1">
@@ -300,33 +366,65 @@ const Navbar = () => {
           </div>
           {searchResults.length > 0 && (
             <div className="mb-3 bg-gray-50 rounded-xl overflow-hidden">
-              {searchResults.map((r) => (
-                <button
-                  key={r.slug}
-                  onClick={() => { handleSearchSelect(r.slug); setIsOpen(false) }}
-                  className="w-full text-left px-4 py-2.5 text-sm text-dark hover:bg-primary/5 border-b border-gray-100 last:border-0"
-                >
-                  {r.title}
-                </button>
-              ))}
+              {searchResults.map((r) => {
+                const SearchCatIcon = categoryIcons[r.category ? r.category.toLowerCase().replace(/[\s,&]+/g, '-').replace(/™|®/g, '') : ''] || BookOpen
+                return (
+                  <button
+                    key={r.slug}
+                    onClick={() => { handleSearchSelect(r.slug); setIsOpen(false) }}
+                    className="w-full text-left px-4 py-2.5 text-sm text-dark hover:bg-primary/5 border-b border-gray-100 last:border-0 flex items-center gap-3"
+                  >
+                    <SearchCatIcon size={15} className="text-primary shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <span className="block truncate">{r.title}</span>
+                    </div>
+                  </button>
+                )
+              })}
             </div>
           )}
 
-          {/* Mobile Nav Items */}
-          {menuItems.map((item, i) => (
-            <a
+          {/* Mobile Nav - Categories */}
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 mb-1 mt-2">Courses by category</p>
+          <div className="grid grid-cols-1 gap-0.5 mb-2">
+            {categories.map((cat) => {
+              const CatIcon = categoryIcons[cat.slug] || BookOpen
+              return (
+                <Link
+                  key={cat.slug}
+                  to="/#courses"
+                  onClick={(e) => { handleNavClick(e, '#courses'); setIsOpen(false) }}
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 rounded-xl hover:bg-primary/5 hover:text-primary transition-colors"
+                >
+                  <CatIcon size={15} className="text-primary shrink-0" />
+                  {cat.name}
+                </Link>
+              )
+            })}
+          </div>
+          <hr className="border-gray-100 mx-4" />
+
+          {/* Mobile Nav - Links */}
+          {[
+            { label: 'Home', href: '/' },
+            { label: 'Corporate Training', href: '#corporate' },
+            { label: 'Placements', href: '/placements' },
+            { label: 'FAQ', href: '#faq' },
+            { label: 'Contact', href: '#contact' },
+          ].map((item, i) => (
+            <Link
               key={i}
-              href={item.href}
-              onClick={(e) => handleNavClick(e, item.href)}
+              to={item.href}
+              onClick={(e) => { if (item.href.startsWith('#')) { handleNavClick(e, item.href); setIsOpen(false) } else setIsOpen(false) }}
               className="block px-4 py-3 text-gray-700 font-medium rounded-xl hover:bg-primary/5 hover:text-primary transition-colors"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
-          <a href="/quick-pay" onClick={() => setIsOpen(false)}
+          <Link to="/quick-pay" onClick={() => setIsOpen(false)}
             className="block px-4 py-3 text-white font-semibold bg-primary rounded-xl hover:bg-blue-800 transition-colors text-center mt-2">
             Enroll Now
-          </a>
+          </Link>
 
           {/* Mobile Download App */}
           <div className="mt-3 pt-3 border-t border-gray-100">

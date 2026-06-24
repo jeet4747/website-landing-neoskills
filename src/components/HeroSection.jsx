@@ -129,16 +129,22 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-800 rounded-full px-4 py-1.5 text-xs font-semibold mb-6"
+              className="flex items-center gap-4 mb-6 flex-wrap"
             >
-              <div className="flex -space-x-1">
-                {[1,2,3,4].map((i) => (
-                  <div key={i} className="w-5 h-5 rounded-full bg-gradient-to-br from-primary to-accent border-2 border-white text-[8px] text-white flex items-center justify-center font-bold">
-                    {String.fromCharCode(64 + i)}
-                  </div>
-                ))}
+              <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary rounded-full px-3.5 py-1 text-xs font-bold tracking-wider">
+                <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+                {slide.badge || 'FEATURED'}
               </div>
-              <span>Trusted by 50,000+ professionals</span>
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                <div className="flex -space-x-1.5">
+                  {[1,2,3].map((i) => (
+                    <div key={i} className="w-5 h-5 rounded-full bg-gradient-to-br from-primary to-blue-700 border-2 border-white text-[8px] text-white flex items-center justify-center font-bold">
+                      {['R','P','A'][i-1]}
+                    </div>
+                  ))}
+                </div>
+                <span>Trusted by <strong className="text-gray-700">50K+</strong></span>
+              </div>
             </motion.div>
 
             <AnimatePresence mode="wait">
@@ -149,63 +155,46 @@ const HeroSection = () => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4 }}
               >
-                <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary rounded-full px-4 py-1.5 text-xs font-bold tracking-wider mb-4">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
-                  {slide.badge || 'COURSE'}
-                </div>
-
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-dark mb-3">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-dark mb-4">
                   {slide.title}
                 </h1>
 
-                {slide.subtitle && (
-                  <p className="text-xl sm:text-2xl font-semibold text-primary mb-4">
-                    {slide.subtitle}
-                  </p>
-                )}
-
-                <p className="text-base sm:text-lg text-gray-600 max-w-xl leading-relaxed mb-6">
+                <p className="text-lg sm:text-xl text-gray-600 max-w-xl leading-relaxed mb-6">
                   {slide.description}
                 </p>
 
-                <div className="flex flex-wrap gap-6 mb-8">
+                <div className="flex flex-wrap gap-4 mb-8">
                   {slide.duration && (
-                    <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                      <span className="text-sm text-gray-600">
-                        <span className="font-semibold text-dark">{slide.duration}</span>
-                        <span className="text-gray-400 ml-1">Duration</span>
-                      </span>
+                    <div className="flex items-center gap-2 px-3.5 py-1.5 bg-gray-50 rounded-lg border border-gray-100">
+                      <span className="text-xs text-gray-500">Duration:</span>
+                      <span className="text-sm font-semibold text-gray-800">{slide.duration}</span>
                     </div>
                   )}
                   {slide.nextBatch && (
-                    <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                      <span className="text-sm text-gray-600">
-                        <span className="font-semibold text-dark">{slide.nextBatch}</span>
-                        <span className="text-gray-400 ml-1">Next Batch</span>
-                      </span>
+                    <div className="flex items-center gap-2 px-3.5 py-1.5 bg-gray-50 rounded-lg border border-gray-100">
+                      <span className="text-xs text-gray-500">Next batch:</span>
+                      <span className="text-sm font-semibold text-gray-800">{slide.nextBatch}</span>
                     </div>
                   )}
                 </div>
 
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-3">
                   <motion.button
                     onClick={() => navigate(`/course/${slide.courseSlug || slide.id}`)}
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    className="inline-flex items-center gap-2 bg-primary text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-800 transition-all shadow-xl shadow-primary/25 text-base"
+                    className="inline-flex items-center gap-2 bg-primary text-white font-bold px-7 py-3.5 rounded-xl hover:bg-blue-800 transition-all shadow-lg shadow-primary/25 text-sm"
                   >
                     View Program
-                    <ArrowRight size={18} />
+                    <ArrowRight size={16} />
                   </motion.button>
                   <motion.a
                     href="#courses"
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    className="inline-flex items-center gap-2 border-2 border-gray-200 text-dark font-semibold px-8 py-4 rounded-xl hover:border-primary hover:text-primary transition-all text-base"
+                    className="inline-flex items-center gap-2 border-2 border-gray-200 text-gray-700 font-semibold px-7 py-3.5 rounded-xl hover:border-primary hover:text-primary transition-all text-sm"
                   >
-                    View All Courses
+                    Browse All Courses
                   </motion.a>
                 </div>
               </motion.div>
@@ -223,85 +212,85 @@ const HeroSection = () => {
                 transition={{ duration: 0.4 }}
                 className="relative"
               >
-                <div className="relative w-80 h-96 rounded-3xl bg-gradient-to-br from-primary to-accent/80 p-[2px] shadow-2xl">
+                <div className="relative w-72 h-80 rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 p-[1px] shadow-2xl">
                   <div className="w-full h-full rounded-3xl bg-white p-8 flex flex-col items-center justify-center">
-                    <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${slide.gradient || 'from-primary to-blue-700'} flex items-center justify-center text-white text-4xl font-bold mb-4 shadow-lg`}>
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-blue-700 flex items-center justify-center text-white text-3xl font-bold mb-5 shadow-lg shadow-primary/20 rotate-3">
                       {slide.title.charAt(0)}
                     </div>
-                    <h3 className="text-2xl font-bold text-dark text-center mb-2">{slide.title}</h3>
-                    <p className="text-gray-500 text-sm text-center mb-4">{slide.subtitle}</p>
-                    <div className="flex items-center gap-1 mb-4">
+                    <h3 className="text-xl font-bold text-gray-900 text-center mb-1">{slide.title}</h3>
+                    <p className="text-xs text-gray-500 text-center mb-4">{slide.subtitle}</p>
+                    <div className="flex items-center gap-1 mb-5">
                       {[1,2,3,4,5].map(i => (
-                        <Star key={i} size={14} className="fill-accent text-accent" />
+                        <Star key={i} size={13} className="fill-yellow-400 text-yellow-400" />
                       ))}
+                      <span className="text-xs text-gray-400 ml-1.5">4.7</span>
                     </div>
                     <button
                       onClick={() => navigate(`/course/${slide.courseSlug || slide.id}`)}
-                      className="inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-blue-800 transition-all shadow-lg shadow-primary/25"
+                      className="inline-flex items-center gap-2 bg-gray-900 text-white text-xs font-semibold px-6 py-3 rounded-xl hover:bg-gray-800 transition-all shadow-lg"
                     >
-                      View Program <ArrowRight size={14} />
+                      View Program <ArrowRight size={13} />
                     </button>
                   </div>
                 </div>
 
                 <motion.div
-                  animate={{ y: [-8, 8, -8] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                  className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-lg border border-gray-100 px-5 py-3"
+                  animate={{ y: [-6, 6, -6] }}
+                  transition={{ duration: 3.5, repeat: Infinity }}
+                  className="absolute -top-3 -right-3 bg-white rounded-xl shadow-lg border border-gray-100 px-4 py-2.5"
                 >
                   <div className="flex items-center gap-2">
-                    <Award size={20} className="text-accent" />
+                    <Award size={16} className="text-yellow-500" />
                     <div>
-                      <p className="text-xs text-gray-500">Certification</p>
-                      <p className="text-sm font-bold text-dark">Guaranteed</p>
+                      <p className="text-[10px] text-gray-500">Certification</p>
+                      <p className="text-xs font-bold text-gray-900">Guaranteed</p>
                     </div>
                   </div>
                 </motion.div>
 
                 <motion.div
-                  animate={{ y: [8, -8, 8] }}
-                  transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                  className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-lg border border-gray-100 px-5 py-3"
+                  animate={{ y: [6, -6, 6] }}
+                  transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+                  className="absolute -bottom-3 -left-3 bg-white rounded-xl shadow-lg border border-gray-100 px-4 py-2.5"
                 >
                   <div className="flex items-center gap-2">
-                    <TrendingUp size={20} className="text-green-500" />
+                    <TrendingUp size={16} className="text-green-500" />
                     <div>
-                      <p className="text-xs text-gray-500">Placement</p>
-                      <p className="text-sm font-bold text-dark">95% Rate</p>
+                      <p className="text-[10px] text-gray-500">Placement</p>
+                      <p className="text-xs font-bold text-gray-900">95% Rate</p>
                     </div>
                   </div>
                 </motion.div>
               </motion.div>
             </AnimatePresence>
 
-            <div className="flex items-center gap-4 mt-8">
-              <motion.button
+            <div className="flex items-center gap-3 mt-7">
+              <button
+                type="button"
                 onClick={() => setCurrent(p => (p - 1 + slides.length) % slides.length)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="p-2.5 rounded-full bg-white border border-gray-200 hover:border-primary hover:shadow-md transition-all"
+                className="p-2 rounded-full bg-white border border-gray-200 hover:border-primary hover:shadow-sm transition-all"
               >
-                <ChevronLeft size={18} className="text-gray-600" />
-              </motion.button>
-              <div className="flex gap-2">
+                <ChevronLeft size={16} className="text-gray-500" />
+              </button>
+              <div className="flex gap-1.5">
                 {slides.map((s, i) => (
                   <button
                     key={s.id}
+                    type="button"
                     onClick={() => setCurrent(i)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      i === current ? 'w-8 bg-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === current ? 'w-6 bg-primary' : 'w-1.5 bg-gray-300 hover:bg-gray-400'
                     }`}
                   />
                 ))}
               </div>
-              <motion.button
+              <button
+                type="button"
                 onClick={() => setCurrent(p => (p + 1) % slides.length)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="p-2.5 rounded-full bg-white border border-gray-200 hover:border-primary hover:shadow-md transition-all"
+                className="p-2 rounded-full bg-white border border-gray-200 hover:border-primary hover:shadow-sm transition-all"
               >
-                <ChevronRight size={18} className="text-gray-600" />
-              </motion.button>
+                <ChevronRight size={16} className="text-gray-500" />
+              </button>
             </div>
           </div>
 

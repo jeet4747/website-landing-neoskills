@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Award, Cloud, Users, BookOpen, Zap, Briefcase, BarChart3,
   TrendingUp, Code, Shield, Lightbulb, Cpu,
@@ -42,6 +42,11 @@ const CourseDetail = () => {
   })
   const [formSubmitted, setFormSubmitted] = useState(false)
   const [showEnrollmentToast, setShowEnrollmentToast] = useState(true)
+  const [openFaq, setOpenFaq] = useState(null)
+  const [brochureOpen, setBrochureOpen] = useState(false)
+  const [brochureForm, setBrochureForm] = useState({ name: '', email: '' })
+  const [brochureSent, setBrochureSent] = useState(false)
+  const [brochureError, setBrochureError] = useState('')
 
   useEffect(() => {
     fetchBackendCourses().then(data => {
@@ -330,6 +335,41 @@ const CourseDetail = () => {
           </div>
         </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="bg-white rounded-xl shadow-sm p-6 mb-8"
+        >
+          <h3 className="text-xl font-bold text-gray-800 mb-5 flex items-center gap-2">
+            <LucideIcons.Award size={24} className="text-primary" />
+            Why this course
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { icon: GraduationCap, title: 'Accredited curriculum', desc: 'Aligned with latest exam objectives and industry standards for globally recognised certifications.' },
+              { icon: Users, title: 'Expert instructors', desc: 'Learn from certified professionals with 10+ years of real-world industry experience.' },
+              { icon: BookOpen, title: 'Flexible learning', desc: 'Live online instructor-led sessions with recordings and materials accessible on demand.' },
+              { icon: Briefcase, title: 'Career support', desc: 'Resume guidance, interview prep, and placement assistance to help you land your next role.' },
+              { icon: Clock, title: 'Lifetime access', desc: 'Course materials, updates, and recordings remain available per batch policy.' },
+              { icon: Shield, title: 'Money-back guarantee', desc: 'Risk-free enrollment with transparent refund and transfer policy.' },
+            ].map((item, i) => {
+              const FeatureIcon = item.icon
+              return (
+                <div key={i} className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-primary/20 hover:bg-primary/[0.02] transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <FeatureIcon size={20} className="text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-800 text-sm">{item.title}</h4>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </motion.div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <motion.div
@@ -563,6 +603,27 @@ const CourseDetail = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.67 }}
+              className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+            >
+              <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <LucideIcons.FileText size={20} className="text-primary" />
+                Course brochure
+              </h3>
+              <p className="text-sm text-gray-500 mb-4">Get the detailed syllabus, batch schedule, and fee breakdown delivered to your inbox.</p>
+              <button
+                type="button"
+                onClick={() => { setBrochureOpen(true); setBrochureSent(false); setBrochureError('') }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-primary/10 text-primary font-semibold rounded-xl hover:bg-primary/20 transition-all text-sm"
+              >
+                <LucideIcons.Download size={16} />
+                Download Brochure
+              </button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
               className="bg-white rounded-xl shadow-sm p-6"
             >
@@ -646,6 +707,32 @@ const CourseDetail = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.79 }}
+              className="bg-white rounded-xl shadow-sm p-5 border border-gray-100"
+            >
+              <a
+                href="https://www.google.com/search?q=Neoskills+Learning+Solutions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between"
+              >
+                <div>
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Google Reviews</p>
+                  <div className="flex items-center gap-0.5 mt-1">
+                    {[1,2,3,4,5].map((s) => (
+                      <span key={s} className="text-yellow-400 text-sm">★</span>
+                    ))}
+                    <span className="text-sm font-bold text-gray-800 ml-1.5">4.7</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-0.5">Based on 2,500+ reviews</p>
+                </div>
+                <LucideIcons.ExternalLink size={16} className="text-primary shrink-0" />
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
               className="bg-gradient-to-r from-primary to-primary/90 rounded-xl shadow-lg p-6 text-white"
             >
@@ -686,6 +773,52 @@ const CourseDetail = () => {
           </div>
         </div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mt-16"
+        >
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Frequently asked questions</h2>
+          <p className="text-gray-600 mb-8">Everything you need to know before enrolling.</p>
+          <div className="space-y-3 max-w-3xl">
+            {[
+              { q: 'What certification will I receive?', a: 'You will receive a course completion certificate from NeoSkills. If the program is tied to an official certification (e.g. PMP, AWS, CSM), we also prepare you for the governing body\'s exam — the official certificate is issued directly by that body.' },
+              { q: 'Are classes live or recorded?', a: 'All sessions are instructor-led and conducted live online. Recordings and materials are shared after each class for self-paced revision.' },
+              { q: 'What is the refund policy?', a: 'You can request a full refund within 7 days of enrollment if no sessions have been attended. After the first session, a partial refund or batch transfer option applies. T&C details are shared at checkout.' },
+              { q: 'Do you offer corporate or group training?', a: 'Yes, we offer tailored corporate training programs with volume pricing. Contact us via the form or call +91 89569 63953 for a custom quote.' },
+              { q: 'Is placement assistance included?', a: 'Most certification and upskilling programs include resume review, mock interviews, and job referrals. Specific details vary by program and are shared during onboarding.' },
+            ].map((item, i) => (
+              <div key={i} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-gray-50 transition-colors"
+                >
+                  <span className="font-semibold text-gray-800 text-sm">{item.q}</span>
+                  <LucideIcons.ChevronDown
+                    size={18}
+                    className={`text-gray-500 shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-4 pb-4 text-sm text-gray-600 leading-relaxed">{item.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
         <div className="mt-16">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Other programs</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -717,6 +850,88 @@ const CourseDetail = () => {
         </div>
       </div>
     </div>
+
+    {/* Brochure Modal */}
+    <AnimatePresence>
+      {brochureOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40"
+          onClick={() => setBrochureOpen(false)}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md relative"
+          >
+            <button
+              type="button"
+              onClick={() => setBrochureOpen(false)}
+              className="absolute top-3 right-3 p-1.5 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <LucideIcons.X size={20} />
+            </button>
+
+            {brochureSent ? (
+              <div className="text-center py-6">
+                <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+                  <LucideIcons.CheckCircle size={28} className="text-green-600" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-800 mb-1">Brochure sent!</h3>
+                <p className="text-sm text-gray-500">Check your inbox — we have emailed the brochure for <strong>{course.title}</strong>.</p>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-3 mb-5 pb-4 border-b border-gray-100">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <LucideIcons.FileText size={22} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-800">Download Brochure</h3>
+                    <p className="text-sm text-gray-500">{course.title}</p>
+                  </div>
+                </div>
+                {brochureError && <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-xl text-sm mb-4">{brochureError}</div>}
+                <form onSubmit={(e) => {
+                  e.preventDefault()
+                  setBrochureError('')
+                  emailjs.send('service_62ub16q', 'template_l3twvqg', {
+                    user_name: brochureForm.name,
+                    user_email: brochureForm.email,
+                    user_phone: 'N/A',
+                    course: `${course.title} — Brochure Request`,
+                    message: `Download brochure for ${course.title} (${course.slug})`,
+                    domain: window.location.origin,
+                    source: 'NeoSkills Course Brochure Download',
+                  }, 'S3TiyuUzfI2FRb5RG')
+                    .then(() => setBrochureSent(true))
+                    .catch(() => setBrochureError('Could not send. Please email contact@neoskills.co.in.'))
+                }} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Your name *</label>
+                    <input type="text" required value={brochureForm.name} onChange={(e) => setBrochureForm({...brochureForm, name: e.target.value})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="Rajesh" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email address *</label>
+                    <input type="email" required value={brochureForm.email} onChange={(e) => setBrochureForm({...brochureForm, email: e.target.value})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="rajesh@example.com" />
+                  </div>
+                  <button type="submit" className="w-full flex items-center justify-center gap-2 bg-primary text-white font-semibold py-3 rounded-xl hover:bg-blue-800 transition-all text-sm">
+                    <LucideIcons.Download size={16} />
+                    Send Brochure
+                  </button>
+                  <p className="text-xs text-gray-400 text-center">We will email you the PDF. No spam, ever.</p>
+                </form>
+              </>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+
     {course.enrollmentCount > 0 && showEnrollmentToast && (
       <motion.div
         initial={{ opacity: 0, y: 40, x: 0 }}

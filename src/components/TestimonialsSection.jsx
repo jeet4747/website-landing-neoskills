@@ -156,13 +156,19 @@ const TestimonialsSection = () => {
             viewport={{ once: true }}
             className="mt-16 grid grid-cols-3 gap-6 text-center"
           >
-            <div className="bg-white rounded-xl py-6 px-4 border border-gray-200 shadow-sm">
-              <p className="text-3xl font-bold text-primary">4.9★</p>
+            <a
+              href="https://www.google.com/search?q=Neoskills+Learning+Solutions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white rounded-xl py-6 px-4 border border-gray-200 shadow-sm hover:border-primary/30 hover:shadow-md transition-all block"
+            >
+              <p className="text-3xl font-bold text-primary">4.7★</p>
               <p className="text-sm text-gray-500 mt-1">Google Rating</p>
-            </div>
+              <p className="text-xs text-primary font-semibold mt-0.5">2,500+ reviews →</p>
+            </a>
             <div className="bg-white rounded-xl py-6 px-4 border border-gray-200 shadow-sm">
-              <p className="text-3xl font-bold text-primary">728</p>
-              <p className="text-sm text-gray-500 mt-1">Google Reviews</p>
+              <p className="text-3xl font-bold text-primary">98%</p>
+              <p className="text-sm text-gray-500 mt-1">Success Rate</p>
             </div>
             <div className="bg-white rounded-xl py-6 px-4 border border-gray-200 shadow-sm">
               <p className="text-3xl font-bold text-primary">98%</p>

@@ -64,6 +64,8 @@ const Footer = () => {
                 { label: 'Placements', href: '/placements' },
                 { label: 'Enrollment Guide', href: '/enrollment-guide' },
                 { label: 'FAQ', href: '/faq' },
+                { label: 'Blog', href: '/blog' },
+                { label: 'Compare Courses', href: '/compare' },
                 { label: 'Privacy Policy', href: '/privacy-policy' },
                 { label: 'Terms of Service', href: '/terms-of-service' },
               ].map((link) => (

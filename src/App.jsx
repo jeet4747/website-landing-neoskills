@@ -5,6 +5,7 @@ import ScrollToTop from './components/ScrollToTop.jsx'
 import TopBar from './components/TopBar.jsx'
 import Navbar from './components/Navbar.jsx'
 import HeroSection from './components/HeroSection.jsx'
+import TrustBadges from './components/TrustBadges.jsx'
 import Footer from './components/Footer.jsx'
 import { EnrollProvider } from './context/EnrollContext.jsx'
 
@@ -19,10 +20,12 @@ const CorporateTraining = lazy(() => import('./components/CorporateTraining.jsx'
 const FreeResources = lazy(() => import('./components/FreeResources.jsx'))
 const CareerPathQuiz = lazy(() => import('./components/CareerPathQuiz.jsx'))
 const FAQAccordion = lazy(() => import('./components/FAQAccordion.jsx'))
+const TrainersSection = lazy(() => import('./components/TrainersSection.jsx'))
 const CourseFinderAI = lazy(() => import('./components/CourseFinderAI.jsx'))
 const AICoursesPopup = lazy(() => import('./components/AICoursesPopup.jsx'))
 const LeadPopup = lazy(() => import('./components/LeadPopup.jsx'))
 const WhatsAppPopup = lazy(() => import('./components/WhatsAppPopup.jsx'))
+const StickyCtaBar = lazy(() => import('./components/StickyCtaBar.jsx'))
 // const WebinarPopup = lazy(() => import('./components/WebinarPopup.jsx'))
 
 const Enroll = lazy(() => import('./components/enroll.jsx'))
@@ -38,6 +41,8 @@ const ContactSupport = lazy(() => import('./pages/ContactSupport.jsx'))
 const JobsPage = lazy(() => import('./pages/JobsPage.jsx'))
 const AboutPage = lazy(() => import('./pages/AboutPage.jsx'))
 const WebinarPage = lazy(() => import('./pages/WebinarPage.jsx'))
+const BlogPage = lazy(() => import('./pages/BlogPage.jsx'))
+const CourseCompare = lazy(() => import('./pages/CourseCompare.jsx'))
 const QuickPay = lazy(() => import('./components/QuickPay.jsx'))
 const PostPaymentForm = lazy(() => import('./components/PostPaymentForm.jsx'))
 
@@ -129,6 +134,8 @@ export default function App() {
                         <HeroSection />
                       </section>
 
+                      <TrustBadges />
+
                     <PartneringSection />
 
                     <section id="courses">
@@ -146,6 +153,8 @@ export default function App() {
                     </section>
 
                     <FreeResources />
+
+                    <TrainersSection />
 
                     <section id="testimonials">
                       <TestimonialsSection />
@@ -170,11 +179,13 @@ export default function App() {
               <Route path="/payment/success" element={<PostPaymentForm />} />
               <Route path="/quick-pay" element={<QuickPay />} />
               <Route path="/course/:slug" element={<CourseDetail />} />
+              <Route path="/compare" element={<CourseCompare />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/cookie-policy" element={<CookiePolicy />} />
               <Route path="/faq" element={<FAQPage />} />
+              <Route path="/blog" element={<BlogPage />} />
               <Route path="/enrollment-guide" element={<EnrollmentGuide />} />
               <Route path="/contact-support" element={<ContactSupport />} />
               <Route path="/about" element={<AboutPage />} />
@@ -197,6 +208,7 @@ export default function App() {
           <AICoursesPopup />
           <WhatsAppPopup />
           <LeadPopup />
+          <StickyCtaBar />
           <Footer />
         </div>
       </EnrollProvider>

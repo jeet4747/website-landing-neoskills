@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, MessageSquare, Send, CheckCircle } from 'lucide-react'
+import { Mail, Phone, MapPin, MessageSquare, Send, CheckCircle, Clock, Globe, ExternalLink } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 
 export default function ContactSupport() {
@@ -100,6 +100,77 @@ export default function ContactSupport() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Google Maps & Office */}
+          <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-2xl shadow-sm border overflow-hidden"
+            >
+              <div className="aspect-[16/9] bg-gray-100">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.579662675937!2d73.779747!3d18.558339!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf3f5c5f5c5f%3A0x5c5f5c5f5c5f5c5f!2sBaner%2C+Pune%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="NeoSkills Office Location"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.05 }}
+              className="bg-white rounded-2xl shadow-sm border p-6"
+            >
+              <h3 className="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
+                <MapPin size={20} className="text-primary" />
+                Our office
+              </h3>
+              <div className="space-y-4 text-sm">
+                <div className="flex gap-3">
+                  <MapPin size={18} className="text-primary shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-gray-800">NeoSkills Learning Solutions</p>
+                    <p className="text-gray-500">Office No. 301, Third Floor,<br />Business Square, Baner,<br />Pune — 411045, Maharashtra, India</p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <Clock size={18} className="text-primary shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-gray-800">Business hours</p>
+                    <p className="text-gray-500">Monday – Saturday: 10:00 AM – 7:00 PM IST</p>
+                    <p className="text-gray-400 text-xs mt-0.5">Sunday: Closed</p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <Globe size={18} className="text-primary shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-gray-800">Connect with us</p>
+                    <div className="flex gap-3 mt-1.5">
+                      <a href="https://www.linkedin.com/company/neoskills" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline text-xs flex items-center gap-1">
+                        LinkedIn <ExternalLink size={12} />
+                      </a>
+                      <a href="https://www.youtube.com/@neoskills" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline text-xs flex items-center gap-1">
+                        YouTube <ExternalLink size={12} />
+                      </a>
+                      <a href="https://www.instagram.com/neoskills" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline text-xs flex items-center gap-1">
+                        Instagram <ExternalLink size={12} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

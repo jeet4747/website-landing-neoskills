@@ -45,6 +45,17 @@ const team = [
   { name: 'Priya Sharma', role: 'Head of Training', initials: 'PS' },
   { name: 'Amit Verma', role: 'Director — Cloud & DevOps', initials: 'AV' },
   { name: 'Sneha Patel', role: 'Head — Placements', initials: 'SP' },
+  { name: 'Vikram Mehta', role: 'Agile & ITIL Practice Lead', initials: 'VM' },
+  { name: 'Ananya Das', role: 'Cybersecurity Practice Lead', initials: 'AD' },
+  { name: 'Rohit Joshi', role: 'Head — Sales & Partnerships', initials: 'RJ' },
+  { name: 'Neha Kapoor', role: 'Senior PMP Trainer', initials: 'NK' },
+  { name: 'Siddharth Rao', role: 'AWS & Cloud Architect Trainer', initials: 'SR' },
+  { name: 'Kiran Deshmukh', role: 'Senior Scrum & Agile Coach', initials: 'KD' },
+  { name: 'Meera Iyer', role: 'ITIL & Service Management Lead', initials: 'MI' },
+  { name: 'Arun Nair', role: 'Data Science & AI Lead', initials: 'AN' },
+  { name: 'Pooja Singh', role: 'Head — Learner Success', initials: 'PS' },
+  { name: 'Deepak Gupta', role: 'Director — Operations', initials: 'DG' },
+  { name: 'Kavita Menon', role: 'Head — Marketing & Brand', initials: 'KM' },
 ]
 
 const partners = ['AWS', 'Microsoft', 'PMI', 'PeopleCert', 'Scrum Alliance', 'IEEE', 'SAFe']
@@ -269,7 +280,7 @@ export default function AboutPage() {
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Leadership</h2>
               <p className="text-sm text-gray-500 max-w-lg mx-auto">Industry veterans committed to your success.</p>
             </motion.div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {team.map((t, i) => (
                 <motion.div
                   key={t.name}
