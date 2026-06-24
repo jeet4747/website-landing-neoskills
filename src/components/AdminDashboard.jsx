@@ -404,7 +404,21 @@ export default function AdminDashboard() {
     setUnsaved(true)
   }
 
-  const selected = courses.find(c => (c.slug || c.id) === selectedSlug) || null
+  const rawSelected = courses.find(c => (c.slug || c.id) === selectedSlug) || null
+  const selected = useMemo(() => {
+    if (!rawSelected) return null
+    const gen = getAllResolvedCourses().find(g =>
+      (g.slug || '').toLowerCase() === (rawSelected.slug || '').toLowerCase() ||
+      (g.title || '').toLowerCase() === (rawSelected.title || '').toLowerCase()
+    )
+    return gen ? {
+      ...rawSelected,
+      examBody: gen.examBody ?? '',
+      examBodyUrl: gen.examBodyUrl ?? '',
+      certValidity: gen.certValidity ?? '',
+      careerOpportunities: gen.careerOpportunities ?? [],
+    } : rawSelected
+  }, [rawSelected])
   const filtered = courses.filter(c =>
     !search || (c.title || c.fullTitle || c.slug || '').toLowerCase().includes(search.toLowerCase())
   )
