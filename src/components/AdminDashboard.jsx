@@ -108,7 +108,7 @@ export default function AdminDashboard() {
       if (Array.isArray(data) && data.length > 0) {
         const fallback = getAllResolvedCourses()
         const merged = data.map(apiCourse => {
-          const gen = fallback.find(c => c.slug === apiCourse.slug || c.id === apiCourse.id)
+          const gen = fallback.find(c => (c.slug || '').toLowerCase() === (apiCourse.slug || '').toLowerCase() || c.id === apiCourse.id)
           return gen
             ? {
                 ...gen,
