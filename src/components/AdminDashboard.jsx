@@ -116,10 +116,12 @@ export default function AdminDashboard() {
                 stats: { ...gen.stats, ...(apiCourse.stats || {}) },
                 feeDetails: { ...gen.feeDetails, ...(apiCourse.feeDetails || {}) },
                 certificate: { ...gen.certificate, ...(apiCourse.certificate || {}) },
-                examBody: gen.examBody || apiCourse.examBody,
-                examBodyUrl: gen.examBodyUrl || apiCourse.examBodyUrl,
-                certValidity: gen.certValidity || apiCourse.certValidity,
-                careerOpportunities: gen.careerOpportunities?.length ? gen.careerOpportunities : (apiCourse.careerOpportunities || []),
+                examBody: apiCourse.examDataCleaned ? (apiCourse.examBody || gen.examBody) : (gen.examBody || apiCourse.examBody),
+                examBodyUrl: apiCourse.examDataCleaned ? (apiCourse.examBodyUrl || gen.examBodyUrl) : (gen.examBodyUrl || apiCourse.examBodyUrl),
+                certValidity: apiCourse.examDataCleaned ? (apiCourse.certValidity || gen.certValidity) : (gen.certValidity || apiCourse.certValidity),
+                careerOpportunities: apiCourse.examDataCleaned
+                  ? (apiCourse.careerOpportunities?.length ? apiCourse.careerOpportunities : gen.careerOpportunities)
+                  : (gen.careerOpportunities?.length ? gen.careerOpportunities : (apiCourse.careerOpportunities || [])),
                 enrollmentCount: apiCourse.enrollmentCount ?? gen.enrollmentCount,
               }
             : apiCourse
@@ -423,7 +425,17 @@ export default function AdminDashboard() {
     setSuccess('')
     const fixed = courses.map(c => {
       if (!c.feeDetails) return { ...c, feeDetails: { total: 0 } }
-      return c
+      if (c.examDataCleaned) return c
+      const gen = getAllResolvedCourses().find(g => g.slug === c.slug || g.id === c.id)
+      if (!gen) return { ...c, examDataCleaned: true }
+      return {
+        ...c,
+        examDataCleaned: true,
+        examBody: gen.examBody || null,
+        examBodyUrl: gen.examBodyUrl || null,
+        certValidity: gen.certValidity || null,
+        careerOpportunities: gen.careerOpportunities?.length ? gen.careerOpportunities : [],
+      }
     })
     try {
       const res = await fetch(COURSES_API, {
