@@ -113,20 +113,32 @@ export default function AdminDashboard() {
             c.id === apiCourse.id ||
             (c.title || '').toLowerCase() === (apiCourse.title || '').toLowerCase()
           )
-          return gen
+          const base = gen
             ? {
                 ...gen,
                 ...apiCourse,
                 stats: { ...gen.stats, ...(apiCourse.stats || {}) },
                 feeDetails: { ...gen.feeDetails, ...(apiCourse.feeDetails || {}) },
                 certificate: { ...gen.certificate, ...(apiCourse.certificate || {}) },
-                examBody: gen.examBody ?? apiCourse.examBody ?? '',
-                examBodyUrl: gen.examBodyUrl ?? apiCourse.examBodyUrl ?? '',
-                certValidity: gen.certValidity ?? apiCourse.certValidity ?? '',
-                careerOpportunities: gen.careerOpportunities ?? apiCourse.careerOpportunities ?? [],
                 enrollmentCount: apiCourse.enrollmentCount ?? gen.enrollmentCount,
               }
-            : apiCourse
+            : { ...apiCourse }
+          const genOk = gen || fallback.find(c =>
+            (c.slug || '').toLowerCase() === (apiCourse.slug || '').toLowerCase() ||
+            (c.title || '').toLowerCase() === (apiCourse.title || '').toLowerCase()
+          )
+          if (genOk) {
+            base.examBody = genOk.examBody ?? ''
+            base.examBodyUrl = genOk.examBodyUrl ?? ''
+            base.certValidity = genOk.certValidity ?? ''
+            base.careerOpportunities = genOk.careerOpportunities ?? []
+          } else {
+            base.examBody = ''
+            base.examBodyUrl = ''
+            base.certValidity = ''
+            base.careerOpportunities = []
+          }
+          return base
         })
         setCourses(merged)
         if (!selectedSlug) setSelectedSlug(merged[0]?.slug || merged[0]?.id || '')
