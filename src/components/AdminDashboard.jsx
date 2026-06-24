@@ -116,10 +116,10 @@ export default function AdminDashboard() {
                 stats: { ...gen.stats, ...(apiCourse.stats || {}) },
                 feeDetails: { ...gen.feeDetails, ...(apiCourse.feeDetails || {}) },
                 certificate: { ...gen.certificate, ...(apiCourse.certificate || {}) },
-                examBody: apiCourse.examBody || gen.examBody,
-                examBodyUrl: apiCourse.examBodyUrl || gen.examBodyUrl,
+                examBody: gen.examBody || apiCourse.examBody,
+                examBodyUrl: gen.examBodyUrl || apiCourse.examBodyUrl,
                 certValidity: apiCourse.certValidity || gen.certValidity,
-                careerOpportunities: apiCourse.careerOpportunities?.length ? apiCourse.careerOpportunities : gen.careerOpportunities,
+                careerOpportunities: gen.careerOpportunities?.length ? gen.careerOpportunities : (apiCourse.careerOpportunities || []),
                 enrollmentCount: apiCourse.enrollmentCount ?? gen.enrollmentCount,
               }
             : apiCourse
@@ -422,10 +422,8 @@ export default function AdminDashboard() {
     setError('')
     setSuccess('')
     const fixed = courses.map(c => {
-      if (!c.feeDetails) return c
-      const training = Number(c.feeDetails.training || 0)
-      const exam = Number(c.feeDetails.exam || 0)
-      return { ...c, feeDetails: { ...c.feeDetails, total: training + exam } }
+      if (!c.feeDetails) return { ...c, feeDetails: { total: 0 } }
+      return c
     })
     try {
       const res = await fetch(COURSES_API, {
@@ -990,54 +988,15 @@ export default function AdminDashboard() {
                               <Field label="Cert Validity (e.g. 3 years)" value={selected.certValidity || ''} onChange={v => setField('certValidity', v)} />
                               <Field label="Enrollment Count" value={String(selected.enrollmentCount ?? 0)} onChange={v => setField('enrollmentCount', Number(v) || 0)} />
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Training Fee (₹)</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Total Program Fee (₹)</label>
                                 <input
                                   type="number"
-                                  value={selected.feeDetails?.training ?? selected.trainingFee ?? ''}
-                                  onChange={e => {
-                                    const training = Number(e.target.value)
-                                    const exam = Number(selected.feeDetails?.exam || 0)
-                                    setField('feeDetails.training', training)
-                                    setField('feeDetails.total', training + exam)
-                                  }}
+                                  value={selected.feeDetails?.total ?? ''}
+                                  onChange={e => setField('feeDetails.total', Number(e.target.value))}
                                   className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                                 />
-                              </div>
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Exam Fee (₹)</label>
-                                <input
-                                  type="number"
-                                  value={selected.feeDetails?.exam ?? ''}
-                                  onChange={e => {
-                                    const exam = Number(e.target.value)
-                                    const training = Number(selected.feeDetails?.training || 0)
-                                    setField('feeDetails.exam', exam)
-                                    setField('feeDetails.total', training + exam)
-                                  }}
-                                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                                />
-                              </div>
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Support Fee (₹)</label>
-                                <input
-                                  type="number"
-                                  value={selected.feeDetails?.support ?? ''}
-                                  onChange={e => setField('feeDetails.support', Number(e.target.value))}
-                                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                                />
-                              </div>
-                              <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Total (₹)</label>
-                                <div className="flex items-center gap-2">
-                                  <input
-                                    type="number"
-                                    value={selected.feeDetails?.total ?? ''}
-                                    onChange={e => setField('feeDetails.total', Number(e.target.value))}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                                  />
-                                </div>
                               </div>
                             </div>
                             <TextAreaField label="Fee Disclaimer" value={selected.feeDisclaimer || ''} onChange={v => setField('feeDisclaimer', v)} rows={2} />

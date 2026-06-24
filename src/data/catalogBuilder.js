@@ -10,6 +10,8 @@ import {
 
 /** Always compute total as training + exam — never trust stored total. */
 export function getTotal(c) {
+  const total = Number(c.feeDetails?.total ?? 0)
+  if (total > 0) return total
   const training = Number(c.feeDetails?.training ?? c.trainingFee ?? 0)
   const exam = Number(c.feeDetails?.exam ?? 0)
   if (training > 0 || exam > 0) return training + exam
