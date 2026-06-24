@@ -108,7 +108,11 @@ export default function AdminDashboard() {
       if (Array.isArray(data) && data.length > 0) {
         const fallback = getAllResolvedCourses()
         const merged = data.map(apiCourse => {
-          const gen = fallback.find(c => (c.slug || '').toLowerCase() === (apiCourse.slug || '').toLowerCase() || c.id === apiCourse.id)
+          const gen = fallback.find(c =>
+            (c.slug || '').toLowerCase() === (apiCourse.slug || '').toLowerCase() ||
+            c.id === apiCourse.id ||
+            (c.title || '').toLowerCase() === (apiCourse.title || '').toLowerCase()
+          )
           return gen
             ? {
                 ...gen,
@@ -116,10 +120,10 @@ export default function AdminDashboard() {
                 stats: { ...gen.stats, ...(apiCourse.stats || {}) },
                 feeDetails: { ...gen.feeDetails, ...(apiCourse.feeDetails || {}) },
                 certificate: { ...gen.certificate, ...(apiCourse.certificate || {}) },
-                examBody: gen.examBody || apiCourse.examBody,
-                examBodyUrl: gen.examBodyUrl || apiCourse.examBodyUrl,
-                certValidity: gen.certValidity || apiCourse.certValidity,
-                careerOpportunities: gen.careerOpportunities?.length ? gen.careerOpportunities : (apiCourse.careerOpportunities || []),
+                examBody: gen.examBody ?? apiCourse.examBody ?? '',
+                examBodyUrl: gen.examBodyUrl ?? apiCourse.examBodyUrl ?? '',
+                certValidity: gen.certValidity ?? apiCourse.certValidity ?? '',
+                careerOpportunities: gen.careerOpportunities ?? apiCourse.careerOpportunities ?? [],
                 enrollmentCount: apiCourse.enrollmentCount ?? gen.enrollmentCount,
               }
             : apiCourse
