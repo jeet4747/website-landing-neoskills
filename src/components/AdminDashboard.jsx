@@ -118,7 +118,7 @@ export default function AdminDashboard() {
                 certificate: { ...gen.certificate, ...(apiCourse.certificate || {}) },
                 examBody: gen.examBody || apiCourse.examBody,
                 examBodyUrl: gen.examBodyUrl || apiCourse.examBodyUrl,
-                certValidity: apiCourse.certValidity || gen.certValidity,
+                certValidity: gen.certValidity || apiCourse.certValidity,
                 careerOpportunities: gen.careerOpportunities?.length ? gen.careerOpportunities : (apiCourse.careerOpportunities || []),
                 enrollmentCount: apiCourse.enrollmentCount ?? gen.enrollmentCount,
               }
