@@ -116,10 +116,10 @@ export default function AdminDashboard() {
                 stats: { ...gen.stats, ...(apiCourse.stats || {}) },
                 feeDetails: { ...gen.feeDetails, ...(apiCourse.feeDetails || {}) },
                 certificate: { ...gen.certificate, ...(apiCourse.certificate || {}) },
-                examBody: gen.examBody || apiCourse.examBody,
-                examBodyUrl: gen.examBodyUrl || apiCourse.examBodyUrl,
+                examBody: apiCourse.examBody || gen.examBody,
+                examBodyUrl: apiCourse.examBodyUrl || gen.examBodyUrl,
                 certValidity: apiCourse.certValidity || gen.certValidity,
-                careerOpportunities: gen.careerOpportunities?.length ? gen.careerOpportunities : (apiCourse.careerOpportunities || []),
+                careerOpportunities: apiCourse.careerOpportunities?.length ? apiCourse.careerOpportunities : gen.careerOpportunities,
                 enrollmentCount: apiCourse.enrollmentCount ?? gen.enrollmentCount,
               }
             : apiCourse
