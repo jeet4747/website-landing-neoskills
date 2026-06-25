@@ -305,12 +305,7 @@ app.get('/api/courses', async (req, res) => {
 app.post('/api/courses', requireAdmin, async (req, res) => {
   let newCourses = req.body
   if (!Array.isArray(newCourses)) return res.status(400).json({ error: 'Courses must be an array' })
-  newCourses = newCourses.map(c => {
-    if (!c.feeDetails) return c
-    const training = Number(c.feeDetails.training || 0)
-    const exam = Number(c.feeDetails.exam || 0)
-    return { ...c, feeDetails: { ...c.feeDetails, total: training + exam } }
-  })
+  // trust whatever the admin sent — no recalculation that would overwrite admin's values
   try {
     await setData('courses', newCourses)
     res.json({ success: true })
