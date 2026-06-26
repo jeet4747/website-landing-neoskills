@@ -73,7 +73,7 @@ export default function ContactSupport() {
                     <textarea required rows={5} value={form.message} onChange={e => setForm({...form, message: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" /></div>
                     <label className="flex items-start gap-2.5 text-xs text-gray-500 leading-relaxed cursor-pointer">
                       <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
-                      <span>I Authorize Event Update to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
+                      <span>I Authorize NEOSKILLS to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
                     </label>
                     <motion.button type="submit" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="btn-primary flex items-center gap-2 py-3 px-6">
                       <Send size={18} /> Send Message

@@ -158,10 +158,10 @@ export async function loadCourseBySlug(slug) {
         stats: { ...gen.stats, ...(course.stats || {}) },
         feeDetails: { ...gen.feeDetails, ...(course.feeDetails || {}) },
         certificate: { ...gen.certificate, ...(course.certificate || {}) },
-        examBody: course.examBody ?? gen.examBody ?? '',
-        examBodyUrl: course.examBodyUrl ?? gen.examBodyUrl ?? '',
-        certValidity: course.certValidity ?? gen.certValidity ?? '',
-        careerOpportunities: course.careerOpportunities ?? gen.careerOpportunities ?? [],
+        examBody: course.examBody || gen.examBody || '',
+        examBodyUrl: course.examBodyUrl || gen.examBodyUrl || '',
+        certValidity: course.certValidity || gen.certValidity || '',
+        careerOpportunities: course.careerOpportunities?.length ? course.careerOpportunities : (gen.careerOpportunities || []),
         enrollmentCount: course.enrollmentCount ?? gen.enrollmentCount,
       }
     }

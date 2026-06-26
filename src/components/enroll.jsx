@@ -194,7 +194,7 @@ export default function Enroll() {
             <div className="form-footer">
               <label className="flex items-start gap-2.5 text-xs text-gray-500 leading-relaxed cursor-pointer">
                 <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
-                <span>I Authorize Event Update to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
+                <span>I Authorize NEOSKILLS to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
               </label>
               <p>By submitting, you agree to our enrollment terms. A confirmation will be sent to your email after payment.</p>
               <button type="submit" disabled={submitting} className="submit-btn">
