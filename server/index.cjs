@@ -305,17 +305,7 @@ app.get('/api/courses', async (req, res) => {
 app.post('/api/courses', requireAdmin, async (req, res) => {
   let newCourses = req.body
   if (!Array.isArray(newCourses)) return res.status(400).json({ error: 'Courses must be an array' })
-  // Strip computed fields that should always be generated from title matching,
-  // unless the admin explicitly provided a non-empty, non-default value.
-  newCourses = newCourses.map(c => {
-    const cleaned = { ...c }
-    // Only keep examBody if admin actually typed something different from the default
-    // This prevents accidental persistence of stale/generated values
-    delete cleaned.examBody
-    delete cleaned.examBodyUrl
-    delete cleaned.certValidity
-    return cleaned
-  })
+  // trust whatever the admin sent — no recalculation that would overwrite admin's values
   try {
     await setData('courses', newCourses)
     res.json({ success: true })
