@@ -358,11 +358,11 @@ function examBodyInfo(row) {
   if (t.includes('cbap') || t.includes('iiba') || t.includes('ecba') || t.includes('ccba'))
     return { name: 'IIBA', url: 'https://www.iiba.org' }
   if (t.includes('servicenow')) return { name: 'ServiceNow', url: 'https://www.servicenow.com/certification' }
-  if (t.includes('scrum master') || t.includes('csm') || t.includes('cspo') || t.includes('a-csm') || t.includes('a-cspo'))
-    return { name: 'Scrum Alliance', url: 'https://www.scrumalliance.org' }
   if (t.includes('psm') || t.includes('pspo') || t.includes('professional scrum'))
     return { name: 'Scrum.org', url: 'https://www.scrum.org' }
   if (t.includes('safe') || t.includes('sasm')) return { name: 'Scaled Agile', url: 'https://scaledagile.com' }
+  if (t.includes('scrum master') || t.includes('csm') || t.includes('cspo') || t.includes('a-csm') || t.includes('a-cspo'))
+    return { name: 'Scrum Alliance', url: 'https://www.scrumalliance.org' }
   if (t.includes('devops exin') || t.includes('exin')) return { name: 'EXIN', url: 'https://www.exin.com' }
   if (t.includes('power bi')) return { name: 'Microsoft', url: 'https://learn.microsoft.com/en-us/credentials' }
   if (t.includes('cpmai')) return { name: 'PMI\u00ae', url: 'https://www.pmi.org/certifications/ai-project-management-cpmai' }
@@ -389,9 +389,9 @@ function certValidityInfo(row) {
   if (t.includes('istqb')) return 'No expiry (lifetime)'
   if (t.includes('cbap') || t.includes('iiba') || t.includes('ecba') || t.includes('ccba')) return '3 years'
   if (t.includes('servicenow')) return '1 year'
-  if (t.includes('scrum master') || t.includes('csm') || t.includes('cspo') || t.includes('a-csm') || t.includes('a-cspo')) return '2 years'
   if (t.includes('psm') || t.includes('pspo') || t.includes('professional scrum')) return 'No expiry (lifetime)'
   if (t.includes('safe') || t.includes('sasm')) return '1 year'
+  if (t.includes('scrum master') || t.includes('csm') || t.includes('cspo') || t.includes('a-csm') || t.includes('a-cspo')) return '2 years'
   if (t.includes('devops exin') || t.includes('exin')) return 'No expiry (lifetime)'
   if (t.includes('power bi')) return '1 year'
   if (t.includes('cpmai')) return '3 years'
