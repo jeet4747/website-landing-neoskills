@@ -305,12 +305,41 @@ app.get('/api/courses', async (req, res) => {
 app.post('/api/courses', requireAdmin, async (req, res) => {
   let newCourses = req.body
   if (!Array.isArray(newCourses)) return res.status(400).json({ error: 'Courses must be an array' })
-  // trust whatever the admin sent — no recalculation that would overwrite admin's values
+  // Strip computed fields that should always be generated from title matching,
+  // unless the admin explicitly provided a non-empty, non-default value.
+  newCourses = newCourses.map(c => {
+    const cleaned = { ...c }
+    // Only keep examBody if admin actually typed something different from the default
+    // This prevents accidental persistence of stale/generated values
+    delete cleaned.examBody
+    delete cleaned.examBodyUrl
+    delete cleaned.certValidity
+    return cleaned
+  })
   try {
     await setData('courses', newCourses)
     res.json({ success: true })
   } catch (err) {
     res.status(500).json({ error: 'Failed to save courses' })
+  }
+})
+
+// ─── One-time cleanup: strip stale computed fields from DB ───
+app.post('/api/reset-exam-fields', requireAdmin, async (req, res) => {
+  try {
+    const data = await getData('courses')
+    if (!Array.isArray(data) || data.length === 0) return res.json({ status: 'ok', message: 'No courses to clean' })
+    const cleaned = data.map(c => {
+      const copy = { ...c }
+      delete copy.examBody
+      delete copy.examBodyUrl
+      delete copy.certValidity
+      return copy
+    })
+    await setData('courses', cleaned)
+    res.json({ status: 'ok', message: `Cleaned examBody/certValidity from ${cleaned.length} courses` })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
   }
 })
 
