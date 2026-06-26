@@ -481,6 +481,58 @@ const CourseDetail = () => {
                 </ul>
               </div>
             </motion.div>
+
+            {/* Urgency — Limited Seats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+              className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border-2 border-amber-200 p-6"
+            >
+              <div className="flex items-start gap-3 mb-5">
+                <div className="w-11 h-11 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
+                  <Clock size={22} className="text-amber-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-amber-800">Limited seats — Next batch starting soon</h3>
+                  <p className="text-amber-700 text-sm mt-0.5">
+                    Demand is high and cohorts fill quickly. Secure your spot before registration closes.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3 mb-5">
+                {[
+                  { value: '10,000+', label: 'Professionals trained', icon: Users },
+                  { value: '4.7★', label: 'Google rating', icon: TrendingUp },
+                  { value: '95%', label: 'Exam success rate', icon: Shield },
+                ].map((stat, i) => {
+                  const StatIcon = stat.icon
+                  return (
+                    <div key={i} className="bg-white/70 backdrop-blur rounded-lg p-3 text-center border border-amber-100">
+                      <StatIcon size={18} className="text-amber-600 mx-auto mb-1" />
+                      <p className="text-lg font-bold text-amber-900">{stat.value}</p>
+                      <p className="text-xs text-amber-700">{stat.label}</p>
+                    </div>
+                  )
+                })}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  try { localStorage.setItem('preferredCourse', course.title) } catch (e) { /* ignore */ }
+                  openEnroll({
+                    course: course.fullTitle || course.title,
+                    baseAmount: catalogAmount,
+                  })
+                }}
+                className="w-full bg-amber-600 text-white font-bold py-3 rounded-lg hover:bg-amber-700 transition-colors flex items-center justify-center gap-2"
+              >
+                <Zap size={18} />
+                Reserve Your Seat
+              </button>
+            </motion.div>
           </div>
 
           <div className="space-y-6">
