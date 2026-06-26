@@ -719,7 +719,7 @@ const CourseDetail = () => {
                 Official certification body
               </h3>
               <p className="text-sm font-semibold text-gray-800">{course.examBody}</p>
-              {course.examBodyUrl && (
+              {course.examBodyUrl && course.examBody !== 'NeoSkills' && (
                 <a
                   href={course.examBodyUrl}
                   target="_blank"
@@ -736,7 +736,9 @@ const CourseDetail = () => {
                 </div>
               )}
               <p className="text-xs text-gray-500 mt-3 leading-relaxed">
-                The official certification is issued and administered by the body listed above. NeoSkills training focuses on skill building and exam readiness.
+                {course.examBody === 'NeoSkills'
+                  ? 'NeoSkills issues a course completion certificate recognised by industry partners. Certification details are shared at enrollment.'
+                  : 'The official certification is issued and administered by the body listed above. NeoSkills training focuses on skill building and exam readiness.'}
               </p>
             </motion.div>
             )}

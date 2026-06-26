@@ -372,6 +372,34 @@ function examBodyInfo(row) {
   return null
 }
 
+function certValidityInfo(row) {
+  const t = (row.title || '').toLowerCase()
+
+  if (t.includes('pmp') || t.includes('capm')) return '3 years'
+  if (t.includes('prince2')) return '3 years'
+  if (t.includes('itil')) return '3 years (renewable)'
+  if (t.includes('aws')) return '3 years'
+  if (t.includes('azure') || t.includes('microsoft')) return '1 year'
+  if (t.includes('google cloud')) return '3 years'
+  if (t.includes('comptia')) return '3 years'
+  if (t.includes('ceh') || t.includes('ethical')) return '3 years'
+  if (t.includes('cisa') || t.includes('cism')) return '3 years'
+  if (t.includes('togaf')) return 'No expiry (lifetime)'
+  if (t.includes('six sigma')) return 'No expiry (lifetime)'
+  if (t.includes('istqb')) return 'No expiry (lifetime)'
+  if (t.includes('cbap') || t.includes('iiba') || t.includes('ecba') || t.includes('ccba')) return '3 years'
+  if (t.includes('servicenow')) return '1 year'
+  if (t.includes('scrum master') || t.includes('csm') || t.includes('cspo') || t.includes('a-csm') || t.includes('a-cspo')) return '2 years'
+  if (t.includes('psm') || t.includes('pspo') || t.includes('professional scrum')) return 'No expiry (lifetime)'
+  if (t.includes('safe') || t.includes('sasm')) return '1 year'
+  if (t.includes('devops exin') || t.includes('exin')) return 'No expiry (lifetime)'
+  if (t.includes('power bi')) return '1 year'
+  if (t.includes('cpmai')) return '3 years'
+  if (t.includes('compensation') || t.includes('ccp') || t.includes('worldatwork')) return '3 years'
+
+  return 'Course completion — no expiry'
+}
+
 function buildGeneratedBase(row) {
   const listed = effectiveListedPrice(row)
   const num = (v) => {
@@ -440,9 +468,9 @@ function buildGeneratedBase(row) {
       listed == null
         ? 'Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use "Enquire" if pricing shows as on request.'
         : 'Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.',
-    examBody: ebInfo ? ebInfo.name : '',
-    examBodyUrl: ebInfo ? ebInfo.url : '',
-    certValidity: '',
+    examBody: ebInfo ? ebInfo.name : 'NeoSkills',
+    examBodyUrl: ebInfo ? ebInfo.url : 'https://www.neoskills.co.in',
+    certValidity: certValidityInfo(row),
     enrollmentCount: 0,
     careerOpportunities: defaultCareerRoles(row),
     trainers: genericTrainers(),
