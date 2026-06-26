@@ -70,13 +70,26 @@ const Navbar = () => {
       return
     }
     const qLower = q.toLowerCase()
+    const cache = courseCache.current || []
+    const cacheMap = {}
+    for (const bc of cache) {
+      if (bc.slug) cacheMap[bc.slug.toLowerCase()] = bc
+    }
     const all = allCourses
-    const results = all.filter((c) =>
-      c.title.toLowerCase().includes(qLower) ||
-      (c.fullTitle || '').toLowerCase().includes(qLower) ||
-      (c.category || '').toLowerCase().includes(qLower) ||
-      (c.slug || '').toLowerCase().includes(qLower)
-    )
+    const results = all.filter((c) => {
+      const bc = cacheMap[c.slug?.toLowerCase()]
+      const title = (bc?.title || c.title || '').toLowerCase()
+      const fullTitle = (bc?.fullTitle || c.fullTitle || '').toLowerCase()
+      return (
+        title.includes(qLower) ||
+        fullTitle.includes(qLower) ||
+        (c.category || '').toLowerCase().includes(qLower) ||
+        (c.slug || '').toLowerCase().includes(qLower)
+      )
+    }).map(c => {
+      const bc = cacheMap[c.slug?.toLowerCase()]
+      return bc ? { ...c, title: bc.title || c.title, fullTitle: bc.fullTitle || c.fullTitle } : c
+    })
     setSearchResults(results.slice(0, 8))
   }
 
