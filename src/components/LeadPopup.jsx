@@ -161,6 +161,11 @@ export default function LeadPopup() {
                     <p className="text-red-500 text-xs text-center">{error}</p>
                   )}
 
+                  <label className="flex items-start gap-2.5 text-xs text-gray-500 leading-relaxed cursor-pointer">
+                    <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
+                    <span>I Authorize Event Update to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
+                  </label>
+
                   <div className="flex items-center gap-2 text-xs text-gray-400">
                     <Users size={12} />
                     <span>We respect your privacy. No spam, guaranteed.</span>

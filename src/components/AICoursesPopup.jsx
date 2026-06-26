@@ -136,6 +136,10 @@ export default function AICoursesPopup() {
                 <input type="text" name="name" value={form.name} onChange={handleChange} placeholder="Full Name *" required className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary" />
                 <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="Email Address *" required className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary" />
                 <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="Phone Number *" required className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary" />
+                <label className="flex items-start gap-2.5 text-xs text-gray-500 leading-relaxed cursor-pointer">
+                  <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
+                  <span>I Authorize Event Update to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
+                </label>
                 <div className="flex gap-2">
                   <button type="button" onClick={() => setStep('list')} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50">Back</button>
                   <button type="submit" disabled={sending} className="flex-1 bg-purple-700 text-white font-bold py-3 rounded-xl hover:bg-purple-800 transition-all flex items-center justify-center gap-2 disabled:opacity-70">

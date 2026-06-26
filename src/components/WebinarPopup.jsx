@@ -127,6 +127,11 @@ export default function WebinarPopup() {
                   <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="Phone Number *" required
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
 
+                  <label className="flex items-start gap-2.5 text-xs text-gray-500 leading-relaxed cursor-pointer">
+                    <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
+                    <span>I Authorize Event Update to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
+                  </label>
+
                   <motion.button type="submit" disabled={sending} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                     className="w-full bg-gradient-to-r from-purple-700 to-blue-700 text-white font-bold py-3.5 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
                   >

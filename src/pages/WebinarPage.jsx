@@ -284,6 +284,11 @@ export default function WebinarPage() {
 
                       {error && <p className="text-red-500 text-xs">{error}</p>}
 
+                      <label className="flex items-start gap-2.5 text-xs text-gray-500 leading-relaxed cursor-pointer">
+                        <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
+                        <span>I Authorize Event Update to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
+                      </label>
+
                       <button
                         type="submit"
                         disabled={sending}

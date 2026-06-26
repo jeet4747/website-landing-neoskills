@@ -416,8 +416,8 @@ export default function JobsPage() {
                         className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="your@email.com" />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                      <input type="tel" value={appForm.phone} onChange={e => setAppForm(f => ({ ...f, phone: e.target.value }))}
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                      <input type="tel" required value={appForm.phone} onChange={e => setAppForm(f => ({ ...f, phone: e.target.value }))}
                         className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="+91 98765 43210" />
                     </div>
                     <div>
@@ -439,6 +439,11 @@ export default function JobsPage() {
                       <textarea value={appForm.message} onChange={e => setAppForm(f => ({ ...f, message: e.target.value }))} rows={3}
                         className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Anything you'd like to add..." />
                     </div>
+
+                    <label className="flex items-start gap-2.5 text-xs text-gray-500 leading-relaxed cursor-pointer">
+                      <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
+                      <span>I Authorize Event Update to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
+                    </label>
 
                     {appError && (
                       <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 px-4 py-3 rounded-xl border border-red-100">
