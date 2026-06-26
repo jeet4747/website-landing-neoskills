@@ -413,10 +413,10 @@ export default function AdminDashboard() {
     )
     return gen ? {
       ...rawSelected,
-      examBody: gen.examBody ?? '',
-      examBodyUrl: gen.examBodyUrl ?? '',
-      certValidity: gen.certValidity ?? '',
-      careerOpportunities: gen.careerOpportunities ?? [],
+      examBody: rawSelected.examBody ?? gen.examBody ?? '',
+      examBodyUrl: rawSelected.examBodyUrl ?? gen.examBodyUrl ?? '',
+      certValidity: rawSelected.certValidity ?? gen.certValidity ?? '',
+      careerOpportunities: rawSelected.careerOpportunities ?? gen.careerOpportunities ?? [],
     } : rawSelected
   }, [rawSelected])
   const filtered = courses.filter(c =>
