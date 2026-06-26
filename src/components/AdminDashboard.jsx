@@ -128,10 +128,10 @@ export default function AdminDashboard() {
             (c.title || '').toLowerCase() === (apiCourse.title || '').toLowerCase()
           )
           if (genOk) {
-            base.examBody = (apiCourse.examBody && apiCourse.examBody !== genOk.examBody) ? apiCourse.examBody : genOk.examBody ?? ''
-            base.examBodyUrl = (apiCourse.examBodyUrl && apiCourse.examBodyUrl !== genOk.examBodyUrl) ? apiCourse.examBodyUrl : genOk.examBodyUrl ?? ''
-            base.certValidity = (apiCourse.certValidity && apiCourse.certValidity !== genOk.certValidity) ? apiCourse.certValidity : genOk.certValidity ?? ''
-            base.careerOpportunities = apiCourse.careerOpportunities?.length ? apiCourse.careerOpportunities : (genOk.careerOpportunities ?? [])
+            base.examBody = genOk.examBody ?? ''
+            base.examBodyUrl = genOk.examBodyUrl ?? ''
+            base.certValidity = genOk.certValidity ?? ''
+            base.careerOpportunities = genOk.careerOpportunities ?? []
           } else {
             base.examBody = ''
             base.examBodyUrl = ''
@@ -413,10 +413,10 @@ export default function AdminDashboard() {
     )
     return gen ? {
       ...rawSelected,
-      examBody: (rawSelected.examBody && rawSelected.examBody !== gen.examBody) ? rawSelected.examBody : gen.examBody || '',
-      examBodyUrl: (rawSelected.examBodyUrl && rawSelected.examBodyUrl !== gen.examBodyUrl) ? rawSelected.examBodyUrl : gen.examBodyUrl || '',
-      certValidity: (rawSelected.certValidity && rawSelected.certValidity !== gen.certValidity) ? rawSelected.certValidity : gen.certValidity || '',
-      careerOpportunities: rawSelected.careerOpportunities?.length ? rawSelected.careerOpportunities : (gen.careerOpportunities || []),
+      examBody: gen.examBody || '',
+      examBodyUrl: gen.examBodyUrl || '',
+      certValidity: gen.certValidity || '',
+      careerOpportunities: gen.careerOpportunities || [],
     } : rawSelected
   }, [rawSelected])
   const filtered = courses.filter(c =>
