@@ -42,6 +42,9 @@ const ContactForm = () => {
     'CBAP',
     'Six Sigma',
     'ServiceNow',
+    'ServiceNow Admin',
+    'ServiceNow Developer',
+    'ServiceNow Admin & Developer',
     'ISTQB Foundation',
     'CPMAI & AI Project Management',
   ]

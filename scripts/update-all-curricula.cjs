@@ -1043,32 +1043,104 @@ const curricula = {
     ]
   },
 
-  'servicenow-demo': {
-    description: 'This interactive ServiceNow Demo course provides a comprehensive platform overview through hands-on demonstrations. Explore ITSM workflows, platform features, automation capabilities, and integration through guided walkthroughs.',
+  'servicenow-admin': {
+    description: 'ServiceNow Certified System Administrator (CSA) training focused on platform configuration, user and access management, CMDB, service catalog, and ITSM process automation for enterprise administration.',
     syllabus: [
-      { week: 'Module 1 — ServiceNow Platform Overview and Navigation', topics: [
-        'Platform architecture, modules, and ecosystem walkthrough',
-        'UI demonstration — menus, lists, forms, and dashboards',
-        'CMDB and asset management live demo',
-        'User roles, access control, and security overview'
+      { week: 'Module 1 — Platform Administration & User Management', topics: [
+        'ServiceNow platform overview — architecture, capabilities, and instance management',
+        'UI customization — lists, forms, views, sections, and branding',
+        'User administration — users, groups, roles, and delegation',
+        'Security — ACLs, application scopes, and data segregation'
       ]},
-      { week: 'Module 2 — ITSM Process Demonstrations', topics: [
-        'Incident Management — ticketing, assignment, and resolution flow',
-        'Problem Management — RCA, known errors, and workaround management',
-        'Change Management — CAB, approvals, standard vs emergency changes',
-        'Service Catalog — request items, variables, and fulfillment process'
+      { week: 'Module 2 — Configuration Management & Database Administration', topics: [
+        'CMDB — Configuration Management Database, CSDM model, and discovery',
+        'Data schema — tables, fields, dictionary entries, and relationships',
+        'Import sets — data sources, transform maps, and scheduling',
+        'Reporting — dashboards, metrics, performance analytics, and homepages'
       ]},
-      { week: 'Module 3 — Automation and Workflow Showcase', topics: [
-        'Flow Designer — creating automated approval and assignment flows',
-        'Business rules, scheduled jobs, and notification automation',
-        'Service Portal and employee self-service experience',
-        'Virtual Agent and AI-powered automation demonstrations'
+      { week: 'Module 3 — Service Operations & Automation', topics: [
+        'Service Catalog — categories, items, variables, and record producers',
+        'Knowledge Management — articles, categories, feedback, and publishing',
+        'Flow Designer — triggers, conditions, actions, approvals, and subflows',
+        'Notifications — email templates, subscriptions, and SMS/push configuration'
       ]},
-      { week: 'Module 4 — Integration, Reporting, and Advanced Features', topics: [
-        'REST and SOAP API integration demonstrations',
-        'Reporting, dashboards, and performance analytics showcase',
-        'ITOM and Cloud Management capabilities overview',
-        'Platform roadmap, resources, and next steps for certification'
+      { week: 'Module 4 — ITSM Processes & CSA Exam Preparation', topics: [
+        'Incident, Problem, and Change Management — workflows and best practices',
+        'SLAs, escalation rules, and assignment workflows',
+        'Service Level Management — SLAs, OLAs, and metrics',
+        'CSA certification exam preparation — practice tests and review'
+      ]}
+    ]
+  },
+
+  'servicenow-developer': {
+    description: 'ServiceNow Certified Application Developer (CAD) training covering scoped application development, client and server scripting, service portal, REST/SOAP integrations, and automated testing frameworks.',
+    syllabus: [
+      { week: 'Module 1 — Application Development Fundamentals', topics: [
+        'Application scoping — scoped applications vs global scope',
+        'App Studio — application creation, modules, navigation, and properties',
+        'Client Scripts — g_form, g_user, client-side validation, and catalog client scripts',
+        'UI Policies — dynamic form behavior, field visibility, and mandatory conditions'
+      ]},
+      { week: 'Module 2 — Server-Side Development & Automation', topics: [
+        'Business Rules — server-side logic, data manipulation, and advanced conditions',
+        'Script Includes — reusable server-side functions and GlideRecord',
+        'Flow Designer — advanced flows, actions, conditions, and approvals',
+        'Scheduled Jobs — background automation, maintenance, and data synchronization'
+      ]},
+      { week: 'Module 3 — Service Portal & Integration', topics: [
+        'Service Portal — widgets, pages, AngularJS, and portal configuration',
+        'REST API — inbound and outbound REST integrations, and REST messages',
+        'SOAP web services — SOAP messages, WSDL, and Integration Hub',
+        'Update sets — capturing, exporting, reviewing, and deploying changes'
+      ]},
+      { week: 'Module 4 — Advanced Development & CAD Exam Preparation', topics: [
+        'Agile Development — story management, team development, and UAT',
+        'Automated Test Framework (ATF) — test creation, suites, and scheduling',
+        'Source control integration — Git, branching, and application repositories',
+        'CAD certification exam preparation — practice tests and review'
+      ]}
+    ]
+  },
+
+  'servicenow-admin-and-developer': {
+    description: 'Complete dual-track ServiceNow training combining CSA administration and CAD developer curriculum. Covers platform administration, user management, CMDB, ITSM processes, application development, service portal, integrations, and advanced automation.',
+    syllabus: [
+      { week: 'Module 1 — Platform Administration & User Management', topics: [
+        'ServiceNow platform overview — architecture, capabilities, and instance management',
+        'UI customization — lists, forms, views, sections, and branding',
+        'User administration — users, groups, roles, and delegation',
+        'Security — ACLs, application scopes, and data segregation'
+      ]},
+      { week: 'Module 2 — Configuration Management & Database Administration', topics: [
+        'CMDB — Configuration Management Database, CSDM model, and discovery',
+        'Data schema — tables, fields, dictionary entries, and relationships',
+        'Import sets — data sources, transform maps, and scheduling',
+        'Reporting — dashboards, metrics, performance analytics, and homepages'
+      ]},
+      { week: 'Module 3 — ITSM Processes & Service Operations', topics: [
+        'Incident, Problem, and Change Management — workflows and best practices',
+        'Service Catalog — categories, items, variables, and record producers',
+        'Knowledge Management — articles, categories, feedback, and publishing',
+        'SLAs, escalation rules, and assignment workflows'
+      ]},
+      { week: 'Module 4 — Application Development Fundamentals', topics: [
+        'Application scoping — scoped applications vs global scope',
+        'App Studio — application creation, modules, navigation, and properties',
+        'Client Scripts — g_form, g_user, client-side validation, and catalog client scripts',
+        'UI Policies — dynamic form behavior, field visibility, and mandatory conditions'
+      ]},
+      { week: 'Module 5 — Server-Side Development & Automation', topics: [
+        'Business Rules — server-side logic, data manipulation, and advanced conditions',
+        'Script Includes — reusable server-side functions and GlideRecord',
+        'Flow Designer — advanced flows, actions, conditions, and approvals',
+        'Automated Test Framework (ATF) — test creation, suites, and scheduling'
+      ]},
+      { week: 'Module 6 — Service Portal, Integration & Certification Prep', topics: [
+        'Service Portal — widgets, pages, AngularJS, and portal configuration',
+        'REST API and SOAP web services — integrations and Integration Hub',
+        'Update sets and source control — application repositories and Git',
+        'CSA + CAD certification exam preparation — practice tests and review'
       ]}
     ]
   },

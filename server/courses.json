@@ -3125,81 +3125,83 @@
     "learnMoreUrl": "https://www.neoskills.co.in/"
   },
   {
-    "slug": "servicenow-demo",
+    "slug": "servicenow-admin",
     "category": "IT Service & Architecture",
-    "title": "ServiceNow Demo",
-    "fullTitle": "ServiceNow Demo",
+    "title": "ServiceNow Admin",
+    "fullTitle": "ServiceNow Admin",
     "icon": "Users",
-    "summary": "ServiceNow Demo — explore ServiceNow platform capabilities through hands-on demonstrations and guided walkthroughs.",
-    "description": "This interactive ServiceNow Demo course provides a comprehensive platform overview through hands-on demonstrations. Explore ITSM workflows, platform features, automation capabilities, and integration through guided walkthroughs.",
+    "summary": "ServiceNow Admin — master platform administration, user management, CMDB, and ITSM processes for CSA certification.",
+    "description": "ServiceNow Certified System Administrator (CSA) training focused on platform configuration, user and access management, CMDB, service catalog, and ITSM process automation for enterprise administration.",
     "stats": {
-      "duration": "Demo Session",
-      "nextBatch": "Every Monday • 7 AM & 7 PM",
-      "level": "Beginner",
+      "duration": "4-6 weeks",
+      "nextBatch": "23-05-2026",
+      "level": "Intermediate",
       "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
       "hours": "Contact hours vary by certification; see syllabus modules below",
       "certificate": "Vendor or professional credential pathway (where applicable)",
       "placement": "Resume guidance and interview preparation support (program-dependent)"
     },
     "highlights": [
-      "Structured, instructor-led coverage for ServiceNow Demo",
-      "Materials, assignments, and cohort coordination through NeoSkills",
+      "Structured, instructor-led coverage for ServiceNow platform administration",
+      "Hands-on configuration — UI, forms, workflows, and CMDB",
+      "User and access management — roles, groups, ACLs, and scoping",
       "Exam or certification guidance where applicable",
       "Access to recordings and updates per batch policy"
     ],
     "whoShouldJoin": [
-      "Beginners building foundational skills",
+      "IT administrators managing ServiceNow platform operations",
+      "Working professionals upgrading or certifying",
       "Teams aligning to industry-standard practices",
       "Anyone seeking a clear learning path with mentor support"
     ],
     "syllabus": [
       {
-        "week": "Module 1 — ServiceNow Platform Overview and Navigation",
+        "week": "Module 1 — Platform Administration & User Management",
         "topics": [
-          "Platform architecture, modules, and ecosystem walkthrough",
-          "UI demonstration — menus, lists, forms, and dashboards",
-          "CMDB and asset management live demo",
-          "User roles, access control, and security overview"
+          "ServiceNow platform overview — architecture, capabilities, and instance management",
+          "UI customization — lists, forms, views, sections, and branding",
+          "User administration — users, groups, roles, and delegation",
+          "Security — ACLs, application scopes, and data segregation"
         ]
       },
       {
-        "week": "Module 2 — ITSM Process Demonstrations",
+        "week": "Module 2 — Configuration Management & Database Administration",
         "topics": [
-          "Incident Management — ticketing, assignment, and resolution flow",
-          "Problem Management — RCA, known errors, and workaround management",
-          "Change Management — CAB, approvals, standard vs emergency changes",
-          "Service Catalog — request items, variables, and fulfillment process"
+          "CMDB — Configuration Management Database, CSDM model, and discovery",
+          "Data schema — tables, fields, dictionary entries, and relationships",
+          "Import sets — data sources, transform maps, and scheduling",
+          "Reporting — dashboards, metrics, performance analytics, and homepages"
         ]
       },
       {
-        "week": "Module 3 — Automation and Workflow Showcase",
+        "week": "Module 3 — Service Operations & Automation",
         "topics": [
-          "Flow Designer — creating automated approval and assignment flows",
-          "Business rules, scheduled jobs, and notification automation",
-          "Service Portal and employee self-service experience",
-          "Virtual Agent and AI-powered automation demonstrations"
+          "Service Catalog — categories, items, variables, and record producers",
+          "Knowledge Management — articles, categories, feedback, and publishing",
+          "Flow Designer — triggers, conditions, actions, approvals, and subflows",
+          "Notifications — email templates, subscriptions, and SMS/push configuration"
         ]
       },
       {
-        "week": "Module 4 — Integration, Reporting, and Advanced Features",
+        "week": "Module 4 — ITSM Processes & CSA Exam Preparation",
         "topics": [
-          "REST and SOAP API integration demonstrations",
-          "Reporting, dashboards, and performance analytics showcase",
-          "ITOM and Cloud Management capabilities overview",
-          "Platform roadmap, resources, and next steps for certification"
+          "Incident, Problem, and Change Management — workflows and best practices",
+          "SLAs, escalation rules, and assignment workflows",
+          "Service Level Management — SLAs, OLAs, and metrics",
+          "CSA certification exam preparation — practice tests and review"
         ]
       }
     ],
     "certificate": {
-      "title": "ServiceNow Demo — credential pathway",
+      "title": "ServiceNow CSA — credential pathway",
       "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
       "image": "/images/nsl-logo.svg"
     },
     "feeDetails": {
-      "training": 0,
-      "exam": 0,
-      "support": 0,
-      "total": 0,
+      "training": 25000,
+      "exam": 28800,
+      "support": 25000,
+      "total": 53800,
       "emi": "EMI or installment options may be available — ask admissions",
       "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
       "includes": [
@@ -3208,7 +3210,225 @@
         "Batch coordination and learner success check-ins"
       ]
     },
-    "feeDisclaimer": "Final fees, taxes, and vendor exam costs are confirmed at enrollment. Use \"Enquire\" if pricing shows as on request.",
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "trainers": [
+      {
+        "name": "NeoSkills Instructor Team",
+        "role": "Certified practitioner trainers",
+        "experience": "10+ years combined",
+        "certifications": "Industry certifications aligned to this track",
+        "image": "/images/nsl_logo__Logo_.svg",
+        "bio": "NeoSkills trainers combine delivery experience with structured exam and workplace preparation, aligned with programs listed on neoskills.co.in."
+      }
+    ],
+    "categorySlug": "it-service-and-architecture",
+    "learnMoreUrl": "https://www.neoskills.co.in/"
+  },
+  {
+    "slug": "servicenow-developer",
+    "category": "IT Service & Architecture",
+    "title": "ServiceNow Developer",
+    "fullTitle": "ServiceNow Developer",
+    "icon": "Users",
+    "summary": "ServiceNow Developer — build applications, integrations, and automation workflows for CAD certification.",
+    "description": "ServiceNow Certified Application Developer (CAD) training covering scoped application development, client and server scripting, service portal, REST/SOAP integrations, and automated testing frameworks.",
+    "stats": {
+      "duration": "6-8 weeks",
+      "nextBatch": "23-05-2026",
+      "level": "Advanced",
+      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "hours": "Contact hours vary by certification; see syllabus modules below",
+      "certificate": "Vendor or professional credential pathway (where applicable)",
+      "placement": "Resume guidance and interview preparation support (program-dependent)"
+    },
+    "highlights": [
+      "Structured, instructor-led coverage for ServiceNow application development",
+      "Client and server-side scripting — Business Rules, Client Scripts, Script Includes",
+      "Service Portal — widgets, pages, and AngularJS development",
+      "Integration — REST, SOAP, and Integration Hub",
+      "Access to recordings and updates per batch policy"
+    ],
+    "whoShouldJoin": [
+      "Developers building applications on the ServiceNow platform",
+      "IT professionals transitioning to ServiceNow development",
+      "Teams aligning to industry-standard practices",
+      "Anyone seeking a clear learning path with mentor support"
+    ],
+    "syllabus": [
+      {
+        "week": "Module 1 — Application Development Fundamentals",
+        "topics": [
+          "Application scoping — scoped applications vs global scope",
+          "App Studio — application creation, modules, navigation, and properties",
+          "Client Scripts — g_form, g_user, client-side validation, and catalog client scripts",
+          "UI Policies — dynamic form behavior, field visibility, and mandatory conditions"
+        ]
+      },
+      {
+        "week": "Module 2 — Server-Side Development & Automation",
+        "topics": [
+          "Business Rules — server-side logic, data manipulation, and advanced conditions",
+          "Script Includes — reusable server-side functions and GlideRecord",
+          "Flow Designer — advanced flows, actions, conditions, and approvals",
+          "Scheduled Jobs — background automation, maintenance, and data synchronization"
+        ]
+      },
+      {
+        "week": "Module 3 — Service Portal & Integration",
+        "topics": [
+          "Service Portal — widgets, pages, AngularJS, and portal configuration",
+          "REST API — inbound and outbound REST integrations, and REST messages",
+          "SOAP web services — SOAP messages, WSDL, and Integration Hub",
+          "Update sets — capturing, exporting, reviewing, and deploying changes"
+        ]
+      },
+      {
+        "week": "Module 4 — Advanced Development & CAD Exam Preparation",
+        "topics": [
+          "Agile Development — story management, team development, and UAT",
+          "Automated Test Framework (ATF) — test creation, suites, and scheduling",
+          "Source control integration — Git, branching, and application repositories",
+          "CAD certification exam preparation — practice tests and review"
+        ]
+      }
+    ],
+    "certificate": {
+      "title": "ServiceNow CAD — credential pathway",
+      "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
+      "image": "/images/nsl-logo.svg"
+    },
+    "feeDetails": {
+      "training": 25000,
+      "exam": 28800,
+      "support": 25000,
+      "total": 53800,
+      "emi": "EMI or installment options may be available — ask admissions",
+      "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
+      "includes": [
+        "Live training and mentor support",
+        "Practice materials and assignments (where applicable)",
+        "Batch coordination and learner success check-ins"
+      ]
+    },
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "trainers": [
+      {
+        "name": "NeoSkills Instructor Team",
+        "role": "Certified practitioner trainers",
+        "experience": "10+ years combined",
+        "certifications": "Industry certifications aligned to this track",
+        "image": "/images/nsl_logo__Logo_.svg",
+        "bio": "NeoSkills trainers combine delivery experience with structured exam and workplace preparation, aligned with programs listed on neoskills.co.in."
+      }
+    ],
+    "categorySlug": "it-service-and-architecture",
+    "learnMoreUrl": "https://www.neoskills.co.in/"
+  },
+  {
+    "slug": "servicenow-admin-and-developer",
+    "category": "IT Service & Architecture",
+    "title": "ServiceNow Admin & Developer",
+    "fullTitle": "ServiceNow Admin & Developer",
+    "icon": "Users",
+    "summary": "ServiceNow Admin & Developer — complete dual-track training covering CSA administration and CAD development for full-stack platform expertise.",
+    "description": "Complete dual-track ServiceNow training combining CSA administration and CAD developer curriculum. Covers platform administration, user management, CMDB, ITSM processes, application development, service portal, integrations, and advanced automation.",
+    "stats": {
+      "duration": "8-10 weeks",
+      "nextBatch": "23-05-2026",
+      "level": "Advanced",
+      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "hours": "Contact hours vary by certification; see syllabus modules below",
+      "certificate": "Vendor or professional credential pathway (where applicable)",
+      "placement": "Resume guidance and interview preparation support (program-dependent)"
+    },
+    "highlights": [
+      "Complete dual-track — CSA administration + CAD development",
+      "Platform administration — user management, CMDB, ITSM, and automation",
+      "Application development — scripting, service portal, and integrations",
+      "Exam preparation for both CSA and CAD certifications",
+      "Access to recordings and updates per batch policy"
+    ],
+    "whoShouldJoin": [
+      "Professionals seeking full-stack ServiceNow expertise",
+      "IT administrators expanding into platform development",
+      "Teams aligning to industry-standard practices",
+      "Anyone seeking a clear learning path with mentor support"
+    ],
+    "syllabus": [
+      {
+        "week": "Module 1 — Platform Administration & User Management",
+        "topics": [
+          "ServiceNow platform overview — architecture, capabilities, and instance management",
+          "UI customization — lists, forms, views, sections, and branding",
+          "User administration — users, groups, roles, and delegation",
+          "Security — ACLs, application scopes, and data segregation"
+        ]
+      },
+      {
+        "week": "Module 2 — Configuration Management & Database Administration",
+        "topics": [
+          "CMDB — Configuration Management Database, CSDM model, and discovery",
+          "Data schema — tables, fields, dictionary entries, and relationships",
+          "Import sets — data sources, transform maps, and scheduling",
+          "Reporting — dashboards, metrics, performance analytics, and homepages"
+        ]
+      },
+      {
+        "week": "Module 3 — ITSM Processes & Service Operations",
+        "topics": [
+          "Incident, Problem, and Change Management — workflows and best practices",
+          "Service Catalog — categories, items, variables, and record producers",
+          "Knowledge Management — articles, categories, feedback, and publishing",
+          "SLAs, escalation rules, and assignment workflows"
+        ]
+      },
+      {
+        "week": "Module 4 — Application Development Fundamentals",
+        "topics": [
+          "Application scoping — scoped applications vs global scope",
+          "App Studio — application creation, modules, navigation, and properties",
+          "Client Scripts — g_form, g_user, client-side validation, and catalog client scripts",
+          "UI Policies — dynamic form behavior, field visibility, and mandatory conditions"
+        ]
+      },
+      {
+        "week": "Module 5 — Server-Side Development & Automation",
+        "topics": [
+          "Business Rules — server-side logic, data manipulation, and advanced conditions",
+          "Script Includes — reusable server-side functions and GlideRecord",
+          "Flow Designer — advanced flows, actions, conditions, and approvals",
+          "Automated Test Framework (ATF) — test creation, suites, and scheduling"
+        ]
+      },
+      {
+        "week": "Module 6 — Service Portal, Integration & Certification Prep",
+        "topics": [
+          "Service Portal — widgets, pages, AngularJS, and portal configuration",
+          "REST API and SOAP web services — integrations and Integration Hub",
+          "Update sets and source control — application repositories and Git",
+          "CSA + CAD certification exam preparation — practice tests and review"
+        ]
+      }
+    ],
+    "certificate": {
+      "title": "ServiceNow CSA + CAD — credential pathway",
+      "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
+      "image": "/images/nsl-logo.svg"
+    },
+    "feeDetails": {
+      "training": 25000,
+      "exam": 28800,
+      "support": 25000,
+      "total": 53800,
+      "emi": "EMI or installment options may be available — ask admissions",
+      "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
+      "includes": [
+        "Live training and mentor support",
+        "Practice materials and assignments (where applicable)",
+        "Batch coordination and learner success check-ins"
+      ]
+    },
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
     "trainers": [
       {
         "name": "NeoSkills Instructor Team",
