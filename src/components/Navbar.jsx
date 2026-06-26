@@ -10,6 +10,7 @@ const categoryIcons = {
   'agile-scrum': Users,
   'cybersecurity': Shield,
   'it-service-management': Layers,
+  'it-service-and-architecture': Layers,
   'data-science': BarChart3,
   'business-intelligence': BarChart3,
   'software-development': Code,
@@ -20,9 +21,10 @@ const categoryIcons = {
   'togaf-architecture': Lightbulb,
   'salesforce': Cloud,
   'risk-management': Shield,
+  'quality-management': Award,
 }
 
-const popularSlugs = ['pmp', 'aws-cloud-practitioner', 'certified-scrum-master-csm', 'itil-4-foundation', 'microsoft-azure-az-900', 'capm', 'prince2-foundation', 'six-sigma-green-belt', 'comptia-security', 'power-bi']
+const popularSlugs = ['pmp', 'aws-cloud-practitioner', 'certified-scrum-master-csm', 'itil-4-foundation', 'microsoft-azure-az-900', 'capm', 'prince2-foundation', 'six-sigma-green-belt', 'comptia-security', 'power-bi', 'servicenow-admin', 'servicenow-developer']
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -67,9 +69,13 @@ const Navbar = () => {
       setSearchResults([])
       return
     }
-    const all = courseCache.current || allCourses
+    const qLower = q.toLowerCase()
+    const all = allCourses
     const results = all.filter((c) =>
-      c.title.toLowerCase().includes(q.toLowerCase())
+      c.title.toLowerCase().includes(qLower) ||
+      (c.fullTitle || '').toLowerCase().includes(qLower) ||
+      (c.category || '').toLowerCase().includes(qLower) ||
+      (c.slug || '').toLowerCase().includes(qLower)
     )
     setSearchResults(results.slice(0, 8))
   }
