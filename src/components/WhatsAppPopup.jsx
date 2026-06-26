@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, X, Users, ArrowRight } from 'lucide-react'
 
-const WHATSAPP_LINK = 'https://wa.me/919975214585'
+const WHATSAPP_NUMBER = '919975214585'
+
+function whatsappLink() {
+  const page = typeof window !== 'undefined' ? window.location.href : 'https://neoskills.co.in'
+  const msg = `Hi, I was browsing ${page} and would like to know more about your courses. Could you please help me with the details?`
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`
+}
 
 export default function WhatsAppPopup() {
   const [show, setShow] = useState(false)
@@ -83,7 +89,7 @@ export default function WhatsAppPopup() {
                 </div>
 
                 <a
-                  href={WHATSAPP_LINK}
+                  href={whatsappLink()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full bg-green-500 text-white font-bold py-3.5 rounded-xl hover:bg-green-600 transition-all flex items-center justify-center gap-2"
