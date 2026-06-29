@@ -44,7 +44,7 @@ const CourseDetail = () => {
   const [showEnrollmentToast, setShowEnrollmentToast] = useState(true)
   const [openFaq, setOpenFaq] = useState(null)
   const [brochureOpen, setBrochureOpen] = useState(false)
-  const [brochureForm, setBrochureForm] = useState({ name: '', email: '' })
+  const [brochureForm, setBrochureForm] = useState({ name: '', email: '', phone: '' })
   const [brochureSent, setBrochureSent] = useState(false)
   const [brochureError, setBrochureError] = useState('')
 
@@ -962,7 +962,7 @@ const CourseDetail = () => {
                   emailjs.send('service_62ub16q', 'template_l3twvqg', {
                     user_name: brochureForm.name,
                     user_email: brochureForm.email,
-                    user_phone: 'N/A',
+                    user_phone: brochureForm.phone,
                     course: `${course.title} — Brochure Request`,
                     message: `Download brochure for ${course.title} (${course.slug})`,
                     domain: window.location.origin,
@@ -978,6 +978,10 @@ const CourseDetail = () => {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Email address *</label>
                     <input type="email" required value={brochureForm.email} onChange={(e) => setBrochureForm({...brochureForm, email: e.target.value})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="rajesh@example.com" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                    <input type="tel" required value={brochureForm.phone} onChange={(e) => setBrochureForm({...brochureForm, phone: e.target.value})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" placeholder="+91" />
                   </div>
                   <button type="submit" className="w-full flex items-center justify-center gap-2 bg-primary text-white font-semibold py-3 rounded-xl hover:bg-blue-800 transition-all text-sm">
                     <LucideIcons.Download size={16} />
