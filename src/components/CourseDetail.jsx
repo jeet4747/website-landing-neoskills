@@ -842,13 +842,25 @@ const CourseDetail = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Frequently asked questions</h2>
           <p className="text-gray-600 mb-8">Everything you need to know before enrolling.</p>
           <div className="space-y-3 max-w-3xl">
-            {[
-              { q: 'What certification will I receive?', a: 'You will receive a course completion certificate from NeoSkills. If the program is tied to an official certification (e.g. PMP, AWS, CSM), we also prepare you for the governing body\'s exam — the official certificate is issued directly by that body.' },
-              { q: 'Are classes live or recorded?', a: 'All sessions are instructor-led and conducted live online. Recordings and materials are shared after each class for self-paced revision.' },
-              { q: 'What is the refund policy?', a: 'You can request a full refund within 7 days of enrollment if no sessions have been attended. After the first session, a partial refund or batch transfer option applies. T&C details are shared at checkout.' },
-              { q: 'Do you offer corporate or group training?', a: 'Yes, we offer tailored corporate training programs with volume pricing. Contact us via the form or call +91 89569 63953 for a custom quote.' },
-              { q: 'Is placement assistance included?', a: 'Most certification and upskilling programs include resume review, mock interviews, and job referrals. Specific details vary by program and are shared during onboarding.' },
-            ].map((item, i) => (
+            {((() => {
+              const perCourse = {
+                'professional-scrum-with-kanban-psk': [
+                  { q: 'What is the difference between PSK I and other Scrum certifications?', a: 'PSK I focuses on combining Scrum with Kanban practices, flow metrics, and managing work-in-progress. Unlike CSM or PSM which cover Scrum fundamentals, PSK I teaches you how to visualize workflow, limit WIP, and optimize flow within a Scrum framework.' },
+                  { q: 'Do I need prior Scrum experience to take PSK I?', a: 'Yes, it is recommended that you have at least 6 months of Scrum experience or hold a PSM I / CSM certification. PSK I is an advanced certification that builds on existing Scrum knowledge.' },
+                  { q: 'How does Kanban complement Scrum in the PSK I course?', a: 'Kanban provides visual workflow management techniques that enhance Scrum by making work items visible, limiting WIP to reduce context switching, and using flow metrics (cycle time, throughput) to predict delivery and identify bottlenecks.' },
+                  { q: 'What is the exam format for PSK I?', a: 'The PSK I assessment is a 60-minute, 40-question multiple-choice exam administered by Scrum.org. You need at least 85% to pass. The exam tests your understanding of how to apply Kanban within a Scrum context.' },
+                  { q: 'How long is the PSK I certification valid?', a: 'The Professional Scrum with Kanban (PSK I) certification from Scrum.org is a lifetime certification — it does not expire and does not require renewal.' },
+                ],
+              }
+              const slug = (course.slug || '').toLowerCase()
+              return perCourse[slug] || [
+                { q: 'What certification will I receive?', a: 'You will receive a course completion certificate from NeoSkills. If the program is tied to an official certification (e.g. PMP, AWS, CSM), we also prepare you for the governing body\'s exam — the official certificate is issued directly by that body.' },
+                { q: 'Are classes live or recorded?', a: 'All sessions are instructor-led and conducted live online. Recordings and materials are shared after each class for self-paced revision.' },
+                { q: 'What is the refund policy?', a: 'You can request a full refund within 7 days of enrollment if no sessions have been attended. After the first session, a partial refund or batch transfer option applies. T&C details are shared at checkout.' },
+                { q: 'Do you offer corporate or group training?', a: 'Yes, we offer tailored corporate training programs with volume pricing. Contact us via the form or call +91 89569 63953 for a custom quote.' },
+                { q: 'Is placement assistance included?', a: 'Most certification and upskilling programs include resume review, mock interviews, and job referrals. Specific details vary by program and are shared during onboarding.' },
+              ]
+            })()).map((item, i) => (
               <div key={i} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                 <button
                   type="button"
