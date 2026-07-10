@@ -818,7 +818,7 @@ const CourseDetail = () => {
                   whileTap={{ scale: 0.95 }}
                   className="w-full bg-white text-primary font-bold py-3 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  Enroll — ₹{catalogAmount.toLocaleString('en-IN')} (inc GST)
+                  Enroll — ₹{catalogAmount.toLocaleString('en-IN')} (+18% GST)
                 </motion.button>
               ) : (
                 <button

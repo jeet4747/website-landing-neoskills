@@ -161,7 +161,7 @@ export async function loadCourseBySlug(slug) {
         examBody: gen.examBody || '',
         examBodyUrl: gen.examBodyUrl || '',
         certValidity: course.certValidity || gen.certValidity || '',
-        careerOpportunities: gen.careerOpportunities || [],
+        careerOpportunities: course.careerOpportunities ?? gen.careerOpportunities ?? [],
         enrollmentCount: course.enrollmentCount ?? gen.enrollmentCount,
       }
     }

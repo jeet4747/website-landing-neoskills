@@ -133,7 +133,7 @@ export default function AdminDashboard() {
             base.examBodyUrl = genOk.examBodyUrl || ''
             // certValidity preserves admin override, falls back to generated
             base.certValidity = base.certValidity || genOk.certValidity || ''
-            base.careerOpportunities = genOk.careerOpportunities ?? []
+            base.careerOpportunities = base.careerOpportunities ?? genOk.careerOpportunities ?? []
           } else {
             base.examBody = ''
             base.examBodyUrl = ''
@@ -424,8 +424,6 @@ export default function AdminDashboard() {
       ...rawSelected,
       examBody: gen.examBody || '',
       examBodyUrl: gen.examBodyUrl || '',
-      certValidity: gen.certValidity || '',
-      careerOpportunities: gen.careerOpportunities || [],
     } : rawSelected
   }, [rawSelected])
   const filtered = courses.filter(c =>
