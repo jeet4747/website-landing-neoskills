@@ -80,6 +80,7 @@ function buildFlatRows() {
           categoryName,
           categorySlug: categorySlug(categoryName),
           iconName: iconNameFromComponent(course.icon),
+          syllabus: course.syllabus,
         })
       })
     }
@@ -444,7 +445,7 @@ function buildGeneratedBase(row) {
       'Teams aligning to industry-standard practices',
       'Anyone seeking a clear learning path with mentor support',
     ],
-    syllabus: defaultSyllabus(row),
+    syllabus: row.syllabus || defaultSyllabus(row),
     certificate: {
       title: `${row.title} — credential pathway`,
       description:
