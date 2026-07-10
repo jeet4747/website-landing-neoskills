@@ -356,6 +356,15 @@ export const courseStructure = {
             cohort: '23-05-2026',
             trainingExam: 45000,
           },
+          {
+            title: 'Professional Scrum with Kanban (PSK)',
+            icon: Zap,
+            description: 'Scrum.org PSK certification — apply Kanban practices within Scrum to improve flow, transparency, and delivery predictability.',
+            level: 'Intermediate',
+            duration: '2 weeks',
+            cohort: 'Coming Soon',
+            trainingExam: 35000,
+          },
         ],
       },
 

@@ -15,6 +15,7 @@ const allCourses = [
   { keywords: ['aws', 'amazon web services', 'cloud practitioner'], title: 'AWS Cloud Practitioner', cat: 'Cloud' },
   { keywords: ['azure', 'microsoft azure', 'az-900'], title: 'Microsoft Azure AZ-900', cat: 'Cloud' },
   { keywords: ['scrum', 'scrum master', 'csm', 'psm'], title: 'Certified Scrum Master (CSM)', cat: 'Agile' },
+  { keywords: ['psk', 'professional scrum kanban', 'scrum kanban', 'flow', 'kanban'], title: 'Professional Scrum with Kanban (PSK)', cat: 'Agile' },
   { keywords: ['pspo', 'product owner'], title: 'Professional Scrum Product Owner (PSPO)', cat: 'Agile' },
   { keywords: ['itil', 'service management', 'it service'], title: 'ITIL 4 Foundation', cat: 'IT Service' },
   { keywords: ['security', 'security+', 'comptia'], title: 'CompTIA Security+', cat: 'Cybersecurity' },

@@ -12,7 +12,7 @@ const slugs = [
   'azure-solutions-architect-az-305','microsoft-azure-devops-az-400','google-cloud',
   'certified-scrum-master-csm','professional-scrum-master-i-psm-i','professional-scrum-master-ii-psm-ii',
   'professional-scrum-product-owner-i-pspo-i','professional-scrum-product-owner-ii-pspo-ii',
-  'professional-scrum-master-ai-essentials-certification','advanced-certified-scrum-product-owner-a-cspo',
+  'professional-scrum-master-ai-essentials-certification','professional-scrum-with-kanban-psk','advanced-certified-scrum-product-owner-a-cspo',
   'agile-advanced-certified-scrummaster-a-csm','agile-certified-scrum-product-owner-cspo',
   'agile-safe-advanced-scrum-master-sasm','itil-4-foundation','togaf-level-1-and-2-certification',
   'servicenow','servicenow-admin','servicenow-developer','servicenow-admin-and-developer','istqb-foundation','six-sigma-green-belt','six-sigma-black-belt',

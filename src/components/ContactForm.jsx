@@ -47,6 +47,7 @@ const ContactForm = () => {
     'ServiceNow Admin & Developer',
     'ISTQB Foundation',
     'CPMAI & AI Project Management',
+    'Professional Scrum with Kanban (PSK)',
   ]
 
   const handleChange = (e) => {

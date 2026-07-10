@@ -5670,5 +5670,126 @@
     ],
     "categorySlug": "integrated-big-data-and-data-science",
     "learnMoreUrl": "https://www.neoskills.co.in/"
+  },
+  {
+    "slug": "professional-scrum-with-kanban-psk",
+    "category": "Agile & Scrum",
+    "title": "Professional Scrum with Kanban (PSK)",
+    "fullTitle": "Professional Scrum with Kanban (PSK)",
+    "icon": "Award",
+    "summary": "Professional Scrum with Kanban (PSK) — learn how to apply Kanban practices within the Scrum framework to improve flow, transparency, and delivery predictability with Scrum.org certification.",
+    "description": "The PSK certification from Scrum.org validates your understanding of how Kanban practices integrate with Scrum to improve flow, visualize work, and enhance a team\u0027s ability to deliver value predictably. This course covers flow and Kanban theory, creating Service Level Expectations (SLEs), managing WIP, and overcoming common flow challenges — all within the context of Professional Scrum.",
+    "stats": {
+      "duration": "2 weeks",
+      "nextBatch": "23-05-2026",
+      "level": "Intermediate",
+      "mode": "Live online (instructor-led) or hybrid — confirm for your cohort",
+      "hours": "Contact hours vary by certification; see syllabus modules below",
+      "certificate": "Vendor or professional credential pathway (where applicable)",
+      "placement": "Resume guidance and interview preparation support (program-dependent)"
+    },
+    "highlights": [
+      "Live instructor-led training with expert mentors",
+      "Kanban practices within Scrum — flow, WIP limits, pull policies",
+      "Service Level Expectations (SLEs) creation and forecasting",
+      "Active WIP management and bottleneck resolution techniques",
+      "PSK I exam preparation with practice assessments and strategy",
+      "Dedicated mentor support throughout the course",
+      "Lifetime certification from Scrum.org upon passing the exam"
+    ],
+    "whoShouldJoin": [
+      "Scrum Masters",
+      "Product Owners",
+      "Agile Coaches",
+      "Scrum Team members",
+      "Anyone wanting to improve flow efficiency"
+    ],
+    "syllabus": [
+      {
+        "week": "Module 1 — Understanding Flow and Kanban within Scrum",
+        "topics": [
+          "Flow theory and its application in Scrum",
+          "Kanban practices from Scrum Team perspective",
+          "Myths about Scrum and Kanban — debunked",
+          "Principles of flow — cycle time, throughput, WIP"
+        ]
+      },
+      {
+        "week": "Module 2 — Visualizing Workflow and Managing WIP",
+        "topics": [
+          "Workflow states and Kanban board design",
+          "Explicit policies — Definition of Workflow",
+          "Limiting WIP and its impact on flow",
+          "Pull policies and pull-based scheduling"
+        ]
+      },
+      {
+        "week": "Module 3 — Service Level Expectations (SLEs)",
+        "topics": [
+          "Creating and using Service Level Expectations",
+          "Forecasting delivery using flow data",
+          "Using data for predictability and stakeholder communication",
+          "Historical analysis and probabilistic forecasting"
+        ]
+      },
+      {
+        "week": "Module 4 — Kanban Practices in Scrum Events",
+        "topics": [
+          "Applying Kanban during Sprint Planning",
+          "Daily Scrum with Kanban — flow-based standups",
+          "Sprint Review — flow metrics and stakeholder insights",
+          "Retrospective — continuous improvement with Kanban"
+        ]
+      },
+      {
+        "week": "Module 5 — Overcoming Flow Challenges",
+        "topics": [
+          "Active WIP management strategies",
+          "Addressing bottlenecks and blockers",
+          "Continuous improvement with flow metrics",
+          "Scaling Kanban practices across multiple teams"
+        ]
+      },
+      {
+        "week": "Module 6 — PSK I Exam Preparation",
+        "topics": [
+          "PSK I assessment format — 45 questions, 60 minutes, 85% pass mark",
+          "Scrum.org open assessments and mock exams",
+          "PSK I specific exam strategies and time management",
+          "Real-world case studies and scenario-based questions"
+        ]
+      }
+    ],
+    "certificate": {
+      "title": "Professional Scrum with Kanban (PSK) — credential pathway",
+      "description": "Official certificates or digital badges are issued by the accrediting vendor when you meet their exam and eligibility rules. NeoSkills training focuses on readiness and applied skills.",
+      "image": "/images/nsl-logo.svg"
+    },
+    "feeDetails": {
+      "training": 20000,
+      "exam": 15000,
+      "support": 0,
+      "total": 35000,
+      "emi": "EMI or installment options may be available — ask admissions",
+      "refund": "Refund and transfer policy as per NeoSkills enrollment terms",
+      "includes": [
+        "Live training and mentor support",
+        "Practice materials and assignments (where applicable)",
+        "Batch coordination and learner success check-ins"
+      ]
+    },
+    "feeDisclaimer": "Listed amount follows the same display rule as the catalog (training+exam bundle when shown, else training or support line). Vendor exam fees may still be billed separately depending on the program — confirm with admissions.",
+    "trainers": [
+      {
+        "name": "NeoSkills Instructor Team",
+        "role": "Certified practitioner trainers",
+        "experience": "10+ years combined",
+        "certifications": "Industry certifications aligned to this track",
+        "image": "/images/nsl_logo__Logo_.svg",
+        "bio": "NeoSkills trainers combine delivery experience with structured exam and workplace preparation, aligned with programs listed on neoskills.co.in."
+      }
+    ],
+    "categorySlug": "agile-scrum",
+    "learnMoreUrl": "https://www.neoskills.co.in/"
   }
 ]
