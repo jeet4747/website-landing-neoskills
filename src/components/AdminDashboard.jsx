@@ -140,6 +140,13 @@ export default function AdminDashboard() {
           }
           return base
         })
+        // Append catalog-only courses (e.g. newly added courses like PSK that aren't in DB yet)
+        const dbSlugs = new Set(merged.map(c => (c.slug || '').toLowerCase()))
+        for (const staticCourse of fallback) {
+          if (!dbSlugs.has((staticCourse.slug || '').toLowerCase())) {
+            merged.push({ ...staticCourse, _isCatalogOnly: true })
+          }
+        }
         setCourses(merged)
         if (!selectedSlug) setSelectedSlug(merged[0]?.slug || merged[0]?.id || '')
       } else {
@@ -452,8 +459,9 @@ export default function AdminDashboard() {
     setError('')
     setSuccess('')
     const fixed = courses.map(c => {
-      if (!c.feeDetails) return { ...c, feeDetails: { total: 0 } }
-      return c
+      const { _isCatalogOnly, ...clean } = c
+      if (!clean.feeDetails) return { ...clean, feeDetails: { total: 0 } }
+      return clean
     })
     try {
       const res = await fetch(COURSES_API, {
@@ -909,6 +917,7 @@ export default function AdminDashboard() {
                         >
                           <p className={`text-sm font-semibold ${active ? 'text-primary' : 'text-gray-800'}`}>
                             {c.title || c.fullTitle || c.slug}
+                            {c._isCatalogOnly && <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-100 text-yellow-700 uppercase tracking-wide">New</span>}
                           </p>
                           <p className="text-xs text-gray-400 mt-0.5 truncate">{c.stats?.nextBatch || c.cohort || 'No batch date'}</p>
                         </button>

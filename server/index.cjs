@@ -552,8 +552,7 @@ async function ensureTable() {
 async function seedIfEmpty() {
   await ensureTable()
   console.log('  Syncing data to database...')
-  // Only seed if DB key is empty (preserve admin edits on restart)
-  const onlyIfEmpty = ['courses', 'jobs', 'hero_slides']
+  const onlyIfEmpty = ['jobs', 'hero_slides']
   for (const key of onlyIfEmpty) {
     const existing = await getData(key)
     if (!existing || (Array.isArray(existing) && existing.length === 0)) {
@@ -562,6 +561,26 @@ async function seedIfEmpty() {
         const data = JSON.parse(fs.readFileSync(p, 'utf8'))
         await setData(key, data)
         console.log(`    ✅ ${key} seeded (${Array.isArray(data) ? data.length : 'ok'})`)
+      }
+    }
+  }
+  // Courses: merge new entries from courses.json into existing DB courses
+  // so newly added static courses (e.g. PSK) appear in admin without overwriting admin edits.
+  const coursesPath = path.join(__dirname, 'courses.json')
+  if (fs.existsSync(coursesPath)) {
+    const fileCourses = JSON.parse(fs.readFileSync(coursesPath, 'utf8'))
+    const dbCourses = await getData('courses')
+    if (!dbCourses || !Array.isArray(dbCourses) || dbCourses.length === 0) {
+      await setData('courses', fileCourses)
+      console.log(`    ✅ courses seeded from file (${fileCourses.length} courses)`)
+    } else {
+      const dbSlugs = new Set(dbCourses.map(c => (c.slug || '').toLowerCase()))
+      const newCourses = fileCourses.filter(c => !dbSlugs.has((c.slug || '').toLowerCase()))
+      if (newCourses.length > 0) {
+        await setData('courses', [...dbCourses, ...newCourses])
+        console.log(`    ✅ courses merged: ${newCourses.length} new course(s) added (${newCourses.map(c => c.slug).join(', ')})`)
+      } else {
+        console.log('    ⏭ courses: no new entries to add')
       }
     }
   }
