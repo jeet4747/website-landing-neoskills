@@ -574,13 +574,30 @@ async function seedIfEmpty() {
       await setData('courses', fileCourses)
       console.log(`    ✅ courses seeded from file (${fileCourses.length} courses)`)
     } else {
-      const dbSlugs = new Set(dbCourses.map(c => (c.slug || '').toLowerCase()))
+      // Strip stale examBody/examBodyUrl from all courses — these are always
+      // computed from the title by the frontend catalogBuilder at runtime.
+      // Old saved data (e.g. "PMI®" on a Scrum.org course) would otherwise
+      // override the correct generated values.
+      let changed = false
+      const cleaned = dbCourses.map(c => {
+        if ('examBody' in c || 'examBodyUrl' in c) {
+          changed = true
+          const { examBody, examBodyUrl, ...rest } = c
+          return rest
+        }
+        return c
+      })
+      // Merge new entries from courses.json into existing DB courses
+      const dbSlugs = new Set(cleaned.map(c => (c.slug || '').toLowerCase()))
       const newCourses = fileCourses.filter(c => !dbSlugs.has((c.slug || '').toLowerCase()))
-      if (newCourses.length > 0) {
-        await setData('courses', [...dbCourses, ...newCourses])
-        console.log(`    ✅ courses merged: ${newCourses.length} new course(s) added (${newCourses.map(c => c.slug).join(', ')})`)
+      if (changed || newCourses.length > 0) {
+        await setData('courses', [...cleaned, ...newCourses])
+        const msgs = []
+        if (changed) msgs.push('stripped stale examBody/examBodyUrl')
+        if (newCourses.length > 0) msgs.push(`${newCourses.length} new course(s) added (${newCourses.map(c => c.slug).join(', ')})`)
+        console.log(`    ✅ courses: ${msgs.join('; ')}`)
       } else {
-        console.log('    ⏭ courses: no new entries to add')
+        console.log('    ⏭ courses: no changes')
       }
     }
   }
