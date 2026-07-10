@@ -99,6 +99,7 @@ function certificateImageFor(row) {
   if (t.includes('pmp')) return '/certificates/PMI-Certification-page-0001.webp'
   if (t.includes('google cloud')) return '/images/nsl-logo.svg'
   if (t.includes('aws')) return '/certificates/AWS-Certificate.jpg'
+  if (t.includes('psk')) return '/certificates/psk.webp'
   if (t.includes('azure') || t.includes('az-') || t.includes('microsoft azure'))
     return '/certificates/azure-certificate-1.webp'
   return '/images/nsl-logo.svg'

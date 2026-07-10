@@ -128,9 +128,10 @@ export default function AdminDashboard() {
             (c.title || '').toLowerCase() === (apiCourse.title || '').toLowerCase()
           )
           if (genOk) {
-            base.examBody = genOk.examBody ?? ''
-            base.examBodyUrl = genOk.examBodyUrl ?? ''
-            base.certValidity = genOk.certValidity ?? ''
+            // Preserve admin-saved values, fall back to generated only when empty
+            base.examBody = base.examBody || genOk.examBody || ''
+            base.examBodyUrl = base.examBodyUrl || genOk.examBodyUrl || ''
+            base.certValidity = base.certValidity || genOk.certValidity || ''
             base.careerOpportunities = genOk.careerOpportunities ?? []
           } else {
             base.examBody = ''
