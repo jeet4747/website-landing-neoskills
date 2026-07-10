@@ -157,7 +157,7 @@ export async function loadCourseBySlug(slug) {
         ...course,
         stats: { ...gen.stats, ...(course.stats || {}) },
         feeDetails: { ...gen.feeDetails, ...(course.feeDetails || {}) },
-        certificate: { ...gen.certificate, ...(course.certificate || {}) },
+        certificate: { ...gen.certificate, ...(course.certificate || {}), image: gen.certificate?.image || '/images/nsl-logo.svg' },
         examBody: gen.examBody || '',
         examBodyUrl: gen.examBodyUrl || '',
         certValidity: course.certValidity || gen.certValidity || '',
