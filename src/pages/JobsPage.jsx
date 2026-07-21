@@ -202,9 +202,9 @@ export default function JobsPage() {
               <a href="/contact-support" className="btn-primary inline-flex items-center gap-2">Contact Us</a>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:max-h-[calc(100vh-200px)] lg:overflow-hidden">
               {/* Job list */}
-              <div className="lg:col-span-1 space-y-3">
+              <div className="lg:col-span-1 space-y-3 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto pr-1">
                 {filtered.map(job => (
                   <button
                     key={job.id}
@@ -231,7 +231,7 @@ export default function JobsPage() {
               </div>
 
               {/* Job detail */}
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-2 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto">
                 {!selectedJob ? (
                   <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-12 text-center">
                     <Briefcase size={48} className="mx-auto mb-4 text-gray-300" />

@@ -1,27 +1,857 @@
 [
   {
-    "id": "job-1779445366543",
-    "title": "Java Developer",
-    "department": "IT",
-    "location": "PAN India",
+    "id": "job-001",
+    "title": "Scrum Master",
+    "department": "Project Management",
+    "location": "Bengaluru",
     "type": "Full-time",
-    "experience": "6+ ",
-    "postedDate": "2026-05-22",
+    "experience": "4–6 yrs",
+    "postedDate": "2026-07-20",
     "closingDate": "",
     "status": "active",
-    "summary": "DXC Technology is hiring experienced Java Developers across India.",
-    "description": "📌 Required Skills:\n•⁠  ⁠Strong Java Development experience\n•⁠  ⁠Agile & Scrum knowledge\n•⁠  ⁠PSM or CSM Certification mandatory/preferred\n•⁠  ⁠Good communication and team collaboration skills\n",
+    "summary": "Looking for an experienced Scrum Master to join our team in Bengaluru.",
+    "description": "We are hiring a Scrum Master with 4–6 years of experience to facilitate Agile ceremonies and drive team performance.",
     "responsibilities": [
-      ""
+      "Facilitate daily stand-ups, sprint planning, reviews, and retrospectives",
+      "Coach teams on Agile and Scrum best practices",
+      "Remove impediments and shield the team from distractions",
+      "Track sprint metrics and help teams continuously improve"
     ],
     "requirements": [
-      ""
+      "4–6 years of experience as a Scrum Master",
+      "CSM or PSM certification mandatory",
+      "Strong knowledge of Agile frameworks",
+      "Excellent facilitation and conflict resolution skills"
     ],
     "niceToHave": [
-      ""
+      "Experience with Kanban and flow metrics",
+      "PSM II or CSP certification"
     ],
     "benefits": [
-      ""
+      "Competitive salary up to ₹25 LPA",
+      "Health insurance",
+      "Flexible work culture"
+    ],
+    "salaryRange": "Up to ₹25 LPA",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-002",
+    "title": "Java Full Stack (Spring Boot + React JS)",
+    "department": "IT",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "5+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Java Full Stack developer with Spring Boot and React JS expertise.",
+    "description": "We need a skilled Full Stack developer to build and maintain enterprise applications using Spring Boot and React JS.",
+    "responsibilities": [
+      "Design and develop RESTful APIs using Spring Boot",
+      "Build responsive UI components using React JS",
+      "Collaborate with cross-functional teams",
+      "Write unit and integration tests"
+    ],
+    "requirements": [
+      "5+ years of experience in Java development",
+      "Strong experience with Spring Boot",
+      "Proficiency in React JS",
+      "Experience with SQL and NoSQL databases"
+    ],
+    "niceToHave": [
+      "Cloud experience (AWS/Azure)",
+      "Docker and Kubernetes knowledge"
+    ],
+    "benefits": [
+      "Competitive compensation",
+      "Health benefits",
+      "Learning & development opportunities"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-003",
+    "title": "SAP BTP PI/PO Integration",
+    "department": "SAP",
+    "location": "Bengaluru / NCR",
+    "type": "Full-time",
+    "experience": "5+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for an SAP BTP PI/PO Integration specialist.",
+    "description": "We are hiring an experienced SAP PI/PO consultant with knowledge of SAP BTP Integration Suite.",
+    "responsibilities": [
+      "Design and implement integration solutions using SAP PI/PO and BTP",
+      "Handle interface development and monitoring",
+      "Work on API management and event-driven integrations"
+    ],
+    "requirements": [
+      "5+ years of experience in SAP PI/PO",
+      "Knowledge of SAP BTP Integration Suite",
+      "Strong understanding of XML, XSLT, and message mapping"
+    ],
+    "niceToHave": [
+      "SAP Cloud Platform Integration experience"
+    ],
+    "benefits": [
+      "Competitive salary",
+      "Remote/Hybrid options"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-004",
+    "title": "SAP FICO / Central Finance (CFIN)",
+    "department": "SAP",
+    "location": "Bengaluru / NCR",
+    "type": "Full-time",
+    "experience": "6+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for an SAP FICO / Central Finance consultant.",
+    "description": "We need an experienced SAP FICO consultant with Central Finance (CFIN) expertise.",
+    "responsibilities": [
+      "Configure and support SAP FICO modules",
+      "Implement Central Finance (CFIN) solutions",
+      "Work with business stakeholders on financial processes"
+    ],
+    "requirements": [
+      "6+ years of SAP FICO experience",
+      "Hands-on with Central Finance (CFIN)",
+      "Knowledge of integration with other SAP modules"
+    ],
+    "niceToHave": [
+      "SAP S/4HANA Finance experience"
+    ],
+    "benefits": [
+      "Attractive salary package",
+      "Health insurance"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-005",
+    "title": "Azure Databricks + PySpark",
+    "department": "Data Engineering",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "4+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for an Azure Databricks and PySpark engineer.",
+    "description": "We are hiring a Data Engineer with expertise in Azure Databricks and PySpark.",
+    "responsibilities": [
+      "Build and maintain data pipelines using Azure Databricks",
+      "Process large datasets with PySpark",
+      "Optimise data workflows for performance"
+    ],
+    "requirements": [
+      "4+ years of experience in data engineering",
+      "Strong experience with Azure Databricks",
+      "Proficiency in PySpark and Python",
+      "Knowledge of Azure Data Lake and ADLS"
+    ],
+    "niceToHave": [
+      "Experience with Delta Lake",
+      "Azure Data Factory knowledge"
+    ],
+    "benefits": [
+      "Competitive salary",
+      "Flexible work options"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-006",
+    "title": "Azure Data Engineer",
+    "department": "Data Engineering",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "4+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for an Azure Data Engineer.",
+    "description": "We need an Azure Data Engineer to design and implement data solutions on Microsoft Azure.",
+    "responsibilities": [
+      "Design and implement data pipelines using Azure services",
+      "Manage data storage solutions (ADLS, Synapse, SQL DB)",
+      "Ensure data quality and governance"
+    ],
+    "requirements": [
+      "4+ years of experience in data engineering",
+      "Strong experience with Azure data services",
+      "Proficiency in SQL and Python",
+      "Experience with Azure Data Factory and Synapse"
+    ],
+    "niceToHave": [
+      "Azure certifications (DP-203)",
+      "Experience with Power BI"
+    ],
+    "benefits": [
+      "Competitive compensation",
+      "Health benefits"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-007",
+    "title": "SAP E-Invoicing & DRC",
+    "department": "SAP",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "5+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for an SAP E-Invoicing & DRC consultant.",
+    "description": "We are hiring an SAP consultant with expertise in E-Invoicing and Document Reporting and Compliance (DRC).",
+    "responsibilities": [
+      "Implement and support SAP E-Invoicing solutions",
+      "Handle Document Reporting and Compliance requirements",
+      "Work on statutory reporting and regulatory changes"
+    ],
+    "requirements": [
+      "5+ years of SAP experience",
+      "Hands-on with SAP E-Invoicing and DRC",
+      "Knowledge of country-specific invoicing regulations"
+    ],
+    "niceToHave": [
+      "SAP S/4HANA experience"
+    ],
+    "benefits": [
+      "Competitive salary",
+      "Remote/Hybrid options"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-008",
+    "title": "SAP EWM Senior Developer",
+    "department": "SAP",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "6+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Senior SAP EWM Developer.",
+    "description": "We need a Senior SAP EWM Developer to lead warehouse management implementations.",
+    "responsibilities": [
+      "Design and configure SAP EWM solutions",
+      "Lead development and support activities",
+      "Integrate EWM with other SAP modules"
+    ],
+    "requirements": [
+      "6+ years of SAP EWM experience",
+      "Strong ABAP development skills",
+      "Experience in warehouse management processes"
+    ],
+    "niceToHave": [
+      "SAP S/4HANA EWM experience"
+    ],
+    "benefits": [
+      "Attractive package",
+      "Leadership role"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-009",
+    "title": "SAP ABAP Consultant",
+    "department": "SAP",
+    "location": "Bengaluru / NCR",
+    "type": "Full-time",
+    "experience": "4+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for an SAP ABAP Consultant.",
+    "description": "We are hiring an SAP ABAP Consultant for development and support activities.",
+    "responsibilities": [
+      "Develop and maintain ABAP programs",
+      "Work on enhancements, reports, and interfaces",
+      "Support technical design and code reviews"
+    ],
+    "requirements": [
+      "4+ years of SAP ABAP experience",
+      "Strong knowledge of ABAP Objects, OOPs",
+      "Experience with IDOCs, BAPIs, RFCs",
+      "Knowledge of Workflow and SmartForms"
+    ],
+    "niceToHave": [
+      "SAP S/4HANA ABAP experience",
+      "CDS views and AMDP knowledge"
+    ],
+    "benefits": [
+      "Competitive salary",
+      "Learning opportunities"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-010",
+    "title": "Dynamics 365 Business Central Functional Consultant",
+    "department": "Microsoft Dynamics",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "4+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Dynamics 365 Business Central Functional Consultant.",
+    "description": "We need a Dynamics 365 Business Central consultant to lead functional implementations.",
+    "responsibilities": [
+      "Gather business requirements and map to D365 BC",
+      "Configure and implement Business Central modules",
+      "Provide post-go-live support"
+    ],
+    "requirements": [
+      "4+ years of Dynamics 365 Business Central experience",
+      "Strong understanding of finance and supply chain processes",
+      "Experience with full lifecycle implementations"
+    ],
+    "niceToHave": [
+      "Microsoft certifications (MB-800)",
+      "NAV experience"
+    ],
+    "benefits": [
+      "Competitive salary",
+      "Growth opportunities"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-011",
+    "title": "Dynamics 365 CE Functional Consultant",
+    "department": "Microsoft Dynamics",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "4+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Dynamics 365 Customer Engagement Functional Consultant.",
+    "description": "We are hiring a D365 CE consultant to deliver customer engagement solutions.",
+    "responsibilities": [
+      "Configure D365 CE modules (Sales, Service, Marketing)",
+      "Customise entities, workflows, and business rules",
+      "Integrate with Power Platform and third-party tools"
+    ],
+    "requirements": [
+      "4+ years of Dynamics 365 CE experience",
+      "Strong knowledge of Power Platform (Power Apps, Power Automate)",
+      "Experience with CRM customisation and configuration"
+    ],
+    "niceToHave": [
+      "Microsoft certifications (PL-200, MB-200)"
+    ],
+    "benefits": [
+      "Competitive salary",
+      "Certification support"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-012",
+    "title": "ServiceNow Architect",
+    "department": "ITSM",
+    "location": "Bengaluru / NCR",
+    "type": "Full-time",
+    "experience": "8+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a ServiceNow Architect to lead platform strategy.",
+    "description": "We need a seasoned ServiceNow Architect to design and implement enterprise solutions.",
+    "responsibilities": [
+      "Define ServiceNow platform architecture and roadmap",
+      "Lead technical design and development",
+      "Ensure best practices in CMDB, ITOM, ITSM, and HRSD implementations"
+    ],
+    "requirements": [
+      "8+ years of ServiceNow experience",
+      "ServiceNow certifications (CIS, CSA)",
+      "Strong understanding of ITIL framework",
+      "Experience with integrations (REST, SOAP, MID Server)"
+    ],
+    "niceToHave": [
+      "Experience with ServiceNow ITOM and SecOps"
+    ],
+    "benefits": [
+      "Leadership role",
+      "Competitive compensation"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-013",
+    "title": "Senior ITSM Process Consultant",
+    "department": "ITSM",
+    "location": "Bengaluru",
+    "type": "Contract",
+    "experience": "8+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Senior ITSM Process Consultant on contract basis.",
+    "description": "We are hiring a Senior ITSM Process Consultant for a contract engagement to drive process improvements.",
+    "responsibilities": [
+      "Review and improve ITSM processes (Incident, Problem, Change, Service Desk)",
+      "Implement ITIL best practices",
+      "Define KPIs and reporting frameworks"
+    ],
+    "requirements": [
+      "8+ years in ITSM process consulting",
+      "ITIL 4 Managing Professional or similar certification",
+      "Experience with ServiceNow or similar tools"
+    ],
+    "niceToHave": [
+      "Experience in large-scale transformation programs"
+    ],
+    "benefits": [
+      "Contract engagement",
+      "Flexible work"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-014",
+    "title": "Program Manager – Information Security (GRC)",
+    "department": "Information Security",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "10+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Program Manager in Information Security/GRC for a banking client.",
+    "description": "We need an experienced Program Manager to lead Information Security and GRC initiatives in the banking sector.",
+    "responsibilities": [
+      "Lead information security and GRC programs",
+      "Manage risk assessments and compliance frameworks",
+      "Coordinate with internal and external stakeholders"
+    ],
+    "requirements": [
+      "10+ years of experience in information security",
+      "Strong knowledge of GRC frameworks (ISO 27001, NIST, COBIT)",
+      "Experience in the banking/financial sector",
+      "CISSP, CISM or equivalent certification"
+    ],
+    "niceToHave": [
+      "PMP or equivalent project management certification"
+    ],
+    "benefits": [
+      "Senior leadership role",
+      "Premium compensation"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-015",
+    "title": "Project Manager (PMP Certified)",
+    "department": "Project Management",
+    "location": "Bengaluru / NCR",
+    "type": "Full-time",
+    "experience": "8+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a PMP certified Project Manager.",
+    "description": "We are hiring a Project Manager with PMP certification to lead cross-functional projects.",
+    "responsibilities": [
+      "Manage project scope, timeline, and resources",
+      "Lead project teams and stakeholder communications",
+      "Track project performance using PMBOK best practices"
+    ],
+    "requirements": [
+      "8+ years of project management experience",
+      "PMP certification mandatory",
+      "Strong understanding of Agile and Waterfall methodologies",
+      "Excellent communication and leadership skills"
+    ],
+    "niceToHave": [
+      "Experience in IT or consulting industry",
+      "Scrum Master certification"
+    ],
+    "benefits": [
+      "Competitive salary",
+      "Leadership role"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-016",
+    "title": "AWS DevOps Engineer",
+    "department": "DevOps",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "5+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for an AWS DevOps Engineer.",
+    "description": "We need an experienced DevOps Engineer with strong AWS expertise.",
+    "responsibilities": [
+      "Design and manage CI/CD pipelines",
+      "Automate infrastructure using IaC (Terraform, CloudFormation)",
+      "Manage AWS services (ECS, EKS, Lambda, RDS)"
+    ],
+    "requirements": [
+      "5+ years of DevOps experience",
+      "Strong AWS experience",
+      "Proficiency in Docker and Kubernetes",
+      "Experience with CI/CD tools (Jenkins, GitLab CI, GitHub Actions)"
+    ],
+    "niceToHave": [
+      "AWS certifications (Solutions Architect, DevOps Engineer)"
+    ],
+    "benefits": [
+      "Competitive salary",
+      "Remote options"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-017",
+    "title": "DevOps Engineer",
+    "department": "DevOps",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "4+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a DevOps Engineer.",
+    "description": "We are hiring a DevOps Engineer to support our infrastructure and deployment pipelines.",
+    "responsibilities": [
+      "Build and maintain CI/CD pipelines",
+      "Manage cloud infrastructure and monitoring",
+      "Automate deployment processes"
+    ],
+    "requirements": [
+      "4+ years of DevOps experience",
+      "Experience with Docker and Kubernetes",
+      "Knowledge of cloud platforms (AWS/Azure/GCP)",
+      "Scripting skills (Bash, Python)"
+    ],
+    "niceToHave": [
+      "Terraform or Ansible experience"
+    ],
+    "benefits": [
+      "Competitive compensation",
+      "Learning opportunities"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-018",
+    "title": "SOC Lead",
+    "department": "Information Security",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "7+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Security Operations Center (SOC) Lead.",
+    "description": "We need a SOC Lead to manage security operations and incident response.",
+    "responsibilities": [
+      "Lead SOC team and monitor security events",
+      "Manage incident detection and response",
+      "Implement security tools and processes"
+    ],
+    "requirements": [
+      "7+ years of experience in security operations",
+      "Hands-on with SIEM tools (Splunk, QRadar, Sentinel)",
+      "Experience with threat intelligence and incident response",
+      "CISSP, CEH or equivalent certification"
+    ],
+    "niceToHave": [
+      "Experience in managed security services"
+    ],
+    "benefits": [
+      "Leadership role",
+      "Competitive salary"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-019",
+    "title": "Tech Lead",
+    "department": "IT",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "7+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Tech Lead to guide engineering teams.",
+    "description": "We are hiring a Tech Lead to lead development teams and drive technical excellence.",
+    "responsibilities": [
+      "Lead a team of developers",
+      "Drive technical architecture and design decisions",
+      "Conduct code reviews and mentor team members",
+      "Collaborate with product and stakeholders"
+    ],
+    "requirements": [
+      "7+ years of software development experience",
+      "Strong backend or full-stack development skills",
+      "Experience leading engineering teams"
+    ],
+    "niceToHave": [
+      "Cloud certifications",
+      "Microservices architecture experience"
+    ],
+    "benefits": [
+      "Leadership role",
+      "Attractive compensation"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-020",
+    "title": "Infrastructure Engineer",
+    "department": "IT",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "5+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for an Infrastructure Engineer.",
+    "description": "We need an Infrastructure Engineer to manage and optimise our IT infrastructure.",
+    "responsibilities": [
+      "Manage servers, networks, and cloud infrastructure",
+      "Monitor system performance and availability",
+      "Automate infrastructure provisioning"
+    ],
+    "requirements": [
+      "5+ years of infrastructure engineering experience",
+      "Experience with cloud platforms (AWS/Azure)",
+      "Knowledge of networking, firewalls, and load balancers",
+      "Scripting and automation skills"
+    ],
+    "niceToHave": [
+      "Experience with Kubernetes and containerisation"
+    ],
+    "benefits": [
+      "Competitive salary",
+      "Health benefits"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-021",
+    "title": "Business Analyst (Fixed Income & Derivatives)",
+    "department": "Business Analysis",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "5+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Business Analyst with Fixed Income and Derivatives expertise.",
+    "description": "We need a Business Analyst with domain expertise in Fixed Income and Derivatives for a financial services client.",
+    "responsibilities": [
+      "Gather and document business requirements for trading systems",
+      "Work with stakeholders on Fixed Income and Derivatives products",
+      "Facilitate User Acceptance Testing (UAT)"
+    ],
+    "requirements": [
+      "5+ years of business analysis experience",
+      "Domain knowledge of Fixed Income and Derivatives",
+      "Experience in financial services or banking",
+      "Strong documentation and communication skills"
+    ],
+    "niceToHave": [
+      "CBAP or similar certification",
+      "Experience with Agile tools (JIRA, Confluence)"
+    ],
+    "benefits": [
+      "Competitive package",
+      "Banking domain exposure"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-022",
+    "title": "Business Analyst / Software Tester / Android Developer",
+    "department": "IT",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "3+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Business Analyst, Software Tester, or Android Developer.",
+    "description": "Multiple roles available: Business Analyst, Software Tester, and Android Developer.",
+    "responsibilities": [
+      "BA: Gather requirements and define project scope",
+      "Tester: Write test cases and perform manual/automated testing",
+      "Android Developer: Build and maintain Android applications"
+    ],
+    "requirements": [
+      "3+ years of experience in the relevant role",
+      "Strong domain and technical skills"
+    ],
+    "niceToHave": [],
+    "benefits": [
+      "Competitive salary",
+      "Career growth opportunities"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-023",
+    "title": "Business Application Support Team Lead (BAST)",
+    "department": "IT Support",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "6+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Business Application Support Team Lead (BAST).",
+    "description": "We need a Team Lead for Business Application Support to manage application support teams.",
+    "responsibilities": [
+      "Lead the application support team",
+      "Manage incident resolution and service requests",
+      "Ensure SLA compliance and drive root cause analysis"
+    ],
+    "requirements": [
+      "6+ years of experience in application support",
+      "Experience leading support teams",
+      "Knowledge of ITIL processes",
+      "Strong troubleshooting skills"
+    ],
+    "niceToHave": [
+      "ITIL certification",
+      "Experience with enterprise applications"
+    ],
+    "benefits": [
+      "Leadership role",
+      "Attractive salary"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-024",
+    "title": "Team Lead – Full Stack (Java + Node.js)",
+    "department": "IT",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "experience": "7+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Team Lead – Full Stack with Java and Node.js expertise.",
+    "description": "We are hiring a Full Stack Team Lead with both Java and Node.js experience to lead development teams.",
+    "responsibilities": [
+      "Lead a team of full-stack developers",
+      "Design and build scalable applications using Java and Node.js",
+      "Drive technical architecture and best practices",
+      "Collaborate with product managers and stakeholders"
+    ],
+    "requirements": [
+      "7+ years of full-stack development experience",
+      "Strong experience with Java and Node.js",
+      "Experience leading development teams",
+      "Knowledge of microservices and cloud platforms"
+    ],
+    "niceToHave": [
+      "Experience with React or Angular",
+      "Cloud certifications"
+    ],
+    "benefits": [
+      "Leadership role",
+      "Competitive compensation",
+      "Growth opportunities"
+    ],
+    "salaryRange": "",
+    "contactEmail": "Kunal@neoskills.co.in",
+    "applicationUrl": ""
+  },
+  {
+    "id": "job-025",
+    "title": "Digital Marketing Specialist",
+    "department": "Marketing",
+    "location": "Dubai, UAE",
+    "type": "Full-time",
+    "experience": "4+ yrs",
+    "postedDate": "2026-07-20",
+    "closingDate": "",
+    "status": "active",
+    "summary": "Looking for a Digital Marketing Specialist based in Dubai, UAE.",
+    "description": "We are hiring a Digital Marketing Specialist to join our team in Dubai, UAE.",
+    "responsibilities": [
+      "Plan and execute digital marketing campaigns",
+      "Manage SEO, SEM, and social media strategies",
+      "Analyse campaign performance and ROI",
+      "Create content for digital channels"
+    ],
+    "requirements": [
+      "4+ years of digital marketing experience",
+      "Experience with Google Ads, SEO, and social media marketing",
+      "Strong analytical and creative skills",
+      "Based in Dubai or willing to relocate"
+    ],
+    "niceToHave": [
+      "Experience in edtech or training industry",
+      "Knowledge of HubSpot or Marketo"
+    ],
+    "benefits": [
+      "Dubai-based role",
+      "Competitive tax-free salary"
     ],
     "salaryRange": "",
     "contactEmail": "Kunal@neoskills.co.in",

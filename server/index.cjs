@@ -376,6 +376,38 @@ app.post('/api/jobs', requireAdmin, async (req, res) => {
 })
 
 // ─── Job Applications API ───
+const sendHiringEmail = async ({ name, email, phone, jobTitle, message, cvLink }) => {
+  try {
+    const hrEmail = 'resume@neoskill.co.in'
+    await transporter.sendMail({
+      from: `"Neoskills Hiring" <${process.env.ZOHO_EMAIL}>`,
+      to: hrEmail,
+      subject: `📋 Hiring Application: ${jobTitle} — ${name}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <div style="background: #0056D2; padding: 25px; border-radius: 10px 10px 0 0;">
+            <h2 style="color: white; margin: 0;">New Job Application</h2>
+          </div>
+          <div style="background: #f9f9f9; padding: 25px; border-radius: 0 0 10px 10px; border: 1px solid #e0e0e0;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 8px 0; color: #666; width: 100px;">Position</td><td style="padding: 8px 0; font-weight: bold;">${jobTitle}</td></tr>
+              <tr><td style="padding: 8px 0; color: #666;">Name</td><td style="padding: 8px 0; font-weight: bold;">${name}</td></tr>
+              <tr><td style="padding: 8px 0; color: #666;">Email</td><td style="padding: 8px 0;"><a href="mailto:${email}" style="color: #0056D2;">${email}</a></td></tr>
+              <tr><td style="padding: 8px 0; color: #666;">Phone</td><td style="padding: 8px 0;">${phone || 'N/A'}</td></tr>
+            </table>
+            ${message ? `<div style="margin-top: 16px; padding: 12px; background: white; border-radius: 8px; border-left: 3px solid #0056D2;"><p style="margin: 0; color: #333; font-size: 14px;">${message}</p></div>` : ''}
+            ${cvLink ? `<div style="margin-top: 16px;"><a href="${cvLink}" style="display: inline-block; background: #0056D2; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">Download CV</a></div>` : ''}
+            <p style="margin-top: 20px; color: #999; font-size: 12px;">Submitted via NeoSkills Careers</p>
+          </div>
+        </div>
+      `,
+    })
+    console.log(`Hiring email sent to ${hrEmail} for ${jobTitle}`)
+  } catch (err) {
+    console.error('Failed to send hiring email:', err.message)
+  }
+}
+
 app.post('/api/job-applications', upload.single('cv'), async (req, res) => {
   try {
     const { name, email, phone, jobId, jobTitle, message } = req.body
@@ -398,6 +430,14 @@ app.post('/api/job-applications', upload.single('cv'), async (req, res) => {
     const apps = Array.isArray(existing) ? existing : []
     apps.push(application)
     await setData('job_applications', apps)
+
+    // Send email notification to HR via Nodemailer (no EmailJS template needed)
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol
+    const host = req.headers['x-forwarded-host'] || req.get('host')
+    const cvLink = application.cvFile
+      ? `${protocol}://${host}/uploads/cvs/${application.cvFile}`
+      : ''
+    sendHiringEmail({ name, email, phone, jobTitle: jobTitle || '', message: message || '', cvLink })
 
     res.json({ success: true, application })
   } catch (err) {
