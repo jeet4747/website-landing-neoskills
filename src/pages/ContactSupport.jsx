@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, MessageSquare, Send, CheckCircle, Clock, Globe, ExternalLink } from 'lucide-react'
 import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 export default function ContactSupport() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
@@ -14,10 +14,10 @@ export default function ContactSupport() {
   const handleSubmit = (e) => {
     e.preventDefault()
     setError('')
-    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
-      user_name: form.name,
-      user_email: form.email,
-      user_phone: form.phone || 'N/A',
+    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
+      name: form.name,
+      email: form.email,
+      phone: form.phone || 'N/A',
       course: form.subject || 'General inquiry',
       message: form.message,
     }, EMAILJS_PUBLIC_KEY)

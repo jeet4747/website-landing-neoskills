@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { Calendar, Clock, Users, CheckCircle, ArrowRight, MessageCircle, Zap, ExternalLink } from 'lucide-react'
 import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinars'
@@ -81,10 +81,10 @@ export default function WebinarPage() {
     setError('')
     setSending(true)
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
-        user_name: form.name,
-        user_email: form.email,
-        user_phone: form.phone,
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
         course: `Webinar: ${activeWebinar.title}`,
         message: `Registering for ${activeWebinar.fullTitle} on ${activeWebinar.date} at ${activeWebinar.time}. Experience: ${form.experience || 'Not specified'}`,
       }, EMAILJS_PUBLIC_KEY)

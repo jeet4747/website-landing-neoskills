@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
 import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 import { Briefcase, MapPin, Clock, IndianRupee, Calendar, Filter, Search, ChevronRight, Building2, Users, BookOpen, ExternalLink, X, Upload, CheckCircle, AlertCircle } from 'lucide-react'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
@@ -91,11 +91,11 @@ export default function JobsPage() {
 
       emailjs.send(
         EMAILJS_SERVICE,
-        EMAILJS_TEMPLATE_GENERAL,
+        EMAILJS_TEMPLATE_INQUIRY,
         {
-          user_name: appForm.name,
-          user_email: appForm.email,
-          user_phone: appForm.phone,
+          name: appForm.name,
+          email: appForm.email,
+          phone: appForm.phone,
           course: `Job Application: ${selectedJob?.title || ''}`,
           message: `${appForm.message || 'Interested in this position'}\n\nJob: ${selectedJob?.title || ''}\nCV: ${window.location.origin}/uploads/cvs/${data.application?.cvFile || ''}`,
         },

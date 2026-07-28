@@ -92,10 +92,17 @@ export default function Enroll() {
     e.preventDefault()
     setSubmitting(true)
 
-    emailjs.sendForm(
+    emailjs.send(
       EMAILJS_SERVICE,
       EMAILJS_TEMPLATE_ENROLL,
-      form.current,
+      {
+        user_name: formData.name,
+        user_email: formData.email,
+        user_phone: formData.phone,
+        course: formData.course,
+        Amount: selectedPrice > 0 ? `₹${selectedPrice}` : 'N/A',
+        message: formData.message || `Enrollment for ${formData.course}`,
+      },
       EMAILJS_PUBLIC_KEY
     ).then(() => {
       /* email sent */

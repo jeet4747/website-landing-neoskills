@@ -7,7 +7,7 @@ import {
   ArrowRight, BarChart3, Cpu, CheckCircle, Loader2, Brain
 } from 'lucide-react'
 import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 const allCourses = [
   { keywords: ['pmp', 'project management', 'project manager'], title: 'PMP Certification', cat: 'Project Management' },
@@ -117,10 +117,10 @@ const CourseFinderAI = () => {
 
   const sendLeadEmail = useCallback(async () => {
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
-        user_name: lead.name,
-        user_email: lead.email,
-        user_phone: lead.phone || 'N/A',
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
+        name: lead.name,
+        email: lead.email,
+        phone: lead.phone || 'N/A',
         course: lead.course || 'Chatbot inquiry',
         message: `Course interested: ${lead.course || 'Not specified'}`,
       }, EMAILJS_PUBLIC_KEY)

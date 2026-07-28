@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { useEnroll } from '../context/EnrollContext'
 import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 
 
@@ -65,11 +65,11 @@ const ContactForm = () => {
   emailjs
   .send(
     EMAILJS_SERVICE,
-      EMAILJS_TEMPLATE_GENERAL,
+      EMAILJS_TEMPLATE_INQUIRY,
       {
-        user_name: formData.name,
-        user_email: formData.email,
-        user_phone: formData.phone,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
         course: formData.course,
         message: formData.message,
       },

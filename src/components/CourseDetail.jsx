@@ -20,7 +20,7 @@ const LucideIcons = {
   User, Banknote, X,
 }
 import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 import { useEnroll } from '../context/EnrollContext'
 import { allCourses, courseCategories, getAllResolvedCourses, getMergedCourseCategories, getTotal } from './courseData'
 import { fetchBackendCourses, loadCourseBySlug } from '../data/courseService.js'
@@ -126,11 +126,11 @@ const CourseDetail = () => {
     emailjs
       .send(
         EMAILJS_SERVICE,
-        EMAILJS_TEMPLATE_GENERAL,
+        EMAILJS_TEMPLATE_INQUIRY,
         {
-          user_name: contactForm.name,
-          user_email: contactForm.email,
-          user_phone: contactForm.phone || 'N/A',
+          name: contactForm.name,
+          email: contactForm.email,
+          phone: contactForm.phone || 'N/A',
           course: courseLabel,
           message: contactForm.message || `Inquiry about ${courseLabel}`,
         },
@@ -970,10 +970,10 @@ const CourseDetail = () => {
                 <form onSubmit={(e) => {
                   e.preventDefault()
                   setBrochureError('')
-                  emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
-                    user_name: brochureForm.name,
-                    user_email: brochureForm.email,
-                    user_phone: brochureForm.phone,
+                  emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
+                    name: brochureForm.name,
+                    email: brochureForm.email,
+                    phone: brochureForm.phone,
                     course: `${course.title} — Brochure Request`,
                     message: `Please share the brochure for ${course.title}`,
                   }, EMAILJS_PUBLIC_KEY)

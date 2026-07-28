@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Clock, Users } from 'lucide-react'
 import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 const SHOW_DELAY = 120000
 
@@ -38,10 +38,10 @@ export default function LeadPopup() {
     setError('')
     setSending(true)
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
-        user_name: form.name,
-        user_email: form.email,
-        user_phone: form.phone,
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
         course: form.course || 'Popup inquiry',
         message: 'Interested in learning more',
       }, EMAILJS_PUBLIC_KEY)
