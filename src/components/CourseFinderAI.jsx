@@ -122,9 +122,7 @@ const CourseFinderAI = () => {
         user_email: lead.email,
         user_phone: lead.phone || 'N/A',
         course: lead.course || 'Chatbot inquiry',
-        message: `[Source: Course Finder Chatbot]\n\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || 'N/A'}\nCourse interested: ${lead.course || 'Not specified'}`,
-        domain: window.location.origin,
-        source: 'NeoSkills Course Finder Chatbot',
+        message: `Course interested: ${lead.course || 'Not specified'}`,
       }, EMAILJS_PUBLIC_KEY)
     } catch (err) {
       console.error('EmailJS chatbot error:', err)

@@ -97,8 +97,7 @@ export default function JobsPage() {
           user_email: appForm.email,
           user_phone: appForm.phone,
           course: `Job Application: ${selectedJob?.title || ''}`,
-          message: `${appForm.message || ''}\n\nJob: ${selectedJob?.title || ''}\nCV: ${window.location.origin}/uploads/cvs/${data.application?.cvFile || ''}`,
-          domain: window.location.hostname,
+          message: `${appForm.message || 'Interested in this position'}\n\nJob: ${selectedJob?.title || ''}\nCV: ${window.location.origin}/uploads/cvs/${data.application?.cvFile || ''}`,
         },
         EMAILJS_PUBLIC_KEY
       )

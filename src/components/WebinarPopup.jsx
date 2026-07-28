@@ -53,8 +53,7 @@ export default function WebinarPopup() {
         user_email: form.email,
         user_phone: form.phone,
         course: `Webinar: ${webinar?.title || 'Free Webinar'}`,
-        message: `[Source: Homepage Webinar Popup]\n\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nWebinar: ${webinar?.fullTitle || webinar?.title}`,
-        domain: window.location.origin,
+        message: `Registration for ${webinar?.fullTitle || webinar?.title}`,
       }, EMAILJS_PUBLIC_KEY)
       setSubmitted(true)
     } catch {

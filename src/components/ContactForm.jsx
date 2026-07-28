@@ -72,8 +72,6 @@ const ContactForm = () => {
         user_phone: formData.phone,
         course: formData.course,
         message: formData.message,
-        domain: window.location.origin,
-        source: 'NeoSkills Landing Page',
       },
       EMAILJS_PUBLIC_KEY
     )

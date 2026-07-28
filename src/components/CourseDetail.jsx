@@ -132,9 +132,7 @@ const CourseDetail = () => {
           user_email: contactForm.email,
           user_phone: contactForm.phone || 'N/A',
           course: courseLabel,
-          message: `[Course page: /course/${course.slug}]\n\n${contactForm.message}`,
-          domain: window.location.origin,
-          source: 'NeoSkills Course Detail Page',
+          message: contactForm.message || `Inquiry about ${courseLabel}`,
         },
         EMAILJS_PUBLIC_KEY
       )
@@ -977,9 +975,7 @@ const CourseDetail = () => {
                     user_email: brochureForm.email,
                     user_phone: brochureForm.phone,
                     course: `${course.title} — Brochure Request`,
-                    message: `Download brochure for ${course.title} (${course.slug})`,
-                    domain: window.location.origin,
-                    source: 'NeoSkills Course Brochure Download',
+                    message: `Please share the brochure for ${course.title}`,
                   }, EMAILJS_PUBLIC_KEY)
                     .then(() => setBrochureSent(true))
                     .catch(() => setBrochureError('Could not send. Please email contact@neoskills.co.in.'))

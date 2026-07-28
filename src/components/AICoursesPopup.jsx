@@ -56,8 +56,7 @@ export default function AICoursesPopup() {
         user_email: form.email,
         user_phone: form.phone,
         course: selectedCourse || 'AI Course Inquiry',
-        message: `[Source: AI Courses Popup]\n\nInterested in: ${selectedCourse}`,
-        domain: window.location.origin,
+        message: `Interested in: ${selectedCourse}`,
       }, EMAILJS_PUBLIC_KEY)
       setSubmitted(true)
     } catch {

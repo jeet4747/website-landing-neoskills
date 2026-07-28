@@ -86,8 +86,7 @@ export default function WebinarPage() {
         user_email: form.email,
         user_phone: form.phone,
         course: `Webinar: ${activeWebinar.title}`,
-        message: `[Webinar Registration]\n\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nExperience: ${form.experience || 'Not specified'}\n\nWebinar: ${activeWebinar.fullTitle}\nDate: ${activeWebinar.date}\nTime: ${activeWebinar.time}`,
-        domain: window.location.origin,
+        message: `Registering for ${activeWebinar.fullTitle} on ${activeWebinar.date} at ${activeWebinar.time}. Experience: ${form.experience || 'Not specified'}`,
       }, EMAILJS_PUBLIC_KEY)
 
       sessionStorage.setItem(`webinar_${slug || DEFAULT_WEBINAR.slug}`, 'true')

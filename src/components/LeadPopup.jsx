@@ -43,8 +43,7 @@ export default function LeadPopup() {
         user_email: form.email,
         user_phone: form.phone,
         course: form.course || 'Popup inquiry',
-        message: '[Source: Popup Lead Form]',
-        domain: window.location.origin,
+        message: 'Interested in learning more',
       }, EMAILJS_PUBLIC_KEY)
       setSubmitted(true)
     } catch (err) {

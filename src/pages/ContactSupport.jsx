@@ -19,9 +19,7 @@ export default function ContactSupport() {
       user_email: form.email,
       user_phone: form.phone || 'N/A',
       course: form.subject || 'General inquiry',
-      message: `[Contact Support page]\n\n${form.message}`,
-      domain: window.location.origin,
-      source: 'NeoSkills Contact Support Page',
+      message: form.message,
     }, EMAILJS_PUBLIC_KEY)
       .then(() => { setSent(true); setForm({ name: '', email: '', phone: '', subject: '', message: '' }) })
       .catch(() => setError('Could not send message. Please email contact@neoskills.co.in directly.'))
