@@ -7,6 +7,7 @@ import {
   ArrowRight, BarChart3, Cpu, CheckCircle, Loader2, Brain
 } from 'lucide-react'
 import emailjs from '@emailjs/browser'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 const allCourses = [
   { keywords: ['pmp', 'project management', 'project manager'], title: 'PMP Certification', cat: 'Project Management' },
@@ -45,9 +46,7 @@ const quickReplies = [
   'AI & Machine Learning courses',
 ]
 
-const EMAILJS_SERVICE = 'service_62ub16q'
-const EMAILJS_TEMPLATE = 'template_l3twvqg'
-const EMAILJS_KEY = 'S3TiyuUzfI2FRb5RG'
+
 
 function ThinkingDots() {
   return (
@@ -118,7 +117,7 @@ const CourseFinderAI = () => {
 
   const sendLeadEmail = useCallback(async () => {
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
         user_name: lead.name,
         user_email: lead.email,
         user_phone: lead.phone || 'N/A',
@@ -126,7 +125,7 @@ const CourseFinderAI = () => {
         message: `[Source: Course Finder Chatbot]\n\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone || 'N/A'}\nCourse interested: ${lead.course || 'Not specified'}`,
         domain: window.location.origin,
         source: 'NeoSkills Course Finder Chatbot',
-      }, EMAILJS_KEY)
+      }, EMAILJS_PUBLIC_KEY)
     } catch (err) {
       console.error('EmailJS chatbot error:', err)
     }

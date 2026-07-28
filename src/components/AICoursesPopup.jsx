@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Brain, Cpu, Lightbulb, Bot, Sparkles, Send, CheckCircle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 const aiCourses = [
   { title: 'CPMAI & AI Project Management', slug: 'cpmai-and-ai-project-management', icon: Brain, desc: 'AI project management concepts with practical business relevance.', badge: 'AI & ML' },
@@ -50,14 +51,14 @@ export default function AICoursesPopup() {
     e.preventDefault()
     setSending(true)
     try {
-      await emailjs.send('service_62ub16q', 'template_l3twvqg', {
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
         user_name: form.name,
         user_email: form.email,
         user_phone: form.phone,
         course: selectedCourse || 'AI Course Inquiry',
         message: `[Source: AI Courses Popup]\n\nInterested in: ${selectedCourse}`,
         domain: window.location.origin,
-      }, 'S3TiyuUzfI2FRb5RG')
+      }, EMAILJS_PUBLIC_KEY)
       setSubmitted(true)
     } catch {
       /* ignore */

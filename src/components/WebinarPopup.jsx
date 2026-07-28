@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Calendar, Clock, Users, Send, CheckCircle, MessageCircle, ExternalLink } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinars'
@@ -47,14 +48,14 @@ export default function WebinarPopup() {
     e.preventDefault()
     setSending(true)
     try {
-      await emailjs.send('service_62ub16q', 'template_l3twvqg', {
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
         user_name: form.name,
         user_email: form.email,
         user_phone: form.phone,
         course: `Webinar: ${webinar?.title || 'Free Webinar'}`,
         message: `[Source: Homepage Webinar Popup]\n\nName: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nWebinar: ${webinar?.fullTitle || webinar?.title}`,
         domain: window.location.origin,
-      }, 'S3TiyuUzfI2FRb5RG')
+      }, EMAILJS_PUBLIC_KEY)
       setSubmitted(true)
     } catch {
       /* */

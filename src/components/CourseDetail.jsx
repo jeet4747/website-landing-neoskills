@@ -20,6 +20,7 @@ const LucideIcons = {
   User, Banknote, X,
 }
 import emailjs from '@emailjs/browser'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 import { useEnroll } from '../context/EnrollContext'
 import { allCourses, courseCategories, getAllResolvedCourses, getMergedCourseCategories, getTotal } from './courseData'
 import { fetchBackendCourses, loadCourseBySlug } from '../data/courseService.js'
@@ -124,8 +125,8 @@ const CourseDetail = () => {
 
     emailjs
       .send(
-        'service_62ub16q',
-        'template_l3twvqg',
+        EMAILJS_SERVICE,
+        EMAILJS_TEMPLATE_GENERAL,
         {
           user_name: contactForm.name,
           user_email: contactForm.email,
@@ -135,7 +136,7 @@ const CourseDetail = () => {
           domain: window.location.origin,
           source: 'NeoSkills Course Detail Page',
         },
-        'S3TiyuUzfI2FRb5RG'
+        EMAILJS_PUBLIC_KEY
       )
       .then(() => {
         setFormSubmitted(true)
@@ -971,7 +972,7 @@ const CourseDetail = () => {
                 <form onSubmit={(e) => {
                   e.preventDefault()
                   setBrochureError('')
-                  emailjs.send('service_62ub16q', 'template_l3twvqg', {
+                  emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
                     user_name: brochureForm.name,
                     user_email: brochureForm.email,
                     user_phone: brochureForm.phone,
@@ -979,7 +980,7 @@ const CourseDetail = () => {
                     message: `Download brochure for ${course.title} (${course.slug})`,
                     domain: window.location.origin,
                     source: 'NeoSkills Course Brochure Download',
-                  }, 'S3TiyuUzfI2FRb5RG')
+                  }, EMAILJS_PUBLIC_KEY)
                     .then(() => setBrochureSent(true))
                     .catch(() => setBrochureError('Could not send. Please email contact@neoskills.co.in.'))
                 }} className="space-y-4">

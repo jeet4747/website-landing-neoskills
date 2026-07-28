@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Clock, Users } from 'lucide-react'
 import emailjs from '@emailjs/browser'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 const SHOW_DELAY = 120000
 
@@ -37,14 +38,14 @@ export default function LeadPopup() {
     setError('')
     setSending(true)
     try {
-      await emailjs.send('service_62ub16q', 'template_l3twvqg', {
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
         user_name: form.name,
         user_email: form.email,
         user_phone: form.phone,
         course: form.course || 'Popup inquiry',
         message: '[Source: Popup Lead Form]',
         domain: window.location.origin,
-      }, 'S3TiyuUzfI2FRb5RG')
+      }, EMAILJS_PUBLIC_KEY)
       setSubmitted(true)
     } catch (err) {
       setError('Something went wrong. Please try again or email us directly.')

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { useEnroll } from '../context/EnrollContext'
 import emailjs from '@emailjs/browser'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 
 
@@ -63,8 +64,8 @@ const ContactForm = () => {
 
   emailjs
   .send(
-    'service_62ub16q',
-      'template_l3twvqg',
+    EMAILJS_SERVICE,
+      EMAILJS_TEMPLATE_GENERAL,
       {
         user_name: formData.name,
         user_email: formData.email,
@@ -74,7 +75,7 @@ const ContactForm = () => {
         domain: window.location.origin,
         source: 'NeoSkills Landing Page',
       },
-      'S3TiyuUzfI2FRb5RG'
+      EMAILJS_PUBLIC_KEY
     )
     .then(() => {
       setSubmitted(true)

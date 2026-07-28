@@ -4,6 +4,7 @@ import { useEnroll } from '../context/EnrollContext'
 import { getAllResolvedCourses, effectiveListedPrice, getTotal } from '../data/catalogBuilder'
 import { fetchBackendCourses } from '../data/courseService'
 import emailjs from '@emailjs/browser'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_ENROLL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 import { ArrowRight, IndianRupee } from 'lucide-react'
 import './enroll.css'
 
@@ -92,10 +93,10 @@ export default function Enroll() {
     setSubmitting(true)
 
     emailjs.sendForm(
-      'service_62ub16q',
-      'template_e15u3k6',
+      EMAILJS_SERVICE,
+      EMAILJS_TEMPLATE_ENROLL,
       form.current,
-      'S3TiyuUzfI2FRb5RG'
+      EMAILJS_PUBLIC_KEY
     ).then(() => {
       /* email sent */
     }).catch((error) => {

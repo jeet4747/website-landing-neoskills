@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, MessageSquare, Send, CheckCircle, Clock, Globe, ExternalLink } from 'lucide-react'
 import emailjs from '@emailjs/browser'
+import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
 
 export default function ContactSupport() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
@@ -13,7 +14,7 @@ export default function ContactSupport() {
   const handleSubmit = (e) => {
     e.preventDefault()
     setError('')
-    emailjs.send('service_62ub16q', 'template_l3twvqg', {
+    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_GENERAL, {
       user_name: form.name,
       user_email: form.email,
       user_phone: form.phone || 'N/A',
@@ -21,7 +22,7 @@ export default function ContactSupport() {
       message: `[Contact Support page]\n\n${form.message}`,
       domain: window.location.origin,
       source: 'NeoSkills Contact Support Page',
-    }, 'S3TiyuUzfI2FRb5RG')
+    }, EMAILJS_PUBLIC_KEY)
       .then(() => { setSent(true); setForm({ name: '', email: '', phone: '', subject: '', message: '' }) })
       .catch(() => setError('Could not send message. Please email contact@neoskills.co.in directly.'))
   }
