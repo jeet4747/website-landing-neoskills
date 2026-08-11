@@ -79,7 +79,6 @@ export default function Enroll() {
     if (text.includes('prince')) return 'prince2-f-and-p'
     if (text.includes('cisa')) return 'cisa'
     if (text.includes('cbap')) return 'cbap'
-    if (text.includes('togaf')) return 'togaf'
     return options.length > 0 ? options[0].value : ''
   }
 

@@ -24,7 +24,6 @@ const allCourses = [
   { keywords: ['cism', 'security manager'], title: 'CISM', cat: 'Cybersecurity' },
   { keywords: ['ceh', 'ethical hacking', 'hacker'], title: 'CEH (Certified Ethical Hacker)', cat: 'Cybersecurity' },
   { keywords: ['devops', 'dev ops', 'ci/cd'], title: 'DevOps Tools & Training', cat: 'DevOps' },
-  { keywords: ['togaf', 'enterprise architecture'], title: 'TOGAF Level 1 & 2', cat: 'Architecture' },
   { keywords: ['power bi', 'powerbi', 'data analytics'], title: 'Power BI', cat: 'Data & Analytics' },
   { keywords: ['cbap', 'business analysis', 'business analyst'], title: 'CBAP', cat: 'Business Analysis' },
   { keywords: ['six sigma', 'green belt', 'black belt'], title: 'Six Sigma Green / Black Belt', cat: 'Quality' },

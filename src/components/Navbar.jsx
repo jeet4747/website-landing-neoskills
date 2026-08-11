@@ -18,7 +18,6 @@ const categoryIcons = {
   'six-sigma': TrendingUp,
   'iso': Award,
   'it-governance': Award,
-  'togaf-architecture': Lightbulb,
   'salesforce': Cloud,
   'risk-management': Shield,
   'quality-management': Award,

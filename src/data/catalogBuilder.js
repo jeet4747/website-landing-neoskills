@@ -288,11 +288,6 @@ function defaultCareerRoles(row) {
     return ['Security Manager', 'IS Manager', 'Risk & Compliance Manager', 'SOC Manager']
   }
 
-  // ── TOGAF ────────────────────────────────────────────────────────
-  if (t.includes('togaf')) {
-    return ['Enterprise Architect', 'Solution Architect', 'Technical Architect', 'Domain Architect']
-  }
-
   // ── Six Sigma ────────────────────────────────────────────────────
   if (t.includes('six sigma')) {
     if (t.includes('black belt')) return ['Quality Manager', 'Process Excellence Manager', 'Operations Lead', 'Continuous Improvement Manager']
@@ -354,7 +349,6 @@ function examBodyInfo(row) {
   if (t.includes('comptia')) return { name: 'CompTIA', url: 'https://www.comptia.org/certifications' }
   if (t.includes('ceh') || t.includes('ethical')) return { name: 'EC-Council', url: 'https://www.eccouncil.org' }
   if (t.includes('cisa') || t.includes('cism')) return { name: 'ISACA', url: 'https://www.isaca.org' }
-  if (t.includes('togaf')) return { name: 'The Open Group', url: 'https://www.opengroup.org/certifications/togaf' }
   if (t.includes('six sigma')) return { name: 'CSSC / IASSC', url: 'https://www.sixsigma.org' }
   if (t.includes('istqb')) return { name: 'ISTQB', url: 'https://www.istqb.org' }
   if (t.includes('cbap') || t.includes('iiba') || t.includes('ecba') || t.includes('ccba'))
@@ -386,7 +380,6 @@ function certValidityInfo(row) {
   if (t.includes('comptia')) return '3 years'
   if (t.includes('ceh') || t.includes('ethical')) return '3 years'
   if (t.includes('cisa') || t.includes('cism')) return '3 years'
-  if (t.includes('togaf')) return 'No expiry (lifetime)'
   if (t.includes('six sigma')) return 'No expiry (lifetime)'
   if (t.includes('istqb')) return 'No expiry (lifetime)'
   if (t.includes('cbap') || t.includes('iiba') || t.includes('ecba') || t.includes('ccba')) return '3 years'

@@ -63,13 +63,6 @@
     "courses": []
   },
   {
-    "name": "TOGAF® Architecture",
-    "slug": "togaf-architecture",
-    "icon": "BookOpen",
-    "description": "",
-    "courses": []
-  },
-  {
     "name": "Six Sigma",
     "slug": "six-sigma",
     "icon": "BarChart3",

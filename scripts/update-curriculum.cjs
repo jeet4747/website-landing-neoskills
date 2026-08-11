@@ -171,18 +171,6 @@ const curriculums = {
     ],
   },
 
-  // ═══ TOGAF ═══
-  'togaf-level-1-and-2-certification': {
-    summary: 'TOGAF Level 1 & 2 Certification — master enterprise architecture using the TOGAF standard and Architecture Development Method (ADM).',
-    description: 'TOGAF is the leading enterprise architecture framework used by organizations worldwide. This course covers the TOGAF standard, ADM phases, architecture content framework, and enterprise architecture best practices for both Foundation and Certified levels.',
-    syllabus: [
-      { week: 'Module 1 — TOGAF Framework & Enterprise Architecture', topics: ['TOGAF standard overview and certification levels', 'Enterprise architecture domains — business, data, application, technology', 'Architecture Development Method (ADM) — phases and cycles', 'TOGAF architecture principles, governance, and maturity models'] },
-      { week: 'Module 2 — ADM Phases — Preliminary to Phase D', topics: ['Preliminary Phase — framework principles and capability', 'Phase A — Architecture Vision and stakeholder engagement', 'Phase B — Business Architecture and value streams', 'Phase C — Information Systems Architecture (data & application)', 'Phase D — Technology Architecture and platform design'] },
-      { week: 'Module 3 — ADM Phases — Opportunities to Governance', topics: ['Phase E — Opportunities and Solutions, migration planning', 'Phase F — Migration Planning and implementation roadmap', 'Phase G — Implementation Governance and compliance', 'Phase H — Architecture Change Management and continuous evolution'] },
-      { week: 'Module 4 — TOGAF Certified Level & Exam Prep', topics: ['TOGAF content framework and enterprise metamodel', 'Architecture capability, maturity, and board governance', 'TOGAF Level 1 and Level 2 exam formats and strategy', 'Practice exams, scenarios, and real-world architecture case studies'] },
-    ],
-  },
-
   // ═══ SERVICENOW ═══
   'servicenow': {
     summary: 'ServiceNow certification — master ITSM, ITOM, and ServiceNow platform administration for enterprise service management.',
@@ -364,7 +352,7 @@ const curriculums = {
     summary: 'Security Architecture Design — design secure enterprise architectures, zero-trust networks, and resilient defense systems.',
     description: 'Security Architecture Design covers enterprise security architecture frameworks, zero-trust principles, network segmentation, cloud security architecture, and designing resilient defense systems for complex organizations.',
     syllabus: [
-      { week: 'Module 1 — Security Architecture Frameworks', topics: ['Enterprise security architecture — SABSA, TOGAF, Zachman frameworks', 'Security architecture principles — defense in depth, least privilege', 'Architecture patterns — microservices, monolithic, hybrid security', 'Risk-driven architecture design methodology'] },
+      { week: 'Module 1 — Security Architecture Frameworks', topics: ['Enterprise security architecture — SABSA, Zachman frameworks', 'Security architecture principles — defense in depth, least privilege', 'Architecture patterns — microservices, monolithic, hybrid security', 'Risk-driven architecture design methodology'] },
       { week: 'Module 2 — Zero-Trust & Network Security Design', topics: ['Zero-trust architecture — NIST 800-207, Google BeyondCorp', 'Network segmentation — microsegmentation, SDN, SASE', 'Identity-centric security — zero-trust, PAM, and IAM architecture', 'Secure access service edge (SASE) and SSE design'] },
       { week: 'Module 3 — Cloud & Application Security Architecture', topics: ['Cloud security architecture — shared responsibility, CASB, CWPP', 'Secure application architecture — API security, container security', 'Data security — encryption, DLP, tokenization, and key management', 'DevSecOps — integrating security into CI/CD pipelines'] },
       { week: 'Module 4 — Governance, Compliance & Certification', topics: ['Security governance — policies, standards, controls, audits', 'Compliance architecture — PCI DSS, HIPAA, GDPR, SOC 2', 'Security architecture review and assessment methodologies', 'Capstone — designing a comprehensive enterprise security architecture'] },

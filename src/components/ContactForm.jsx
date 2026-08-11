@@ -33,7 +33,6 @@ const ContactForm = () => {
     'Certified Scrum Master (CSM)',
     'Professional Scrum Master (PSM)',
     'ITIL Foundation',
-    'TOGAF',
     'CISA',
     'CISM',
     'CompTIA Security+',

@@ -5,7 +5,7 @@ import { ChevronDown, HelpCircle } from 'lucide-react'
 const faqs = [
   {
     q: 'What courses does NeoSkills offer?',
-    a: 'We offer 40+ certification and training programs across Project Management (PMP, CAPM, PRINCE2), Cloud Computing (AWS, Azure, Google Cloud), IT Service Management (ITIL 5, TOGAF, ServiceNow), Agile & Scrum (CSM, PSM, SAFe), Cyber Security (CompTIA Security+, CISA, CISM, CEH), DevOps, Data Science, Business Analysis, and AI/ML.'
+    a: 'We offer 40+ certification and training programs across Project Management (PMP, CAPM, PRINCE2), Cloud Computing (AWS, Azure, Google Cloud), IT Service Management (ITIL, ServiceNow), Agile & Scrum (CSM, PSM, SAFe), Cyber Security (CompTIA Security+, CISA, CISM, CEH), DevOps, Data Science, Business Analysis, and AI/ML.'
   },
   {
     q: 'Are the courses live or recorded?',

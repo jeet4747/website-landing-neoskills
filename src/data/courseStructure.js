@@ -549,24 +549,6 @@ export const courseStructure = {
         ],
       },
 
-      'TOGAF\u00ae Architecture': {
-        icon: BookOpen,
-        description: 'Enterprise architecture certification for strategic IT design.',
-        courses: [
-          {
-            title: 'TOGAF Level 1 & 2 Certification',
-            icon: Briefcase,
-            description: 'Enterprise architecture certification for strategic IT design.',
-            cohort: '21-Mar-2026',
-            level: 'Advanced',
-            duration: '5-6 weeks',
-            trainingFee: 30000,
-            trainingExam: 30000 + 595 * R,
-            supportCost: 30000,
-          },
-        ],
-      },
-
       'Six Sigma': {
         icon: BarChart3,
         description: 'Process improvement and quality management with Six Sigma methodologies.',

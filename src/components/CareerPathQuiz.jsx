@@ -16,12 +16,12 @@ const questions = [
       { value: 'project-mgmt', label: 'Project Management', icon: Briefcase, desc: 'PMP, PRINCE2, CAPM — lead projects and programs effectively' },
       { value: 'security', label: 'Cyber Security', icon: Shield, desc: 'CompTIA Security+, CEH, CISSP, CISA — protect and defend' },
       { value: 'agile', label: 'Agile & Scrum', icon: Users, desc: 'CSM, PSM, SAFe, CSPO — master agile frameworks' },
-      { value: 'itsm', label: 'IT Service Management', icon: Cog, desc: 'ITIL 4, TOGAF, ServiceNow — align IT with business' },
+      { value: 'itsm', label: 'IT Service Management', icon: Cog, desc: 'ITIL 4, ServiceNow — align IT with business' },
       { value: 'data', label: 'Data & Analytics', icon: BarChart3, desc: 'Power BI, Six Sigma — turn data into decisions' },
       { value: 'devops', label: 'DevOps', icon: Terminal, desc: 'CI/CD, automation, DevSecOps — streamline delivery' },
       { value: 'ai', label: 'AI & Machine Learning', icon: Cpu, desc: 'CPMAI, AI in Testing — build intelligent solutions' },
       { value: 'testing', label: 'Software Testing', icon: Database, desc: 'ISTQB, automation testing — ensure quality' },
-      { value: 'ba', label: 'Business Analysis', icon: LineChart, desc: 'CBAP, TOGAF — bridge business and tech' },
+      { value: 'ba', label: 'Business Analysis', icon: LineChart, desc: 'CBAP — bridge business and tech' },
     ]
   },
   {
@@ -127,12 +127,10 @@ const recommendations = {
   // IT Service Management
   'itsm_certify_beginner_yes': { title: 'ITIL 4 Foundation', desc: 'Learn IT service management best practices. The global standard.', action: 'enroll' },
   'itsm_certify_intermediate_yes': { title: 'ITIL 4 Managing Professional', desc: 'Deepen your ITSM expertise with ITIL 4 MP.', action: 'enroll' },
-  'itsm_certify_advanced_yes': { title: 'TOGAF Level 1 & 2', desc: 'Master enterprise architecture with TOGAF certification.', action: 'enroll' },
   'itsm_upskill_beginner_yes': { title: 'ITIL 4 Foundation', desc: 'Build a solid foundation in IT service management.', action: 'enroll' },
   'itsm_upskill_intermediate_yes': { title: 'ServiceNow', desc: 'Learn the leading ITSM platform for digital workflows.', action: 'enroll' },
-  'itsm_upskill_advanced_yes': { title: 'TOGAF Level 1 & 2', desc: 'Architect enterprise solutions with TOGAF framework.', action: 'enroll' },
   'itsm_masters_any_any': { title: 'ITIL 4 Expert / Master\'s Program', desc: 'Complete path to ITIL 4 Expert and Master level.', action: 'enroll' },
-  'itsm_team_any_any': { title: 'Corporate ITSM Training', desc: 'ITIL, TOGAF, and ServiceNow programs for your team.', action: 'contact' },
+  'itsm_team_any_any': { title: 'Corporate ITSM Training', desc: 'ITIL and ServiceNow programs for your team.', action: 'contact' },
 
   // Data & Analytics
   'data_certify_beginner_yes': { title: 'Power BI', desc: 'Build data visualization and business intelligence skills.', action: 'enroll' },
@@ -170,9 +168,7 @@ const recommendations = {
   // Business Analysis
   'ba_certify_beginner_yes': { title: 'CBAP', desc: 'Start your business analysis career with CBAP certification.', action: 'enroll' },
   'ba_certify_intermediate_yes': { title: 'CBAP', desc: 'Validate your business analysis expertise with IIBA certification.', action: 'enroll' },
-  'ba_certify_advanced_yes': { title: 'TOGAF Level 1 & 2', desc: 'Combine BA skills with enterprise architecture expertise.', action: 'enroll' },
   'ba_upskill_intermediate_yes': { title: 'CBAP', desc: 'Deepen your business analysis skills and advance your career.', action: 'enroll' },
-  'ba_upskill_advanced_yes': { title: 'TOGAF Level 1 & 2', desc: 'Architect business solutions with the TOGAF framework.', action: 'enroll' },
   'ba_team_any_any': { title: 'Corporate BA Training', desc: 'Customized business analysis training for your team.', action: 'contact' },
 }
 

@@ -14,7 +14,7 @@ const slugs = [
   'professional-scrum-product-owner-i-pspo-i','professional-scrum-product-owner-ii-pspo-ii',
   'professional-scrum-master-ai-essentials-certification','professional-scrum-with-kanban-psk','advanced-certified-scrum-product-owner-a-cspo',
   'agile-advanced-certified-scrummaster-a-csm','agile-certified-scrum-product-owner-cspo',
-  'agile-safe-advanced-scrum-master-sasm','itil-4-foundation','togaf-level-1-and-2-certification',
+  'agile-safe-advanced-scrum-master-sasm','itil-4-foundation',
   'servicenow','servicenow-admin','servicenow-developer','servicenow-admin-and-developer','istqb-foundation','six-sigma-green-belt','six-sigma-black-belt',
   'devops-exin-master','devops-tools-and-training','comptia-security','cisa','cism','ceh',
   'cpmai-and-ai-project-management','cbap','power-bi','advanced-threat-analysis',

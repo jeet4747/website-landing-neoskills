@@ -645,7 +645,6 @@ export const courseCategories = [
   { slug: 'salesforce', name: 'Salesforce' },
   { slug: 'software-development', name: 'Software Development' },
   { slug: 'iso', name: 'ISO' },
-  { slug: 'togaf-architecture', name: 'TOGAF\u00ae Architecture' },
   { slug: 'six-sigma', name: 'Six Sigma' },
   { slug: 'it-governance', name: 'IT Governance' },
   { slug: 'risk-management', name: 'Risk Management' },

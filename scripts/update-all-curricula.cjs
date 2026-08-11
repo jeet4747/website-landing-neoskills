@@ -974,41 +974,6 @@ const curricula = {
   },
 
   // ═══════════════════════════════════════════════════
-  // TOGAF
-  // ═══════════════════════════════════════════════════
-
-  'togaf-level-1-and-2-certification': {
-    description: 'TOGAF® Standard, 10th Edition — the leading enterprise architecture framework. This course covers the Architecture Development Method (ADM), ADM techniques, governance, content framework, and enterprise architecture best practices for both Level 1 (Foundation) and Level 2 (Practitioner) certification.',
-    syllabus: [
-      { week: 'Module 1 — TOGAF Concepts and Enterprise Architecture Fundamentals', topics: [
-        'TOGAF Standard, 10th Edition — structure and documentation set',
-        'Enterprise Architecture domains — business, data, application, technology',
-        'Architecture Development Method (ADM) — phases, cycles, and governance',
-        'Architecture principles, repository, enterprise continuum, and maturity models'
-      ]},
-      { week: 'Module 2 — ADM Phases — Preliminary through Phase D', topics: [
-        'Preliminary Phase — framework principles and architecture capability',
-        'Phase A — Architecture Vision, stakeholder engagement, and approvals',
-        'Phase B — Business Architecture — value streams, capabilities, and organization',
-        'Phase C — Information Systems Architecture (Data and Application)',
-        'Phase D — Technology Architecture — platform design and infrastructure'
-      ]},
-      { week: 'Module 3 — ADM Phases — Opportunities to Governance', topics: [
-        'Phase E — Opportunities and Solutions — gap analysis and migration planning',
-        'Phase F — Migration Planning — implementation roadmap and prioritization',
-        'Phase G — Implementation Governance — compliance and architecture board',
-        'Phase H — Architecture Change Management — continuous evolution'
-      ]},
-      { week: 'Module 4 — ADM Techniques, Governance, and Exam Prep', topics: [
-        'ADM techniques — stakeholder management, risk, interoperability, and patterns',
-        'Content framework and enterprise metamodel',
-        'Architecture governance — boards, contracts, and compliance',
-        'Level 1 (OGEA-101) and Level 2 (OGEA-102) exam preparation with practice tests'
-      ]}
-    ]
-  },
-
-  // ═══════════════════════════════════════════════════
   // SERVICENOW
   // ═══════════════════════════════════════════════════
 
@@ -1491,11 +1456,10 @@ const curricula = {
   },
 
   'security-architecture-design': {
-    description: 'Security Architecture Design — design secure enterprise architectures using industry frameworks including SABSA, TOGAF, and the Zachman Framework. Cover zero trust architecture, cloud security architecture, identity and access management design, and security patterns for modern enterprises.',
+    description: 'Security Architecture Design — design secure enterprise architectures using industry frameworks including SABSA and the Zachman Framework. Cover zero trust architecture, cloud security architecture, identity and access management design, and security patterns for modern enterprises.',
     syllabus: [
       { week: 'Module 1 — Enterprise Security Architecture Frameworks', topics: [
         'SABSA — Business, Architecture, and Service Management perspectives',
-        'TOGAF for security architects — integrating security into ADM',
         'Zachman Framework for security architecture',
         'Security architecture artifacts, views, and viewpoints'
       ]},
