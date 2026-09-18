@@ -38,6 +38,7 @@ const staticPages = [
   { loc: '/contact-support', priority: '0.6', changefreq: 'monthly' },
   { loc: '/placements', priority: '0.7', changefreq: 'weekly' },
   { loc: '/about', priority: '0.8', changefreq: 'monthly' },
+  { loc: '/workshop', priority: '0.9', changefreq: 'weekly' },
 ]
 
 const urls = [

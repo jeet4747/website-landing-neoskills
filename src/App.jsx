@@ -26,6 +26,7 @@ const AICoursesPopup = lazy(() => import('./components/AICoursesPopup.jsx'))
 const LeadPopup = lazy(() => import('./components/LeadPopup.jsx'))
 const HiringPopup = lazy(() => import('./components/HiringPopup.jsx'))
 const WhatsAppPopup = lazy(() => import('./components/WhatsAppPopup.jsx'))
+const WorkshopPopup = lazy(() => import('./components/WorkshopPopup.jsx'))
 const StickyCtaBar = lazy(() => import('./components/StickyCtaBar.jsx'))
 // const WebinarPopup = lazy(() => import('./components/WebinarPopup.jsx'))
 
@@ -42,6 +43,7 @@ const ContactSupport = lazy(() => import('./pages/ContactSupport.jsx'))
 const JobsPage = lazy(() => import('./pages/JobsPage.jsx'))
 const AboutPage = lazy(() => import('./pages/AboutPage.jsx'))
 const WebinarPage = lazy(() => import('./pages/WebinarPage.jsx'))
+const WorkshopPage = lazy(() => import('./pages/WorkshopPage.jsx'))
 const BlogPage = lazy(() => import('./pages/BlogPage.jsx'))
 const CourseCompare = lazy(() => import('./pages/CourseCompare.jsx'))
 const QuickPay = lazy(() => import('./components/QuickPay.jsx'))
@@ -192,6 +194,7 @@ export default function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/placements" element={<JobsPage />} />
               <Route path="/webinar/:slug" element={<WebinarPage />} />
+              <Route path="/workshop" element={<WorkshopPage />} />
               <Route path="*" element={
                 <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
                   <div className="text-center max-w-md">
@@ -208,6 +211,7 @@ export default function App() {
           <CourseFinderAI />
           <AICoursesPopup />
           <WhatsAppPopup />
+          <WorkshopPopup />
           <HiringPopup />
           <LeadPopup />
           <StickyCtaBar />
