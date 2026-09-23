@@ -44,6 +44,7 @@ const JobsPage = lazy(() => import('./pages/JobsPage.jsx'))
 const AboutPage = lazy(() => import('./pages/AboutPage.jsx'))
 const WebinarPage = lazy(() => import('./pages/WebinarPage.jsx'))
 const WorkshopPage = lazy(() => import('./pages/WorkshopPage.jsx'))
+const AiHrPage = lazy(() => import('./pages/AiHrPage.jsx'))
 const BlogPage = lazy(() => import('./pages/BlogPage.jsx'))
 const CourseCompare = lazy(() => import('./pages/CourseCompare.jsx'))
 const QuickPay = lazy(() => import('./components/QuickPay.jsx'))
@@ -195,6 +196,7 @@ export default function App() {
               <Route path="/placements" element={<JobsPage />} />
               <Route path="/webinar/:slug" element={<WebinarPage />} />
               <Route path="/ai-for-pm-manager" element={<WorkshopPage />} />
+              <Route path="/ai-powered-hr" element={<AiHrPage />} />
               <Route path="*" element={
                 <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
                   <div className="text-center max-w-md">
