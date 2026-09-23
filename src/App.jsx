@@ -194,7 +194,7 @@ export default function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/placements" element={<JobsPage />} />
               <Route path="/webinar/:slug" element={<WebinarPage />} />
-              <Route path="/workshop" element={<WorkshopPage />} />
+              <Route path="/ai-for-pm-manager" element={<WorkshopPage />} />
               <Route path="*" element={
                 <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
                   <div className="text-center max-w-md">
