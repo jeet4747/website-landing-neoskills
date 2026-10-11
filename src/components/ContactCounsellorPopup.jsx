@@ -6,27 +6,37 @@ import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '.
 
 const SHOW_DELAY = 3000
 const RECAPTCHA_SITE_KEY =
-  import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+  import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LcOXOgtAAAAAA1mmytZfKNzY_JnAer5NjaP1Ri8'
 
 let recaptchaScriptPromise = null
 function loadRecaptchaScript() {
   if (window.grecaptcha && window.grecaptcha.render) return Promise.resolve()
   if (recaptchaScriptPromise) return recaptchaScriptPromise
   recaptchaScriptPromise = new Promise((resolve, reject) => {
-    const existing = document.querySelector('script[src*="recaptcha/api.js"]')
-    if (existing) {
-      existing.addEventListener('load', () => resolve())
-      existing.addEventListener('error', () => reject(new Error('reCAPTCHA failed to load')))
-      if (window.grecaptcha) resolve()
-      return
+    let settled = false
+    const poll = setInterval(() => {
+      if (window.grecaptcha && window.grecaptcha.render) {
+        settled = true
+        clearInterval(poll)
+        clearTimeout(timeout)
+        resolve()
+      }
+    }, 100)
+    const timeout = setTimeout(() => {
+      if (!settled) {
+        clearInterval(poll)
+        recaptchaScriptPromise = null
+        reject(new Error('reCAPTCHA failed to load in time'))
+      }
+    }, 15000)
+    if (!document.querySelector('script[src*="recaptcha/api.js"]')) {
+      const script = document.createElement('script')
+      script.src = 'https://www.google.com/recaptcha/api.js?render=explicit'
+      script.async = true
+      script.defer = true
+      script.onerror = () => { clearInterval(poll); clearTimeout(timeout); recaptchaScriptPromise = null; reject(new Error('reCAPTCHA script failed to load')) }
+      document.head.appendChild(script)
     }
-    const script = document.createElement('script')
-    script.src = 'https://www.google.com/recaptcha/api.js?render=explicit'
-    script.async = true
-    script.defer = true
-    script.onload = () => resolve()
-    script.onerror = () => reject(new Error('reCAPTCHA failed to load'))
-    document.head.appendChild(script)
   })
   return recaptchaScriptPromise
 }
