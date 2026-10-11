@@ -6,7 +6,7 @@ import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '.
 
 const SHOW_DELAY = 3000
 const RECAPTCHA_SITE_KEY =
-  import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+  import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LcOXOgtAAAAACQR5nrlqBYsQ67QnvD0Wj-tsDuV'
 
 let recaptchaScriptPromise = null
 function loadRecaptchaScript() {
