@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Clock, Users } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const SHOW_DELAY = 120000
 
@@ -12,6 +13,8 @@ export default function LeadPopup() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', course: '' })
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState('')
   const shownRef = useRef(false)
 
   useEffect(() => {
@@ -36,6 +39,11 @@ export default function LeadPopup() {
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault()
     setError('')
+    setCaptchaError('')
+    if (!captchaToken) {
+      setCaptchaError('Please complete the reCAPTCHA to continue.')
+      return
+    }
     setSending(true)
     try {
       await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
@@ -44,6 +52,7 @@ export default function LeadPopup() {
         phone: form.phone,
         course: form.course || 'Popup inquiry',
         message: 'Interested in learning more',
+        'g-recaptcha-response': captchaToken,
       }, EMAILJS_PUBLIC_KEY)
       setSubmitted(true)
     } catch (err) {
@@ -51,7 +60,7 @@ export default function LeadPopup() {
     } finally {
       setSending(false)
     }
-  }, [form])
+  }, [form, captchaToken])
 
   return (
     <AnimatePresence>
@@ -170,6 +179,12 @@ export default function LeadPopup() {
                     <Users size={12} />
                     <span>We respect your privacy. No spam, guaranteed.</span>
                   </div>
+
+                  <RecaptchaCheckbox onChange={setCaptchaToken} />
+
+                  {captchaError && (
+                    <p className="text-red-500 text-xs text-center">{captchaError}</p>
+                  )}
 
                   <motion.button
                     type="submit"

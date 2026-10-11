@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from '../components/RecaptchaCheckbox'
 import { Briefcase, MapPin, Clock, IndianRupee, Calendar, Filter, Search, ChevronRight, Building2, Users, BookOpen, ExternalLink, X, Upload, CheckCircle, AlertCircle } from 'lucide-react'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
@@ -32,6 +33,8 @@ export default function JobsPage() {
   const [appSubmitting, setAppSubmitting] = useState(false)
   const [appSubmitted, setAppSubmitted] = useState(false)
   const [appError, setAppError] = useState('')
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState('')
 
   useEffect(() => {
     fetch(API_URL)
@@ -70,6 +73,11 @@ export default function JobsPage() {
   const handleAppSubmit = async (e) => {
     e.preventDefault()
     setAppError('')
+    setCaptchaError('')
+    if (!captchaToken) {
+      setCaptchaError('Please complete the reCAPTCHA to continue.')
+      return
+    }
     if (!appForm.name || !appForm.email) {
       setAppError('Name and email are required')
       return
@@ -98,6 +106,7 @@ export default function JobsPage() {
           phone: appForm.phone,
           course: `Job Application: ${selectedJob?.title || ''}`,
           message: `${appForm.message || 'Interested in this position'}\n\nJob: ${selectedJob?.title || ''}\nCV: ${window.location.origin}/uploads/cvs/${data.application?.cvFile || ''}`,
+          'g-recaptcha-response': captchaToken,
         },
         EMAILJS_PUBLIC_KEY
       )
@@ -444,6 +453,8 @@ export default function JobsPage() {
                       <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
                       <span>I Authorize NEOSKILLS to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
                     </label>
+
+                    <RecaptchaCheckbox onChange={setCaptchaToken} />
 
                     {appError && (
                       <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 px-4 py-3 rounded-xl border border-red-100">

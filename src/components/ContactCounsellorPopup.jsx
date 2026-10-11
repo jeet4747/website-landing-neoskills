@@ -3,43 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Headphones, ShieldCheck, Phone } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const SHOW_DELAY = 3000
-const RECAPTCHA_SITE_KEY =
-  import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LcOXOgtAAAAACQR5nrlqBYsQ67QnvD0Wj-tsDuV'
-
-let recaptchaScriptPromise = null
-function loadRecaptchaScript() {
-  if (window.grecaptcha && window.grecaptcha.render) return Promise.resolve()
-  if (recaptchaScriptPromise) return recaptchaScriptPromise
-  recaptchaScriptPromise = new Promise((resolve, reject) => {
-    let settled = false
-    const poll = setInterval(() => {
-      if (window.grecaptcha && window.grecaptcha.render) {
-        settled = true
-        clearInterval(poll)
-        clearTimeout(timeout)
-        resolve()
-      }
-    }, 100)
-    const timeout = setTimeout(() => {
-      if (!settled) {
-        clearInterval(poll)
-        recaptchaScriptPromise = null
-        reject(new Error('reCAPTCHA failed to load in time'))
-      }
-    }, 15000)
-    if (!document.querySelector('script[src*="recaptcha/api.js"]')) {
-      const script = document.createElement('script')
-      script.src = 'https://www.google.com/recaptcha/api.js?render=explicit'
-      script.async = true
-      script.defer = true
-      script.onerror = () => { clearInterval(poll); clearTimeout(timeout); recaptchaScriptPromise = null; reject(new Error('reCAPTCHA script failed to load')) }
-      document.head.appendChild(script)
-    }
-  })
-  return recaptchaScriptPromise
-}
 
 export default function ContactCounsellorPopup() {
   const [show, setShow] = useState(false)
@@ -48,10 +14,8 @@ export default function ContactCounsellorPopup() {
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
   const [captchaToken, setCaptchaToken] = useState('')
-  const [captchaError, setCaptchaError] = useState(false)
 
   const recaptchaRef = useRef(null)
-  const widgetIdRef = useRef(null)
   const shownRef = useRef(false)
 
   useEffect(() => {
@@ -65,27 +29,6 @@ export default function ContactCounsellorPopup() {
     }, SHOW_DELAY)
     return () => clearTimeout(timer)
   }, [])
-
-  useEffect(() => {
-    if (!show) return
-    let active = true
-    setCaptchaError(false)
-    setCaptchaToken('')
-    loadRecaptchaScript()
-      .then(() => {
-        if (!active || !recaptchaRef.current || !window.grecaptcha || !window.grecaptcha.render) return
-        recaptchaRef.current.innerHTML = ''
-        widgetIdRef.current = window.grecaptcha.render(recaptchaRef.current, {
-          sitekey: RECAPTCHA_SITE_KEY,
-          theme: 'light',
-          callback: (token) => { if (active) setCaptchaToken(token) },
-          'expired-callback': () => { if (active) setCaptchaToken('') },
-          'error-callback': () => { if (active) setCaptchaError(true) },
-        })
-      })
-      .catch(() => { if (active) setCaptchaError(true) })
-    return () => { active = false }
-  }, [show])
 
   const handleDismiss = useCallback(() => {
     setShow(false)
@@ -117,9 +60,7 @@ export default function ContactCounsellorPopup() {
     } catch {
       setError('Something went wrong. Please try again.')
       setCaptchaToken('')
-      if (window.grecaptcha && widgetIdRef.current !== null) {
-        window.grecaptcha.reset(widgetIdRef.current)
-      }
+      recaptchaRef.current?.reset()
     } finally {
       setSending(false)
     }
@@ -204,14 +145,7 @@ export default function ContactCounsellorPopup() {
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
                     />
 
-                    <div className="flex justify-center min-h-[78px]">
-                      <div ref={recaptchaRef} />
-                    </div>
-                    {captchaError && (
-                      <p className="text-amber-600 text-xs text-center -mt-2">
-                        Couldn't load reCAPTCHA. Please refresh the page or call us directly.
-                      </p>
-                    )}
+                    <RecaptchaCheckbox ref={recaptchaRef} onChange={setCaptchaToken} />
 
                     {error && (
                       <p className="text-red-500 text-xs text-center">{error}</p>

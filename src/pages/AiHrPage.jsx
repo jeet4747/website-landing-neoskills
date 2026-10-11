@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from '../components/RecaptchaCheckbox'
 import { useEnroll } from '../context/EnrollContext'
 
 const HR_COURSE = 'AI-Powered HR Professional Workshop'
@@ -106,6 +107,8 @@ export default function AiHrPage() {
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
   const [registered, setRegistered] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState('')
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -114,6 +117,11 @@ export default function AiHrPage() {
   const handleReserve = async (e) => {
     e.preventDefault()
     setError('')
+    setCaptchaError('')
+    if (!captchaToken) {
+      setCaptchaError('Please complete the reCAPTCHA to continue.')
+      return
+    }
     setSending(true)
     try {
       await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
@@ -122,6 +130,7 @@ export default function AiHrPage() {
         phone: form.phone,
         course: HR_COURSE,
         message: 'Reserve my seat for the 1-Day AI-Powered HR Professional online course.',
+        'g-recaptcha-response': captchaToken,
       }, EMAILJS_PUBLIC_KEY)
       setRegistered(true)
       openPayment({
@@ -421,6 +430,10 @@ export default function AiHrPage() {
                   </div>
 
                   {error && <p className="text-red-500 text-xs text-center">{error}</p>}
+
+                  <RecaptchaCheckbox onChange={setCaptchaToken} />
+
+                  {captchaError && <p className="text-red-500 text-xs text-center">{captchaError}</p>}
 
                   <motion.button
                     type="submit" disabled={sending}

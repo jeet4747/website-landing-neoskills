@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { useEnroll } from '../context/EnrollContext'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 
 
@@ -18,6 +19,8 @@ const ContactForm = () => {
   }))
 
   const [submitted, setSubmitted] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState('')
 
   const courses = [
     'PMP',
@@ -60,6 +63,11 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
   e.preventDefault()
+  setCaptchaError('')
+  if (!captchaToken) {
+    setCaptchaError('Please complete the reCAPTCHA to continue.')
+    return
+  }
 
   emailjs
   .send(
@@ -71,6 +79,7 @@ const ContactForm = () => {
         phone: formData.phone,
         course: formData.course,
         message: formData.message,
+        'g-recaptcha-response': captchaToken,
       },
       EMAILJS_PUBLIC_KEY
     )
@@ -92,6 +101,7 @@ const ContactForm = () => {
     })
     .catch((error) => {
       console.error('EmailJS Error:', error)
+      setCaptchaToken('')
       alert('Something went wrong. Please try again.')
     })
 }
@@ -212,6 +222,12 @@ const ContactForm = () => {
                 <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
                 <span>I Authorize NEOSKILLS to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
               </label>
+
+              <RecaptchaCheckbox onChange={setCaptchaToken} />
+
+              {captchaError && (
+                <p className="text-red-500 text-xs text-center">{captchaError}</p>
+              )}
 
               {/* Submit Button */}
               <motion.button

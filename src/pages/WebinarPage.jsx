@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { Calendar, Clock, Users, CheckCircle, ArrowRight, MessageCircle, Zap, ExternalLink } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from '../components/RecaptchaCheckbox'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinars'
@@ -53,6 +54,8 @@ export default function WebinarPage() {
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState({ name: '', email: '', phone: '', experience: '' })
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState('')
 
   useEffect(() => {
     fetch(WEBINARS_API)
@@ -79,6 +82,11 @@ export default function WebinarPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    setCaptchaError('')
+    if (!captchaToken) {
+      setCaptchaError('Please complete the reCAPTCHA to continue.')
+      return
+    }
     setSending(true)
     try {
       await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
@@ -87,6 +95,7 @@ export default function WebinarPage() {
         phone: form.phone,
         course: `Webinar: ${activeWebinar.title}`,
         message: `Registering for ${activeWebinar.fullTitle} on ${activeWebinar.date} at ${activeWebinar.time}. Experience: ${form.experience || 'Not specified'}`,
+        'g-recaptcha-response': captchaToken,
       }, EMAILJS_PUBLIC_KEY)
 
       sessionStorage.setItem(`webinar_${slug || DEFAULT_WEBINAR.slug}`, 'true')
@@ -288,6 +297,10 @@ export default function WebinarPage() {
                         <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
                         <span>I Authorize NEOSKILLS to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
                       </label>
+
+                      <RecaptchaCheckbox onChange={setCaptchaToken} />
+
+                      {captchaError && <p className="text-red-500 text-xs">{captchaError}</p>}
 
                       <button
                         type="submit"

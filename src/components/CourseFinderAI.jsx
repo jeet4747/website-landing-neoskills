@@ -8,6 +8,8 @@ import {
 } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { loadRecaptchaScript } from './RecaptchaCheckbox'
+import { RECAPTCHA_SITE_KEY } from '../config/emailjs'
 
 const allCourses = [
   { keywords: ['pmp', 'project management', 'project manager'], title: 'PMP Certification', cat: 'Project Management' },
@@ -68,6 +70,46 @@ const CourseFinderAI = () => {
   const [collecting, setCollecting] = useState(null)
   const [selectedCourse, setSelectedCourse] = useState('')
   const messagesEndRef = useRef(null)
+  const captchaWidgetRef = useRef(null)
+  const captchaTokenResolverRef = useRef(null)
+
+  useEffect(() => {
+    let active = true
+    loadRecaptchaScript()
+      .then(() => {
+        if (!active || !window.grecaptcha || !window.grecaptcha.render) return
+        captchaWidgetRef.current = window.grecaptcha.render('invisible-recaptcha-course-finder', {
+          sitekey: RECAPTCHA_SITE_KEY,
+          size: 'invisible',
+          badge: 'bottomleft',
+          callback: (token) => {
+            if (captchaTokenResolverRef.current) {
+              captchaTokenResolverRef.current(token)
+              captchaTokenResolverRef.current = null
+            }
+          },
+          'error-callback': () => {
+            if (captchaTokenResolverRef.current) {
+              captchaTokenResolverRef.current('')
+              captchaTokenResolverRef.current = null
+            }
+          },
+        })
+      })
+      .catch(() => {})
+    return () => { active = false }
+  }, [])
+
+  const getCaptchaToken = useCallback(() => {
+    return new Promise((resolve) => {
+      if (!window.grecaptcha || captchaWidgetRef.current === null) {
+        resolve('')
+        return
+      }
+      captchaTokenResolverRef.current = resolve
+      window.grecaptcha.execute(captchaWidgetRef.current)
+    })
+  }, [])
   const inputRef = useRef(null)
   const { openEnroll } = useEnroll()
 
@@ -116,17 +158,19 @@ const CourseFinderAI = () => {
 
   const sendLeadEmail = useCallback(async () => {
     try {
+      const captchaToken = await getCaptchaToken()
       await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
         name: lead.name,
         email: lead.email,
         phone: lead.phone || 'N/A',
         course: lead.course || 'Chatbot inquiry',
         message: `Course interested: ${lead.course || 'Not specified'}`,
+        'g-recaptcha-response': captchaToken,
       }, EMAILJS_PUBLIC_KEY)
     } catch (err) {
       console.error('EmailJS chatbot error:', err)
     }
-  }, [lead])
+  }, [lead, getCaptchaToken])
 
   const startLeadCollection = useCallback((courseTitle) => {
     setSelectedCourse(courseTitle)
@@ -399,6 +443,7 @@ const CourseFinderAI = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <div id="invisible-recaptcha-course-finder" style={{ display: 'none' }} />
     </>
   )
 }

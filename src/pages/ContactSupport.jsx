@@ -5,21 +5,30 @@ import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, MessageSquare, Send, CheckCircle, Clock, Globe, ExternalLink } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from '../components/RecaptchaCheckbox'
 
 export default function ContactSupport() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
   const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setError('')
+    setCaptchaError('')
+    if (!captchaToken) {
+      setCaptchaError('Please complete the reCAPTCHA to continue.')
+      return
+    }
     emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
       name: form.name,
       email: form.email,
       phone: form.phone || 'N/A',
       course: form.subject || 'General inquiry',
       message: form.message,
+      'g-recaptcha-response': captchaToken,
     }, EMAILJS_PUBLIC_KEY)
       .then(() => { setSent(true); setForm({ name: '', email: '', phone: '', subject: '', message: '' }) })
       .catch(() => setError('Could not send message. Please email contact@neoskills.co.in directly.'))
@@ -74,6 +83,8 @@ export default function ContactSupport() {
                       <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
                       <span>I Authorize NEOSKILLS to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
                     </label>
+                    <RecaptchaCheckbox onChange={setCaptchaToken} />
+                    {captchaError && <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-xl text-sm">{captchaError}</div>}
                     <motion.button type="submit" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="btn-primary flex items-center gap-2 py-3 px-6">
                       <Send size={18} /> Send Message
                     </motion.button>

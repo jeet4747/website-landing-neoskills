@@ -21,6 +21,7 @@ const LucideIcons = {
 }
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from './RecaptchaCheckbox'
 import { useEnroll } from '../context/EnrollContext'
 import { allCourses, courseCategories, getAllResolvedCourses, getMergedCourseCategories, getTotal } from './courseData'
 import { fetchBackendCourses, loadCourseBySlug } from '../data/courseService.js'
@@ -48,6 +49,10 @@ const CourseDetail = () => {
   const [brochureForm, setBrochureForm] = useState({ name: '', email: '', phone: '' })
   const [brochureSent, setBrochureSent] = useState(false)
   const [brochureError, setBrochureError] = useState('')
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState('')
+  const [brochureToken, setBrochureToken] = useState('')
+  const [brochureCaptchaError, setBrochureCaptchaError] = useState('')
 
   useEffect(() => {
     fetchBackendCourses().then(data => {
@@ -121,6 +126,11 @@ const CourseDetail = () => {
   const handleContactSubmit = (e) => {
     e.preventDefault()
     setContactError('')
+    setCaptchaError('')
+    if (!captchaToken) {
+      setCaptchaError('Please complete the reCAPTCHA to continue.')
+      return
+    }
     const courseLabel = course.fullTitle || course.title
 
     emailjs
@@ -133,6 +143,7 @@ const CourseDetail = () => {
           phone: contactForm.phone || 'N/A',
           course: courseLabel,
           message: contactForm.message || `Inquiry about ${courseLabel}`,
+          'g-recaptcha-response': captchaToken,
         },
         EMAILJS_PUBLIC_KEY
       )
@@ -143,7 +154,7 @@ const CourseDetail = () => {
       })
       .catch((err) => {
         console.error('EmailJS error', err)
-        setContactError('Could not send your message. Please email contact@neoskills.co.in or call +91 89569 63953.')
+        setCaptchaError('Could not send your message. Please email contact@neoskills.co.in or call +91 89569 63953.')
       })
   }
 
@@ -625,6 +636,12 @@ const CourseDetail = () => {
                     <span>I Authorize NEOSKILLS to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
                   </label>
 
+                  <RecaptchaCheckbox onChange={setCaptchaToken} />
+
+                  {captchaError && (
+                    <p className="text-sm text-red-600 text-center">{captchaError}</p>
+                  )}
+
                   <motion.button
                     type="submit"
                     whileHover={{ scale: 1.02 }}
@@ -970,12 +987,18 @@ const CourseDetail = () => {
                 <form onSubmit={(e) => {
                   e.preventDefault()
                   setBrochureError('')
+                  setBrochureCaptchaError('')
+                  if (!brochureToken) {
+                    setBrochureCaptchaError('Please complete the reCAPTCHA to continue.')
+                    return
+                  }
                   emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
                     name: brochureForm.name,
                     email: brochureForm.email,
                     phone: brochureForm.phone,
                     course: `${course.title} — Brochure Request`,
                     message: `Please share the brochure for ${course.title}`,
+                    'g-recaptcha-response': brochureToken,
                   }, EMAILJS_PUBLIC_KEY)
                     .then(() => setBrochureSent(true))
                     .catch(() => setBrochureError('Could not send. Please email contact@neoskills.co.in.'))
@@ -996,6 +1019,10 @@ const CourseDetail = () => {
                     <LucideIcons.Download size={16} />
                     Send Brochure
                   </button>
+                  <RecaptchaCheckbox onChange={setBrochureToken} />
+                  {brochureCaptchaError && (
+                    <p className="text-xs text-red-600 text-center">{brochureCaptchaError}</p>
+                  )}
                   <p className="text-xs text-gray-400 text-center">We will email you the PDF. No spam, ever.</p>
                 </form>
               </>

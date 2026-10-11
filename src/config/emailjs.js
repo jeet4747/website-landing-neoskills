@@ -2,3 +2,5 @@ export const EMAILJS_SERVICE = 'service_1wdyrv6'
 export const EMAILJS_TEMPLATE_INQUIRY = 'template_a2o3cnp'
 export const EMAILJS_TEMPLATE_ENROLL = 'template_5j2k85s'
 export const EMAILJS_PUBLIC_KEY = 'r41Jkgv_e8C8336oD'
+export const RECAPTCHA_SITE_KEY =
+  import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LcOXOgtAAAAACQR5nrlqBYsQ67QnvD0Wj-tsDuV'

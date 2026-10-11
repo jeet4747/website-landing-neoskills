@@ -4,6 +4,7 @@ import { X, Brain, Cpu, Lightbulb, Bot, Sparkles, Send, CheckCircle } from 'luci
 import { useNavigate } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const aiCourses = [
   { title: 'CPMAI & AI Project Management', slug: 'cpmai-and-ai-project-management', icon: Brain, desc: 'AI project management concepts with practical business relevance.', badge: 'AI & ML' },
@@ -20,6 +21,8 @@ export default function AICoursesPopup() {
   const [selectedCourse, setSelectedCourse] = useState('')
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [step, setStep] = useState('list')
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState('')
   const navigate = useNavigate()
   const shownRef = useRef(false)
 
@@ -49,6 +52,11 @@ export default function AICoursesPopup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setCaptchaError('')
+    if (!captchaToken) {
+      setCaptchaError('Please complete the reCAPTCHA to continue.')
+      return
+    }
     setSending(true)
     try {
       await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
@@ -57,6 +65,7 @@ export default function AICoursesPopup() {
         phone: form.phone,
         course: selectedCourse || 'AI Course Inquiry',
         message: `Interested in: ${selectedCourse}`,
+        'g-recaptcha-response': captchaToken,
       }, EMAILJS_PUBLIC_KEY)
       setSubmitted(true)
     } catch {
@@ -140,6 +149,8 @@ export default function AICoursesPopup() {
                   <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
                   <span>I Authorize NEOSKILLS to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
                 </label>
+                <RecaptchaCheckbox onChange={setCaptchaToken} />
+                {captchaError && <p className="text-red-500 text-xs text-center">{captchaError}</p>}
                 <div className="flex gap-2">
                   <button type="button" onClick={() => setStep('list')} className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50">Back</button>
                   <button type="submit" disabled={sending} className="flex-1 bg-purple-700 text-white font-bold py-3 rounded-xl hover:bg-purple-800 transition-all flex items-center justify-center gap-2 disabled:opacity-70">

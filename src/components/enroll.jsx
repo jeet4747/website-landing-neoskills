@@ -5,6 +5,7 @@ import { getAllResolvedCourses, effectiveListedPrice, getTotal } from '../data/c
 import { fetchBackendCourses } from '../data/courseService'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_ENROLL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from './RecaptchaCheckbox'
 import { ArrowRight, IndianRupee } from 'lucide-react'
 import './enroll.css'
 
@@ -47,6 +48,8 @@ export default function Enroll() {
   })
 
   const [submitting, setSubmitting] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState('')
 
   useEffect(() => {
     const preferredCourse =
@@ -89,6 +92,11 @@ export default function Enroll() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setCaptchaError('')
+    if (!captchaToken) {
+      setCaptchaError('Please complete the reCAPTCHA to continue.')
+      return
+    }
     setSubmitting(true)
 
     emailjs.send(
@@ -101,6 +109,7 @@ export default function Enroll() {
         course: formData.course,
         Amount: selectedPrice > 0 ? `₹${selectedPrice}` : 'N/A',
         message: formData.message || `Enrollment for ${formData.course}`,
+        'g-recaptcha-response': captchaToken,
       },
       EMAILJS_PUBLIC_KEY
     ).then(() => {
@@ -204,6 +213,8 @@ export default function Enroll() {
                 <span>I Authorize NEOSKILLS to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
               </label>
               <p>By submitting, you agree to our enrollment terms. A confirmation will be sent to your email after payment.</p>
+              <RecaptchaCheckbox onChange={setCaptchaToken} />
+              {captchaError && <p className="text-red-500 text-xs">{captchaError}</p>}
               <button type="submit" disabled={submitting} className="submit-btn">
                 {submitting ? 'Processing...' : (
                   <span className="flex items-center justify-center gap-2">

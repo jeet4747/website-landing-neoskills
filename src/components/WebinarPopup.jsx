@@ -4,6 +4,7 @@ import { X, Calendar, Clock, Users, Send, CheckCircle, MessageCircle, ExternalLi
 import { Link } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinars'
@@ -14,6 +15,8 @@ export default function WebinarPopup() {
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState('')
   const dismissedRef = useRef(false)
 
   useEffect(() => {
@@ -46,6 +49,11 @@ export default function WebinarPopup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setCaptchaError('')
+    if (!captchaToken) {
+      setCaptchaError('Please complete the reCAPTCHA to continue.')
+      return
+    }
     setSending(true)
     try {
       await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
@@ -54,6 +62,7 @@ export default function WebinarPopup() {
         phone: form.phone,
         course: `Webinar: ${webinar?.title || 'Free Webinar'}`,
         message: `Registration for ${webinar?.fullTitle || webinar?.title}`,
+        'g-recaptcha-response': captchaToken,
       }, EMAILJS_PUBLIC_KEY)
       setSubmitted(true)
     } catch {
@@ -131,6 +140,10 @@ export default function WebinarPopup() {
                     <input type="checkbox" required className="mt-0.5 shrink-0 accent-primary" />
                     <span>I Authorize NEOSKILLS to send Notification via SMS/RCS/CALL/Email/Whatsapp.</span>
                   </label>
+
+                  <RecaptchaCheckbox onChange={setCaptchaToken} />
+
+                  {captchaError && <p className="text-red-500 text-xs text-center">{captchaError}</p>}
 
                   <motion.button type="submit" disabled={sending} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                     className="w-full bg-gradient-to-r from-purple-700 to-blue-700 text-white font-bold py-3.5 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
