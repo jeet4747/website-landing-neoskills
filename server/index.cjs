@@ -27,13 +27,30 @@ try {
 }
 
 // ─── Nodemailer ───
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.ZOHO_EMAIL,
-    pass: process.env.ZOHO_PASSWORD,
-  },
-})
+const MAIL_USER = process.env.ZOHO_EMAIL
+const MAIL_PASS = process.env.ZOHO_PASSWORD
+const MAIL_FROM = process.env.MAIL_FROM || MAIL_USER
+const SMTP_PORT = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : null
+
+// Prefer explicit SMTP host when provided (works for Zoho/custom/Workspace).
+// Otherwise fall back to Gmail's well-known service (Gmail address + App Password).
+const transporter = process.env.SMTP_HOST
+  ? nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: SMTP_PORT || 465,
+      secure: (SMTP_PORT || 465) === 465,
+      auth: { user: MAIL_USER, pass: MAIL_PASS },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
+    })
+  : nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: MAIL_USER, pass: MAIL_PASS },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
+    })
 
 const sendConfirmationEmail = async ({ name, email, course, amount }) => {
   const mailOptions = {
@@ -461,7 +478,7 @@ const LEAD_INBOX = process.env.LEAD_EMAIL || 'contact@neoskills.co.in'
 const sendLeadEmail = async ({ name, email, phone, course, message, source }) => {
   try {
     await transporter.sendMail({
-      from: `"Neoskills Leads" <${process.env.ZOHO_EMAIL}>`,
+      from: `"Neoskills Leads" <${MAIL_FROM}>`,
       to: LEAD_INBOX,
       replyTo: email || undefined,
       subject: `🔔 New Lead${course ? ': ' + course : ''} — ${name}${phone ? ' / ' + phone : ''}`,
@@ -485,10 +502,10 @@ const sendLeadEmail = async ({ name, email, phone, course, message, source }) =>
       `,
     })
     console.log(`Lead email sent to ${LEAD_INBOX} for ${name}`)
-    return true
+    return { ok: true }
   } catch (err) {
-    console.error('Failed to send lead email:', err.message)
-    return false
+    console.error('Failed to send lead email:', err.code || '', err.message)
+    return { ok: false, error: err.message }
   }
 }
 
@@ -541,9 +558,9 @@ app.post('/api/leads', async (req, res) => {
     await setData('leads', leads)
 
     // Best-effort email notification
-    sendLeadEmail({ name, email, phone, course, message, source })
+    const emailResult = await sendLeadEmail({ name, email, phone, course, message, source })
 
-    res.json({ success: true, lead })
+    res.json({ success: true, lead, emailSent: emailResult.ok, emailError: emailResult.error || null })
   } catch (err) {
     console.error('lead error', err)
     res.status(500).json({ error: err.message })
@@ -556,6 +573,17 @@ app.get('/api/leads', requireAdmin, async (req, res) => {
     res.json(Array.isArray(data) ? data : [])
   } catch (err) {
     res.status(500).json({ error: 'Failed to read leads' })
+  }
+})
+
+// Mail configuration diagnostic — run transporter.verify() to surface SMTP auth/relay errors.
+app.get('/api/mail-check', requireAdmin, async (req, res) => {
+  const configured = !!(MAIL_USER && MAIL_PASS)
+  try {
+    await transporter.verify()
+    res.json({ ok: true, configured, user: MAIL_USER || null, from: MAIL_FROM || null, via: process.env.SMTP_HOST || 'gmail' })
+  } catch (err) {
+    res.json({ ok: false, configured, user: MAIL_USER || null, via: process.env.SMTP_HOST || 'gmail', code: err.code, response: err.response, error: err.message })
   }
 })
 

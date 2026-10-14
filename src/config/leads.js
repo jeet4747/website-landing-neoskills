@@ -23,17 +23,6 @@ export async function submitLead(lead, opts = {}) {
     'g-recaptcha-response': lead.captchaToken || '',
   }
 
-  try {
-    const res = await fetch(`${BACKEND_URL}/api/leads`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
-    if (res.ok) return { via: 'backend' }
-  } catch {
-    /* backend unreachable — fall back to EmailJS */
-  }
-
   const params = emailjsParams || {
     name: payload.name,
     email: payload.email,
@@ -42,8 +31,46 @@ export async function submitLead(lead, opts = {}) {
     message: payload.message,
     'g-recaptcha-response': payload['g-recaptcha-response'],
   }
-  await emailjs.send(EMAILJS_SERVICE, templateId, params, EMAILJS_PUBLIC_KEY)
-  return { via: 'emailjs' }
+
+  const sendViaEmailJS = async () => {
+    await emailjs.send(EMAILJS_SERVICE, templateId, params, EMAILJS_PUBLIC_KEY)
+    return { via: 'emailjs' }
+  }
+
+  let storedOnBackend = false
+  let emailSent = false
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/leads`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    if (res.ok) {
+      storedOnBackend = true
+      const data = await res.json().catch(() => ({}))
+      emailSent = data.emailSent === true
+    }
+  } catch {
+    /* backend unreachable — fall back to EmailJS */
+  }
+
+  // Backend stored the lead and its own email notification succeeded.
+  if (storedOnBackend && emailSent) return { via: 'backend' }
+
+  // Backend stored the lead but could NOT email it (e.g. SMTP down) — try EmailJS too
+  // so the notification still reaches the inbox. Never throw here: the lead is saved.
+  if (storedOnBackend) {
+    try {
+      await sendViaEmailJS()
+      return { via: 'backend+emailjs' }
+    } catch (err) {
+      console.error('Lead saved on backend, but both email channels failed:', err?.text || err?.message || err)
+      return { via: 'backend', emailSent: false }
+    }
+  }
+
+  // Backend unreachable — EmailJS is the only channel left.
+  return await sendViaEmailJS()
 }
 
 export default submitLead
