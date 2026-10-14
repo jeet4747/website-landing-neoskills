@@ -3,8 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, MessageSquare, Send, CheckCircle, Clock, Globe, ExternalLink } from 'lucide-react'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from '../components/RecaptchaCheckbox'
 
 export default function ContactSupport() {
@@ -22,14 +21,27 @@ export default function ContactSupport() {
       setCaptchaError('Please complete the reCAPTCHA to continue.')
       return
     }
-    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
-      name: form.name,
-      email: form.email,
-      phone: form.phone || 'N/A',
-      course: form.subject || 'General inquiry',
-      message: form.message,
-      'g-recaptcha-response': captchaToken,
-    }, EMAILJS_PUBLIC_KEY)
+    submitLead(
+      {
+        name: form.name,
+        email: form.email,
+        phone: form.phone || 'N/A',
+        course: form.subject || 'General inquiry',
+        message: form.message,
+        captchaToken,
+        source: 'contact-support',
+      },
+      {
+        emailjsParams: {
+          name: form.name,
+          email: form.email,
+          phone: form.phone || 'N/A',
+          course: form.subject || 'General inquiry',
+          message: form.message,
+          'g-recaptcha-response': captchaToken,
+        },
+      }
+    )
       .then(() => { setSent(true); setForm({ name: '', email: '', phone: '', subject: '', message: '' }) })
       .catch(() => setError('Could not send message. Please email contact@neoskills.co.in directly.'))
   }

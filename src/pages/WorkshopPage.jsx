@@ -7,8 +7,7 @@ import {
   Sparkles, Target, Zap, TrendingUp, Lightbulb, Briefcase, Layers,
   Workflow, MessageSquare, Send, IndianRupee,
 } from 'lucide-react'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from '../components/RecaptchaCheckbox'
 import { useEnroll } from '../context/EnrollContext'
 
@@ -100,14 +99,27 @@ export default function WorkshopPage() {
     }
     setSending(true)
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        course: WORKSHOP_COURSE,
-        message: 'Reserve my seat for the 1-Day AI Essentials for Project Managers workshop (Pune).',
-        'g-recaptcha-response': captchaToken,
-      }, EMAILJS_PUBLIC_KEY)
+      await submitLead(
+        {
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          course: WORKSHOP_COURSE,
+          message: 'Reserve my seat for the 1-Day AI Essentials for Project Managers workshop (Pune).',
+          captchaToken,
+          source: 'workshop',
+        },
+        {
+          emailjsParams: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            course: WORKSHOP_COURSE,
+            message: 'Reserve my seat for the 1-Day AI Essentials for Project Managers workshop (Pune).',
+            'g-recaptcha-response': captchaToken,
+          },
+        }
+      )
       setRegistered(true)
       openPayment({
         name: form.name,

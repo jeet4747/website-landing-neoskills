@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import { useEnroll } from '../context/EnrollContext'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 
@@ -69,11 +68,18 @@ const ContactForm = () => {
     return
   }
 
-  emailjs
-  .send(
-    EMAILJS_SERVICE,
-      EMAILJS_TEMPLATE_INQUIRY,
-      {
+  submitLead(
+    {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      course: formData.course,
+      message: formData.message,
+      captchaToken,
+      source: 'contactform',
+    },
+    {
+      emailjsParams: {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
@@ -81,8 +87,8 @@ const ContactForm = () => {
         message: formData.message,
         'g-recaptcha-response': captchaToken,
       },
-      EMAILJS_PUBLIC_KEY
-    )
+    }
+  )
     .then(() => {
       setSubmitted(true)
       setTimeout(() => setSubmitted(false), 3000)
@@ -100,7 +106,7 @@ const ContactForm = () => {
       } catch (err) {}
     })
     .catch((error) => {
-      console.error('EmailJS Error:', error)
+      console.error('Lead submit error:', error)
       setCaptchaToken('')
       alert('Something went wrong. Please try again.')
     })

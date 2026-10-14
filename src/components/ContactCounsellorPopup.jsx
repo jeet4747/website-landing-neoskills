@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Headphones, ShieldCheck, Phone } from 'lucide-react'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const SHOW_DELAY = 3000
@@ -48,14 +47,26 @@ export default function ContactCounsellorPopup() {
     }
     setSending(true)
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
-        name: form.name,
-        phone: form.phone,
-        email: 'not-provided@counsellor-popup',
-        course: 'Free Counsellor Callback',
-        message: 'Wants a free callback from a counsellor.',
-        'g-recaptcha-response': captchaToken,
-      }, EMAILJS_PUBLIC_KEY)
+      await submitLead(
+        {
+          name: form.name,
+          phone: form.phone,
+          course: 'Free Counsellor Callback',
+          message: 'Wants a free callback from a counsellor.',
+          captchaToken,
+          source: 'counsellor-popup',
+        },
+        {
+          emailjsParams: {
+            name: form.name,
+            phone: form.phone,
+            email: 'not-provided@counsellor-popup',
+            course: 'Free Counsellor Callback',
+            message: 'Wants a free callback from a counsellor.',
+            'g-recaptcha-response': captchaToken,
+          },
+        }
+      )
       setSubmitted(true)
     } catch {
       setError('Something went wrong. Please try again.')

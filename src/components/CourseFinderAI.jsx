@@ -6,8 +6,7 @@ import {
   Award, Cloud, Shield, BookOpen, Users, Briefcase,
   ArrowRight, BarChart3, Cpu, CheckCircle, Loader2, Brain
 } from 'lucide-react'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import { loadRecaptchaScript } from './RecaptchaCheckbox'
 import { RECAPTCHA_SITE_KEY } from '../config/emailjs'
 
@@ -159,16 +158,29 @@ const CourseFinderAI = () => {
   const sendLeadEmail = useCallback(async () => {
     try {
       const captchaToken = await getCaptchaToken()
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
-        name: lead.name,
-        email: lead.email,
-        phone: lead.phone || 'N/A',
-        course: lead.course || 'Chatbot inquiry',
-        message: `Course interested: ${lead.course || 'Not specified'}`,
-        'g-recaptcha-response': captchaToken,
-      }, EMAILJS_PUBLIC_KEY)
+      await submitLead(
+        {
+          name: lead.name,
+          email: lead.email,
+          phone: lead.phone || 'N/A',
+          course: lead.course || 'Chatbot inquiry',
+          message: `Course interested: ${lead.course || 'Not specified'}`,
+          captchaToken,
+          source: 'course-finder-ai',
+        },
+        {
+          emailjsParams: {
+            name: lead.name,
+            email: lead.email,
+            phone: lead.phone || 'N/A',
+            course: lead.course || 'Chatbot inquiry',
+            message: `Course interested: ${lead.course || 'Not specified'}`,
+            'g-recaptcha-response': captchaToken,
+          },
+        }
+      )
     } catch (err) {
-      console.error('EmailJS chatbot error:', err)
+      console.error('Chatbot lead error:', err)
     }
   }, [lead, getCaptchaToken])
 

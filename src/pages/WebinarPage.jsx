@@ -4,8 +4,7 @@ import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { Calendar, Clock, Users, CheckCircle, ArrowRight, MessageCircle, Zap, ExternalLink } from 'lucide-react'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from '../components/RecaptchaCheckbox'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
@@ -89,14 +88,27 @@ export default function WebinarPage() {
     }
     setSending(true)
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        course: `Webinar: ${activeWebinar.title}`,
-        message: `Registering for ${activeWebinar.fullTitle} on ${activeWebinar.date} at ${activeWebinar.time}. Experience: ${form.experience || 'Not specified'}`,
-        'g-recaptcha-response': captchaToken,
-      }, EMAILJS_PUBLIC_KEY)
+      await submitLead(
+        {
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          course: `Webinar: ${activeWebinar.title}`,
+          message: `Registering for ${activeWebinar.fullTitle} on ${activeWebinar.date} at ${activeWebinar.time}. Experience: ${form.experience || 'Not specified'}`,
+          captchaToken,
+          source: 'webinar',
+        },
+        {
+          emailjsParams: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            course: `Webinar: ${activeWebinar.title}`,
+            message: `Registering for ${activeWebinar.fullTitle} on ${activeWebinar.date} at ${activeWebinar.time}. Experience: ${form.experience || 'Not specified'}`,
+            'g-recaptcha-response': captchaToken,
+          },
+        }
+      )
 
       sessionStorage.setItem(`webinar_${slug || DEFAULT_WEBINAR.slug}`, 'true')
       setRegistered(true)

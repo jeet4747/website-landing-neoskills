@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Brain, Cpu, Lightbulb, Bot, Sparkles, Send, CheckCircle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const aiCourses = [
@@ -59,14 +58,27 @@ export default function AICoursesPopup() {
     }
     setSending(true)
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        course: selectedCourse || 'AI Course Inquiry',
-        message: `Interested in: ${selectedCourse}`,
-        'g-recaptcha-response': captchaToken,
-      }, EMAILJS_PUBLIC_KEY)
+      await submitLead(
+        {
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          course: selectedCourse || 'AI Course Inquiry',
+          message: `Interested in: ${selectedCourse}`,
+          captchaToken,
+          source: 'ai-courses-popup',
+        },
+        {
+          emailjsParams: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            course: selectedCourse || 'AI Course Inquiry',
+            message: `Interested in: ${selectedCourse}`,
+            'g-recaptcha-response': captchaToken,
+          },
+        }
+      )
       setSubmitted(true)
     } catch {
       /* ignore */

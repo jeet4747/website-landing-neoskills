@@ -455,6 +455,110 @@ app.get('/api/job-applications', requireAdmin, async (req, res) => {
   }
 })
 
+// ─── Leads (contact / callback forms) ───
+const LEAD_INBOX = process.env.LEAD_EMAIL || 'contact@neoskills.co.in'
+
+const sendLeadEmail = async ({ name, email, phone, course, message, source }) => {
+  try {
+    await transporter.sendMail({
+      from: `"Neoskills Leads" <${process.env.ZOHO_EMAIL}>`,
+      to: LEAD_INBOX,
+      replyTo: email || undefined,
+      subject: `🔔 New Lead${course ? ': ' + course : ''} — ${name}${phone ? ' / ' + phone : ''}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <div style="background: #0056D2; padding: 25px; border-radius: 10px 10px 0 0;">
+            <h2 style="color: white; margin: 0;">New Lead Received</h2>
+          </div>
+          <div style="background: #f9f9f9; padding: 25px; border-radius: 0 0 10px 10px; border: 1px solid #e0e0e0;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 8px 0; color: #666; width: 110px;">Name</td><td style="padding: 8px 0; font-weight: bold;">${name || 'N/A'}</td></tr>
+              <tr><td style="padding: 8px 0; color: #666;">Phone</td><td style="padding: 8px 0; font-weight: bold;">${phone || 'N/A'}</td></tr>
+              <tr><td style="padding: 8px 0; color: #666;">Email</td><td style="padding: 8px 0;">${email ? `<a href="mailto:${email}" style="color: #0056D2;">${email}</a>` : 'N/A'}</td></tr>
+              <tr><td style="padding: 8px 0; color: #666;">Interest</td><td style="padding: 8px 0;">${course || 'N/A'}</td></tr>
+              <tr><td style="padding: 8px 0; color: #666;">Source</td><td style="padding: 8px 0;">${source || 'website'}</td></tr>
+            </table>
+            ${message ? `<div style="margin-top: 16px; padding: 12px; background: white; border-radius: 8px; border-left: 3px solid #0056D2;"><p style="margin: 0; color: #333; font-size: 14px;">${message}</p></div>` : ''}
+            <p style="margin-top: 20px; color: #999; font-size: 12px;">Submitted via NeoSkills website</p>
+          </div>
+        </div>
+      `,
+    })
+    console.log(`Lead email sent to ${LEAD_INBOX} for ${name}`)
+    return true
+  } catch (err) {
+    console.error('Failed to send lead email:', err.message)
+    return false
+  }
+}
+
+// Best-effort reCAPTCHA verification. Never blocks lead capture, only records the result.
+async function verifyRecaptcha(token) {
+  const secret = process.env.RECAPTCHA_SECRET_KEY
+  if (!secret) return null
+  if (!token) return false
+  try {
+    const body = new URLSearchParams({ secret, response: token })
+    const r = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
+    })
+    const data = await r.json()
+    return !!data.success
+  } catch (err) {
+    console.error('reCAPTCHA verify error:', err.message)
+    return null
+  }
+}
+
+app.post('/api/leads', async (req, res) => {
+  try {
+    const { name, email, phone, course, message, source, 'g-recaptcha-response': recaptchaToken } = req.body || {}
+    if (!name || (!phone && !email)) {
+      return res.status(400).json({ error: 'Name and a phone or email are required' })
+    }
+
+    const captchaOk = await verifyRecaptcha(recaptchaToken)
+
+    const lead = {
+      id: `lead-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      name,
+      email: email || '',
+      phone: phone || '',
+      course: course || '',
+      message: message || '',
+      source: source || 'website',
+      captchaOk,
+      createdAt: new Date().toISOString(),
+      ip: req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '',
+    }
+
+    // Always persist the lead first so it is never lost
+    const existing = await getData('leads')
+    const leads = Array.isArray(existing) ? existing : []
+    leads.push(lead)
+    await setData('leads', leads)
+
+    // Best-effort email notification
+    sendLeadEmail({ name, email, phone, course, message, source })
+
+    res.json({ success: true, lead })
+  } catch (err) {
+    console.error('lead error', err)
+    res.status(500).json({ error: err.message })
+  }
+})
+
+app.get('/api/leads', requireAdmin, async (req, res) => {
+  try {
+    const data = await getData('leads')
+    res.json(Array.isArray(data) ? data : [])
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to read leads' })
+  }
+})
+
 // ─── Serve uploads ───
 app.use('/uploads', express.static(UPLOAD_DIR))
 

@@ -7,8 +7,7 @@ import {
   Sparkles, Zap, TrendingUp, Lightbulb,
   Workflow, MessageSquare, Send, MonitorPlay, IndianRupee, ClipboardList,
 } from 'lucide-react'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from '../components/RecaptchaCheckbox'
 import { useEnroll } from '../context/EnrollContext'
 
@@ -124,14 +123,27 @@ export default function AiHrPage() {
     }
     setSending(true)
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        course: HR_COURSE,
-        message: 'Reserve my seat for the 1-Day AI-Powered HR Professional online course.',
-        'g-recaptcha-response': captchaToken,
-      }, EMAILJS_PUBLIC_KEY)
+      await submitLead(
+        {
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          course: HR_COURSE,
+          message: 'Reserve my seat for the 1-Day AI-Powered HR Professional online course.',
+          captchaToken,
+          source: 'ai-hr-workshop',
+        },
+        {
+          emailjsParams: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            course: HR_COURSE,
+            message: 'Reserve my seat for the 1-Day AI-Powered HR Professional online course.',
+            'g-recaptcha-response': captchaToken,
+          },
+        }
+      )
       setRegistered(true)
       openPayment({
         name: form.name,

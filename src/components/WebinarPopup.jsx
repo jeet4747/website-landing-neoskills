@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Calendar, Clock, Users, Send, CheckCircle, MessageCircle, ExternalLink } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
@@ -56,14 +55,27 @@ export default function WebinarPopup() {
     }
     setSending(true)
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        course: `Webinar: ${webinar?.title || 'Free Webinar'}`,
-        message: `Registration for ${webinar?.fullTitle || webinar?.title}`,
-        'g-recaptcha-response': captchaToken,
-      }, EMAILJS_PUBLIC_KEY)
+      await submitLead(
+        {
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          course: `Webinar: ${webinar?.title || 'Free Webinar'}`,
+          message: `Registration for ${webinar?.fullTitle || webinar?.title}`,
+          captchaToken,
+          source: 'webinar-popup',
+        },
+        {
+          emailjsParams: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            course: `Webinar: ${webinar?.title || 'Free Webinar'}`,
+            message: `Registration for ${webinar?.fullTitle || webinar?.title}`,
+            'g-recaptcha-response': captchaToken,
+          },
+        }
+      )
       setSubmitted(true)
     } catch {
       /* */

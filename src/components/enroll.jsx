@@ -3,8 +3,8 @@ import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useEnroll } from '../context/EnrollContext'
 import { getAllResolvedCourses, effectiveListedPrice, getTotal } from '../data/catalogBuilder'
 import { fetchBackendCourses } from '../data/courseService'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_ENROLL, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { EMAILJS_TEMPLATE_ENROLL } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from './RecaptchaCheckbox'
 import { ArrowRight, IndianRupee } from 'lucide-react'
 import './enroll.css'
@@ -99,19 +99,28 @@ export default function Enroll() {
     }
     setSubmitting(true)
 
-    emailjs.send(
-      EMAILJS_SERVICE,
-      EMAILJS_TEMPLATE_ENROLL,
+    submitLead(
       {
-        user_name: formData.name,
-        user_email: formData.email,
-        user_phone: formData.phone,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
         course: formData.course,
-        Amount: selectedPrice > 0 ? `₹${selectedPrice}` : 'N/A',
         message: formData.message || `Enrollment for ${formData.course}`,
-        'g-recaptcha-response': captchaToken,
+        captchaToken,
+        source: 'enroll',
       },
-      EMAILJS_PUBLIC_KEY
+      {
+        templateId: EMAILJS_TEMPLATE_ENROLL,
+        emailjsParams: {
+          user_name: formData.name,
+          user_email: formData.email,
+          user_phone: formData.phone,
+          course: formData.course,
+          Amount: selectedPrice > 0 ? `₹${selectedPrice}` : 'N/A',
+          message: formData.message || `Enrollment for ${formData.course}`,
+          'g-recaptcha-response': captchaToken,
+        },
+      }
     ).then(() => {
       /* email sent */
     }).catch((error) => {

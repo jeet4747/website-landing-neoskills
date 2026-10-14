@@ -19,8 +19,7 @@ const LucideIcons = {
   Send, ExternalLink, Calendar, GraduationCap, CheckCircle,
   User, Banknote, X,
 }
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from './RecaptchaCheckbox'
 import { useEnroll } from '../context/EnrollContext'
 import { allCourses, courseCategories, getAllResolvedCourses, getMergedCourseCategories, getTotal } from './courseData'
@@ -133,11 +132,18 @@ const CourseDetail = () => {
     }
     const courseLabel = course.fullTitle || course.title
 
-    emailjs
-      .send(
-        EMAILJS_SERVICE,
-        EMAILJS_TEMPLATE_INQUIRY,
-        {
+    submitLead(
+      {
+        name: contactForm.name,
+        email: contactForm.email,
+        phone: contactForm.phone || 'N/A',
+        course: courseLabel,
+        message: contactForm.message || `Inquiry about ${courseLabel}`,
+        captchaToken,
+        source: 'course-detail',
+      },
+      {
+        emailjsParams: {
           name: contactForm.name,
           email: contactForm.email,
           phone: contactForm.phone || 'N/A',
@@ -145,8 +151,8 @@ const CourseDetail = () => {
           message: contactForm.message || `Inquiry about ${courseLabel}`,
           'g-recaptcha-response': captchaToken,
         },
-        EMAILJS_PUBLIC_KEY
-      )
+      }
+    )
       .then(() => {
         setFormSubmitted(true)
         setContactForm({ name: '', email: '', phone: '', message: '' })
@@ -992,14 +998,27 @@ const CourseDetail = () => {
                     setBrochureCaptchaError('Please complete the reCAPTCHA to continue.')
                     return
                   }
-                  emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
-                    name: brochureForm.name,
-                    email: brochureForm.email,
-                    phone: brochureForm.phone,
-                    course: `${course.title} — Brochure Request`,
-                    message: `Please share the brochure for ${course.title}`,
-                    'g-recaptcha-response': brochureToken,
-                  }, EMAILJS_PUBLIC_KEY)
+                  submitLead(
+                    {
+                      name: brochureForm.name,
+                      email: brochureForm.email,
+                      phone: brochureForm.phone,
+                      course: `${course.title} — Brochure Request`,
+                      message: `Please share the brochure for ${course.title}`,
+                      captchaToken: brochureToken,
+                      source: 'brochure',
+                    },
+                    {
+                      emailjsParams: {
+                        name: brochureForm.name,
+                        email: brochureForm.email,
+                        phone: brochureForm.phone,
+                        course: `${course.title} — Brochure Request`,
+                        message: `Please share the brochure for ${course.title}`,
+                        'g-recaptcha-response': brochureToken,
+                      },
+                    }
+                  )
                     .then(() => setBrochureSent(true))
                     .catch(() => setBrochureError('Could not send. Please email contact@neoskills.co.in.'))
                 }} className="space-y-4">

@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle, Clock, Users } from 'lucide-react'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const SHOW_DELAY = 120000
@@ -46,14 +45,27 @@ export default function LeadPopup() {
     }
     setSending(true)
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        course: form.course || 'Popup inquiry',
-        message: 'Interested in learning more',
-        'g-recaptcha-response': captchaToken,
-      }, EMAILJS_PUBLIC_KEY)
+      await submitLead(
+        {
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          course: form.course || 'Popup inquiry',
+          message: 'Interested in learning more',
+          captchaToken,
+          source: 'lead-popup',
+        },
+        {
+          emailjsParams: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            course: form.course || 'Popup inquiry',
+            message: 'Interested in learning more',
+            'g-recaptcha-response': captchaToken,
+          },
+        }
+      )
       setSubmitted(true)
     } catch (err) {
       setError('Something went wrong. Please try again or email us directly.')

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
-import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '../config/emailjs'
+import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from '../components/RecaptchaCheckbox'
 import { Briefcase, MapPin, Clock, IndianRupee, Calendar, Filter, Search, ChevronRight, Building2, Users, BookOpen, ExternalLink, X, Upload, CheckCircle, AlertCircle } from 'lucide-react'
 
@@ -97,18 +96,26 @@ export default function JobsPage() {
       const data = await res.json()
       if (!data.success) throw new Error(data.error || 'Submission failed')
 
-      emailjs.send(
-        EMAILJS_SERVICE,
-        EMAILJS_TEMPLATE_INQUIRY,
+      submitLead(
         {
           name: appForm.name,
           email: appForm.email,
           phone: appForm.phone,
           course: `Job Application: ${selectedJob?.title || ''}`,
           message: `${appForm.message || 'Interested in this position'}\n\nJob: ${selectedJob?.title || ''}\nCV: ${window.location.origin}/uploads/cvs/${data.application?.cvFile || ''}`,
-          'g-recaptcha-response': captchaToken,
+          captchaToken,
+          source: 'job-application',
         },
-        EMAILJS_PUBLIC_KEY
+        {
+          emailjsParams: {
+            name: appForm.name,
+            email: appForm.email,
+            phone: appForm.phone,
+            course: `Job Application: ${selectedJob?.title || ''}`,
+            message: `${appForm.message || 'Interested in this position'}\n\nJob: ${selectedJob?.title || ''}\nCV: ${window.location.origin}/uploads/cvs/${data.application?.cvFile || ''}`,
+            'g-recaptcha-response': captchaToken,
+          },
+        }
       )
 
       setAppSubmitted(true)
