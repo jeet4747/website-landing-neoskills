@@ -52,6 +52,60 @@ const transporter = process.env.SMTP_HOST
       socketTimeout: 15000,
     })
 
+// ─── Mail delivery ───
+// Render's free tier blocks outbound SMTP (ports 25/465/587), so prefer an
+// HTTPS email API when a key is configured (Resend / SendGrid / Brevo), and
+// only fall back to SMTP (works locally and on paid instances).
+const deliverMail = async ({ to, subject, html, replyTo, from }) => {
+  const senderEmail = MAIL_FROM || 'onboarding@resend.dev'
+  const recipients = Array.isArray(to) ? to : [to]
+
+  if (process.env.RESEND_API_KEY) {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: from || `Neoskills <${senderEmail}>`, to: recipients, subject, html, reply_to: replyTo || undefined }),
+    })
+    if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`)
+    return { provider: 'resend' }
+  }
+
+  if (process.env.SENDGRID_API_KEY) {
+    const r = await fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        personalizations: [{ to: recipients.map((email) => ({ email })) }],
+        from: { email: senderEmail, name: 'Neoskills' },
+        reply_to: replyTo ? { email: replyTo } : undefined,
+        subject,
+        content: [{ type: 'text/html', value: html }],
+      }),
+    })
+    if (!r.ok) throw new Error(`SendGrid ${r.status}: ${await r.text()}`)
+    return { provider: 'sendgrid' }
+  }
+
+  if (process.env.BREVO_API_KEY) {
+    const r = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': process.env.BREVO_API_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sender: { email: senderEmail, name: 'Neoskills' },
+        to: recipients.map((email) => ({ email })),
+        replyTo: replyTo ? { email: replyTo } : undefined,
+        subject,
+        htmlContent: html,
+      }),
+    })
+    if (!r.ok) throw new Error(`Brevo ${r.status}: ${await r.text()}`)
+    return { provider: 'brevo' }
+  }
+
+  await transporter.sendMail({ from: from || `"Neoskills" <${senderEmail}>`, to, subject, html, replyTo })
+  return { provider: 'smtp' }
+}
+
 const sendConfirmationEmail = async ({ name, email, course, amount }) => {
   const mailOptions = {
     from: `"Neoskills" <${process.env.ZOHO_EMAIL}>`,
@@ -82,7 +136,7 @@ const sendConfirmationEmail = async ({ name, email, course, amount }) => {
       </div>
     `,
   }
-  await transporter.sendMail(mailOptions)
+  await deliverMail(mailOptions)
   console.log(`Confirmation email sent to ${email}`)
 }
 
@@ -396,7 +450,7 @@ app.post('/api/jobs', requireAdmin, async (req, res) => {
 const sendHiringEmail = async ({ name, email, phone, jobTitle, message, cvLink }) => {
   try {
     const hrEmail = 'resume@neoskill.co.in'
-    await transporter.sendMail({
+    await deliverMail({
       from: `"Neoskills Hiring" <${process.env.ZOHO_EMAIL}>`,
       to: hrEmail,
       subject: `📋 Hiring Application: ${jobTitle} — ${name}`,
@@ -477,7 +531,7 @@ const LEAD_INBOX = process.env.LEAD_EMAIL || 'contact@neoskills.co.in'
 
 const sendLeadEmail = async ({ name, email, phone, course, message, source }) => {
   try {
-    await transporter.sendMail({
+    await deliverMail({
       from: `"Neoskills Leads" <${MAIL_FROM}>`,
       to: LEAD_INBOX,
       replyTo: email || undefined,
@@ -576,14 +630,39 @@ app.get('/api/leads', requireAdmin, async (req, res) => {
   }
 })
 
-// Mail configuration diagnostic — run transporter.verify() to surface SMTP auth/relay errors.
+// Mail configuration diagnostic — shows which provider is active and verifies SMTP.
 app.get('/api/mail-check', requireAdmin, async (req, res) => {
-  const configured = !!(MAIL_USER && MAIL_PASS)
+  const providers = {
+    resend: !!process.env.RESEND_API_KEY,
+    sendgrid: !!process.env.SENDGRID_API_KEY,
+    brevo: !!process.env.BREVO_API_KEY,
+    smtp: !!(MAIL_USER && MAIL_PASS),
+  }
+  const active = providers.resend ? 'resend' : providers.sendgrid ? 'sendgrid' : providers.brevo ? 'brevo' : providers.smtp ? 'smtp' : null
+  const out = { configured: !!active, active, providers, from: MAIL_FROM || null, user: MAIL_USER || null }
+  if (active === 'smtp') {
+    try {
+      await transporter.verify()
+      out.ok = true
+    } catch (err) {
+      out.ok = false
+      out.code = err.code
+      out.error = err.message
+    }
+  } else {
+    out.ok = !!active
+  }
+  res.json(out)
+})
+
+// Send a live test email through the active provider.
+app.get('/api/mail-test', requireAdmin, async (req, res) => {
+  const to = req.query.to || LEAD_INBOX
   try {
-    await transporter.verify()
-    res.json({ ok: true, configured, user: MAIL_USER || null, from: MAIL_FROM || null, via: process.env.SMTP_HOST || 'gmail' })
+    const result = await deliverMail({ to, subject: '✅ NeoSkills mail test', html: '<p>This is a test message from your NeoSkills backend. If you got this, lead emails will work.</p>' })
+    res.json({ ok: true, ...result, to })
   } catch (err) {
-    res.json({ ok: false, configured, user: MAIL_USER || null, via: process.env.SMTP_HOST || 'gmail', code: err.code, response: err.response, error: err.message })
+    res.json({ ok: false, to, error: err.message })
   }
 })
 
