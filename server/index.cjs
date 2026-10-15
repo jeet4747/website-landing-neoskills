@@ -56,6 +56,9 @@ const transporter = process.env.SMTP_HOST
 // Render's free tier blocks outbound SMTP (ports 25/465/587), so prefer an
 // HTTPS email API when a key is configured (Resend / SendGrid / Brevo), and
 // only fall back to SMTP (works locally and on paid instances).
+const hasEmailProvider = () =>
+  !!(process.env.RESEND_API_KEY || process.env.SENDGRID_API_KEY || process.env.BREVO_API_KEY || (MAIL_USER && MAIL_PASS))
+
 const deliverMail = async ({ to, subject, html, replyTo, from }) => {
   const senderEmail = MAIL_FROM || 'onboarding@resend.dev'
   const recipients = Array.isArray(to) ? to : [to]
@@ -611,10 +614,15 @@ app.post('/api/leads', async (req, res) => {
     leads.push(lead)
     await setData('leads', leads)
 
-    // Best-effort email notification
-    const emailResult = await sendLeadEmail({ name, email, phone, course, message, source })
+    // Best-effort email notification. Only attempt it when a provider is
+    // configured, and never block the response on it (SMTP can take ~10s to
+    // time out on hosts that block the ports, which would stall the form).
+    const emailProvider = hasEmailProvider()
+    if (emailProvider) {
+      sendLeadEmail({ name, email, phone, course, message, source }).catch(() => {})
+    }
 
-    res.json({ success: true, lead, emailSent: emailResult.ok, emailError: emailResult.error || null })
+    res.json({ success: true, lead, emailProvider })
   } catch (err) {
     console.error('lead error', err)
     res.status(500).json({ error: err.message })

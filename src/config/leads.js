@@ -2,10 +2,16 @@ import emailjs from '@emailjs/browser'
 import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from './emailjs'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
+const BACKEND_TIMEOUT_MS = 6000
 
 /**
- * Submit a lead. Persists it on our own backend first (so a lead is never lost),
- * then falls back to EmailJS only if the backend is unreachable.
+ * Submit a lead.
+ *
+ * 1. The lead is saved on our own backend first, so it is never lost
+ *    (retrievable at GET /api/leads) — see server/index.cjs.
+ * 2. Email delivery goes through EmailJS (works over HTTPS). The backend only
+ *    sends the email itself when an email API key is configured; otherwise
+ *    EmailJS is the delivery channel. This avoids double-sending.
  *
  * @param {object} lead - { name, email, phone, course, message, captchaToken, source }
  * @param {object} [opts] - { templateId, emailjsParams, source }
@@ -32,45 +38,40 @@ export async function submitLead(lead, opts = {}) {
     'g-recaptcha-response': payload['g-recaptcha-response'],
   }
 
-  const sendViaEmailJS = async () => {
-    await emailjs.send(EMAILJS_SERVICE, templateId, params, EMAILJS_PUBLIC_KEY)
-    return { via: 'emailjs' }
-  }
-
+  // ── 1. Persist on the backend (never fail the whole submit if this hiccups) ──
   let storedOnBackend = false
-  let emailSent = false
+  let backendHandlesEmail = false
   try {
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), BACKEND_TIMEOUT_MS)
     const res = await fetch(`${BACKEND_URL}/api/leads`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
+      signal: controller.signal,
     })
+    clearTimeout(timer)
     if (res.ok) {
       storedOnBackend = true
       const data = await res.json().catch(() => ({}))
-      emailSent = data.emailSent === true
+      backendHandlesEmail = data.emailProvider === true
     }
   } catch {
-    /* backend unreachable — fall back to EmailJS */
+    /* backend unreachable — EmailJS still delivers the lead */
   }
 
-  // Backend stored the lead and its own email notification succeeded.
-  if (storedOnBackend && emailSent) return { via: 'backend' }
+  // ── 2. Deliver the email via EmailJS unless the backend is doing it ──
+  if (backendHandlesEmail) return { via: 'backend', stored: storedOnBackend }
 
-  // Backend stored the lead but could NOT email it (e.g. SMTP down) — try EmailJS too
-  // so the notification still reaches the inbox. Never throw here: the lead is saved.
-  if (storedOnBackend) {
-    try {
-      await sendViaEmailJS()
-      return { via: 'backend+emailjs' }
-    } catch (err) {
-      console.error('Lead saved on backend, but both email channels failed:', err?.text || err?.message || err)
-      return { via: 'backend', emailSent: false }
-    }
+  try {
+    await emailjs.send(EMAILJS_SERVICE, templateId, params, EMAILJS_PUBLIC_KEY)
+    return { via: 'emailjs', stored: storedOnBackend }
+  } catch (err) {
+    console.error('EmailJS send failed:', err?.text || err?.message || err)
+    // The lead is still stored on the backend, so the submission is not lost.
+    if (storedOnBackend) return { via: 'backend', emailSent: false, stored: true }
+    throw err
   }
-
-  // Backend unreachable — EmailJS is the only channel left.
-  return await sendViaEmailJS()
 }
 
 export default submitLead
