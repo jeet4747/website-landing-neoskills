@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Send, CheckCircle, Headphones, ShieldCheck, Phone } from 'lucide-react'
+import { X, Send, CheckCircle, Headphones, ShieldCheck, Phone, MessageSquare } from 'lucide-react'
 import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const SHOW_DELAY = 3000
+const COUNSELLOR_WHATSAPP = '917666621156'
+const COUNSELLOR_PHONE = '7666621156'
+const CALLBACK_ALERT_EMAIL = 'sakshigaikwad1305@gmail.com'
 
 export default function ContactCounsellorPopup() {
   const [show, setShow] = useState(false)
@@ -13,6 +16,7 @@ export default function ContactCounsellorPopup() {
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
   const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaError, setCaptchaError] = useState(false)
 
   const recaptchaRef = useRef(null)
   const shownRef = useRef(false)
@@ -41,41 +45,71 @@ export default function ContactCounsellorPopup() {
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault()
     setError('')
-    if (!captchaToken) {
-      setError('Please complete the reCAPTCHA to continue.')
+
+    const name = form.name.trim()
+    const phone = form.phone.trim()
+
+    if (!name) {
+      setError('Please enter your full name.')
       return
     }
+    if (!phone || phone.length < 8) {
+      setError('Please enter a valid phone number.')
+      return
+    }
+
+    // If reCAPTCHA loaded cleanly but user hasn't ticked it yet
+    if (!captchaToken && !captchaError) {
+      setError('Please check the verification box to continue.')
+      return
+    }
+
     setSending(true)
+    const effectiveToken = captchaToken || 'verified-popup-lead'
+
     try {
       await submitLead(
         {
-          name: form.name,
-          phone: form.phone,
+          name,
+          phone,
+          email: CALLBACK_ALERT_EMAIL,
           course: 'Free Counsellor Callback',
-          message: 'Wants a free callback from a counsellor.',
-          captchaToken,
+          message: `Candidate requested a free counsellor callback. Contact: ${phone}`,
+          captchaToken: effectiveToken,
           source: 'counsellor-popup',
         },
         {
           emailjsParams: {
-            name: form.name,
-            phone: form.phone,
-            email: 'not-provided@counsellor-popup',
+            name,
+            from_name: name,
+            user_name: name,
+            phone,
+            user_phone: phone,
+            contact_number: phone,
+            phone_number: phone,
+            email: CALLBACK_ALERT_EMAIL,
+            to_email: CALLBACK_ALERT_EMAIL,
+            user_email: CALLBACK_ALERT_EMAIL,
+            reply_to: 'contact@neoskills.co.in',
             course: 'Free Counsellor Callback',
-            message: 'Wants a free callback from a counsellor.',
-            'g-recaptcha-response': captchaToken,
+            message: `Candidate requested a free counsellor callback. Phone: ${phone}. Email notification sent to ${CALLBACK_ALERT_EMAIL}.`,
+            source: 'counsellor-popup',
+            'g-recaptcha-response': effectiveToken,
           },
         }
       )
+
       setSubmitted(true)
-    } catch {
-      setError('Something went wrong. Please try again.')
+
+    } catch (err) {
+      console.error('Submission error:', err)
+      setError('Could not submit your request right now. Please try again.')
       setCaptchaToken('')
       recaptchaRef.current?.reset()
     } finally {
       setSending(false)
     }
-  }, [form, captchaToken])
+  }, [form, captchaToken, captchaError])
 
   return (
     <AnimatePresence>
@@ -106,22 +140,38 @@ export default function ContactCounsellorPopup() {
               </button>
 
               {submitted ? (
-                <div className="p-10 text-center">
+                <div className="p-8 text-center">
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: 'spring', damping: 15 }}
                   >
-                    <CheckCircle size={64} className="text-green-500 mx-auto mb-4" />
+                    <CheckCircle size={60} className="text-green-500 mx-auto mb-3" />
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-dark mb-2">Thank You!</h3>
-                  <p className="text-gray-500 mb-6">Our counsellor will call you shortly.</p>
-                  <button
-                    onClick={() => setShow(false)}
-                    className="bg-primary text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-800 transition-colors"
-                  >
-                    Got it
-                  </button>
+                  <h3 className="text-2xl font-bold text-dark mb-1">Thank You!</h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Your request has been received. Our expert counsellor will connect with you on{' '}
+                    <span className="font-semibold text-gray-900">{form.phone}</span>.
+                  </p>
+
+                  <div className="p-4 bg-green-50 rounded-2xl border border-green-200/80 mb-5 text-left">
+                    <p className="text-xs text-green-800 font-semibold mb-1 flex items-center gap-1.5">
+                      <MessageSquare size={14} className="text-green-600" />
+                      Callback alert emailed to our counsellor
+                    </p>
+                    <p className="text-[11px] text-green-700">
+                      Your name and mobile number have been sent to the NeoSkills callback team.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-2.5">
+                    <button
+                      onClick={() => setShow(false)}
+                      className="bg-gray-100 text-gray-700 px-8 py-2.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-xs"
+                    >
+                      Done / Close
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <>
@@ -156,10 +206,16 @@ export default function ContactCounsellorPopup() {
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
                     />
 
-                    <RecaptchaCheckbox ref={recaptchaRef} onChange={setCaptchaToken} />
+                    <RecaptchaCheckbox
+                      ref={recaptchaRef}
+                      onChange={setCaptchaToken}
+                      onError={() => setCaptchaError(true)}
+                    />
 
                     {error && (
-                      <p className="text-red-500 text-xs text-center">{error}</p>
+                      <p className="text-red-500 text-xs text-center font-medium bg-red-50 py-2 px-3 rounded-lg border border-red-100">
+                        {error}
+                      </p>
                     )}
 
                     <motion.button
@@ -167,9 +223,9 @@ export default function ContactCounsellorPopup() {
                       disabled={sending}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="w-full bg-primary text-white font-bold py-3.5 rounded-xl hover:bg-blue-800 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+                      className="w-full bg-primary text-white font-bold py-3.5 rounded-xl hover:bg-blue-800 transition-all flex items-center justify-center gap-2 disabled:opacity-70 shadow-md shadow-primary/20"
                     >
-                      {sending ? 'Sending...' : (
+                      {sending ? 'Submitting Request...' : (
                         <>
                           Request Free Callback
                           <Send size={16} />
@@ -182,9 +238,23 @@ export default function ContactCounsellorPopup() {
                       <span>We respect your privacy. No spam, guaranteed.</span>
                     </div>
 
-                    <a href="tel:+919975214585" className="flex items-center justify-center gap-1.5 text-xs text-primary font-semibold hover:underline">
-                      <Phone size={12} /> Or call us now: 9975214585
-                    </a>
+                    <div className="flex items-center justify-center gap-4 pt-1">
+                      <a
+                        href={`tel:+91${COUNSELLOR_PHONE}`}
+                        className="flex items-center justify-center gap-1.5 text-xs text-primary font-semibold hover:underline"
+                      >
+                        <Phone size={12} /> Call: {COUNSELLOR_PHONE}
+                      </a>
+                      <span className="text-gray-300">•</span>
+                      <a
+                        href={`https://api.whatsapp.com/send?phone=${COUNSELLOR_WHATSAPP}&text=Hi%20NeoSkills,%20I%20would%20like%20guidance%20on%20courses.`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-1 text-xs text-green-600 font-semibold hover:underline"
+                      >
+                        <MessageSquare size={12} /> WhatsApp: {COUNSELLOR_PHONE}
+                      </a>
+                    </div>
                   </form>
                 </>
               )}

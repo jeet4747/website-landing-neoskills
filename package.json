@@ -28,6 +28,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "server": "node server/index.cjs",
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "build": "npm run generate-sitemap && vite build",
     "start": "node server/index.cjs",

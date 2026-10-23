@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { getAllResolvedCourses } from '../data/catalogBuilder'
 import { courseStructure } from '../data/courseStructure'
+import { Phone, Mail, MessageSquare, CheckCircle, Clock, User, Download, Search, Trash2, ExternalLink, FileText, Check, X, Copy, RefreshCw } from 'lucide-react'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 const COURSES_API = BACKEND_URL ? `${BACKEND_URL}/api/courses` : '/api/courses'
@@ -10,6 +11,7 @@ const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinar
 const APPLICATIONS_API = BACKEND_URL ? `${BACKEND_URL}/api/job-applications` : '/api/job-applications'
 const BATCHES_API = BACKEND_URL ? `${BACKEND_URL}/api/batches` : '/api/batches'
 const ENROLLMENTS_API = BACKEND_URL ? `${BACKEND_URL}/api/enrollments` : '/api/enrollments'
+const LEADS_API = BACKEND_URL ? `${BACKEND_URL}/api/leads` : '/api/leads'
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'neoskills2026'
 
 export default function AdminDashboard() {
@@ -61,6 +63,17 @@ export default function AdminDashboard() {
   const [enrollments, setEnrollments] = useState([])
   const [enrollmentsLoading, setEnrollmentsLoading] = useState(false)
   const [enrollmentsSearch, setEnrollmentsSearch] = useState('')
+
+  // Leads state
+  const [leads, setLeads] = useState([])
+  const [leadsLoading, setLeadsLoading] = useState(false)
+  const [leadsSearch, setLeadsSearch] = useState('')
+  const [selectedLeadSource, setSelectedLeadSource] = useState('all')
+  const [selectedLeadStatus, setSelectedLeadStatus] = useState('all')
+  const [activeLeadModal, setActiveLeadModal] = useState(null)
+  const [leadNotesInput, setLeadNotesInput] = useState('')
+  const [leadUpdatingId, setLeadUpdatingId] = useState(null)
+  const [copiedPhoneId, setCopiedPhoneId] = useState(null)
 
   // Categories state
   const [categories, setCategories] = useState([])
@@ -318,6 +331,145 @@ export default function AdminDashboard() {
     setEnrollmentsLoading(false)
   }, [])
 
+  const loadLeads = useCallback(async () => {
+    setLeadsLoading(true)
+    setError('')
+    try {
+      const res = await fetch(LEADS_API, {
+        headers: { 'x-admin-password': ADMIN_PASSWORD },
+        signal: AbortSignal.timeout(5000),
+      })
+      if (!res.ok) throw new Error('Server error')
+      const data = await res.json()
+      setLeads(Array.isArray(data) ? data : [])
+    } catch {
+      setLeads([])
+      setError('Failed to load leads')
+    }
+    setLeadsLoading(false)
+  }, [])
+
+  const updateLeadStatus = async (id, newStatus) => {
+    setLeadUpdatingId(id)
+    try {
+      const res = await fetch(`${LEADS_API}/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-password': ADMIN_PASSWORD,
+        },
+        body: JSON.stringify({ status: newStatus }),
+      })
+      if (res.ok) {
+        setLeads(prev => prev.map(l => (l.id === id ? { ...l, status: newStatus } : l)))
+        if (activeLeadModal && activeLeadModal.id === id) {
+          setActiveLeadModal(prev => ({ ...prev, status: newStatus }))
+        }
+      }
+    } catch (err) {
+      console.error('Failed to update lead status:', err)
+    } finally {
+      setLeadUpdatingId(null)
+    }
+  }
+
+  const saveLeadNotes = async (id, notes) => {
+    setLeadUpdatingId(id)
+    try {
+      const res = await fetch(`${LEADS_API}/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-password': ADMIN_PASSWORD,
+        },
+        body: JSON.stringify({ notes }),
+      })
+      if (res.ok) {
+        setLeads(prev => prev.map(l => (l.id === id ? { ...l, notes } : l)))
+        if (activeLeadModal && activeLeadModal.id === id) {
+          setActiveLeadModal(prev => ({ ...prev, notes }))
+        }
+        setSuccess('Lead notes saved successfully')
+        setTimeout(() => setSuccess(''), 3000)
+      }
+    } catch (err) {
+      console.error('Failed to save notes:', err)
+    } finally {
+      setLeadUpdatingId(null)
+    }
+  }
+
+  const deleteLead = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this lead?')) return
+    try {
+      const res = await fetch(`${LEADS_API}/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'x-admin-password': ADMIN_PASSWORD,
+        },
+      })
+      if (res.ok) {
+        setLeads(prev => prev.filter(l => l.id !== id))
+        if (activeLeadModal?.id === id) setActiveLeadModal(null)
+      }
+    } catch (err) {
+      console.error('Failed to delete lead:', err)
+    }
+  }
+
+  const copyPhoneNumber = (id, phone) => {
+    if (!phone) return
+    navigator.clipboard?.writeText(phone)
+    setCopiedPhoneId(id)
+    setTimeout(() => setCopiedPhoneId(null), 2000)
+  }
+
+  const exportLeadsCSV = () => {
+    if (!leads.length) return
+    const headers = ['ID', 'Date', 'Name', 'Phone', 'Email', 'Course', 'Source', 'Status', 'Notes', 'Message']
+    const rows = leads.map(l => [
+      `"${l.id || ''}"`,
+      `"${l.createdAt ? new Date(l.createdAt).toLocaleString('en-IN') : ''}"`,
+      `"${(l.name || '').replace(/"/g, '""')}"`,
+      `"${(l.phone || '').replace(/"/g, '""')}"`,
+      `"${(l.email || '').replace(/"/g, '""')}"`,
+      `"${(l.course || '').replace(/"/g, '""')}"`,
+      `"${(l.source || '').replace(/"/g, '""')}"`,
+      `"${(l.status || 'new').replace(/"/g, '""')}"`,
+      `"${(l.notes || '').replace(/"/g, '""')}"`,
+      `"${(l.message || '').replace(/"/g, '""')}"`,
+    ])
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n')
+    const encodedUri = encodeURI(csvContent)
+    const link = document.createElement('a')
+    link.setAttribute('href', encodedUri)
+    link.setAttribute('download', `neoskills-leads-${new Date().toISOString().slice(0, 10)}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const filteredLeads = useMemo(() => {
+    return leads
+      .filter(l => {
+        if (selectedLeadSource !== 'all' && (l.source || '') !== selectedLeadSource) return false
+        if (selectedLeadStatus !== 'all' && (l.status || 'new') !== selectedLeadStatus) return false
+        if (leadsSearch) {
+          const q = leadsSearch.toLowerCase()
+          return (
+            (l.name || '').toLowerCase().includes(q) ||
+            (l.phone || '').toLowerCase().includes(q) ||
+            (l.email || '').toLowerCase().includes(q) ||
+            (l.course || '').toLowerCase().includes(q) ||
+            (l.message || '').toLowerCase().includes(q) ||
+            (l.source || '').toLowerCase().includes(q)
+          )
+        }
+        return true
+      })
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+  }, [leads, selectedLeadSource, selectedLeadStatus, leadsSearch])
+
   const CATEGORIES_API_URL = BACKEND_URL ? `${BACKEND_URL}/api/categories` : '/api/categories'
 
   const loadCategories = useCallback(async () => {
@@ -344,6 +496,7 @@ export default function AdminDashboard() {
     setError('')
     setSuccess('')
     setUnsaved(false)
+    if (s === 'leads') loadLeads()
     if (s === 'jobs' && jobs.length === 0) loadJobs()
     if (s === 'hero-slides' && slides.length === 0) loadSlides()
     if (s === 'webinars' && webinars.length === 0) loadWebinars()
@@ -357,12 +510,14 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (auth) {
       checkHealth()
+      loadLeads()
       if (section === 'courses') { loadCourses(); loadCategories() }
       if (section === 'jobs') loadJobs()
     }
   }, [auth])
 
   useEffect(() => {
+    if (auth && section === 'leads') loadLeads()
     if (auth && section === 'courses') loadCourses()
     if (auth && section === 'jobs') loadJobs()
     if (auth && section === 'hero-slides') loadSlides()
@@ -802,6 +957,19 @@ export default function AdminDashboard() {
                 }`}
               >
                 Batches
+              </button>
+              <button
+                onClick={() => switchSection('leads')}
+                className={`px-3.5 py-1.5 text-sm font-medium rounded-lg transition-all flex items-center gap-1.5 ${
+                  section === 'leads' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                <span>Leads & Callbacks</span>
+                {leads.length > 0 && (
+                  <span className="bg-primary/10 text-primary px-1.5 py-0.5 rounded-full text-[10px] font-bold">
+                    {leads.filter(l => (l.status || 'new') === 'new').length}
+                  </span>
+                )}
               </button>
               <button
                 onClick={() => switchSection('enrollments')}
@@ -1827,7 +1995,422 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* ─── APPLICATIONS SECTION ─── */}
+        {/* ─── LEADS & COUNSELLOR REQUESTS SECTION ─── */}
+        {section === 'leads' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <span>Leads & Counsellor Callbacks</span>
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary">
+                    {leads.length} Total
+                  </span>
+                </h2>
+                <p className="text-xs text-gray-500 mt-1">
+                  Manage student callback requests from "Connect with a Counsellor" and website forms
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={exportLeadsCSV}
+                  disabled={leads.length === 0}
+                  className="px-3.5 py-2 text-xs font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors flex items-center gap-1.5 disabled:opacity-50 shadow-sm"
+                >
+                  <Download size={14} /> Export CSV
+                </button>
+                <button
+                  onClick={() => loadLeads()}
+                  className="px-3.5 py-2 text-xs font-semibold text-white bg-primary rounded-xl hover:bg-blue-800 transition-colors flex items-center gap-1.5 shadow-sm shadow-primary/20"
+                >
+                  <RefreshCw size={14} className={leadsLoading ? 'animate-spin' : ''} /> Refresh
+                </button>
+              </div>
+            </div>
+
+            {/* Metric Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm">
+                <div className="text-xs font-medium text-gray-500">Total Leads</div>
+                <div className="text-2xl font-bold text-gray-900 mt-1">{leads.length}</div>
+              </div>
+              <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm">
+                <div className="text-xs font-medium text-amber-600">New / Uncontacted</div>
+                <div className="text-2xl font-bold text-amber-600 mt-1">
+                  {leads.filter(l => (l.status || 'new') === 'new').length}
+                </div>
+              </div>
+              <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm">
+                <div className="text-xs font-medium text-blue-600">Counsellor Popups</div>
+                <div className="text-2xl font-bold text-blue-600 mt-1">
+                  {leads.filter(l => (l.source || '').includes('counsellor')).length}
+                </div>
+              </div>
+              <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm">
+                <div className="text-xs font-medium text-green-600">Contacted / Enrolled</div>
+                <div className="text-2xl font-bold text-green-600 mt-1">
+                  {leads.filter(l => ['contacted', 'enrolled'].includes(l.status)).length}
+                </div>
+              </div>
+            </div>
+
+            {/* Filter Bar */}
+            <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm mb-6 flex flex-col md:flex-row gap-3 items-center">
+              <div className="relative flex-1 w-full">
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search by name, phone (+91...), email, course..."
+                  value={leadsSearch}
+                  onChange={e => setLeadsSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary"
+                />
+              </div>
+              <div className="flex items-center gap-2 w-full md:w-auto">
+                <select
+                  value={selectedLeadSource}
+                  onChange={e => setSelectedLeadSource(e.target.value)}
+                  className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-primary"
+                >
+                  <option value="all">All Sources</option>
+                  <option value="counsellor-popup">Counsellor Popup</option>
+                  <option value="lead-popup">Lead Popup</option>
+                  <option value="contactform">Contact Form</option>
+                  <option value="course-detail">Course Detail</option>
+                  <option value="enroll">Enrollment</option>
+                  <option value="ai-courses-popup">AI Courses Popup</option>
+                  <option value="webinar-popup">Webinar Popup</option>
+                </select>
+
+                <select
+                  value={selectedLeadStatus}
+                  onChange={e => setSelectedLeadStatus(e.target.value)}
+                  className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none focus:border-primary"
+                >
+                  <option value="all">All Statuses</option>
+                  <option value="new">New (Uncontacted)</option>
+                  <option value="contacted">Contacted</option>
+                  <option value="enrolled">Enrolled</option>
+                  <option value="cancelled">Closed / Spam</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Table */}
+            {leadsLoading ? (
+              <div className="text-center py-20 bg-white rounded-2xl border border-gray-200">
+                <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-gray-500 text-sm">Loading callback requests...</p>
+              </div>
+            ) : filteredLeads.length === 0 ? (
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-12 text-center">
+                <p className="text-gray-600 font-semibold">No callback requests found.</p>
+                <p className="text-xs text-gray-400 mt-1">
+                  Requests submitted via "Connect with a Counsellor" will appear here automatically.
+                </p>
+              </div>
+            ) : (
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-gray-50/80 border-b border-gray-100 text-xs font-semibold text-gray-600">
+                        <th className="text-left px-5 py-3.5">Candidate</th>
+                        <th className="text-left px-5 py-3.5">Phone Number</th>
+                        <th className="text-left px-5 py-3.5">Interest / Course</th>
+                        <th className="text-center px-4 py-3.5">Source</th>
+                        <th className="text-center px-4 py-3.5">Status</th>
+                        <th className="text-left px-5 py-3.5">Received At</th>
+                        <th className="text-right px-5 py-3.5">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {filteredLeads.map(l => {
+                        const cleanPhone = (l.phone || '').replace(/[^0-9]/g, '')
+                        const whatsappNum = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone
+                        const hasEmail = l.email && !l.email.includes('not-provided') && l.email.includes('@')
+                        const isNew = (l.status || 'new') === 'new'
+
+                        return (
+                          <tr key={l.id} className={`hover:bg-gray-50/70 transition-colors ${isNew ? 'bg-amber-50/20' : ''}`}>
+                            <td className="px-5 py-3.5">
+                              <div className="font-semibold text-gray-900 flex items-center gap-1.5">
+                                {isNew && (
+                                  <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" title="New Request" />
+                                )}
+                                <span>{l.name || 'Anonymous'}</span>
+                              </div>
+                              {hasEmail ? (
+                                <div className="text-xs text-gray-400 mt-0.5">
+                                  <a href={`mailto:${l.email}`} className="hover:text-primary hover:underline">{l.email}</a>
+                                </div>
+                              ) : (
+                                <div className="text-[11px] text-gray-400 mt-0.5">Phone callback</div>
+                              )}
+                            </td>
+
+                            <td className="px-5 py-3.5">
+                              <div className="flex items-center gap-2">
+                                <a
+                                  href={`tel:${l.phone}`}
+                                  className="font-mono text-sm font-semibold text-primary hover:underline flex items-center gap-1"
+                                >
+                                  <Phone size={13} />
+                                  <span>{l.phone || 'N/A'}</span>
+                                </a>
+                                {l.phone && (
+                                  <button
+                                    onClick={() => copyPhoneNumber(l.id, l.phone)}
+                                    title="Copy phone"
+                                    className="p-1 hover:bg-gray-200/60 rounded text-gray-400 hover:text-gray-700 transition-colors"
+                                  >
+                                    {copiedPhoneId === l.id ? <Check size={13} className="text-green-600" /> : <Copy size={13} />}
+                                  </button>
+                                )}
+                              </div>
+                            </td>
+
+                            <td className="px-5 py-3.5">
+                              <div className="font-medium text-gray-800 max-w-[220px] truncate" title={l.course}>
+                                {l.course || 'Free Counsellor Callback'}
+                              </div>
+                              {l.message && (
+                                <div className="text-xs text-gray-400 max-w-[220px] truncate" title={l.message}>
+                                  {l.message}
+                                </div>
+                              )}
+                            </td>
+
+                            <td className="px-4 py-3.5 text-center">
+                              <span
+                                className={`inline-block text-[10px] font-semibold px-2.5 py-1 rounded-full ${
+                                  (l.source || '').includes('counsellor')
+                                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                                    : (l.source || '').includes('contact')
+                                    ? 'bg-purple-50 text-purple-700 border border-purple-200'
+                                    : (l.source || '').includes('enroll')
+                                    ? 'bg-green-50 text-green-700 border border-green-200'
+                                    : 'bg-gray-100 text-gray-600 border border-gray-200'
+                                }`}
+                              >
+                                {l.source || 'website'}
+                              </span>
+                            </td>
+
+                            <td className="px-4 py-3.5 text-center">
+                              <select
+                                value={l.status || 'new'}
+                                disabled={leadUpdatingId === l.id}
+                                onChange={e => updateLeadStatus(l.id, e.target.value)}
+                                className={`text-[11px] font-semibold px-2 py-1 rounded-lg border cursor-pointer focus:outline-none ${
+                                  (l.status || 'new') === 'new'
+                                    ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                    : l.status === 'contacted'
+                                    ? 'bg-blue-50 text-blue-700 border-blue-200'
+                                    : l.status === 'enrolled'
+                                    ? 'bg-green-50 text-green-700 border-green-200'
+                                    : 'bg-gray-50 text-gray-500 border-gray-200'
+                                }`}
+                              >
+                                <option value="new">New</option>
+                                <option value="contacted">Contacted</option>
+                                <option value="enrolled">Enrolled</option>
+                                <option value="cancelled">Closed</option>
+                              </select>
+                            </td>
+
+                            <td className="px-5 py-3.5 text-xs text-gray-500 whitespace-nowrap">
+                              {l.createdAt
+                                ? new Date(l.createdAt).toLocaleDateString('en-IN', {
+                                    day: 'numeric',
+                                    month: 'short',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                  })
+                                : '-'}
+                            </td>
+
+                            <td className="px-5 py-3.5 text-right">
+                              <div className="flex items-center justify-end gap-1.5">
+                                {cleanPhone && (
+                                  <a
+                                    href={`tel:${cleanPhone}`}
+                                    className="p-1.5 text-primary hover:bg-blue-50 rounded-lg transition-colors"
+                                    title="Call Candidate"
+                                  >
+                                    <Phone size={15} />
+                                  </a>
+                                )}
+                                {whatsappNum && (
+                                  <a
+                                    href={`https://wa.me/${whatsappNum}?text=Hi%20${encodeURIComponent(l.name || 'there')},%20this%20is%20NeoSkills%20regarding%20your%20callback%20request.`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                                    title="WhatsApp Chat"
+                                  >
+                                    <MessageSquare size={15} />
+                                  </a>
+                                )}
+                                <button
+                                  onClick={() => {
+                                    setActiveLeadModal(l)
+                                    setLeadNotesInput(l.notes || '')
+                                  }}
+                                  className="p-1.5 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                                  title="View Details & Notes"
+                                >
+                                  <FileText size={15} />
+                                </button>
+                                <button
+                                  onClick={() => deleteLead(l.id)}
+                                  className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                  title="Delete Lead"
+                                >
+                                  <Trash2 size={15} />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="border-t border-gray-100 px-5 py-3 bg-gray-50/50 flex items-center justify-between text-xs text-gray-400">
+                  <span>Showing {filteredLeads.length} of {leads.length} leads</span>
+                  <span>Auto-saved to database / leads.json</span>
+                </div>
+              </div>
+            )}
+
+            {/* Lead Details & Follow-up Notes Modal */}
+            {activeLeadModal && (
+              <div
+                className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+                onClick={() => setActiveLeadModal(null)}
+              >
+                <div
+                  className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl overflow-hidden relative"
+                  onClick={e => e.stopPropagation()}
+                >
+                  <button
+                    onClick={() => setActiveLeadModal(null)}
+                    className="absolute top-5 right-5 p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
+                  >
+                    <X size={18} />
+                  </button>
+
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
+                      {(activeLeadModal.name || 'L').charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900">{activeLeadModal.name || 'Candidate'}</h3>
+                      <p className="text-xs text-gray-500">ID: {activeLeadModal.id}</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 bg-gray-50 p-4 rounded-2xl text-xs mb-5">
+                    <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                      <span className="text-gray-500">Phone Number:</span>
+                      <a href={`tel:${activeLeadModal.phone}`} className="font-mono font-bold text-primary hover:underline">
+                        {activeLeadModal.phone || 'N/A'}
+                      </a>
+                    </div>
+                    <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                      <span className="text-gray-500">Email:</span>
+                      <span className="font-medium text-gray-800">{activeLeadModal.email || 'None provided'}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                      <span className="text-gray-500">Interest / Course:</span>
+                      <span className="font-semibold text-gray-800">{activeLeadModal.course || 'Free Counsellor Callback'}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                      <span className="text-gray-500">Source:</span>
+                      <span className="font-mono text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">{activeLeadModal.source || 'website'}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                      <span className="text-gray-500">Submitted At:</span>
+                      <span className="text-gray-700">
+                        {activeLeadModal.createdAt ? new Date(activeLeadModal.createdAt).toLocaleString('en-IN') : 'N/A'}
+                      </span>
+                    </div>
+                    {activeLeadModal.message && (
+                      <div className="pt-1">
+                        <span className="text-gray-500 block mb-1">Message:</span>
+                        <div className="bg-white p-2.5 rounded-xl border border-gray-200 text-gray-800">
+                          {activeLeadModal.message}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Status selector */}
+                  <div className="mb-4">
+                    <label className="text-xs font-semibold text-gray-700 block mb-1.5">Lead Status:</label>
+                    <div className="grid grid-cols-4 gap-2">
+                      {['new', 'contacted', 'enrolled', 'cancelled'].map(st => (
+                        <button
+                          key={st}
+                          type="button"
+                          onClick={() => updateLeadStatus(activeLeadModal.id, st)}
+                          className={`py-1.5 text-xs font-semibold rounded-xl border capitalize transition-all ${
+                            (activeLeadModal.status || 'new') === st
+                              ? 'bg-primary text-white border-primary shadow-sm'
+                              : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                          }`}
+                        >
+                          {st === 'cancelled' ? 'Closed' : st}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Counsellor Follow-up Notes */}
+                  <div className="mb-5">
+                    <label className="text-xs font-semibold text-gray-700 block mb-1.5">Counsellor Follow-up Notes:</label>
+                    <textarea
+                      rows={3}
+                      value={leadNotesInput}
+                      onChange={e => setLeadNotesInput(e.target.value)}
+                      placeholder="e.g., Called candidate on Oct 23, interested in AWS Weekend batch, follow up next Monday..."
+                      className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-primary focus:bg-white transition-all"
+                    />
+                    <div className="flex justify-end mt-2">
+                      <button
+                        onClick={() => saveLeadNotes(activeLeadModal.id, leadNotesInput)}
+                        disabled={leadUpdatingId === activeLeadModal.id}
+                        className="px-4 py-1.5 text-xs font-semibold bg-primary text-white rounded-xl hover:bg-blue-800 transition-colors disabled:opacity-50"
+                      >
+                        {leadUpdatingId === activeLeadModal.id ? 'Saving...' : 'Save Notes'}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Quick Connect Actions */}
+                  <div className="flex items-center gap-2 pt-2 border-t border-gray-100">
+                    <a
+                      href={`tel:${activeLeadModal.phone}`}
+                      className="flex-1 py-2.5 bg-primary text-white rounded-xl font-semibold text-xs text-center hover:bg-blue-800 transition-colors flex items-center justify-center gap-1.5 shadow-sm shadow-primary/20"
+                    >
+                      <Phone size={14} /> Call Candidate
+                    </a>
+                    <a
+                      href={`https://wa.me/${(activeLeadModal.phone || '').replace(/[^0-9]/g, '').length === 10 ? '91' + (activeLeadModal.phone || '').replace(/[^0-9]/g, '') : (activeLeadModal.phone || '').replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(activeLeadModal.name || 'there')},%20this%20is%20NeoSkills%20regarding%20your%20callback%20request.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2.5 bg-green-600 text-white rounded-xl font-semibold text-xs text-center hover:bg-green-700 transition-colors flex items-center justify-center gap-1.5 shadow-sm shadow-green-600/20"
+                    >
+                      <MessageSquare size={14} /> WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* ─── CATEGORIES SECTION ─── */}
         {section === 'categories' && (
           <>
