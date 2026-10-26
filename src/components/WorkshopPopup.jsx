@@ -43,7 +43,7 @@ export default function WorkshopPopup() {
   const handleReserve = useCallback(() => {
     markShown()
     setShow(false)
-    navigate('/ai-for-pm-manager')
+    navigate('/ai-for-project-managers')
   }, [markShown, navigate])
 
   const handlePay = useCallback(() => {

@@ -45,7 +45,8 @@ export default function AdminDashboard() {
   const [selectedWebinarId, setSelectedWebinarId] = useState('')
   const [webinarsLoading, setWebinarsLoading] = useState(false)
   const [webinarsSearch, setWebinarsSearch] = useState('')
-  const [pagePricing, setPagePricing] = useState({ aiHrFee: 25000 })
+  const [pagePricing, setPagePricing] = useState({ aiHrFee: 25000, aiPmFee: 5999 })
+  const [savedPagePricing, setSavedPagePricing] = useState({ aiHrFee: 25000, aiPmFee: 5999 })
   const [pagePricingLoading, setPagePricingLoading] = useState(false)
   const [pagePricingSaving, setPagePricingSaving] = useState(false)
 
@@ -274,8 +275,14 @@ export default function AdminDashboard() {
       const res = await fetch(PAGE_PRICING_API, { signal: AbortSignal.timeout(5000) })
       if (!res.ok) throw new Error('Server error')
       const data = await res.json()
-      const fee = Number(data?.aiHrFee)
-      if (Number.isFinite(fee) && fee > 0) setPagePricing({ aiHrFee: fee })
+      const aiHrFee = Number(data?.aiHrFee)
+      const aiPmFee = Number(data?.aiPmFee)
+      const next = {
+        aiHrFee: Number.isFinite(aiHrFee) && aiHrFee > 0 ? aiHrFee : 25000,
+        aiPmFee: Number.isFinite(aiPmFee) && aiPmFee > 0 ? aiPmFee : 5999,
+      }
+      setPagePricing(next)
+      setSavedPagePricing(next)
     } catch {
       // Keep the current/default value when the backend is unreachable.
     }
@@ -746,9 +753,18 @@ export default function AdminDashboard() {
       setError('Backend is offline. Cannot save.')
       return
     }
-    const fee = Number(pagePricing.aiHrFee)
-    if (!Number.isFinite(fee) || fee <= 0) {
-      setError('Enter a valid base fee greater than 0.')
+    const aiHrFee = Number(pagePricing.aiHrFee)
+    const aiPmFee = Number(pagePricing.aiPmFee)
+    if (!Number.isFinite(aiHrFee) || aiHrFee <= 0 || !Number.isFinite(aiPmFee) || aiPmFee <= 0) {
+      setError('Enter a valid base fee greater than 0 for both pages.')
+      return
+    }
+    const payload = {}
+    if (aiHrFee !== Number(savedPagePricing.aiHrFee)) payload.aiHrFee = aiHrFee
+    if (aiPmFee !== Number(savedPagePricing.aiPmFee)) payload.aiPmFee = aiPmFee
+    if (Object.keys(payload).length === 0) {
+      setSuccess('No pricing changes to save.')
+      setTimeout(() => setSuccess(''), 3000)
       return
     }
     setPagePricingSaving(true)
@@ -758,12 +774,14 @@ export default function AdminDashboard() {
       const res = await fetch(PAGE_PRICING_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-admin-password': ADMIN_PASSWORD },
-        body: JSON.stringify({ aiHrFee: fee }),
+        body: JSON.stringify(payload),
       })
       const data = await res.json()
       if (!res.ok || !data.success) throw new Error(data.error || 'Save failed')
-      setPagePricing({ aiHrFee: data.aiHrFee })
-      setSuccess('AI-Powered HR pricing saved successfully.')
+      const next = { aiHrFee: data.aiHrFee, aiPmFee: data.aiPmFee }
+      setPagePricing(next)
+      setSavedPagePricing(next)
+      setSuccess('Landing page pricing saved successfully.')
       setTimeout(() => setSuccess(''), 3000)
     } catch (err) {
       setError('Save failed: ' + (err.message || 'Connection error'))
@@ -1557,38 +1575,49 @@ export default function AdminDashboard() {
             </div>
 
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mb-6">
-              <div className="flex flex-col lg:flex-row lg:items-end gap-5">
-                <div className="flex-1">
-                  <h3 className="text-sm font-bold text-gray-900">AI-Powered HR Page Pricing</h3>
+              <div className="flex flex-col lg:flex-row lg:items-start gap-6">
+                <div className="lg:w-60 shrink-0">
+                  <h3 className="text-sm font-bold text-gray-900">Landing Page Pricing</h3>
                   <p className="text-xs text-gray-500 mt-1">
-                    Controls the price shown on <span className="font-mono">/ai-powered-hr</span> and charged at checkout.
+                    Controls the prices shown on <span className="font-mono">/ai-powered-hr</span> and{' '}
+                    <span className="font-mono">/ai-for-project-managers</span>, and charged at checkout.
                     GST is fixed at 18% and added automatically.
                   </p>
                 </div>
-                <div className="w-full sm:w-44">
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Base Fee (₹)</label>
-                  <input
-                    type="number" min="1" step="1"
-                    value={pagePricing.aiHrFee}
-                    onChange={e => setPagePricing({ aiHrFee: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary"
-                  />
-                </div>
-                <div className="bg-light-gray rounded-xl px-4 py-2.5 text-sm">
-                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">Checkout Total</p>
-                  <p className="font-extrabold text-primary">
-                    ₹{Math.round(Number(pagePricing.aiHrFee || 0) * 1.18).toLocaleString('en-IN')}
-                    <span className="text-[11px] font-semibold text-gray-500 ml-1">incl. 18% GST</span>
-                  </p>
+                <div className="flex-1 grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">AI-Powered HR Base Fee (₹)</label>
+                    <input
+                      type="number" min="1" step="1"
+                      value={pagePricing.aiHrFee}
+                      onChange={e => setPagePricing(prev => ({ ...prev, aiHrFee: e.target.value }))}
+                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary"
+                    />
+                    <p className="text-xs text-gray-500 mt-1.5">
+                      Checkout: <span className="font-semibold text-primary">₹{Math.round(Number(pagePricing.aiHrFee || 0) * 1.18).toLocaleString('en-IN')}</span> incl. 18% GST
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">AI for Project Managers Base Fee (₹)</label>
+                    <input
+                      type="number" min="1" step="1"
+                      value={pagePricing.aiPmFee}
+                      onChange={e => setPagePricing(prev => ({ ...prev, aiPmFee: e.target.value }))}
+                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary"
+                    />
+                    <p className="text-xs text-gray-500 mt-1.5">
+                      Checkout: <span className="font-semibold text-primary">₹{Math.round(Number(pagePricing.aiPmFee || 0) * 1.18).toLocaleString('en-IN')}</span> incl. 18% GST
+                    </p>
+                  </div>
                 </div>
                 <button
                   onClick={handlePagePricingSave}
                   disabled={pagePricingSaving || pagePricingLoading || !backendOnline}
-                  className="px-6 py-2.5 text-sm font-semibold text-white bg-primary rounded-xl hover:bg-blue-800 transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-sm shrink-0"
+                  className="px-6 py-2.5 text-sm font-semibold text-white bg-primary rounded-xl hover:bg-blue-800 transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-sm shrink-0 lg:self-end"
                 >
                   {pagePricingSaving
                     ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Saving...</>
-                    : 'Save Price'}
+                    : 'Save Prices'}
                 </button>
               </div>
             </div>

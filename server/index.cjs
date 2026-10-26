@@ -720,7 +720,8 @@ app.post('/api/webinars', requireAdmin, async (req, res) => {
 })
 
 // ─── Page Pricing API ───
-const DEFAULT_PAGE_PRICING = { aiHrFee: 25000 }
+const DEFAULT_PAGE_PRICING = { aiHrFee: 25000, aiPmFee: 5999 }
+const PAGE_PRICING_KEYS = ['aiHrFee', 'aiPmFee']
 
 app.get('/api/page-pricing', async (req, res) => {
   try {
@@ -732,12 +733,21 @@ app.get('/api/page-pricing', async (req, res) => {
 })
 
 app.post('/api/page-pricing', requireAdmin, async (req, res) => {
-  const fee = Number(req.body?.aiHrFee)
-  if (!Number.isFinite(fee) || fee <= 0) {
-    return res.status(400).json({ error: 'Base fee must be a positive number' })
+  const updates = {}
+  for (const key of PAGE_PRICING_KEYS) {
+    if (req.body?.[key] === undefined) continue
+    const fee = Number(req.body[key])
+    if (!Number.isFinite(fee) || fee <= 0) {
+      return res.status(400).json({ error: `${key} must be a positive number` })
+    }
+    updates[key] = Math.round(fee)
+  }
+  if (Object.keys(updates).length === 0) {
+    return res.status(400).json({ error: 'No pricing values provided' })
   }
   try {
-    const pricing = { aiHrFee: Math.round(fee) }
+    const existing = await getData('page_pricing')
+    const pricing = { ...DEFAULT_PAGE_PRICING, ...(existing || {}), ...updates }
     await setData('page_pricing', pricing)
     res.json({ success: true, ...pricing })
   } catch (err) {
