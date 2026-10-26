@@ -7,6 +7,7 @@ const COURSES_API = BACKEND_URL ? `${BACKEND_URL}/api/courses` : '/api/courses'
 const JOBS_API = BACKEND_URL ? `${BACKEND_URL}/api/jobs` : '/api/jobs'
 const HERO_SLIDES_API = BACKEND_URL ? `${BACKEND_URL}/api/hero-slides` : '/api/hero-slides'
 const WEBINARS_API = BACKEND_URL ? `${BACKEND_URL}/api/webinars` : '/api/webinars'
+const PAGE_PRICING_API = BACKEND_URL ? `${BACKEND_URL}/api/page-pricing` : '/api/page-pricing'
 const APPLICATIONS_API = BACKEND_URL ? `${BACKEND_URL}/api/job-applications` : '/api/job-applications'
 const BATCHES_API = BACKEND_URL ? `${BACKEND_URL}/api/batches` : '/api/batches'
 const ENROLLMENTS_API = BACKEND_URL ? `${BACKEND_URL}/api/enrollments` : '/api/enrollments'
@@ -44,6 +45,9 @@ export default function AdminDashboard() {
   const [selectedWebinarId, setSelectedWebinarId] = useState('')
   const [webinarsLoading, setWebinarsLoading] = useState(false)
   const [webinarsSearch, setWebinarsSearch] = useState('')
+  const [pagePricing, setPagePricing] = useState({ aiHrFee: 25000 })
+  const [pagePricingLoading, setPagePricingLoading] = useState(false)
+  const [pagePricingSaving, setPagePricingSaving] = useState(false)
 
   // Applications state
   const [applications, setApplications] = useState([])
@@ -264,6 +268,20 @@ export default function AdminDashboard() {
     setWebinarsLoading(false)
   }, [])
 
+  const loadPagePricing = useCallback(async () => {
+    setPagePricingLoading(true)
+    try {
+      const res = await fetch(PAGE_PRICING_API, { signal: AbortSignal.timeout(5000) })
+      if (!res.ok) throw new Error('Server error')
+      const data = await res.json()
+      const fee = Number(data?.aiHrFee)
+      if (Number.isFinite(fee) && fee > 0) setPagePricing({ aiHrFee: fee })
+    } catch {
+      // Keep the current/default value when the backend is unreachable.
+    }
+    setPagePricingLoading(false)
+  }, [])
+
   const loadApplications = useCallback(async () => {
     setApplicationsLoading(true)
     setError('')
@@ -346,7 +364,10 @@ export default function AdminDashboard() {
     setUnsaved(false)
     if (s === 'jobs' && jobs.length === 0) loadJobs()
     if (s === 'hero-slides' && slides.length === 0) loadSlides()
-    if (s === 'webinars' && webinars.length === 0) loadWebinars()
+    if (s === 'webinars') {
+      if (webinars.length === 0) loadWebinars()
+      loadPagePricing()
+    }
     if (s === 'applications') loadApplications()
     if (s === 'batches' && batches.length === 0) loadBatches()
     if (s === 'enrollments') loadEnrollments()
@@ -366,7 +387,7 @@ export default function AdminDashboard() {
     if (auth && section === 'courses') loadCourses()
     if (auth && section === 'jobs') loadJobs()
     if (auth && section === 'hero-slides') loadSlides()
-    if (auth && section === 'webinars') loadWebinars()
+    if (auth && section === 'webinars') { loadWebinars(); loadPagePricing() }
     if (auth && section === 'applications') loadApplications()
     if (auth && section === 'batches') loadBatches()
     if (auth && section === 'enrollments') loadEnrollments()
@@ -718,6 +739,36 @@ export default function AdminDashboard() {
       setError('Save failed: ' + (err.message || 'Connection error'))
     }
     setSaving(false)
+  }
+
+  const handlePagePricingSave = async () => {
+    if (!backendOnline) {
+      setError('Backend is offline. Cannot save.')
+      return
+    }
+    const fee = Number(pagePricing.aiHrFee)
+    if (!Number.isFinite(fee) || fee <= 0) {
+      setError('Enter a valid base fee greater than 0.')
+      return
+    }
+    setPagePricingSaving(true)
+    setError('')
+    setSuccess('')
+    try {
+      const res = await fetch(PAGE_PRICING_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-password': ADMIN_PASSWORD },
+        body: JSON.stringify({ aiHrFee: fee }),
+      })
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.error || 'Save failed')
+      setPagePricing({ aiHrFee: data.aiHrFee })
+      setSuccess('AI-Powered HR pricing saved successfully.')
+      setTimeout(() => setSuccess(''), 3000)
+    } catch (err) {
+      setError('Save failed: ' + (err.message || 'Connection error'))
+    }
+    setPagePricingSaving(false)
   }
 
   // ─── Auth Screen ───
@@ -1501,6 +1552,43 @@ export default function AdminDashboard() {
                 }} className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-blue-800 transition-all flex items-center gap-2">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                   New Webinar
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mb-6">
+              <div className="flex flex-col lg:flex-row lg:items-end gap-5">
+                <div className="flex-1">
+                  <h3 className="text-sm font-bold text-gray-900">AI-Powered HR Page Pricing</h3>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Controls the price shown on <span className="font-mono">/ai-powered-hr</span> and charged at checkout.
+                    GST is fixed at 18% and added automatically.
+                  </p>
+                </div>
+                <div className="w-full sm:w-44">
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Base Fee (₹)</label>
+                  <input
+                    type="number" min="1" step="1"
+                    value={pagePricing.aiHrFee}
+                    onChange={e => setPagePricing({ aiHrFee: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary"
+                  />
+                </div>
+                <div className="bg-light-gray rounded-xl px-4 py-2.5 text-sm">
+                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide">Checkout Total</p>
+                  <p className="font-extrabold text-primary">
+                    ₹{Math.round(Number(pagePricing.aiHrFee || 0) * 1.18).toLocaleString('en-IN')}
+                    <span className="text-[11px] font-semibold text-gray-500 ml-1">incl. 18% GST</span>
+                  </p>
+                </div>
+                <button
+                  onClick={handlePagePricingSave}
+                  disabled={pagePricingSaving || pagePricingLoading || !backendOnline}
+                  className="px-6 py-2.5 text-sm font-semibold text-white bg-primary rounded-xl hover:bg-blue-800 transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-sm shrink-0"
+                >
+                  {pagePricingSaving
+                    ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Saving...</>
+                    : 'Save Price'}
                 </button>
               </div>
             </div>
