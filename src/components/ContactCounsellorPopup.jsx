@@ -5,8 +5,8 @@ import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const SHOW_DELAY = 3000
-const COUNSELLOR_WHATSAPP = '917666621156'
-const COUNSELLOR_PHONE = '7666621156'
+const COUNSELLOR_WHATSAPP = '918956963953'
+const COUNSELLOR_PHONE = '8956963953'
 const CALLBACK_ALERT_EMAIL = 'sakshigaikwad1305@gmail.com'
 
 export default function ContactCounsellorPopup() {
@@ -243,7 +243,7 @@ export default function ContactCounsellorPopup() {
                         href={`tel:+91${COUNSELLOR_PHONE}`}
                         className="flex items-center justify-center gap-1.5 text-xs text-primary font-semibold hover:underline"
                       >
-                        <Phone size={12} /> Call: {COUNSELLOR_PHONE}
+                        <Phone size={12} /> Call: +91 {COUNSELLOR_PHONE}
                       </a>
                       <span className="text-gray-300">•</span>
                       <a
@@ -252,7 +252,7 @@ export default function ContactCounsellorPopup() {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-1 text-xs text-green-600 font-semibold hover:underline"
                       >
-                        <MessageSquare size={12} /> WhatsApp: {COUNSELLOR_PHONE}
+                        <MessageSquare size={12} /> WhatsApp: +91 {COUNSELLOR_PHONE}
                       </a>
                     </div>
                   </form>
