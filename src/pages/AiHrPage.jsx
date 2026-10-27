@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
@@ -12,8 +12,12 @@ import RecaptchaCheckbox from '../components/RecaptchaCheckbox'
 import { useEnroll } from '../context/EnrollContext'
 
 const HR_COURSE = 'AI-Powered HR Professional Workshop'
-const HR_FEE = 3000
-const HR_ORIGINAL_FEE = 5000
+const HR_FEE = 25000
+const GST_RATE = 18
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
+const PRICING_API = BACKEND_URL ? `${BACKEND_URL}/api/page-pricing` : '/api/page-pricing'
+
+const formatINR = (amount) => `₹${Number(amount).toLocaleString('en-IN')}`
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -102,12 +106,25 @@ const audit = ['Corporate HR Professionals', 'HR Business Partners', 'Talent Acq
 
 export default function AiHrPage() {
   const { openPayment } = useEnroll()
+  const [fee, setFee] = useState(HR_FEE)
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
   const [registered, setRegistered] = useState(false)
   const [captchaToken, setCaptchaToken] = useState('')
   const [captchaError, setCaptchaError] = useState('')
+
+  useEffect(() => {
+    let active = true
+    fetch(PRICING_API)
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => {
+        const value = Number(data?.aiHrFee)
+        if (active && Number.isFinite(value) && value > 0) setFee(value)
+      })
+      .catch(() => {})
+    return () => { active = false }
+  }, [])
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -150,7 +167,7 @@ export default function AiHrPage() {
         email: form.email,
         phone: form.phone,
         course: HR_COURSE,
-        amount: HR_FEE,
+        amount: fee,
         source: 'ai-hr-workshop',
       })
     } catch {
@@ -164,9 +181,9 @@ export default function AiHrPage() {
     <>
       <Helmet>
         <title>1-Day AI-Powered HR Professional Online Course | NeoSkills</title>
-        <meta name="description" content="1-Day Live Online AI course for Corporate HR Professionals. From repetitive work to intelligent work — Live Demos + Hands-On Practice across Recruitment, HR Communication, L&D and HR Documents. Festive offer ₹3,000." />
+        <meta name="description" content={`1-Day Live Online AI course for Corporate HR Professionals. From repetitive work to intelligent work — Live Demos + Hands-On Practice across Recruitment, HR Communication, L&D and HR Documents. Course fee ${formatINR(fee)} + ${GST_RATE}% GST.`} />
         <meta property="og:title" content="1-Day AI-Powered HR Professional Online Course | NeoSkills" />
-        <meta property="og:description" content="Give back hours of repetitive work to AI and use that time for people, decisions and strategy. Live online, hands-on. Festive special ₹3,000." />
+        <meta property="og:description" content={`Give back hours of repetitive work to AI and use that time for people, decisions and strategy. Live online, hands-on. Course fee ${formatINR(fee)} + ${GST_RATE}% GST.`} />
       </Helmet>
 
       <div className="min-h-screen bg-white">
@@ -208,9 +225,8 @@ export default function AiHrPage() {
                   Reserve Your Seat <ArrowRight size={18} />
                 </a>
                 <div className="text-sm text-white/90">
-                  <span className="line-through text-white/50 mr-2">₹5,000</span>
-                  <span className="text-accent font-extrabold text-lg">₹3,000</span>{' '}
-                  <span className="text-white/80">Festive Offer</span>
+                  <span className="text-accent font-extrabold text-lg">{formatINR(fee)}</span>{' '}
+                  <span className="text-white/80">+ {GST_RATE}% GST</span>
                 </div>
               </div>
 
@@ -403,9 +419,9 @@ export default function AiHrPage() {
                 ))}
               </div>
               <p className="text-gray-500 text-sm">
-                1-Day Live Online Course · <span className="line-through">₹5,000</span>{' '}
-                <span className="text-primary font-extrabold text-xl">₹3,000</span>{' '}
-                <span className="bg-accent/20 text-primary text-xs font-bold px-2 py-0.5 rounded-full">Festive Offer</span>
+                1-Day Live Online Course ·{' '}
+                <span className="text-primary font-extrabold text-xl">{formatINR(fee)}</span>{' '}
+                <span className="bg-accent/20 text-primary text-xs font-bold px-2 py-0.5 rounded-full">+ {GST_RATE}% GST</span>
               </p>
             </motion.div>
 
@@ -435,9 +451,10 @@ export default function AiHrPage() {
                       placeholder="Phone Number *"
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm sm:col-span-2 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
                     />
-                    <div className="bg-accent/20 rounded-xl px-4 py-3 flex items-center justify-center gap-2">
+                    <div className="bg-accent/20 rounded-xl px-4 py-3 flex items-center justify-center gap-1.5">
                       <IndianRupee size={16} className="text-primary" />
-                      <span className="font-extrabold text-primary">3,000</span>
+                      <span className="font-extrabold text-primary">{fee.toLocaleString('en-IN')}</span>
+                      <span className="text-[10px] font-semibold text-primary/70">+ {GST_RATE}% GST</span>
                     </div>
                   </div>
 
@@ -454,7 +471,7 @@ export default function AiHrPage() {
                   >
                     {sending ? 'Reserving...' : (
                       <>
-                        Reserve Your Seat — ₹3,000 <Send size={16} />
+                        Reserve Your Seat — {formatINR(fee)} + GST <Send size={16} />
                       </>
                     )}
                   </motion.button>

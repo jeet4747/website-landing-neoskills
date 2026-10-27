@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
@@ -13,6 +13,11 @@ import { useEnroll } from '../context/EnrollContext'
 
 const WORKSHOP_COURSE = 'AI Essentials for Project Managers Workshop'
 const WORKSHOP_FEE = 5999
+const GST_RATE = 18
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
+const PRICING_API = BACKEND_URL ? `${BACKEND_URL}/api/page-pricing` : '/api/page-pricing'
+
+const formatINR = (amount) => `₹${Number(amount).toLocaleString('en-IN')}`
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -78,12 +83,25 @@ const audience = [
 export default function WorkshopPage() {
   const navigate = useNavigate()
   const { openPayment } = useEnroll()
+  const [fee, setFee] = useState(WORKSHOP_FEE)
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
   const [registered, setRegistered] = useState(false)
   const [captchaToken, setCaptchaToken] = useState('')
   const [captchaError, setCaptchaError] = useState('')
+
+  useEffect(() => {
+    let active = true
+    fetch(PRICING_API)
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => {
+        const value = Number(data?.aiPmFee)
+        if (active && Number.isFinite(value) && value > 0) setFee(value)
+      })
+      .catch(() => {})
+    return () => { active = false }
+  }, [])
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -126,7 +144,7 @@ export default function WorkshopPage() {
         email: form.email,
         phone: form.phone,
         course: WORKSHOP_COURSE,
-        amount: WORKSHOP_FEE,
+        amount: fee,
         source: 'workshop',
       })
     } catch {
@@ -142,7 +160,7 @@ export default function WorkshopPage() {
       email: '',
       phone: '',
       course: WORKSHOP_COURSE,
-      amount: WORKSHOP_FEE,
+      amount: fee,
       source: 'workshop',
     })
   }
@@ -151,7 +169,7 @@ export default function WorkshopPage() {
     <>
       <Helmet>
         <title>1-Day AI Essentials for Project Managers Workshop | Pune | NeoSkills</title>
-        <meta name="description" content="1-Day Practical Classroom Workshop in Pune. Learn to use AI as your Project Coordinator, Peer Project Manager and Project Director. Live & hands-on, no coding required. ₹5,999 per participant." />
+        <meta name="description" content={`1-Day Practical Classroom Workshop in Pune. Learn to use AI as your Project Coordinator, Peer Project Manager and Project Director. Live & hands-on, no coding required. ${formatINR(fee)} + ${GST_RATE}% GST per participant.`} />
         <meta property="og:title" content="1-Day AI Essentials for Project Managers Workshop | Pune | NeoSkills" />
         <meta property="og:description" content="Invest 8 hours at NeoSkills. Learn to work with AI as Project Coordinator, Peer Project Manager and Project Director. Reclaim 20-30 hours of capacity every month." />
       </Helmet>
@@ -191,13 +209,17 @@ export default function WorkshopPage() {
                 <span className="flex items-center gap-2"><CheckCircle size={16} className="text-accent" /> Lead better</span>
               </div>
 
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              <div className="mt-8 flex flex-col sm:flex-row gap-4 sm:items-center">
                 <a href="#reserve" className="inline-flex items-center justify-center gap-2 bg-accent text-primary font-bold px-7 py-3.5 rounded-xl hover:bg-yellow-400 transition-all shadow-lg shadow-black/20">
                   Reserve Your Seat <ArrowRight size={18} />
                 </a>
                 <a href="tel:+919975214585" className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-white/10 transition-all">
                   <Phone size={18} /> 9975214585
                 </a>
+                <div className="text-sm text-white/90">
+                  <span className="text-accent font-extrabold text-lg">{formatINR(fee)}</span>{' '}
+                  <span className="text-white/80">+ {GST_RATE}% GST</span>
+                </div>
               </div>
 
               <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/80 border-t border-white/15 pt-5">
@@ -235,7 +257,7 @@ export default function WorkshopPage() {
                 { icon: Clock, big: '8 Hours', label: 'One-day hands-on workshop' },
                 { icon: Zap, big: '20–30 Hrs', label: 'Capacity potentially reclaimed every month' },
                 { icon: TrendingUp, big: '240–360 Hrs', label: 'Potential capacity reclaimed in a year' },
-                { icon: IndianRupee, big: '₹5,999', label: 'Investment → potential to recover far more value in month one' },
+                { icon: IndianRupee, big: formatINR(fee), label: `Investment + ${GST_RATE}% GST → potential to recover far more value in month one` },
               ].map((s, i) => (
                 <motion.div key={i} {...fadeUp} transition={{ duration: 0.5, delay: i * 0.08 }}
                   className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 text-center">
@@ -446,7 +468,7 @@ export default function WorkshopPage() {
               <p className="text-white/80">Your 8 Hours Could Change How You Work Every Day.</p>
               <p className="text-white/60 text-sm mt-2">
                 1-Day Practical Classroom Workshop | Pune (Hotel Venue) |{' '}
-                <span className="text-accent font-bold">₹5,999 per participant</span>
+                <span className="text-accent font-bold">{formatINR(fee)} + {GST_RATE}% GST per participant</span>
               </p>
             </motion.div>
 
@@ -505,7 +527,7 @@ export default function WorkshopPage() {
                   >
                     {sending ? 'Reserving...' : (
                       <>
-                        Reserve Your Seat — ₹5,999 <Send size={16} />
+                        Reserve Your Seat — {formatINR(fee)} + GST <Send size={16} />
                       </>
                     )}
                   </motion.button>
@@ -513,7 +535,7 @@ export default function WorkshopPage() {
                   <div className="flex items-center justify-center">
                     <button type="button" onClick={handlePayDirect}
                       className="text-xs text-gray-400 hover:text-gray-600 underline underline-offset-2">
-                      Or pay ₹5,999 directly via Razorpay
+                      Or pay {formatINR(fee)} + GST directly via Razorpay
                     </button>
                   </div>
 

@@ -39,6 +39,7 @@ const staticPages = [
   { loc: '/placements', priority: '0.7', changefreq: 'weekly' },
   { loc: '/about', priority: '0.8', changefreq: 'monthly' },
   { loc: '/ai-for-pm-manager', priority: '0.9', changefreq: 'weekly' },
+  { loc: '/ai-for-project-managers', priority: '0.9', changefreq: 'weekly' },
   { loc: '/ai-powered-hr', priority: '0.9', changefreq: 'weekly' },
 ]
 

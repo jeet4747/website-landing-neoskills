@@ -169,7 +169,7 @@ const upload = multer({
 })
 
 function getJsonPath(key) {
-  const map = { courses: 'courses.json', jobs: 'jobs.json', hero_slides: 'hero-slides.json', webinars: 'webinars.json' }
+  const map = { courses: 'courses.json', jobs: 'jobs.json', hero_slides: 'hero-slides.json', webinars: 'webinars.json', page_pricing: 'page-pricing.json' }
   return path.join(__dirname, map[key] || `${key}.json`)
 }
 
@@ -818,6 +818,42 @@ app.post('/api/webinars', requireAdmin, async (req, res) => {
     res.json({ success: true })
   } catch (err) {
     res.status(500).json({ error: 'Failed to save webinars' })
+  }
+})
+
+// ─── Page Pricing API ───
+const DEFAULT_PAGE_PRICING = { aiHrFee: 25000, aiPmFee: 5999 }
+const PAGE_PRICING_KEYS = ['aiHrFee', 'aiPmFee']
+
+app.get('/api/page-pricing', async (req, res) => {
+  try {
+    const data = await getData('page_pricing')
+    res.json({ ...DEFAULT_PAGE_PRICING, ...(data || {}) })
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to read page pricing' })
+  }
+})
+
+app.post('/api/page-pricing', requireAdmin, async (req, res) => {
+  const updates = {}
+  for (const key of PAGE_PRICING_KEYS) {
+    if (req.body?.[key] === undefined) continue
+    const fee = Number(req.body[key])
+    if (!Number.isFinite(fee) || fee <= 0) {
+      return res.status(400).json({ error: `${key} must be a positive number` })
+    }
+    updates[key] = Math.round(fee)
+  }
+  if (Object.keys(updates).length === 0) {
+    return res.status(400).json({ error: 'No pricing values provided' })
+  }
+  try {
+    const existing = await getData('page_pricing')
+    const pricing = { ...DEFAULT_PAGE_PRICING, ...(existing || {}), ...updates }
+    await setData('page_pricing', pricing)
+    res.json({ success: true, ...pricing })
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save page pricing' })
   }
 })
 
