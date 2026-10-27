@@ -7,7 +7,6 @@ import RecaptchaCheckbox from './RecaptchaCheckbox'
 const SHOW_DELAY = 3000
 const COUNSELLOR_WHATSAPP = '918956963953'
 const COUNSELLOR_PHONE = '8956963953'
-const CALLBACK_ALERT_EMAIL = 'sakshigaikwad1305@gmail.com'
 
 export default function ContactCounsellorPopup() {
   const [show, setShow] = useState(false)
@@ -72,9 +71,9 @@ export default function ContactCounsellorPopup() {
         {
           name,
           phone,
-          email: CALLBACK_ALERT_EMAIL,
-          course: 'Free Counsellor Callback',
-          message: `Candidate requested a free counsellor callback. Contact: ${phone}`,
+          email: '',
+          course: '',
+          message: '',
           captchaToken: effectiveToken,
           source: 'counsellor-popup',
         },
@@ -87,12 +86,12 @@ export default function ContactCounsellorPopup() {
             user_phone: phone,
             contact_number: phone,
             phone_number: phone,
-            email: CALLBACK_ALERT_EMAIL,
-            to_email: CALLBACK_ALERT_EMAIL,
-            user_email: CALLBACK_ALERT_EMAIL,
-            reply_to: 'contact@neoskills.co.in',
-            course: 'Free Counsellor Callback',
-            message: `Candidate requested a free counsellor callback. Phone: ${phone}. Email notification sent to ${CALLBACK_ALERT_EMAIL}.`,
+            email: '',
+            to_email: '',
+            user_email: '',
+            reply_to: '',
+            course: '',
+            message: '',
             source: 'counsellor-popup',
             'g-recaptcha-response': effectiveToken,
           },

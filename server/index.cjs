@@ -531,7 +531,7 @@ app.get('/api/job-applications', requireAdmin, async (req, res) => {
 
 // ─── Leads (contact / callback forms) ───
 // Use a comma-separated LEAD_EMAIL value to notify multiple team members.
-const LEAD_INBOXES = (process.env.LEAD_EMAIL || 'sakshigaikwad1305@gmail.com')
+const LEAD_INBOXES = (process.env.LEAD_EMAIL || 'contact@neoskills.co.in')
   .split(',')
   .map((email) => email.trim())
   .filter(Boolean)
@@ -540,6 +540,28 @@ const sendLeadEmail = async ({ name, email, phone, course, message, source }) =>
   try {
     const rawPhone = String(phone || '').replace(/[^0-9]/g, '')
     const whatsappNum = rawPhone.length === 10 ? `91${rawPhone}` : rawPhone
+
+    // The counsellor popup collects only a name and mobile number. Keep its
+    // notification equally minimal and never include a placeholder email.
+    if (source === 'counsellor-popup') {
+      await deliverMail({
+        from: `"Neoskills Leads" <${MAIL_FROM}>`,
+        to: LEAD_INBOXES,
+        subject: `New enquiry — ${name || 'Website visitor'}${phone ? ` (${phone})` : ''}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h2 style="margin: 0 0 20px; color: #0056D2;">New enquiry</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 10px 0; color: #666; width: 120px;">Name</td><td style="padding: 10px 0; font-weight: bold;">${name || 'N/A'}</td></tr>
+              <tr><td style="padding: 10px 0; color: #666;">Mobile</td><td style="padding: 10px 0; font-weight: bold;"><a href="tel:${phone || ''}" style="color: #0056D2; text-decoration: none;">${phone || 'N/A'}</a></td></tr>
+            </table>
+          </div>
+        `,
+      })
+      console.log(`Counsellor enquiry email sent to ${LEAD_INBOXES.join(', ')} for ${name} (${phone})`)
+      return { ok: true }
+    }
+
     const isValidEmail = email && email.includes('@') && email.includes('.') && !email.includes('not-provided')
 
     await deliverMail({
