@@ -2386,10 +2386,21 @@ function KeywordsSection({ courses }) {
                                 {lead.source || 'website'}
                               </span>
                             </td>
-                            <td className="px-6 py-4 max-w-[220px]">
-                              <div className="text-gray-900 truncate" title={lead.landingPage || lead.pagePath}>
-                                {lead.pagePath || lead.landingPage || '-'}
+                            <td className="px-6 py-4 max-w-[260px]">
+                              <div className="text-gray-900 truncate" title={lead.pageTitle || lead.fullUrl || lead.pageUrl || lead.landingPage || lead.pagePath}>
+                                {lead.pageTitle || lead.pagePath || lead.landingPage || '-'}
                               </div>
+                              {(lead.pagePath || lead.fullUrl || lead.pageUrl) && (
+                                <a
+                                  href={lead.fullUrl || lead.pageUrl || lead.landingPage}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="text-xs text-primary hover:underline truncate block max-w-[240px]"
+                                  title={lead.fullUrl || lead.pageUrl}
+                                >
+                                  {lead.pagePath || lead.landingPage || 'View page'}
+                                </a>
+                              )}
                               {lead.device && (
                                 <span className="text-[10px] text-gray-400 uppercase">{lead.device}</span>
                               )}

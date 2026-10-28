@@ -591,7 +591,7 @@ app.post('/api/leads', async (req, res) => {
     const {
       name, email, phone, course, message, source,
       'g-recaptcha-response': recaptchaToken,
-      landingPage, pagePath, fullUrl, referrer,
+      landingPage, pagePath, fullUrl, pageUrl, pageTitle, referrer,
       utm_source, utm_medium, utm_campaign, utm_term, utm_content,
       gclid, fbclid, msclkid, device
     } = req.body || {}
@@ -612,9 +612,11 @@ app.post('/api/leads', async (req, res) => {
       course: course || '',
       message: message || '',
       source: source || 'website',
-      landingPage: landingPage || '',
-      pagePath: pagePath || '',
-      fullUrl: fullUrl || '',
+      landingPage: landingPage || pagePath || '',
+      pagePath: pagePath || landingPage || '',
+      fullUrl: fullUrl || pageUrl || '',
+      pageUrl: pageUrl || fullUrl || '',
+      pageTitle: pageTitle || '',
       referrer: referrer || '',
       utm_source: utm_source || '',
       utm_medium: utm_medium || '',

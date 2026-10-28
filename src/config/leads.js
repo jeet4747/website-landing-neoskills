@@ -13,6 +13,8 @@ function getLeadMeta() {
       landingPage: url.pathname + url.search,
       pagePath: url.pathname,
       fullUrl: window.location.href,
+      pageUrl: window.location.href,
+      pageTitle: document.title || '',
       referrer: document.referrer || '',
       utm_source: params.get('utm_source') || '',
       utm_medium: params.get('utm_medium') || '',
