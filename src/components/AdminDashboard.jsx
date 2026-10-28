@@ -50,6 +50,12 @@ export default function AdminDashboard() {
   const [pagePricingLoading, setPagePricingLoading] = useState(false)
   const [pagePricingSaving, setPagePricingSaving] = useState(false)
 
+  // ─── Leads ───
+  const [leads, setLeads] = useState([])
+  const [leadsLoading, setLeadsLoading] = useState(false)
+  const [leadsFilter, setLeadsFilter] = useState('all')
+  const [leadsSearch, setLeadsSearch] = useState('')
+
   // Applications state
   const [applications, setApplications] = useState([])
   const [applicationsLoading, setApplicationsLoading] = useState(false)
@@ -289,6 +295,25 @@ export default function AdminDashboard() {
     setPagePricingLoading(false)
   }, [])
 
+  const loadLeads = useCallback(async () => {
+    if (!backendOnline) return
+    setLeadsLoading(true)
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/leads`, {
+        headers: { 'x-admin-password': ADMIN_PASSWORD },
+        signal: AbortSignal.timeout(10000),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        const list = Array.isArray(data) ? data : []
+        setLeads([...list].reverse())
+      }
+    } catch {
+      // ignore
+    }
+    setLeadsLoading(false)
+  }, [backendOnline])
+
   const loadApplications = useCallback(async () => {
     setApplicationsLoading(true)
     setError('')
@@ -399,7 +424,8 @@ export default function AdminDashboard() {
     if (auth && section === 'batches') loadBatches()
     if (auth && section === 'enrollments') loadEnrollments()
     if (auth && section === 'categories') loadCategories()
-  }, [section])
+    if (auth && section === 'leads') loadLeads()
+  }, [section, auth, loadLeads])
 
   const addCourse = () => {
     const newSlug = `course-${Date.now()}`
@@ -903,6 +929,14 @@ export default function AdminDashboard() {
                 }`}
               >
                 Keywords
+              </button>
+              <button
+                onClick={() => switchSection('leads')}
+                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                  section === 'leads' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Leads
               </button>
             </div>
             <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${
@@ -2239,6 +2273,211 @@ function KeywordsSection({ courses }) {
     </div>
   )
 }
+
+        {/* ─── LEADS SECTION ─── */}
+        {section === 'leads' && (
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-6 border-b border-gray-100">
+              <div>
+                <h2 className="text-base font-bold text-gray-900">Leads</h2>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {leads.length} lead{leads.length !== 1 ? 's' : ''} captured from forms
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search by name, phone, email..."
+                    value={leadsSearch}
+                    onChange={e => setLeadsSearch(e.target.value)}
+                    className="w-full sm:w-72 pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  />
+                  <svg className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <select
+                  value={leadsFilter}
+                  onChange={e => setLeadsFilter(e.target.value)}
+                  className="px-3 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                >
+                  <option value="all">All Sources</option>
+                  <option value="counsellor-popup">Counsellor Popup</option>
+                  <option value="contact-form">Contact Form</option>
+                  <option value="lead-popup">Lead Popup</option>
+                  <option value="ai-courses-popup">AI Courses Popup</option>
+                  <option value="webinar-popup">Webinar Popup</option>
+                  <option value="course-page">Course Page</option>
+                  <option value="workshop">Workshop</option>
+                  <option value="website">Website</option>
+                </select>
+                <button
+                  onClick={loadLeads}
+                  disabled={leadsLoading || !backendOnline}
+                  className="px-4 py-2.5 text-sm font-medium bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all disabled:opacity-50 flex items-center gap-2"
+                >
+                  <svg className={`w-4 h-4 ${leadsLoading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Refresh
+                </button>
+              </div>
+            </div>
+
+            {leadsLoading ? (
+              <div className="text-center py-20">
+                <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-gray-500">Loading leads...</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50 border-b border-gray-100">
+                    <tr>
+                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Date & Time</th>
+                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Contact</th>
+                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Course/Source</th>
+                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Landing Page</th>
+                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Traffic Source</th>
+                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Referrer</th>
+                      <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-50">
+                    {leads
+                      .filter(lead => {
+                        if (leadsFilter !== 'all' && lead.source !== leadsFilter) return false
+                        if (!leadsSearch) return true
+                        const q = leadsSearch.toLowerCase()
+                        return (
+                          (lead.name || '').toLowerCase().includes(q) ||
+                          (lead.phone || '').toLowerCase().includes(q) ||
+                          (lead.email || '').toLowerCase().includes(q)
+                        )
+                      })
+                      .map(lead => {
+                        const cleanPhone = (lead.phone || '').replace(/\D/g, '')
+                        const date = lead.createdAt ? new Date(lead.createdAt) : null
+                        const utm = [lead.utm_source, lead.utm_medium, lead.utm_campaign].filter(Boolean).join(' / ')
+                        const clickId = lead.gclid || lead.fbclid || lead.msclkid || ''
+                        return (
+                          <tr key={lead.id} className="hover:bg-gray-50/50 transition-colors">
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="text-gray-900 font-medium">
+                                {date ? date.toLocaleDateString('en-IN') : '-'}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                {date ? date.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) : '-'}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="text-gray-900 font-medium">{lead.name || '-'}</div>
+                              {lead.phone && (
+                                <a href={`tel:${lead.phone}`} className="text-sm text-primary hover:underline">{lead.phone}</a>
+                              )}
+                              {lead.email && lead.email !== 'not-provided@counsellor-popup' && (
+                                <div className="text-xs text-gray-500 truncate max-w-[180px]">{lead.email}</div>
+                              )}
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="text-gray-900">{lead.course || '-'}</div>
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-700 mt-1">
+                                {lead.source || 'website'}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 max-w-[220px]">
+                              <div className="text-gray-900 truncate" title={lead.landingPage || lead.pagePath}>
+                                {lead.pagePath || lead.landingPage || '-'}
+                              </div>
+                              {lead.device && (
+                                <span className="text-[10px] text-gray-400 uppercase">{lead.device}</span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 max-w-[200px]">
+                              {utm ? (
+                                <div className="text-gray-900 text-xs">
+                                  <div className="font-medium">{lead.utm_source}</div>
+                                  {lead.utm_medium && <div className="text-gray-500">{lead.utm_medium}</div>}
+                                  {lead.utm_campaign && <div className="text-gray-400 truncate" title={lead.utm_campaign}>{lead.utm_campaign}</div>}
+                                </div>
+                              ) : (
+                                <span className="text-gray-400 text-xs">Organic / Direct</span>
+                              )}
+                              {clickId && (
+                                <div className="text-[10px] text-gray-400 mt-1 truncate" title={clickId}>
+                                  {lead.gclid ? 'gclid' : lead.fbclid ? 'fbclid' : 'msclkid'}
+                                </div>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 max-w-[200px]">
+                              {lead.referrer ? (
+                                <div className="text-xs text-gray-600 truncate" title={lead.referrer}>
+                                  {(() => {
+                                    try { return new URL(lead.referrer).hostname } catch { return lead.referrer }
+                                  })()}
+                                </div>
+                              ) : (
+                                <span className="text-gray-400 text-xs">-</span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center gap-2">
+                                {lead.phone && cleanPhone.length >= 10 && (
+                                  <>
+                                    <a
+                                      href={`tel:${lead.phone}`}
+                                      className="inline-flex items-center px-2.5 py-1 text-xs font-medium text-primary bg-primary/5 rounded-lg hover:bg-primary/10 transition-colors"
+                                    >
+                                      Call
+                                    </a>
+                                    <a
+                                      href={`https://wa.me/91${cleanPhone}`}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="inline-flex items-center px-2.5 py-1 text-xs font-medium text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
+                                    >
+                                      WhatsApp
+                                    </a>
+                                  </>
+                                )}
+                                {lead.fullUrl && (
+                                  <a
+                                    href={lead.fullUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="inline-flex items-center px-2.5 py-1 text-xs font-medium text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                                    title="View landing page"
+                                  >
+                                    Page
+                                  </a>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                  </tbody>
+                </table>
+                {leads.filter(lead => {
+                  if (leadsFilter !== 'all' && lead.source !== leadsFilter) return false
+                  if (!leadsSearch) return true
+                  const q = leadsSearch.toLowerCase()
+                  return (
+                    (lead.name || '').toLowerCase().includes(q) ||
+                    (lead.phone || '').toLowerCase().includes(q) ||
+                    (lead.email || '').toLowerCase().includes(q)
+                  )
+                }).length === 0 && (
+                  <div className="text-center py-12">
+                    <p className="text-gray-400">No leads found</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
 
 function Field({ label, value, onChange }) {
   return (
