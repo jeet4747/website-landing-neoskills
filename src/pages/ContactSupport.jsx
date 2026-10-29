@@ -108,6 +108,30 @@ export default function ContactSupport() {
             <div className="space-y-6">
               <div className="bg-white rounded-2xl shadow-sm border p-6">
                 <h3 className="font-bold text-gray-900 mb-5">Contact Information</h3>
+                <div className="mb-5 rounded-xl bg-primary/5 border border-primary/15 p-4">
+                  <p className="font-semibold text-gray-900">Call our course counsellors</p>
+                  <p className="text-xs text-gray-500 mt-1 mb-3">Tap the relevant course contact to call directly.</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a href="tel:+917666945708" className="rounded-lg bg-white border border-primary/15 px-3 py-2 hover:bg-primary/5">
+                      <span className="block text-xs text-gray-500">PMP Certification · Anagha</span><span className="inline-flex items-center gap-1 text-sm font-semibold text-primary"><Phone size={14} /> +91 76669 45708</span>
+                    </a>
+                    <a href="tel:+918796654378" className="rounded-lg bg-white border border-primary/15 px-3 py-2 hover:bg-primary/5">
+                      <span className="block text-xs text-gray-500">PMP Certification / PRINCE2 · Mayur</span><span className="inline-flex items-center gap-1 text-sm font-semibold text-primary"><Phone size={14} /> +91 87966 54378</span>
+                    </a>
+                    <a href="tel:+917066905753" className="rounded-lg bg-white border border-primary/15 px-3 py-2 hover:bg-primary/5">
+                      <span className="block text-xs text-gray-500">DevOps · Neha</span><span className="inline-flex items-center gap-1 text-sm font-semibold text-primary"><Phone size={14} /> +91 70669 05753</span>
+                    </a>
+                    <a href="tel:+918484088683" className="rounded-lg bg-white border border-primary/15 px-3 py-2 hover:bg-primary/5">
+                      <span className="block text-xs text-gray-500">ITIL · Pankaj</span><span className="inline-flex items-center gap-1 text-sm font-semibold text-primary"><Phone size={14} /> +91 84840 88683</span>
+                    </a>
+                    <a href="tel:+918999090242" className="rounded-lg bg-white border border-primary/15 px-3 py-2 hover:bg-primary/5">
+                      <span className="block text-xs text-gray-500">Scrum · Pooja</span><span className="inline-flex items-center gap-1 text-sm font-semibold text-primary"><Phone size={14} /> +91 89990 90242</span>
+                    </a>
+                    <a href="tel:+917388239389" className="rounded-lg bg-white border border-primary/15 px-3 py-2 hover:bg-primary/5">
+                      <span className="block text-xs text-gray-500">Cyber Security · Garima</span><span className="inline-flex items-center gap-1 text-sm font-semibold text-primary"><Phone size={14} /> +91 73882 39389</span>
+                    </a>
+                  </div>
+                </div>
                 <div className="space-y-4">
                   <div className="flex gap-3"><Phone className="text-primary flex-shrink-0 mt-0.5" size={20} />
                     <div><p className="font-medium text-gray-800">+91 89569 63953</p><p className="text-sm text-gray-500">+91 9975214585</p><p className="text-xs text-gray-400 mt-1">Mon–Fri, 9am–7pm IST</p></div></div>
