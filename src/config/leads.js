@@ -4,6 +4,33 @@ import { EMAILJS_SERVICE, EMAILJS_TEMPLATE_INQUIRY, EMAILJS_PUBLIC_KEY } from '.
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || ''
 const BACKEND_TIMEOUT_MS = 6000
 
+function getLeadMeta() {
+  if (typeof window === 'undefined') return {}
+  try {
+    const url = new URL(window.location.href)
+    const params = url.searchParams
+    return {
+      landingPage: url.pathname + url.search,
+      pagePath: url.pathname,
+      fullUrl: window.location.href,
+      pageUrl: window.location.href,
+      pageTitle: document.title || '',
+      referrer: document.referrer || '',
+      utm_source: params.get('utm_source') || '',
+      utm_medium: params.get('utm_medium') || '',
+      utm_campaign: params.get('utm_campaign') || '',
+      utm_term: params.get('utm_term') || '',
+      utm_content: params.get('utm_content') || '',
+      gclid: params.get('gclid') || '',
+      fbclid: params.get('fbclid') || '',
+      msclkid: params.get('msclkid') || '',
+      device: /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+    }
+  } catch {
+    return {}
+  }
+}
+
 /**
  * Submit a lead.
  *
@@ -16,6 +43,7 @@ const BACKEND_TIMEOUT_MS = 6000
  */
 export async function submitLead(lead, opts = {}) {
   const { templateId = EMAILJS_TEMPLATE_INQUIRY, emailjsParams, source } = opts
+  const meta = getLeadMeta()
 
   const payload = {
     name: (lead.name || '').trim(),
@@ -25,6 +53,7 @@ export async function submitLead(lead, opts = {}) {
     message: lead.message || '',
     source: source || lead.source || 'website',
     'g-recaptcha-response': lead.captchaToken || '',
+    ...meta,
   }
 
   // Populate rich parameter aliases so whichever template variables EmailJS uses will match

@@ -651,12 +651,21 @@ async function verifyRecaptcha(token) {
 
 app.post('/api/leads', async (req, res) => {
   try {
-    const { name, email, phone, course, message, source, 'g-recaptcha-response': recaptchaToken } = req.body || {}
+    const {
+      name, email, phone, course, message, source,
+      'g-recaptcha-response': recaptchaToken,
+      landingPage, pagePath, fullUrl, pageUrl, pageTitle, referrer,
+      utm_source, utm_medium, utm_campaign, utm_term, utm_content,
+      gclid, fbclid, msclkid, device
+    } = req.body || {}
     if (!name || (!phone && !email)) {
       return res.status(400).json({ error: 'Name and a phone or email are required' })
     }
 
     const captchaOk = await verifyRecaptcha(recaptchaToken)
+
+    const rawIp = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || ''
+    const ip = Array.isArray(rawIp) ? rawIp[0] : String(rawIp).split(',')[0].trim()
 
     const lead = {
       id: `lead-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
@@ -665,12 +674,27 @@ app.post('/api/leads', async (req, res) => {
       phone: String(phone || '').trim(),
       course: course || 'Free Counsellor Callback',
       message: message || '',
-      source: source || 'counsellor-popup',
+      source: source || 'website',
+      landingPage: landingPage || pagePath || '',
+      pagePath: pagePath || landingPage || '',
+      fullUrl: fullUrl || pageUrl || '',
+      pageUrl: pageUrl || fullUrl || '',
+      pageTitle: pageTitle || '',
+      referrer: referrer || '',
+      utm_source: utm_source || '',
+      utm_medium: utm_medium || '',
+      utm_campaign: utm_campaign || '',
+      utm_term: utm_term || '',
+      utm_content: utm_content || '',
+      gclid: gclid || '',
+      fbclid: fbclid || '',
+      msclkid: msclkid || '',
+      device: device || '',
       status: 'new',
       notes: '',
       captchaOk,
       createdAt: new Date().toISOString(),
-      ip: req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '',
+      ip,
     }
 
     // Always persist the lead first so it is never lost
