@@ -52,11 +52,8 @@ export default function AdminDashboard() {
   const [pagePricingLoading, setPagePricingLoading] = useState(false)
   const [pagePricingSaving, setPagePricingSaving] = useState(false)
 
-  // ─── Leads ───
-  const [leads, setLeads] = useState([])
-  const [leadsLoading, setLeadsLoading] = useState(false)
+  // Lead list filter used by the legacy lead view.
   const [leadsFilter, setLeadsFilter] = useState('all')
-  const [leadsSearch, setLeadsSearch] = useState('')
 
   // Applications state
   const [applications, setApplications] = useState([])
@@ -308,25 +305,6 @@ export default function AdminDashboard() {
     setPagePricingLoading(false)
   }, [])
 
-  const loadLeads = useCallback(async () => {
-    if (!backendOnline) return
-    setLeadsLoading(true)
-    try {
-      const res = await fetch(`${BACKEND_URL}/api/leads`, {
-        headers: { 'x-admin-password': ADMIN_PASSWORD },
-        signal: AbortSignal.timeout(10000),
-      })
-      if (res.ok) {
-        const data = await res.json()
-        const list = Array.isArray(data) ? data : []
-        setLeads([...list].reverse())
-      }
-    } catch {
-      // ignore
-    }
-    setLeadsLoading(false)
-  }, [backendOnline])
-
   const loadApplications = useCallback(async () => {
     setApplicationsLoading(true)
     setError('')
@@ -382,6 +360,7 @@ export default function AdminDashboard() {
   }, [])
 
   const loadLeads = useCallback(async () => {
+    if (!backendOnline) return
     setLeadsLoading(true)
     setError('')
     try {
@@ -397,7 +376,7 @@ export default function AdminDashboard() {
       setError('Failed to load leads')
     }
     setLeadsLoading(false)
-  }, [])
+  }, [backendOnline])
 
   const updateLeadStatus = async (id, newStatus) => {
     setLeadUpdatingId(id)

@@ -281,18 +281,18 @@ const CourseFinderAI = () => {
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-40 flex items-end gap-3">
+      <div className="fixed bottom-24 left-6 z-40 flex items-end gap-3">
         <AnimatePresence>
           {showGreeting && !isOpen && (
             <motion.div
-              initial={{ opacity: 0, x: 20, scale: 0.9 }}
+            initial={{ opacity: 0, x: -20, scale: 0.9 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 20, scale: 0.9 }}
+            exit={{ opacity: 0, x: -20, scale: 0.9 }}
               transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-              className="relative bg-white rounded-2xl rounded-br-sm shadow-xl border border-gray-200 px-4 py-3 mb-1"
+            className="relative bg-white rounded-2xl rounded-bl-sm shadow-xl border border-gray-200 px-4 py-3 mb-1"
             >
               <p className="text-sm text-gray-700 whitespace-nowrap">Hi, how can I help you? 👋</p>
-              <div className="absolute -bottom-1.5 right-5 w-3 h-3 bg-white border-r border-b border-gray-200 rotate-45" />
+              <div className="absolute -bottom-1.5 left-5 w-3 h-3 bg-white border-l border-b border-gray-200 rotate-45" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -300,10 +300,21 @@ const CourseFinderAI = () => {
           onClick={() => setIsOpen(true)}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.92 }}
-          className="w-14 h-14 bg-gradient-to-br from-primary to-blue-700 text-white rounded-full shadow-xl shadow-primary/30 flex items-center justify-center hover:shadow-primary/40 transition-shadow flex-shrink-0"
+          animate={{ y: [0, -2, 0] }}
+          transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+          className="group relative w-14 h-14 bg-gradient-to-br from-primary to-blue-700 text-white rounded-full shadow-xl shadow-primary/30 flex items-center justify-center hover:shadow-primary/40 transition-shadow flex-shrink-0"
           aria-label="Open course finder"
         >
+          <motion.span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 rounded-full border-2 border-primary/50"
+            animate={{ scale: [1, 1.28, 1.28], opacity: [0.45, 0, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 3.2, ease: 'easeOut' }}
+          />
           <MessageCircle size={24} />
+          <span className="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-lg bg-gray-900 px-3 py-2 text-xs font-semibold text-white shadow-lg opacity-0 translate-x-[-6px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+            NeoSkills Chat
+          </span>
         </motion.button>
       </div>
 
@@ -314,9 +325,9 @@ const CourseFinderAI = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.93 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed bottom-24 right-6 z-50 w-[380px] md:w-[420px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
+            className="fixed bottom-40 left-6 z-[70] w-[380px] md:w-[420px] max-w-[calc(100vw-2rem)] h-[min(640px,calc(100dvh-11rem))] flex flex-col bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
           >
-            <div className="bg-gradient-to-r from-primary to-blue-800 p-4 text-white flex items-center justify-between">
+            <div className="flex-none bg-gradient-to-r from-primary to-blue-800 p-4 text-white flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                   <Bot size={22} />
@@ -334,13 +345,18 @@ const CourseFinderAI = () => {
                 >
                   <Brain size={16} />
                 </button>
-                <button onClick={() => setIsOpen(false)} className="p-1.5 hover:bg-white/20 rounded-xl transition-colors">
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 bg-white/15 hover:bg-white/30 rounded-full transition-colors"
+                  aria-label="Close NeoSkills chat"
+                  title="Close chat"
+                >
                   <X size={18} />
                 </button>
               </div>
             </div>
 
-            <div className="h-[440px] overflow-y-auto p-4 bg-[#f5f6f8] space-y-3" style={{ background: '#f5f6f8' }}>
+            <div className="flex-1 min-h-0 overflow-y-auto p-4 bg-[#f5f6f8] space-y-3" style={{ background: '#f5f6f8' }}>
               {messages.map((msg, i) => (
                 <motion.div
                   key={i}
@@ -407,7 +423,7 @@ const CourseFinderAI = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="px-4 pb-3 bg-[#f5f6f8]">
+            <div className="flex-none px-4 pb-3 bg-[#f5f6f8]">
               <AnimatePresence>
                 {showQuickReplies && messages.length > 0 && !collecting && !thinking && (
                   <motion.div

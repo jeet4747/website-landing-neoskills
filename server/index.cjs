@@ -531,7 +531,7 @@ app.get('/api/job-applications', requireAdmin, async (req, res) => {
 
 // ─── Leads (contact / callback forms) ───
 // Use a comma-separated LEAD_EMAIL value to notify multiple team members.
-const LEAD_INBOXES = (process.env.LEAD_EMAIL || 'sakshigaikwad1305@gmail.com')
+const LEAD_INBOXES = (process.env.LEAD_EMAIL || 'contact@neoskills.co.in')
   .split(',')
   .map((email) => email.trim())
   .filter(Boolean)
@@ -593,12 +593,13 @@ const sendLeadEmail = async ({ name, email, phone, course, message, source }) =>
   }
 }
 
-// ─── Automated WhatsApp Notifications to 7666621156 ───
-const WHATSAPP_COUNSELLOR_NUMBER = process.env.WHATSAPP_COUNSELLOR_NUMBER || '917666621156'
+// ─── Automated WhatsApp lead notifications ───
+const WHATSAPP_COUNSELLOR_NUMBER = (process.env.WHATSAPP_COUNSELLOR_NUMBER || '').trim()
 
 const sendWhatsAppNotification = async ({ name, phone, course, message }) => {
   const apikey = process.env.CALLMEBOT_APIKEY
   const webhookUrl = process.env.WHATSAPP_WEBHOOK_URL
+  if (!WHATSAPP_COUNSELLOR_NUMBER) return
   const waText = `🔔 *New NeoSkills Lead*\n👤 Candidate: ${name}\n📱 Mobile: ${phone}\n🎯 Course: ${course || 'Free Counsellor Callback'}`
 
   if (apikey) {
@@ -704,7 +705,7 @@ app.post('/api/leads', async (req, res) => {
     await setData('leads', leads)
     console.log(`[LEAD RECEIVED] ${lead.name} | ${lead.phone} | ${lead.course} [${lead.source}]`)
 
-    // Automated WhatsApp alert to 7666621156 if provider/webhook configured
+    // Send an automated WhatsApp alert only when a recipient is configured
     sendWhatsAppNotification({ name: lead.name, phone: lead.phone, course: lead.course, message: lead.message }).catch(() => {})
 
     // Best-effort email notification. Only attempt it when a provider is
