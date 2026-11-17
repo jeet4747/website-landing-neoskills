@@ -51,6 +51,40 @@ const CourseCompare = lazy(() => import('./pages/CourseCompare.jsx'))
 const QuickPay = lazy(() => import('./components/QuickPay.jsx'))
 const PostPaymentForm = lazy(() => import('./components/PostPaymentForm.jsx'))
 
+class RouteErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false, error: null }
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error }
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error('Route error:', error, errorInfo)
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+          <div className="text-center max-w-md bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <h2 className="text-xl font-bold text-gray-900 mb-2">Something went wrong</h2>
+            <p className="text-gray-500 text-sm mb-6">
+              {this.state.error?.message || 'Failed to load page. Please refresh to try again.'}
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-5 py-2.5 bg-primary text-white font-semibold rounded-xl text-sm hover:bg-blue-800 transition-all shadow-md shadow-primary/20"
+            >
+              Refresh Page
+            </button>
+          </div>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
+
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-white">
     <div className="text-center">
@@ -125,8 +159,9 @@ export default function App() {
             <TopBar />
             <Navbar />
 
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
+            <RouteErrorBoundary>
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
                 <Route
                   path="/"
                   element={
@@ -193,6 +228,8 @@ export default function App() {
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/enrollment-guide" element={<EnrollmentGuide />} />
               <Route path="/contact-support" element={<ContactSupport />} />
+              <Route path="/contact" element={<ContactSupport />} />
+              <Route path="/contact-us" element={<ContactSupport />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/placements" element={<JobsPage />} />
               <Route path="/webinar/:slug" element={<WebinarPage />} />
@@ -211,6 +248,7 @@ export default function App() {
               } />
             </Routes>
           </Suspense>
+          </RouteErrorBoundary>
 
           <CourseFinderAI />
           <ContactCounsellorPopup />
