@@ -25,7 +25,7 @@ const CourseFinderAI = lazy(() => import('./components/CourseFinderAI.jsx'))
 // const AICoursesPopup = lazy(() => import('./components/AICoursesPopup.jsx'))
 // const LeadPopup = lazy(() => import('./components/LeadPopup.jsx'))
 // const HiringPopup = lazy(() => import('./components/HiringPopup.jsx'))
-// const WhatsAppPopup = lazy(() => import('./components/WhatsAppPopup.jsx'))
+const WhatsAppPopup = lazy(() => import('./components/WhatsAppPopup.jsx'))
 // const WorkshopPopup = lazy(() => import('./components/WorkshopPopup.jsx'))
 const ContactCounsellorPopup = lazy(() => import('./components/ContactCounsellorPopup.jsx'))
 const StickyCtaBar = lazy(() => import('./components/StickyCtaBar.jsx'))
@@ -250,8 +250,11 @@ export default function App() {
           </Suspense>
           </RouteErrorBoundary>
 
-          <CourseFinderAI />
-          <ContactCounsellorPopup />
+          <Suspense fallback={null}>
+            <CourseFinderAI />
+            <WhatsAppPopup />
+            <ContactCounsellorPopup />
+          </Suspense>
           <StickyCtaBar />
           <Footer />
         </div>

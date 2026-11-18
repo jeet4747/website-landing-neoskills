@@ -6,14 +6,18 @@ import { submitLead } from '../config/leads'
 import RecaptchaCheckbox from './RecaptchaCheckbox'
 
 const courseContacts = [
-  { course: 'PMP Certification', counsellor: 'Anagha', phone: '+91 76669 45708', dial: '+917666945708' },
-  { course: 'PMP Certification / PRINCE2', counsellor: 'Mayur', phone: '+91 87966 54378', dial: '+918796654378' },
+  { course: 'Agile', counsellor: 'Anagha', phone: '+91 76669 45708', dial: '+917666945708' },
+  { course: 'PMP / PRINCE2', counsellor: 'Mayur', phone: '+91 87966 54378', dial: '+918796654378' },
   { course: 'DevOps', counsellor: 'Neha', phone: '+91 70669 05753', dial: '+917066905753' },
-  { course: 'ITIL', counsellor: 'Pankaj', phone: '+91 84840 88683', dial: '+918484088683' },
-  { course: 'Scrum', counsellor: 'Pooja', phone: '+91 89990 90242', dial: '+918999090242' },
+  { course: 'IT Service Management ', counsellor: 'Pankaj', phone: '+91 84840 88683', dial: '+918484088683' },
+  { course: 'Product Maneger ', counsellor: 'Pooja', phone: '+91 89990 90242', dial: '+918999090242' },
   { course: 'Cyber Security', counsellor: 'Garima', phone: '+91 73882 39389', dial: '+917388239389' },
   { course: 'Cloud', counsellor: 'Puja', phone: '+91 90229 62496', dial: '+919022962496' },
-  { course: 'Other enquiries', counsellor: 'NeoSkills team', phone: '+91 99752 14585', dial: '+919975214585' },
+  { course: 'Other enquiries', counsellor: 'NeoSkills team for enquires', phone: '+91 99752 14585', dial: '+919975214585' },
+  { course: 'Corporate enquiries', counsellor: 'NeoSkills team for corporate support', phone: '+91 99752 14585', dial: '+919975214585' },
+  { course: 'Operation Support', counsellor: 'NeoSkills team for Operations support', phone: '+91 7391053734', dial: '+917391053734' },
+
+
 ]
 
 
@@ -71,56 +75,56 @@ const ContactForm = () => {
   }
 
   const handleSubmit = (e) => {
-  e.preventDefault()
-  setCaptchaError('')
-  if (!captchaToken) {
-    setCaptchaError('Please complete the reCAPTCHA to continue.')
-    return
-  }
+    e.preventDefault()
+    setCaptchaError('')
+    if (!captchaToken) {
+      setCaptchaError('Please complete the reCAPTCHA to continue.')
+      return
+    }
 
-  submitLead(
-    {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      course: formData.course,
-      message: formData.message,
-      captchaToken,
-      source: 'contactform',
-    },
-    {
-      emailjsParams: {
+    submitLead(
+      {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         course: formData.course,
         message: formData.message,
-        'g-recaptcha-response': captchaToken,
+        captchaToken,
+        source: 'contactform',
       },
-    }
-  )
-    .then(() => {
-      setSubmitted(true)
-      setTimeout(() => setSubmitted(false), 3000)
+      {
+        emailjsParams: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          course: formData.course,
+          message: formData.message,
+          'g-recaptcha-response': captchaToken,
+        },
+      }
+    )
+      .then(() => {
+        setSubmitted(true)
+        setTimeout(() => setSubmitted(false), 3000)
 
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        course: '',
-        message: '',
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          course: '',
+          message: '',
+        })
+
+        try {
+          localStorage.removeItem('preferredCourse')
+        } catch (err) { }
       })
-
-      try {
-        localStorage.removeItem('preferredCourse')
-      } catch (err) {}
-    })
-    .catch((error) => {
-      console.error('Lead submit error:', error)
-      setCaptchaToken('')
-      alert('Something went wrong. Please try again.')
-    })
-}
+      .catch((error) => {
+        console.error('Lead submit error:', error)
+        setCaptchaToken('')
+        alert('Something went wrong. Please try again.')
+      })
+  }
 
 
   return (
@@ -283,13 +287,10 @@ const ContactForm = () => {
                 <Phone className="text-primary mt-1 flex-shrink-0" size={24} />
                 <div className="w-full">
                   <h3 className="font-bold text-dark">Call our course counsellors</h3>
-                  <p className="text-gray-600 text-sm mt-1 mb-4">Choose your course and call the right counsellor directly.</p>
+                  <p className="text-gray-600 text-sm mt-1 mb-4">Select a course and call the right counsellor directly.</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {courseContacts.map(({ course, counsellor, phone, dial }) => (
-                      <div
-                        key={course}
-                        className="rounded-xl border border-primary/15 bg-white p-3 shadow-sm hover:border-primary/40 hover:shadow-md transition-all"
-                      >
+                      <div key={course} className="rounded-xl border border-primary/15 bg-white p-3 shadow-sm hover:border-primary/40 hover:shadow-md transition-all">
                         <span className="block text-xs font-semibold uppercase tracking-wide text-primary">{course}</span>
                         <span className="mt-1 block text-sm font-bold text-dark">{counsellor}</span>
                         <span className="mt-0.5 block text-sm font-semibold text-gray-600">{phone}</span>
